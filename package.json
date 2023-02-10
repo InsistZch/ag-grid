@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "ag-charts-community": "^7.0.0",
+    "ag-grid-community": "^29.0.0",
+    "ag-grid-enterprise": "^29.0.0",
+    "bootstrap": "^5.2.3",
+    "jquery": "^3.6.3"
+  }
+}

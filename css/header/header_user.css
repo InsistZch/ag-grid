@@ -1,0 +1,48 @@
+header.header button.header_user{
+    height: 100%;
+    width: max-content;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+header.header button.header_user:hover{
+    background-color: rgba(0, 0, 0, 0.08);
+}
+button.header_user>img.user_img{
+    height: 60%;
+    margin-right: .2rem;
+}
+button.header_user>span.user_name{
+    font-size: .6rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+button.header_user div.user_set{
+    position: fixed;
+    right: 0;
+    top: 40px;
+    min-width: 7rem;
+    height: max-content;
+    padding: .5rem 0;
+    color: #495057;
+    border: 1px solid #dee2e6;
+    background-color: #fff;
+    box-sizing: border-box;
+    font-size: .8rem;
+    display: none;
+}
+div.user_set a.set_item{
+    display: block;
+    width: 100%;
+    padding: 3px 20px;
+    font-weight: 400;
+    color: #495057;
+    border: 0;
+    box-sizing: border-box;
+    text-align: left;
+}
+div.user_set a.set_item:hover{
+    background-color: rgba(0, 0, 0, 0.08);
+}

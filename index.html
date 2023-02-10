@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>团餐</title>
+    <link rel="shortcut icon" href="./image/icon.png" type="image/x-icon">
+    
+    <link rel="stylesheet" href="./css/index.css">
+     
+    <script src="./node_modules/ag-grid-enterprise/dist/ag-grid-enterprise.js"></script>
+    <script src="./node_modules/ag-charts-community/dist/ag-charts-community.js"></script>
+    <link rel="stylesheet" href="./node_modules/ag-grid-enterprise/styles/ag-grid.css" />
+    <link rel="stylesheet" href="./node_modules/ag-grid-enterprise/styles/ag-theme-alpine.css">
+
+    <!-- CSS -->
+    <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" >
+    <!-- <link href="https://www.itxst.com/package/ag-grid/styles/ag-grid.css" rel="stylesheet"/> -->
+    <!-- jQuery and JavaScript Bundle with Popper -->
+    <style>
+        .baocun{
+            margin: 1rem 0;
+            margin-left: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header box-border">
+        <nav class="header_nav">
+            <div class="nav_left">
+                <button class="box-border">
+                    <img class="nav_left_image" src="./image/nine.png">
+                    <div class="nav_catalogue">
+                        <a class="catalogue_item" href="javascript:void(0);">
+                            客户中心
+                        </a>
+                        <a class="catalogue_item" href="javascript:void(0);">
+                            菜品档案
+                        </a>
+                        <a class="catalogue_item" href="javascript:void(0);">
+                            周菜单
+                        </a>
+                        <a class="catalogue_item" href="javascript:void(0);">
+                            日菜单
+                        </a>
+                        <a class="catalogue_item" href="javascript:void(0);">
+                            采购
+                        </a>
+                        <a class="catalogue_item"  href="javascript:void(0);">
+                            仓管
+                        </a>
+                        <a class="catalogue_item" href="javascript:void(0);">
+                            流程管理
+                        </a>
+                        <a class="catalogue_item" href="javascript:void(0);">
+                            报餐
+                        </a>
+                        <a class="catalogue_item" href="javascript:void(0);">
+                            用餐
+                        </a>
+                        <a class="catalogue_item" href="javascript:void(0);">
+                            用餐比对
+                        </a>
+                        <a class="catalogue_item"  href="javascript:void(0);">
+                            人力资源
+                        </a>
+                        <a class="catalogue_item" href="javascript:void(0);">
+                            车辆管理
+                        </a>
+                        <a class="catalogue_item" href="javascript:void(0);">
+                            固定资产
+                        </a>
+                        <a class="catalogue_item" href="javascript:void(0);">
+                            财务
+                        </a>
+                        <a class="catalogue_item" href="javascript:void(0);">
+                            设置
+                        </a>
+                        <a class="catalogue_item" href="javascript:void(0);">
+                            退出
+                        </a>
+                    </div>
+                </button>
+                <span class="nav_left_title"><a href="javascript:void(0);">日菜单</a></span>
+                
+            </div>
+            
+            <div class="nav_right">
+                <div title="日菜单"><a href="javascript:void(0);">日菜单</a></div>
+                <div title="日采购"><a href="javascript:void(0);">日采购</a></div>
+                <div title="日领料"><a href="javascript:void(0);">日领料</a></div>
+                <div title="日成本%"><a href="javascript:void(0);">日成本%</a></div>
+            </div>
+        </nav>
+        <button class="header_user">
+            <img class="user_img" src="./image/user.jpg" alt="" srcset="">
+            <span class="user_name">5301_@</span>
+            <div class="user_set">
+                <a class="set_item" href="javascript:void(0);">
+                    个人设置
+                </a>
+                <a class="set_item" href="javascript:void(0);">
+                    公司设置
+                </a>
+                <a class="set_item" href="javascript:void(0);">
+                    登出
+                </a>
+            </div>
+        </button>
+    </header>
+    <main class="main">
+        <button class="baocun">保存</button>
+        <div class="header box-border hMax_w100">
+            <div class="title">
+                <h3 class="title_text">
+                    <a title="上一级目录">日菜单一览 </a>/ (2023-01-16)
+                </h3>
+                <div class="search">
+                    <input type="search">
+                    <svg t="1673850288542" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2728" width="15" height="15">
+                        <path d="M731.5456 214.4256c-68.8128-68.8128-160.5632-106.7008-257.8432-106.7008s-189.0304 37.888-258.048 106.7008c-142.1312 142.1312-142.1312 373.5552 0 515.6864 68.8128 68.8128 160.5632 106.7008 257.8432 106.7008s189.0304-37.888 257.8432-106.7008c142.336-142.1312 142.336-373.5552 0.2048-515.6864zM688.128 686.6944c-57.344 57.344-133.5296 88.8832-214.6304 88.8832s-157.2864-31.5392-214.6304-88.8832c-118.1696-118.1696-118.1696-310.6816 0.2048-428.8512 57.344-57.344 133.5296-88.8832 214.6304-88.8832s157.2864 31.5392 214.6304 88.8832c118.1696 118.3744 118.1696 310.6816-0.2048 428.8512z m232.448 190.8736l-113.8688-113.8688c-8.8064-8.8064-28.4672-13.5168-43.2128 0-13.9264 12.6976-8.8064 35.6352 0 44.6464l113.8688 113.8688c4.5056 4.5056 27.648 15.9744 44.2368-1.2288 13.7216-14.1312 7.9872-34.6112-1.024-43.4176z" p-id="2729">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="ag-theme-balham" id="myGrid" style="height: 650px;">
+        </div>
+    </main>
+    <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg modal-fullscreen-xl-down">
+        <div class="modal-content modal-lg" style="height: 80vh;">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">菜品(可换可改)</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body ag-theme-alpine" id="dish_data">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                <button type="button" id="defineChange" class="btn btn-primary" data-bs-dismiss="modal">确认修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">创建菜品</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">菜品名称</span>
+                </div>
+                <input type="text" id="dishInput" class="form-control" placeholder="菜品名称" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon2">菜品种类</span>
+                </div>
+                <select class="form-control" id="dishCategory" aria-describedby="basic-addon2">
+                    <option value="1" selected>大荤</option>
+                    <option value="2">小荤</option>
+                    <option value="3">素菜</option>
+                    <option value="4">特色</option>
+                    <option value="5">汤粥</option>
+                    <option value="344">主食</option>
+                    <option value="8">点心</option>
+                    <option value="14">小菜</option>
+                    <option value="342">果饮</option>
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon3">辣度</span>
+                </div>
+                <select class="form-control" id="dishSpicy" aria-describedby="basic-addon3">
+                    <option value="spicy1" selected>不辣</option>
+                    <option value="spicy2">微辣</option>
+                    <option value="spicy3">中辣</option>
+                    <option value="spicy4">特辣</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="successCreateDish">确定创建</button>
+        </div>
+      </div>
+    </div>
+</div>
+<div id="material_modal" class="modalcustom">
+
+    <div class="modal-contentcustom">
+
+            <header class="modal-headercustom">
+
+                <h4 class="customcustom">创建菜品所需材料</h4>
+                <span class="closecustom" id="material_modal_cancel1">×</span>
+
+            </header>
+
+        <div class="modal-bodycustom modal-body">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">材料名称</span>
+                </div>
+                <input type="text" id="customName" class="form-control" placeholder="材料名称" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="modal-bodycustom-addon3">形态类别</span>
+                </div>
+                <select class="form-control" id="customFrom" aria-describedby="modal-bodycustom-addon3">
+                    <option value="冻品" selected>冻品</option>
+                    <option value="鲜品">鲜品</option>
+                    <option value="干货">干货</option>
+                    <option value="其他">其他</option>
+                    <option value="常温">常温</option>
+                    <option value="腌制">腌制</option>
+                    <option value="水发">水发</option>
+                    <option value="其他">其他</option>
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="modal-bodycustom-addon3">材料类别</span>
+                </div>
+                <select class="form-control" id="customPhase" aria-describedby="modal-bodycustom-addon3">
+                    <option value="p1_material" selected>食材</option>
+                    <option value="p2_semi_dish">半成品</option>
+                    <option value="p3_dish">成品</option>
+                    <option value="p4_non_mm">非食材</option>
+                    <option value="p5_package">套餐</option>
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="modal-bodycustom-addon4">切片类型</span>
+                </div>
+                <select class="form-control" id="customSection" aria-describedby="modal-bodycustom-addon4">
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="modal-bodycustom-addon4">计量单位</span>
+                </div>
+                <select class="form-control" id="customCompany" aria-describedby="modal-bodycustom-addon4">
+                </select>
+            </div>
+        </div>
+
+        <footer class="modal-footercustom">
+            <button id="material_modal_cancel2">取消</button>
+            <button id="material_modal_sure">确定</button>
+        </footer>
+    </div>
+</div>
+<div id="write_Side_dishes" class="modalcustom">
+
+    <div class="modal-contentcustom">
+
+        <header class="modal-headercustom">
+            <h4 class="customcustom">写入配菜</h4>
+            <span class="closecustom" id="write_Side_dishes_cancel1">×</span>
+        </header>
+        
+        <div class="modal-bodycustom modal-body">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">材料名称</span>
+                </div>
+                <input type="text" id="write_Side_dishes_name" class="form-control" placeholder="材料名称" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="modal-bodycustom-addon4">切片方式</span>
+                </div>
+                <select class="form-control" id="write_Side_dishes_section" aria-describedby="modal-bodycustom-addon4">
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="modal-bodycustom-addon2">数量</span>
+                </div>
+                <input type="number" class="form-control" value="0" id="write_Side_dishes_quantity" aria-describedby="modal-bodycustom-addon2">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="modal-bodycustom-addon3">单位</span>
+                </div>
+                <select class="form-control" id="write_Side_dishes_company" aria-describedby="modal-bodycustom-addon3">
+                </select>
+            </div>
+        </div>
+
+        <footer class="modal-footercustom">
+            <button id="write_Side_dishes_cancel2">取消</button>
+            <button id="write_Side_dishes_sure">确定</button>
+        </footer>
+    </div>
+</div>
+<!-- <div id="myChart" style="height: 600px;margin-top: 50px;">
+
+</div> -->
+</body>
+<script src="./js/header/catalogue.js"></script>
+<script src="./node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+<script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="module">
+    import data_index from './data/index.js'
+    import main_index from './js/main/index.js'
+    import saveData from './js/main/saveData/index.js'
+    document.addEventListener("DOMContentLoaded", function () {
+        const eGridDiv = document.querySelector('#myGrid');
+        new agGrid.Grid(eGridDiv, main_index.agGridTable);
+        main_index.agGridTable.api.sizeColumnsToFit();
+
+        document.querySelector('.baocun').onclick = () => {
+            console.log(saveData)
+            console.log(main_index.agGridTable['rowData'])
+        }
+        // 图表
+        // var chart = agCharts.AgChart.create(main_index.agChart);
+    });
+</script>
+</html>

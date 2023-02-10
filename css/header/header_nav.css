@@ -1,0 +1,86 @@
+header.header nav.header_nav{
+    height: 100%;
+    width: max-content;
+    display: flex;
+}
+nav.header_nav div.nav_left{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    cursor: pointer;
+}
+nav.header_nav div.nav_catalogue{
+    position: fixed;
+    left: 0;
+    top: 40px;
+    min-width: 7rem;
+    height: max-content;
+    padding: .5rem 0;
+    color: #495057;
+    border: 1px solid #dee2e6;
+    background-color: #fff;
+    box-sizing: border-box;
+    font-size: .8rem;
+    display: none;
+}
+div.nav_catalogue a.catalogue_item{
+    display: block;
+    width: 100%;
+    padding: 3px 20px;
+    font-weight: 400;
+    color: #495057;
+    border: 0;
+    box-sizing: border-box;
+    text-align: left;
+}
+div.nav_catalogue a.catalogue_item:hover{
+    background-color: rgba(0, 0, 0, 0.08);
+}
+div.nav_left img.nav_left_image{
+    height: 40%;
+}
+div.nav_left>button{
+    height: 100%;
+    width: max-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1rem;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+div.nav_left>button:hover{
+    background-color: rgba(0, 0, 0, 0.08);
+}
+div.nav_left span.nav_left_title{
+    font-size: 1.1rem;
+    margin-left: .5rem;
+}
+div.nav_left span.nav_left_title>a{
+    color: rgba(255, 255, 255, .9);
+}
+nav.header_nav div.nav_right{
+    height: 100%;
+    width: max-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+div.nav_right>div{
+    height: 100%;
+    margin-left: .5rem;
+    padding:0 .8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: .8rem;
+}
+div.nav_right>div:hover{
+    background-color: rgba(0, 0, 0, 0.08);
+}
+div.nav_right>div>a{
+    color: rgba(255, 255, 255, .9);
+}
