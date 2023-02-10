@@ -1,3 +1,4 @@
+/** @odoo-module **/
 import agGridRow from "./ag-grid-row.js"
 import index from '../../../data/index.js'
 import customFromDom from './customFrom.js'

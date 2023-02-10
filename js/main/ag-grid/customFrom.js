@@ -1,3 +1,4 @@
+/** @odoo-module **/
 // {
 // parent => str
 // cancel => array[string]

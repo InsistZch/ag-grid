@@ -1,3 +1,4 @@
+/** @odoo-module **/
 import index from '../../../data/index.js'
 const data = () => {
     let data = []
@@ -5,7 +6,7 @@ const data = () => {
         const json = JSON.parse(play_object['cus_loc_info'])
         // 计算总份数
         const obj = {}
-        obj['cl1'] = play_object['dinner_type'] == 'dn2' ? '午餐' : play_object['dinner_type'] == 'dn3' ? '晚餐' : play_object['dinner_type'] == 'dn5' ? '夜餐' : '早餐'
+        obj['cl1'] = play_object['dinner_type'] == 'dn2' ? '午餐' : play_object['dinner_type'] == 'dn3' ? '晚餐' :'夜餐'
         obj['dinner_type'] = play_object['dinner_type']
         let count = 0;
         for (const play_object_item of Object.keys(json)) {
@@ -48,22 +49,20 @@ const data = () => {
 
 //3139803  3507
 // 对比用户是否想吃该菜品
-const duibi = (user_id, dish_id, dinner_type) => {
+const duibi = (user_id,dish_id) => {
     let obj1 = {}
     let obj2 = {}
-    // 菜品表格
     for (const dish_key of index.dish_key) {
         if(dish_key.id == dish_id){
             obj1 = dish_key
         }
     }
-    // 用户喜好表格
     for (const dinner_mode of index.dinner_mode) {
-        if(dinner_mode.cus_loc_id == user_id && dinner_mode.dinner_type == dinner_type){
+        if(dinner_mode.cus_loc_id == user_id){
             obj2 = dinner_mode
         }
     }
-    console.log(obj1, obj2)
+    // console.log(obj1, obj2)
     // 判断当前是否什么菜
     // is_fish 鱼
     // is_organ 器官，内脏
@@ -71,17 +70,17 @@ const duibi = (user_id, dish_id, dinner_type) => {
     // is_fried 油炸
     // is_shrimp 虾
     // is_color_additive 颜色添加剂
-    if(obj1['is_fish'] == true && !obj2['is_fish'] == false){
+    if(obj1['is_fish'] == obj2['is_fish']){
         return ['鱼',false]
-    }else if(obj1['is_organ'] == true && obj2['is_organ'] == false){
+    }else if(obj1['is_organ'] == obj2['is_organ']){
         return ['内脏',false]
-    }else if(obj1['is_semi_finished'] == true && obj2['is_semi_finished'] == false){
+    }else if(obj1['is_semi_finished'] == obj2['is_semi_finished']){
         return ['半成品',false]
-    }else if(obj1['is_fried'] == true && obj2['is_fried'] == false){
+    }else if(obj1['is_fried'] == obj2['is_fried']){
         return ['油炸',false]
-    }else if(obj1['is_shrimp'] == true && obj2['is_shrimp'] == false){
+    }else if(obj1['is_shrimp'] == obj2['is_shrimp']){
         return ['虾',false]
-    }else if(obj1['is_color_additive'] == true && obj2['is_color_additive'] == false){
+    }else if(obj1['is_color_additive'] == obj2['is_color_additive']){
         return ['色素',false]
     }else{
         return ['',true]

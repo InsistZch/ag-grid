@@ -1,3 +1,4 @@
+/** @odoo-module **/
 const col = [
     {
         headerName:'菜品名称',

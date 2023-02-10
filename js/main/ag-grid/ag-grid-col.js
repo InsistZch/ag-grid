@@ -1,3 +1,4 @@
+/** @odoo-module **/
 import index from '../../../data/index.js'
 import customCells from './ag-grid-customCells.js';
 import {duibi,headHookLimit} from './ag-grid-row.js';
@@ -73,10 +74,9 @@ const col = () => {
             // console.log(1)
             // console.log(params)
             // userId dinner_type
-            let hook = headHookLimit(params.colDef.field, params.data.dinner_type)
+            let hook = headHookLimit(params.colDef.field,params.data.dinner_type)
             // user_id,dish_id
-            let d = duibi(params.colDef.field, params.data.dish_key_id.id, params.data.dinner_type)
-            // console.log(params)
+            let d = duibi(params.colDef.field, params.data.dish_key_id.id)
             let value = ""
             if(params.value > hook){
                 value = `<span style="color:red;" title="超出厨师长限制 限制为：${hook}">${params.value}</span>`
@@ -146,6 +146,16 @@ const col = () => {
                     data.push(...e.data['dish_key_id']['material_item'])
                 }
             })
+            // console.log(data)
+            // for (const v of value.trim().split(" ")) {
+            //     let v1 = v.match(/([\u4e00-\u9fa5a-zA-Z]+)/)
+            //     if(v1 == null) continue;
+            //     for (const material_item of material_item) {
+            //         // if(material_item)
+            //     }
+            // }
+            // console.log(1, data)
+            // console.log(2, material_item)
             // 找到相同则标红
             for (const mt1 of material_item) {
                 for (const d1 of data) {

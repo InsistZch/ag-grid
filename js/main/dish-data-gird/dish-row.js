@@ -1,3 +1,4 @@
+/** @odoo-module **/
 import index from '../../../data/index.js'
 import {dish_detailed} from '../ag-grid/ag-grid-row.js'
 const row = (dish_top_category_id) => {

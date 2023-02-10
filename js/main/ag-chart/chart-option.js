@@ -1,3 +1,4 @@
+/** @odoo-module **/
 import getData from './chart-data.js'
 import series from './chart-series.js'
 

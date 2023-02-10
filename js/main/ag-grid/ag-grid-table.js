@@ -1,3 +1,4 @@
+/** @odoo-module **/
 import agGridApi from './ag-grid-api.js'
 import col from './ag-grid-col.js'
 import {data} from './ag-grid-row.js'

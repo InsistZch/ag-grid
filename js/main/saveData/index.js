@@ -1,3 +1,4 @@
+/** @odoo-module **/
 export default {
     new_material_item_list:[],
 

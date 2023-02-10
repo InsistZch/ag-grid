@@ -1,3 +1,4 @@
+/** @odoo-module **/
 import col from "./dish-col.js";
 import data from './dish-row.js';
 
