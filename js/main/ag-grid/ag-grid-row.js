@@ -3,7 +3,7 @@ import index from '../../../data/index.js'
 const data = () => {
     let data = []
     for (const play_object of index.plan_day_record_show) {
-        const json = JSON.parse(play_object['cus_loc_info'])
+        const json = play_object['cus_loc_info']
         // 计算总份数
         const obj = {}
         obj['cl1'] = play_object['dinner_type'] == 'dn2' ? '午餐' : play_object['dinner_type'] == 'dn3' ? '晚餐' :'夜餐'
