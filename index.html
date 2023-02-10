@@ -319,13 +319,14 @@
     import main_index from './js/main/index.js'
     import saveData from './js/main/saveData/index.js'
     document.addEventListener("DOMContentLoaded", function () {
+        let agOption = main_index.init_grid_options();
         const eGridDiv = document.querySelector('#myGrid');
-        new agGrid.Grid(eGridDiv, main_index.agGridTable);
-        main_index.agGridTable.api.sizeColumnsToFit();
+        new agGrid.Grid(eGridDiv, agOption);
+        agOption.api.sizeColumnsToFit();
 
         document.querySelector('.baocun').onclick = () => {
             console.log(saveData)
-            console.log(main_index.agGridTable['rowData'])
+            console.log(agOption['rowData'])
         }
         // 图表
         // var chart = agCharts.AgChart.create(main_index.agChart);
