@@ -1,6 +1,6 @@
 /** @odoo-module **/
 
-export function create_virual_id(id) {
+export function create_virtual_id(id) {
 
     return `virtual_${id}`;
 

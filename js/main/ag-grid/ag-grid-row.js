@@ -49,7 +49,7 @@ const data = () => {
 
 //3139803  3507
 // 对比用户是否想吃该菜品
-const duibi = (user_id,dish_id) => {
+const duibi = (cus_loc_id, dish_id, dinner_type) => {
     let obj1 = {}
     let obj2 = {}
     // 菜品表格
@@ -60,10 +60,10 @@ const duibi = (user_id,dish_id) => {
     }
     // 用户喜好表
     for (const dinner_mode of index.dinner_mode) {
-        if(dinner_mode.cus_loc_id == user_id){
-            obj2 = dinner_mode
-        }
+        if(dinner_mode.cus_loc_id == cus_loc_id && dinner_mode.dinner_type == dinner_type){
+        obj2 = dinner_mode
     }
+}
     // console.log(obj1, obj2)
     // 判断当前是否什么菜
     // is_fish 鱼

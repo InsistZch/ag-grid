@@ -76,7 +76,8 @@ const col = () => {
             // userId dinner_type
             let hook = headHookLimit(params.colDef.field,params.data.dinner_type)
             // user_id,dish_id
-            let d = duibi(params.colDef.field, params.data.dish_key_id.id)
+            console.log(params)
+            let d = duibi(params.colDef.field, params.data.dish_key_id.id, params.data.dinner_type)
             let value = ""
             if(params.value > hook){
                 value = `<span style="color:red;" title="超出厨师长限制 限制为：${hook}">${params.value}</span>`
