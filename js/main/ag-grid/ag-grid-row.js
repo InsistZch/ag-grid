@@ -70,7 +70,7 @@ const duibi = (user_id,dish_id) => {
     // is_fried 油炸
     // is_shrimp 虾
     // is_color_additive 颜色添加剂
-    if(obj1['is_fish'] == obj2['is_fish']){
+    if(obj1['is_fish'] == true == obj2['is_fish']){
         return ['鱼',false]
     }else if(obj1['is_organ'] == obj2['is_organ']){
         return ['内脏',false]
