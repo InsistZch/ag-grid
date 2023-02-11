@@ -1,17 +1,20 @@
 /** @odoo-module **/
 
+<<<<<<< HEAD
 export function create_virtual_id(id) {
 
     return `virtual_${id}`;
 
 }
 
+=======
+>>>>>>> 91635e3 (修改tool)
 let make_add_function = () => {
 
     let id = 1;
 
     return () => {
-        return id++;
+        return `virtual_${id++}`;
     }
 
 }
