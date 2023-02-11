@@ -30,6 +30,7 @@ const data = () => {
                     }
                 }
                 const d_data = dish_detailed(dish_key,count)
+
                 obj['whole'] = d_data[0]
 
                 obj['dish_key_id'] = {
@@ -73,7 +74,7 @@ const duibi = (user_id,dish_id) => {
     if(obj1['is_fish'] == obj2['is_fish']){
         return ['鱼',false]
     }else if(obj1['is_organ'] == obj2['is_organ']){
-        return ['内脏',false]
+        return ['内脏',true]
     }else if(obj1['is_semi_finished'] == obj2['is_semi_finished']){
         return ['半成品',false]
     }else if(obj1['is_fried'] == obj2['is_fried']){
