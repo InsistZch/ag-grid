@@ -52,11 +52,13 @@ const data = () => {
 const duibi = (user_id,dish_id) => {
     let obj1 = {}
     let obj2 = {}
+    // 菜品表格
     for (const dish_key of index.dish_key) {
         if(dish_key.id == dish_id){
             obj1 = dish_key
         }
     }
+    // 用户喜好表
     for (const dinner_mode of index.dinner_mode) {
         if(dinner_mode.cus_loc_id == user_id){
             obj2 = dinner_mode
@@ -70,17 +72,17 @@ const duibi = (user_id,dish_id) => {
     // is_fried 油炸
     // is_shrimp 虾
     // is_color_additive 颜色添加剂
-    if(obj1['is_fish'] == true == obj2['is_fish']){
+    if(obj1['is_fish'] == true && obj2['is_fish'] == false){
         return ['鱼',false]
-    }else if(obj1['is_organ'] == obj2['is_organ']){
+    }else if(obj1['is_organ'] == true && obj2['is_organ'] == false){
         return ['内脏',false]
-    }else if(obj1['is_semi_finished'] == obj2['is_semi_finished']){
+    }else if(obj1['is_semi_finished'] == true && obj2['is_semi_finished'] == false){
         return ['半成品',false]
-    }else if(obj1['is_fried'] == obj2['is_fried']){
+    }else if(obj1['is_fried'] == true && obj2['is_fried'] == false){
         return ['油炸',false]
-    }else if(obj1['is_shrimp'] == obj2['is_shrimp']){
+    }else if(obj1['is_shrimp'] == true && obj2['is_shrimp'] == false){
         return ['虾',false]
-    }else if(obj1['is_color_additive'] == obj2['is_color_additive']){
+    }else if(obj1['is_color_additive'] == true && obj2['is_color_additive'] == false){
         return ['色素',false]
     }else{
         return ['',true]
