@@ -76,7 +76,6 @@ const col = () => {
             // userId dinner_type
             let hook = headHookLimit(params.colDef.field,params.data.dinner_type)
             // user_id,dish_id
-            console.log(params)
             let d = duibi(params.colDef.field, params.data.dish_key_id.id, params.data.dinner_type)
             let value = ""
             if(params.value > hook){
@@ -183,45 +182,6 @@ const col = () => {
             // params.data.dish_key_id.material_item = arr
             // console.log(params)
             return value
-            // let v = value.split(' ')
-            // // console.log(params.columnApi.getColumn('whole'))
-            // params.api.forEachNode((e) => {
-            //     if(e.data == null) return
-            //     if(e.data.dinner_type == params.data.dinner_type && e.data.whole != "" && e.data.whole != value){
-            //         // console.log(109, e.data.whole,value)
-            //         data.push(e.data.whole)
-            //     }
-            // })
-            // if(value[value.length - 1] != ' ') value += ' '
-            // // console.log(data)
-            // // abc12.08斤
-            // for (const v_item of v) {
-            //     let v2 = v_item.match(/([\u4e00-\u9fa5a-zA-Z]+)/)
-            //     if(v2 == null) continue
-            //     // abc
-            //     v2 = v2[0]
-                
-            //     for (const data_item of data) {
-            //         if(v2 == '') continue;
-            //         // bcd11.09斤
-            //         let dt = data_item.split(' ')
-            //         // /([\u4e00-\u9fa5]+|[a-z]+)/
-            //         for (const dt_item of dt) {
-            //             let d = dt_item.match(/([\u4e00-\u9fa5a-zA-Z]+)/)
-            //             if(d == null) continue
-            //             // bcd
-            //             d = d[0]
-            //             if(dt_item == null) continue
-            //             if(v2.split(d).length > 0){
-            //                 // console.log(v2, d)
-            //                 value = value.replace(v2,`<span style="color:red;">${v2}</span>`)
-            //                 break
-            //             }
-            //         }
-            //     }
-            // }
-            // // console.log(value)
-            // return value
         }
     })
 

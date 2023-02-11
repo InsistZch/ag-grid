@@ -61,9 +61,9 @@ const duibi = (cus_loc_id, dish_id, dinner_type) => {
     // 用户喜好表
     for (const dinner_mode of index.dinner_mode) {
         if(dinner_mode.cus_loc_id == cus_loc_id && dinner_mode.dinner_type == dinner_type){
-        obj2 = dinner_mode
+            obj2 = dinner_mode
+        }
     }
-}
     // console.log(obj1, obj2)
     // 判断当前是否什么菜
     // is_fish 鱼
