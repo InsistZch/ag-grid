@@ -183,7 +183,7 @@ const dish_detailed = (dish_key,count) => {
             for (const dish_process_category of index.dish_process_category) {
                 if(dish_process_category.id == dish_bom.process_id){
                     // console.log(123, dish_process_category)
-                    obj['process_id'] = dish_process_category.id
+                    arr_data['process_id'] = dish_process_category.id
                     if(dish_process_category.name == "无"){
                         arr_data.dish_process_category_name = "";
                         break;
@@ -195,14 +195,14 @@ const dish_detailed = (dish_key,count) => {
             }
             
             str += ((count * 0.01) * dish_bom.gbom_qty_high).toFixed(2)
-            
+            arr_data['dish_qty'] = dish_bom.gbom_qty_high
             for (const material_purchase_unit_category of index.material_purchase_unit_category) {
                 if(material_purchase_unit_category.id == dish_bom.unit_id){
                     // console.log(5, material_purchase_unit_category)
                     
                     str += material_purchase_unit_category.name + ' '
                     arr_data['unit_name'] = material_purchase_unit_category.name
-                    obj['unit_id'] = material_purchase_unit_category.id
+                    arr_data['unit_id'] = material_purchase_unit_category.id
                 }
             }
             arr.push(arr_data)
