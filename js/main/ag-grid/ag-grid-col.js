@@ -35,7 +35,7 @@ const col = () => {
             checkboxSelection: true, //设置为true显示为复选框
             headerCheckboxSelection: true, //表头是否也显示复选框，全选反选用
             cellRenderer: params => {
-                console.log(params)
+                // console.log(params)
 
                 return params.value
             }

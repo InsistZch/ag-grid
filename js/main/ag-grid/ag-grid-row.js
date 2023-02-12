@@ -143,6 +143,7 @@ const init_dish_detailed = (manual_material_qty,count) => {
             }
         }
         str += (count/100 * json.dish_qty).toFixed(2)
+        obj['dish_qty'] = json.dish_qty
         // 查找单位
         for (const material_purchase_unit_category of index.material_purchase_unit_category) {
             if(material_purchase_unit_category.id == json.unit_id){
@@ -205,6 +206,7 @@ const dish_detailed = (dish_key,count) => {
                     arr_data['unit_id'] = material_purchase_unit_category.id
                 }
             }
+            console.log(arr_data)
             arr.push(arr_data)
         }
     }
