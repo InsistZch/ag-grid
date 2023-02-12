@@ -193,12 +193,21 @@ const col = () => {
         pinned:'right',
         menuTabs:[],
         editable:false,
-        minWidth: 50,
+        minWidth: 35,
         cellRenderer: params => {
-            const createBtn = document.createElement('button')
-            createBtn.innerText = '保存'
-            createBtn.title = '保存本列餐品'
-            createBtn.onclick = () => {
+            const createImg = document.createElement('img')
+            createImg.title = '保存本列餐品'
+            createImg.src = './public/img/saveData.png'
+            createImg.style.cssText = `
+            height:20px;
+            width:20px;
+            position: absolute;
+            left:50%;
+            top:50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            `
+            createImg.onclick = () => {
                 const {dish_key_id:{material_item}} = params.data
                 const mt = material_item.reduce((pre, v) => {
                     const judeg = pre.every(v2 => v2.id != v.id)
@@ -228,7 +237,7 @@ const col = () => {
                 // }
                 console.log(params.data)
             }
-            return createBtn
+            return createImg
         }
     })
     return col

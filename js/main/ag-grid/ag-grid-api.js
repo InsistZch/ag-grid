@@ -54,10 +54,10 @@ const onCellValueChanged = (e,gridOptions) => {
             
             // 鸭肉片23.58斤 鸭肉片 23.58 斤
             let d = material.match(/([\u4e00-\u9fa5a-zA-Z]+)?([0-9]+\.?\d+)?([\u4e00-\u9fa5]+)?/)
-            console.log(d)
+            // console.log(d)
 
             // 发现两个一样的菜品,回滚
-            console.log(e.newValue.split(d[0]))
+            // console.log(e.newValue.split(d[0]))
             if(e.newValue.split(d[0]).length > 2){
                 e.data[`${e.colDef.field}`] = e.oldValue
                 gridOptions.api.refreshCells({force:true})
@@ -75,7 +75,7 @@ const onCellValueChanged = (e,gridOptions) => {
             const judeg = index.material_purchase_unit_category.every(v => v.name != d[2])
             // console.log(judeg)
             if(!judeg && d[2] != undefined && d[2].trim() != "" ){
-                console.log(d)
+                // console.log(d)
                 e.data[`${e.colDef.field}`] = e.oldValue
                 gridOptions.api.refreshCells({force:true})
                 break
@@ -93,7 +93,9 @@ const onCellValueChanged = (e,gridOptions) => {
                     let mV =  material_item.name.split('-')[0]
                     // console.log(mV, d[1], name)
                     // 没有切片方式
-                    
+                    // 查看d[1]是否存在表中切配方式
+                    // 查看d[1]是否存在该配料
+                    // 小米 小米辣
                     if(d[1].includes(name) && d[1].includes(mV) && mV.trim() != ""){
                         // console.log(d[1], name, mV)
                         let judeg = true
@@ -107,7 +109,7 @@ const onCellValueChanged = (e,gridOptions) => {
                         }
                         // console.log(judeg)
                         if(judeg){
-                            console.log(mV, d[1])
+                            // console.log(mV, d[1])
                             if(mV == d[1]){
                                 
                                 break
@@ -118,18 +120,27 @@ const onCellValueChanged = (e,gridOptions) => {
                             e.data.dish_key_id.material_item.push({
                                 ...material_item,
                                 dish_process_category_name: name,
-                                unit_name:d[2]
+                                unit_name:d[3]
                             })
-                            console.log(e.data.dish_key_id.material_item)
+                            // console.log(e.data.dish_key_id.material_item)
                         }
-                        console.log(d[1])
+                        // console.log(d[1])
                         break
-                    }else if(d[1].includes(mV) && name == "无" && mV.trim() != ""){
-                        e.data.dish_key_id.material_item.push({
-                            ...material_item,
-                            dish_process_category_name: name,
-                            unit_name:d[2]
-                        })
+                    }else if(name == "无" && d[1].includes(mV) && mV.trim() != ""){
+                        // 
+                        const value = d[1].split(mV)[1]
+                        // 只有有一个等于就返回true
+                        const judeg = index.dish_process_category.every(v => v.name != value && value != "")
+                        console.log(d[1], mV, value, judeg)
+                        if(!judeg){
+                            e.data.dish_key_id.material_item.push({
+                                ...material_item,
+                                dish_process_category_name: name,
+                                unit_name:d[3]
+                            })
+                        }else{
+                            continue
+                        }
                     }
                     
                 }

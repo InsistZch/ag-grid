@@ -124,6 +124,7 @@ const init_dish_detailed = (manual_material_qty,count) => {
             if(material_item.id == json.material_id){
                 // console.log(material_item)
                 obj = {...material_item}
+                obj['material_id'] = material_item.id
                 str += material_item.name.split('-')[0]
                 break
             }
@@ -131,7 +132,7 @@ const init_dish_detailed = (manual_material_qty,count) => {
         // 查找切配方式
         for (const dish_process_category of index.dish_process_category) {
             if(dish_process_category.id == json.process_id){
-                
+                obj['process_id'] = dish_process_category.id
                 if(dish_process_category.name != '无'){
                     str += dish_process_category.name
                     obj['dish_process_category_name'] = dish_process_category.name
@@ -146,6 +147,7 @@ const init_dish_detailed = (manual_material_qty,count) => {
         for (const material_purchase_unit_category of index.material_purchase_unit_category) {
             if(material_purchase_unit_category.id == json.unit_id){
                 obj['unit_name'] = material_purchase_unit_category.name
+                obj['unit_id'] = material_purchase_unit_category.id
                 str += material_purchase_unit_category.name + ' '
                 break
             }
@@ -172,6 +174,7 @@ const dish_detailed = (dish_key,count) => {
                     // console.log(3, material_item)
                     const value = material_item.name.split('-')[0]
                     arr_data = {...material_item}
+                    arr_data['material_id'] = material_item.id
                     // arr.push(material_item)
                     str += value
                     break
@@ -180,7 +183,7 @@ const dish_detailed = (dish_key,count) => {
             for (const dish_process_category of index.dish_process_category) {
                 if(dish_process_category.id == dish_bom.process_id){
                     // console.log(123, dish_process_category)
-                    
+                    obj['process_id'] = dish_process_category.id
                     if(dish_process_category.name == "无"){
                         arr_data.dish_process_category_name = "";
                         break;
@@ -199,6 +202,7 @@ const dish_detailed = (dish_key,count) => {
                     
                     str += material_purchase_unit_category.name + ' '
                     arr_data['unit_name'] = material_purchase_unit_category.name
+                    obj['unit_id'] = material_purchase_unit_category.id
                 }
             }
             arr.push(arr_data)
