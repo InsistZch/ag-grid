@@ -72,9 +72,10 @@ const onCellValueChanged = (e,gridOptions) => {
             }
 
             // 当找不到用户输入的单位,则回滚
-            const judeg = index.material_purchase_unit_category.some(v => v.name == d[2])
+            const judeg = index.material_purchase_unit_category.every(v => v.name != d[2])
             // console.log(judeg)
             if(!judeg && d[2] != undefined && d[2].trim() != "" ){
+                console.log(d)
                 e.data[`${e.colDef.field}`] = e.oldValue
                 gridOptions.api.refreshCells({force:true})
                 break
@@ -201,7 +202,7 @@ const onCellValueChanged = (e,gridOptions) => {
                                         str += dish_str
                                         continue
                                     }
-                                    str += item
+                                    str += item +" "
                                 }
                                 // e.data[`${e.colDef.field}`] = e.data[`${e.colDef.field}`].replace(`/${data_name}(\d+)?(.+)? /`, )
                                 e.data[`${e.colDef.field}`] = str
