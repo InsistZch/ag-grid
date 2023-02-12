@@ -1,3 +1,5 @@
+/** @odoo-module **/
+
 /*
 dish_key_id: {
     dish_key_id   菜品id

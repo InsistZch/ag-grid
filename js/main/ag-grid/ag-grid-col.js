@@ -202,7 +202,7 @@ const col = () => {
         cellRenderer: params => {
             const createImg = document.createElement('img')
             createImg.title = '保存本列餐品'
-            createImg.src = './public/img/saveData.png'
+            createImg.src = '/gmm/static/src/img/saveData.png' // 这个不用再改
             createImg.style.cssText = `
             height:20px;
             width:20px;
