@@ -324,10 +324,11 @@
         new agGrid.Grid(eGridDiv, agOption);
         agOption.api.sizeColumnsToFit();
 
-        document.querySelector('.baocun').onclick = () => {
+
+        main_index.otherApi.saveData('.baocun', () => {
             console.log(saveData)
             console.log(agOption['rowData'])
-        }
+        })
         // 图表
         // var chart = agCharts.AgChart.create(main_index.agChart);
     });

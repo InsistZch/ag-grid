@@ -4,6 +4,7 @@ import {dish_detailed} from './ag-grid-row.js'
 import dishTable from '../dish-data-gird/dish-table.js'
 import { add_dish_key_id,} from "./../tool.js";
 import saveData from '../saveData/index.js';
+import preserved_dishes from './preserved_dishes.js';
 // let create_dish_key = 5000000
 
 
@@ -189,15 +190,37 @@ class customCells{
     isCancelAfterEnd(){
         const currentData = this.ele.querySelector('input').value
         for (const e of this.dish_data) {
+            // console.log(e,this.params)
             if(e.name == currentData){
-                // console.log(e)
-                let dish_detailedValue = dish_detailed(e,this.params.data.Copies)
-                this.params.data.whole = dish_detailedValue[0]
-                this.params.data.dish_key_id = {
+                if(e.name == this.params.data.dish){
+                    return false
+                }
+                // console.log(e, currentData)
+                let obj = {
                     dish_top_category_id:e.dish_top_category_id,
                     id:e.id,
-                    material_item:dish_detailedValue[1]
                 }
+                // // 判断当前菜品是否保存过
+                // const judeg = preserved_dishes.some(v => v.dish_key_name == currentData)
+
+                let dish_detailedValue = dish_detailed(e,this.params.data.Copies)
+                // console.log(this.params.data)
+                if(preserved_dishes.has(e.id)){
+                    const value = preserved_dishes.get(e.id)
+                    console.log(value)
+                    if(value.dinner_type == this.params.data.dinner_type){
+                        this.params.data.whole = value.whole
+                        obj['material_item'] = [...value.material_item]
+                    }else{
+                        this.params.data.whole = dish_detailedValue[0]
+                        obj['material_item'] = dish_detailedValue[1]
+                    }
+                }else{
+                    this.params.data.whole = dish_detailedValue[0]
+                    obj['material_item'] = dish_detailedValue[1]
+                }
+                this.params.data.dish_key_id = {...obj}
+                console.log(this.params.data.dish_key_id)
                 this.currentData = currentData
                 return false
             }

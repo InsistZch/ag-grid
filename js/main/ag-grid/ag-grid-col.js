@@ -2,6 +2,7 @@
 import index from '../../../data/index.js'
 import customCells from './ag-grid-customCells.js';
 import {duibi,headHookLimit} from './ag-grid-row.js';
+import preserved_dishes from './preserved_dishes.js';
 // 定义列
 const col = () => {
     const col = [
@@ -200,12 +201,31 @@ const col = () => {
             createBtn.onclick = () => {
                 const {dish_key_id:{material_item}} = params.data
                 const mt = material_item.reduce((pre, v) => {
-                    if(params.data.whole.includes(v.name.split('-')[0])){
+                    const judeg = pre.every(v2 => v2.id != v.id)
+                    if(params.data.whole.includes(v.name.split('-')[0]) && judeg){
                         pre.push(v)
                     }
                     return pre
                 }, [])
                 params.data.dish_key_id.material_item = mt
+                // 保存数据
+                preserved_dishes.set(params.data.dish_key_id.id,{
+                    dish_key_id: params.data.dish_key_id.id,
+                    dish_key_name: params.data.dish,
+                    dinner_type: params.data.dinner_type,
+                    whole: params.data.whole,
+                    material_item: [...params.data.dish_key_id.material_item]
+                })
+                // const judeg = preserved_dishes.every(v => v.dish_key_id != params.data.dish_key_id.id)
+                // if(judeg){
+                //     preserved_dishes.push({
+                //         dish_key_id: params.data.dish_key_id.id,
+                //         dish_key_name: params.data.dish,
+                //         material_item:[...params.data.dish_key_id.material_item]
+                //     })
+                // }else{
+
+                // }
                 console.log(params.data)
             }
             return createBtn

@@ -37,35 +37,44 @@ const onCellValueChanged = (e,gridOptions) => {
         // e.api.forEachNode((node,index) => {
         //     console.log(node.data, index)
         // })
-        if(d1 == "") return 
+        if(d1 == "" || e.newValue.trim() == e.oldValue.trim()) return 
         if(d1[d1.length - 1] != " ") d1 += ' '
-        console.log(e)
+        // console.log(e)
         // 可能为单位，也可能为新增数据
         // 数据可能存在，也可能不存在
 
         // 可能修改多个地方        
         
         // 分割 配量汇总 字符串
-        console.log(d1)
+        // console.log(d1)
         let material_data = d1.split(' ')
         for (const material of material_data) {
             let isTrue = true
-            if (material == " " || material == "") continue
+            if (material.trim() == "") continue
             
             // 鸭肉片23.58斤 鸭肉片 23.58 斤
             let d = material.match(/([\u4e00-\u9fa5a-zA-Z]+)?([0-9]+\.?\d+)?([\u4e00-\u9fa5]+)?/)
             console.log(d)
 
+            // 发现两个一样的菜品,回滚
+            console.log(e.newValue.split(d[0]))
+            if(e.newValue.split(d[0]).length > 2){
+                e.data[`${e.colDef.field}`] = e.oldValue
+                gridOptions.api.refreshCells({force:true})
+                break
+            }
              
-            // 如果输入的不是汉字或者字母 则直接退出循环
+            // 如果输入的不是汉字或者字母 回滚
             if(d == null){
                 e.data[`${e.colDef.field}`] = e.oldValue
                 gridOptions.api.refreshCells({force:true})
                 break
             }
+
             // 当找不到用户输入的单位,则回滚
-            const judeg = index.material_purchase_unit_category.every(v => v.name != d[2])
-            if(judeg){
+            const judeg = index.material_purchase_unit_category.some(v => v.name == d[2])
+            // console.log(judeg)
+            if(!judeg && d[2] != undefined && d[2].trim() != "" ){
                 e.data[`${e.colDef.field}`] = e.oldValue
                 gridOptions.api.refreshCells({force:true})
                 break
@@ -95,7 +104,7 @@ const onCellValueChanged = (e,gridOptions) => {
                                 judeg = false
                             }
                         }
-                        console.log(judeg)
+                        // console.log(judeg)
                         if(judeg){
                             console.log(mV, d[1])
                             if(mV == d[1]){
@@ -127,7 +136,7 @@ const onCellValueChanged = (e,gridOptions) => {
                 
             }
 
-            console.log('111')
+            // console.log('111')
             // 查找 菜品配量是否存在
 
             // 材料名称-切片方式-数量-单位
@@ -185,7 +194,17 @@ const onCellValueChanged = (e,gridOptions) => {
                                 })
 
                                 // 替换原数据
-                                e.data[`${e.colDef.field}`] = e.data[`${e.colDef.field}`].replace(data_name, dishes_name.value + section + number + compamy)
+                                let str = ""
+                                for (const item of e.data[`${e.colDef.field}`].split(' ')) {
+                                    const dish_str = dishes_name.value + section + number + compamy + " "
+                                    if(dish_str.includes(item)){
+                                        str += dish_str
+                                        continue
+                                    }
+                                    str += item
+                                }
+                                // e.data[`${e.colDef.field}`] = e.data[`${e.colDef.field}`].replace(`/${data_name}(\d+)?(.+)? /`, )
+                                e.data[`${e.colDef.field}`] = str
                                 gridOptions.api.refreshCells({force:true})
                             }
                         })
