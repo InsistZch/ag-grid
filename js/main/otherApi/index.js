@@ -1,3 +1,4 @@
+/** @odoo-module **/
 import saveData from "./saveData.js";
 
 export {
