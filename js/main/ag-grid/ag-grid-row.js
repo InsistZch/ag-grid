@@ -29,7 +29,7 @@ const data = () => {
                         obj['type'] = dish_top_category.name_cn
                     }
                 }
-                const d_data = dish_detailed(dish_key,count)
+                const d_data = dish_detailed(play_object.manual_material_qty_json,count)
                 obj['whole'] = d_data[0]
 
                 obj['dish_key_id'] = {
@@ -101,51 +101,55 @@ const headHookLimit = (userId,dinner_type) => {
 }
 
 // 获取菜品详细信息
-const dish_detailed = (dish_key,count) => {
+// manual_material_qty_json => 菜品信息
+/*
+material_id => material_item
+unit_id     => material_purchase_unit_category
+process_id  => dish_process_category
+dish_qty    => 每100份 所需总量
+*/
+// count => 总量
+const dish_detailed = (manual_material_qty_json,count) => {
+    // console.log(manual_material_qty_json, count)
     // 获取当前菜品详细配料
     let str = ""
     let arr = []
-    for (const dish_bom of index.dish_bom) {
-        if(dish_key.id == dish_bom.dish_key_id){
-            // console.log(dish_bom)
-            // 获取到当前菜品的原材料数据
-            let arr_data = {}
-            for (const material_item of index.material_item) {
-                if(dish_bom.material_id == material_item.id){
-                    // 获取原材料详细信息
-                    // console.log(3, material_item)
-                    const value = material_item.name.split('-')[0]
-                    arr_data = {...material_item}
-                    // arr.push(material_item)
-                    str += value
-                    break
-                }
-            }
-            for (const dish_process_category of index.dish_process_category) {
-                if(dish_process_category.id == dish_bom.process_id){
-                    // console.log(123, dish_process_category)
-                    
-                    if(dish_process_category.name == "无"){
-                        arr_data.dish_process_category_name = "";
-                        break;
-                    }
-                    arr_data.dish_process_category_name = dish_process_category.name
-                    str += dish_process_category.name
-                    break;
-                }
-            }
+    for (const json of manual_material_qty_json) {
+        // 查找材料名称
+        let obj = {}
+        for (const material_item of index.material_item) {
             
-            str += ((count * 0.01) * dish_bom.gbom_qty_high).toFixed(2)
-            
-            for (const material_purchase_unit_category of index.material_purchase_unit_category) {
-                if(material_purchase_unit_category.id == dish_bom.unit_id){
-                    // console.log(5, material_purchase_unit_category)
-                    
-                    str += material_purchase_unit_category.name + ' '
-                }
+            if(material_item.id == json.material_id){
+                // console.log(material_item)
+                obj = {...material_item}
+                str += material_item.name.split('-')[0]
+                break
             }
-            arr.push(arr_data)
         }
+        // 查找切配方式
+        for (const dish_process_category of index.dish_process_category) {
+            if(dish_process_category.id == json.process_id){
+                
+                if(dish_process_category.name != '无'){
+                    str += dish_process_category.name
+                    obj['dish_process_category_name'] = dish_process_category.name
+                }else{
+                    obj['dish_process_category_name'] = ''
+                }
+                break
+            }
+        }
+        str += (count/100 * json.dish_qty).toFixed(2)
+        // 查找单位
+        for (const material_purchase_unit_category of index.material_purchase_unit_category) {
+            if(material_purchase_unit_category.id == json.unit_id){
+                obj['unit_name'] = material_purchase_unit_category.name
+                str += material_purchase_unit_category.name + ' '
+                break
+            }
+        }
+        
+        arr.push(obj)
     }
     return [str,arr]
 }

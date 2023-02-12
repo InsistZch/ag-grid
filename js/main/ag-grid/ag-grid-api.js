@@ -39,7 +39,7 @@ const onCellValueChanged = (e,gridOptions) => {
         // })
         if(d1 == "") return 
         if(d1[d1.length - 1] != " ") d1 += ' '
-
+        console.log(e)
         // 可能为单位，也可能为新增数据
         // 数据可能存在，也可能不存在
 
@@ -54,11 +54,18 @@ const onCellValueChanged = (e,gridOptions) => {
             
             // 鸭肉片23.58斤 鸭肉片 23.58 斤
             let d = material.match(/([\u4e00-\u9fa5a-zA-Z]+)?([0-9]+\.?\d+)?([\u4e00-\u9fa5]+)?/)
-
+            console.log(d)
 
              
             // 如果输入的不是汉字或者字母 则直接退出循环
             if(d == null){
+                e.data[`${e.colDef.field}`] = e.oldValue
+                gridOptions.api.refreshCells({force:true})
+                break
+            }
+            // 当找不到用户输入的单位,则回滚
+            const judeg = index.material_purchase_unit_category.every(v => v.name != d[2])
+            if(judeg){
                 e.data[`${e.colDef.field}`] = e.oldValue
                 gridOptions.api.refreshCells({force:true})
                 break
@@ -74,8 +81,7 @@ const onCellValueChanged = (e,gridOptions) => {
                 // let isJudeg = true
                 for (const material_item of index.material_item) {
                     let mV =  material_item.name.split('-')[0]
-                    
-                    // console.log(mV, d[1])
+                    // console.log(mV, d[1], name)
                     // 没有切片方式
                     
                     if(d[1].includes(name) && d[1].includes(mV) && mV.trim() != ""){
@@ -101,12 +107,19 @@ const onCellValueChanged = (e,gridOptions) => {
                             }
                             e.data.dish_key_id.material_item.push({
                                 ...material_item,
-                                dish_process_category_name: name
+                                dish_process_category_name: name,
+                                unit_name:d[2]
                             })
                             console.log(e.data.dish_key_id.material_item)
                         }
                         console.log(d[1])
                         break
+                    }else if(d[1].includes(mV) && name == "无" && mV.trim() != ""){
+                        e.data.dish_key_id.material_item.push({
+                            ...material_item,
+                            dish_process_category_name: name,
+                            unit_name:d[2]
+                        })
                     }
                     
                 }
@@ -114,7 +127,7 @@ const onCellValueChanged = (e,gridOptions) => {
                 
             }
 
-            // console.log(d[1])
+            console.log('111')
             // 查找 菜品配量是否存在
 
             // 材料名称-切片方式-数量-单位
