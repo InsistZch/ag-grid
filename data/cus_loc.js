@@ -1,36 +1,194 @@
-// 用户表
 export default[
-	{"id":3507,"name":"就很好","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3385,"name":"博姿妮","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3437,"name":"全一","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3383,"name":"维塔罗","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3386,"name":"而至本部","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3376,"name":"圣戈班","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3395,"name":"毕码时","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3434,"name":"帕玛斯","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3396,"name":"信越","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3397,"name":"麦肯多","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3435,"name":"昭远","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3404,"name":"吉辉","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3401,"name":"康晟","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3399,"name":"碧雯","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3436,"name":"西伊","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3402,"name":"泰来","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3387,"name":"苏信","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3390,"name":"英特诺","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3344,"name":"友翊","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3345,"name":"太潘","manual_level":"high","org_group_category_category":"无菜单"},
-	{"id":3391,"name":"欧德乐","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3409,"name":"艾科瑞思","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3408,"name":"展田","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3393,"name":"高盛达","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3417,"name":"博涵","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3407,"name":"爱伟创","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3403,"name":"欧力德","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3405,"name":"连扬","manual_level":"high","org_group_category_category":"有菜单"},
-	{"id":3412,"name":"三义","manual_level":"high","org_group_category_category":"有菜单"},
-	// {"id":3511,"name":"hhh","manual_level":"high","org_group_category_category":"有菜单"},
-	// {"id":3514,"name":"hh1","manual_level":"high","org_group_category_category":"有菜单"},
-	// {"id":3520,"name":"fgf","manual_level":"high","org_group_category_category":"有菜单"},
-	// {"id":3521,"name":"雪中悍","manual_level":"high","org_group_category_category":"有菜单"}
+	{
+		"id": 3398, 
+		"name": "\u661f\u6d66", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3385, 
+		"name": "\u535a\u59ff", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3437, 
+		"name": "\u5168\u4e00", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3383, 
+		"name": "\u7ef4\u5854", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3386, 
+		"name": "\u800c\u81f3", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3376, 
+		"name": "\u5723\u6208", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3395, 
+		"name": "\u6bd5\u7801", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3434, 
+		"name": "\u5e15\u739b", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3396, 
+		"name": "\u4fe1\u8d8a", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3397, 
+		"name": "\u9ea6\u80af", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3435, 
+		"name": "\u662d\u8fdc", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3404, 
+		"name": "\u5409\u8f89", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3401, 
+		"name": "\u5eb7\u665f", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3399, 
+		"name": "\u78a7\u96ef", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3436, 
+		"name": "\u897f\u4f0a", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3402, 
+		"name": "\u6cf0\u83b1", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3387, 
+		"name": "\u82cf\u4fe1", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3390, 
+		"name": "\u82f1\u7279", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3344, 
+		"name": "\u53cb\u7fca", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3345, 
+		"name": "\u592a\u6f58", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u65e0\u83dc\u5355"
+	},
+ 	{
+		"id": 3391, 
+		"name": "\u6b27\u5fb7", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3409, 
+		"name": "\u827e\u79d1", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3408, 
+		"name": "\u5c55\u7530", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3393, 
+		"name": "\u9ad8\u76db", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3417, 
+		"name": "\u535a\u6db5", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3407, 
+		"name": "\u7231\u4f1f", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3403, 
+		"name": "\u6b27\u529b", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3405, 
+		"name": "\u8fde\u626c", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3412, 
+		"name": "\u4e09\u4e49", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3503, 
+		"name": "\u6797\u65af", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3502, 
+		"name": "\u667a\u4eab", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	},
+ 	{
+		"id": 3504, 
+		"name": "\u6c38\u5149", 
+		"manual_level": "high", 
+		"org_group_category_category": "\u6709\u83dc\u5355"
+	}
 ]

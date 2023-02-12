@@ -29,7 +29,7 @@ const data = () => {
                         obj['type'] = dish_top_category.name_cn
                     }
                 }
-                const d_data = init_dish_detailed(play_object.manual_material_qty_json,count)
+                const d_data = init_dish_detailed(play_object.manual_material_qty,count)
                 obj['whole'] = d_data[0]
 
                 obj['dish_key_id'] = {
@@ -111,12 +111,12 @@ dish_qty    => 每100份 所需总量
 */
 // count => 总量
 // 初始化获取菜品详细信息
-const init_dish_detailed = (manual_material_qty_json,count) => {
+const init_dish_detailed = (manual_material_qty,count) => {
     // console.log(manual_material_qty_json, count)
     // 获取当前菜品详细配料
     let str = ""
     let arr = []
-    for (const json of manual_material_qty_json) {
+    for (const json of manual_material_qty) {
         // 查找材料名称
         let obj = {}
         for (const material_item of index.material_item) {
