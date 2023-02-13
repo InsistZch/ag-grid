@@ -98,7 +98,7 @@ const onCellValueChanged = (e,gridOptions) => {
             // 再看切片方式是否在最后
             let dpc = index.dish_process_category.sort((a,b) => b.name.length - a.name.length)
             // console.log(dpc)
-            for (const dish_process_category of dpc) {
+            dpc: for (const dish_process_category of dpc) {
                 let name = dish_process_category.name
 
                 // let isJudeg = true
@@ -109,6 +109,10 @@ const onCellValueChanged = (e,gridOptions) => {
                     // 查看d[1]是否存在表中切配方式
                     // 查看d[1]是否存在该配料
                     // 小米 小米辣
+                    // data_name => 
+                    // d[1] => 餐品名称 || 餐品名称+切片方式
+                    // name 切片方式
+                    // mV 表中餐品名称
                     if(d[1].includes(name) && d[1].includes(mV) && mV.trim() != ""){
                         // console.log(d[1], name, mV)
                         let judeg = true
@@ -126,7 +130,7 @@ const onCellValueChanged = (e,gridOptions) => {
                             // console.log(mV, d[1])
                             if(mV == d[1]){
                                 // console.log(mV, d[1])
-                                break
+                                break dpc
                             }else{
                                 // d[1] = d[1].split(name)[0]
                                 d[1] = d[1].substr(0, d[1].length - name.length)
@@ -136,33 +140,28 @@ const onCellValueChanged = (e,gridOptions) => {
                                 ...material_item,
                                 dish_process_category_name: name,
                             })
-                            break
+                            break dpc
                         }
                         // console.log(d[1])
                         break
-                    }
-                    // else if(data_name == mV && mV.trim() != ""){
-                    //     // 
-                    //     const value = data_name.split(mV)[1]
-                    //     console.log(value)
-                    //     // 只要有有一个等于就返回true
-                    //     // const judeg = index.dish_process_category.every(v => v.name != value && value != undefined)
-                    //     // console.log(d[1], mV, value, judeg)
+                    }else if(data_name == mV && mV.trim() != ""){
+                        // 
+                        const value = data_name.split(mV)[1]
+                        // 只要有有一个等于就返回true
+                        // const judeg = index.dish_process_category.every(v => v.name != value && value != undefined)
+                        // console.log(d[1], mV, value, judeg)
                         
-                    //     if(!judeg){
-                    //         console.log(name)
-                    //         e.data.dish_key_id.material_item.push({
-                    //             ...material_item,
-                    //             dish_process_category_name: name,
-                    //             unit_name:d[3],
-                    //             dish_qty:d[2],
-                    //         })
-                    //         // console.log(e.data.dish_key_id.material_item)
-                    //         break
-                    //     }else{
-                    //         continue 
-                    //     }
-                    // }
+                        if(!judeg){
+                            e.data.dish_key_id.material_item.push({
+                                ...material_item,
+                                dish_process_category_name: "",
+                                unit_name:d[3],
+                                dish_qty:d[2],
+                            })
+                            // console.log(e.data.dish_key_id.material_item)
+                            break dpc
+                        }
+                    }
                     
                 }
             }
