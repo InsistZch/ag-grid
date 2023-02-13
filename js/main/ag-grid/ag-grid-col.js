@@ -51,7 +51,39 @@ const col = () => {
             cellEditor:customCells,
             pinned: 'left',
             filter:true,
-            menuTabs:[]
+            menuTabs:[],
+            cellRenderer: params => {
+                // 其他 冻品 鲜肉 半成品
+                let color = "",title = ""
+                for (const dish_key of index.dish_key) {
+                    if(params.data.dish_key_id.id == dish_key.id){
+                        switch (dish_key.material_tag) {
+                            case '其他':
+                                color = "black"
+                                title = "其他"
+                                break;
+                            case '冻品': 
+                                color = "#9a870a"
+                                title = "冻品"
+                                break;
+                            case '鲜肉': 
+                                color = "green"
+                                title = "鲜肉"
+                                break;
+                            case '半成品':
+                                color = "orange"
+                                title = "半成品"
+                                break;
+                            default:
+                                color = "red"
+                                title = "该餐品无分类"
+                                break;
+                        }
+                        break
+                    }
+                }
+                return `<span style="color:${color}" title="${title}">${params.value}</span>`
+            }
         },
         {
             headerName:'份数',
@@ -233,16 +265,6 @@ const col = () => {
                     whole: params.data.whole,
                     material_item: [...params.data.dish_key_id.material_item]
                 })
-                // const judeg = preserved_dishes.every(v => v.dish_key_id != params.data.dish_key_id.id)
-                // if(judeg){
-                //     preserved_dishes.push({
-                //         dish_key_id: params.data.dish_key_id.id,
-                //         dish_key_name: params.data.dish,
-                //         material_item:[...params.data.dish_key_id.material_item]
-                //     })
-                // }else{
-
-                // }
                 console.log(params.data)
             }
             return createImg

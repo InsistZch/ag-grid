@@ -21,8 +21,11 @@ const data = () => {
         for (const dish_key of index.dish_key) {
             // 获取菜品数据
             // 能拿到dish_key play_object
+            // 其他 冻品 鲜肉 半成品
+            // console.log(dish_key.material_tag)
             if(play_object.dish_key_id == dish_key.id){
                 obj['dish'] = dish_key.name
+                
                 // 获取类别
                 for (const dish_top_category of index.dish_top_category) {
                     if(dish_key.dish_top_category_id == dish_top_category.id){

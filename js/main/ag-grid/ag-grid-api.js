@@ -161,6 +161,7 @@ const onCellValueChanged = (e,gridOptions) => {
             // 确认该配料是否存在
             for (const material_item of index.material_item) {
                 let name = material_item.name.split('-')[0]
+                console.log(material_item, name)
                 if(name == d[1]){
                     // console.log(material_item)
                     //  确认是否输入数量，单位
@@ -363,15 +364,6 @@ const getContextMenuItems = (params, gridOptions) => {
     return result
 }
 
-// const stringToObject = (str) => {
-//     let reg = /([\u4e00-\u9fa5a-zA-Z]+)?([0-9]+\.?\d+)?([\u4e00-\u9fa5]+)?/
-//     let data = str.match(reg)
-   
-//     return {
-//         allValue: data[0],
-
-//     }
-// }
 
 export default {
     onCellValueChanged,getContextMenuItems
