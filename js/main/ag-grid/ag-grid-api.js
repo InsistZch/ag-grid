@@ -59,21 +59,13 @@ const onCellValueChanged = (e,gridOptions) => {
         // 分割 配量汇总 字符串
         // console.log(d1)
         let material_data = d1.split(' ')
-        for (const material of material_data) {
+        material_data: for (const material of material_data) {
             let isTrue = true
             if (material.trim() == "") continue
             
             // 鸭肉片23.58斤 鸭肉片 23.58 斤
             let d = material.match(/([\u4e00-\u9fa5a-zA-Z]+)?([0-9]+\.?\d+)?([\u4e00-\u9fa5a-zA-Z]+)?/)
             // console.log(d)
-
-            // 发现两个一样的菜品,回滚
-            // console.log(e.newValue.split(d[0]))
-            if(e.newValue.split(d[0]).length > 2){
-                e.data[`${e.colDef.field}`] = e.oldValue
-                gridOptions.api.refreshCells({force:true})
-                break
-            }
              
             // 如果输入的不是汉字或者字母 回滚
             if(d == null){
@@ -91,6 +83,19 @@ const onCellValueChanged = (e,gridOptions) => {
                 e.data[`${e.colDef.field}`] = e.oldValue
                 gridOptions.api.refreshCells({force:true})
                 break
+            }
+
+            // 发现两个一样的菜品,回滚
+            // console.log(e.newValue.split(d[0]))
+            if(e.data != undefined){
+                const arr = e.data['dish_key_id']['material_item'].map(v => v.name.split('-')[0])
+                for (const item of arr) {
+                    if(e.newValue.split(item).length > 2){
+                        e.data[`${e.colDef.field}`] = e.oldValue
+                        gridOptions.api.refreshCells({force:true})
+                        break material_data
+                    }
+                }
             }
             // console.log(e)
             const data_name = d[1]
@@ -166,25 +171,7 @@ const onCellValueChanged = (e,gridOptions) => {
                 }
             }
             console.log(e.data.dish_key_id.material_item)
-            //  去掉所有重复的数据
-            e.data.dish_key_id.material_item = e.data.dish_key_id.material_item.reduce((pre,v) => {
-                const judeg = [...pre].every(v2 => v2.id != v.id)
-                if(judeg){
-                    if(d[1] == v.name.split('-')[0]){
-                        const value = data_name.split(d[1])[1]
-                        pre.push({
-                            ...v,
-                            unit_name:d[3],
-                            dish_qty:d[2],
-                            dish_process_category_name: value
-                        })
-                    }else{
-                        pre.push(v)
-                    }
-                    
-                }
-                return pre
-            },[])
+           
             // console.log(d)
             // console.log('111')
             // 查找 菜品配量是否存在
@@ -252,8 +239,7 @@ const onCellValueChanged = (e,gridOptions) => {
                                 console.log(e.data[`${e.colDef.field}`].split(' '))
                                 for (let item of e.data[`${e.colDef.field}`].split(' ')) {
                                     const dish_str = dishes_name.value + section + number + compamy + " "
-                                    item = item.replace(/\d+(\.\d+)?/, number)
-                                    if(dish_str.includes(item)){
+                                    if(dish_str.includes(item.replace(/\d+(\.\d+)?/, number))){
                                         str += dish_str
                                         continue
                                     }
@@ -360,6 +346,25 @@ const onCellValueChanged = (e,gridOptions) => {
                     e.data[`${e.colDef.field}`] = e.oldValue
                 }
             }
+             //  去掉所有重复的数据
+             e.data.dish_key_id.material_item = e.data.dish_key_id.material_item.reduce((pre,v) => {
+                const judeg = [...pre].every(v2 => v2.id != v.id)
+                if(judeg){
+                    if(d[1] == v.name.split('-')[0]){
+                        const value = data_name.split(d[1])[1]
+                        pre.push({
+                            ...v,
+                            unit_name:d[3],
+                            dish_qty:d[2],
+                            dish_process_category_name: value
+                        })
+                    }else{
+                        pre.push(v)
+                    }
+                    
+                }
+                return pre
+            },[])
             console.log(e.data.dish_key_id.material_item)
             gridOptions.api.refreshCells({force:true})
         }
@@ -389,6 +394,29 @@ const getContextMenuItems = (params, gridOptions) => {
                 data[0]['type'] = params.node.data['type']
                 data[0]['whole'] = ""
                 gridOptions.api.applyTransaction({ add: data, addIndex: params.node.rowIndex + 1})
+            }
+        },
+        {
+            name:'新增特色餐',
+            action: () => {
+                const addData = () => {
+                    const data = [{}]
+                    for (const key in params.node.data) {
+                        if(!isNaN(key)){
+                            data[0][`${key}`] = 0
+                        }
+                    }
+                    data[0]['Copies'] = 0
+                    data[0]['cl1'] = params.node.data['cl1']
+                    data[0]['dinner_type'] = params.node.data['dinner_type']
+                    data[0]['dish'] = ""
+                    data[0]['dish_key_id'] = {
+                        dish_top_category_id:params.node.data['dish_key_id'].dish_top_category_id
+                    }
+                    data[0]['type'] = params.node.data['type']
+                    data[0]['whole'] = ""
+                    }
+                // gridOptions.api.applyTransaction({ add: data, addIndex: params.node.rowIndex + 1})
             }
         },
         {
