@@ -1,3 +1,10 @@
+/*
+id 主键
+material_id 材料id
+purchase_unit_id 
+main_unit_bom_unit_ratio 
+*/
+
 export default[
 	{
 		"id": 396435, 

@@ -2,6 +2,7 @@
 import agGridApi from './ag-grid-api.js'
 import col from './ag-grid-col.js'
 import {data} from './ag-grid-row.js'
+import GroupRowInnerRenderer from './GroupRowInnerRenderer.js'
 
 
 const init_grid_options = () => {
@@ -29,9 +30,20 @@ const init_grid_options = () => {
         rowMultiSelectWithClick: true,
         // suppressCellSelection: true,
         groupDisplayType: 'groupRows',
-        isGroupOpenByDefault:(params) => {
-            return params.field == 'cl1'
+        // autoGroupColumnDef:{
+        //     headerName:'分组别名',
+        //     minWdith: 60,
+        //     pinned: 'left',
+        //     field: 'cl1',
+        //     cellRendererParams: {
+        //         suppressCount: true,
+        //     }
+        // },
+        groupRowRendererParams: {
+            suppressCount: true,
+            innerRenderer: GroupRowInnerRenderer
         },
+        groupDefaultExpanded: -1,
         getContextMenuItems:(e) => agGridApi.getContextMenuItems(e,gridOptions),
         // editType: 'fullRow',
         onGridReady: function (params) {

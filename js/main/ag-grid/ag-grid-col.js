@@ -23,6 +23,8 @@ const col = () => {
             hide:true,
             rowGroup:true,
             menuTabs:[],
+            cellRenderer: 'agGroupCellRenderer',
+            showRowGroup: true,
         },
         {
             headerName:'类别',
@@ -64,7 +66,8 @@ const col = () => {
     ]
     // 确定列数
     let count = 0;
-    for (const item of index.cus_loc) {
+    const newCus_loc = index.cus_loc.sort((a, b) => a.no - b.no)
+    for (const item of newCus_loc) {
         const obj = {}
         obj['headerName'] = item['name']
         obj['field'] = `${item['id']}`

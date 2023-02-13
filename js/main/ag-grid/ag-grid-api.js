@@ -53,7 +53,7 @@ const onCellValueChanged = (e,gridOptions) => {
             if (material.trim() == "") continue
             
             // 鸭肉片23.58斤 鸭肉片 23.58 斤
-            let d = material.match(/([\u4e00-\u9fa5a-zA-Z]+)?([0-9]+\.?\d+)?([\u4e00-\u9fa5]+)?/)
+            let d = material.match(/([\u4e00-\u9fa5a-zA-Z]+)?([0-9]+\.?\d+)?([\u4e00-\u9fa5a-zA-Z]+)?/)
             // console.log(d)
 
             // 发现两个一样的菜品,回滚
@@ -72,14 +72,16 @@ const onCellValueChanged = (e,gridOptions) => {
             }
 
             // 当找不到用户输入的单位,则回滚
-            const judeg = index.material_purchase_unit_category.every(v => v.name != d[2])
-            // console.log(judeg)
-            if(!judeg && d[2] != undefined && d[2].trim() != "" ){
+            
+            const judeg = index.material_purchase_unit_category.every(v => v.name != d[3])
+            console.log(d)
+            if(judeg && d[3] != undefined && d[3].trim() != "" ){
                 // console.log(d)
                 e.data[`${e.colDef.field}`] = e.oldValue
                 gridOptions.api.refreshCells({force:true})
                 break
             }
+            // console.log(e)
             const data_name = d[1]
             // 先判断材料名称中是否含有切片方式
             // 再看切片方式是否在最后
@@ -111,7 +113,7 @@ const onCellValueChanged = (e,gridOptions) => {
                         if(judeg){
                             // console.log(mV, d[1])
                             if(mV == d[1]){
-                                
+                                console.log(mV, d[1])
                                 break
                             }else{
                                 // d[1] = d[1].split(name)[0]
@@ -162,13 +164,14 @@ const onCellValueChanged = (e,gridOptions) => {
                 if(name == d[1]){
                     // console.log(material_item)
                     //  确认是否输入数量，单位
-                    if(d[2] == undefined && d[3] == undefined){
+                    if(d[2] == undefined || d[3] == undefined){
                         // 查找材料名称 切片方式 数量 单位
                         let dishes_name = document.querySelector('#write_Side_dishes_name')
                         let dishes_section = document.querySelector('#write_Side_dishes_section')
                         let dishes_quantity = document.querySelector('#write_Side_dishes_quantity')
                         let dishes_company = document.querySelector('#write_Side_dishes_company')
 
+                        console.log(name, material_item)
                         // 定义变量
                         // 查看是否带切片方式
                         let section_str = d[1] != data_name ? data_name.split(d[1])[1] : "无"
@@ -181,8 +184,8 @@ const onCellValueChanged = (e,gridOptions) => {
                             `<option value="${v.id}">${v.name}</option>`
                         })
                         index.material_purchase_unit_category.forEach((v ,i) => addData(v, i, dishes_company))
-                        
-                        //写入自定义dom操作  配菜
+                        dishes_quantity.value = d[2] != undefined && d[2].trim() != "" ? d[2] : 0
+                        //写入自定义dom操作 配菜
                         customFromDom({
                             parent:"#write_Side_dishes",
                             cancel:["#write_Side_dishes_cancel1","#write_Side_dishes_cancel2"],
@@ -202,19 +205,23 @@ const onCellValueChanged = (e,gridOptions) => {
                                 // console.log(compamy)
                                 e.data.dish_key_id.material_item.push({
                                     ...material_item,
-                                    dish_process_category_name:section
+                                    dish_process_category_name:section,
+                                    unit_name: compamy
                                 })
 
                                 // 替换原数据
                                 let str = ""
-                                for (const item of e.data[`${e.colDef.field}`].split(' ')) {
+                                console.log(e.data[`${e.colDef.field}`].split(' '))
+                                for (let item of e.data[`${e.colDef.field}`].split(' ')) {
                                     const dish_str = dishes_name.value + section + number + compamy + " "
+                                    item = item.replace(/\d+(\.\d+)?/, number)
                                     if(dish_str.includes(item)){
                                         str += dish_str
                                         continue
                                     }
-                                    str += item +" "
+                                    str += item + " "
                                 }
+                                console.log(str)
                                 // e.data[`${e.colDef.field}`] = e.data[`${e.colDef.field}`].replace(`/${data_name}(\d+)?(.+)? /`, )
                                 e.data[`${e.colDef.field}`] = str
                                 gridOptions.api.refreshCells({force:true})
