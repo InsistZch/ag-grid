@@ -112,6 +112,7 @@ const col = () => {
             if(isNaN(params.value)){
                 return params.value
             }
+            params.value = Math.ceil(params.value)
             // console.log(1)
             // console.log(params)
             // userId dinner_type

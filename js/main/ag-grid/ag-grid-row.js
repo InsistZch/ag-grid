@@ -217,11 +217,23 @@ const dish_detailed = (dish_key,count) => {
 }
 
 
+// 统计配量信息
+const countMaterialData = (material_items, scale) => {
+    let str = ""
+    for (const key in material_items) {
+        material_items[key]['dish_qty'] = parseInt(material_items[key]['dish_qty'])
+        const quantity = (material_items[key]['dish_qty'] + (material_items[key]['dish_qty'] * scale)).toFixed(2)
+        str += material_items[key].name.split('-')[0] + material_items[key].dish_process_category_name + quantity + material_items[key].unit_name + ' '
+        material_items[key]['dish_qty'] = quantity
+    }
+    return [str, material_items]
+}
+
 // 通过文字，获取菜品
 export {
-    data,dish_detailed,duibi,headHookLimit
+    data,dish_detailed,duibi,headHookLimit,countMaterialData
 }
 
 export default {
-    data,dish_detailed,duibi,headHookLimit
+    data,dish_detailed,duibi,headHookLimit,countMaterialData
 }

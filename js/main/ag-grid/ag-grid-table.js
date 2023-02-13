@@ -18,7 +18,7 @@ const init_grid_options = () => {
             // filter: true,  //开启刷选
             // flex:1,
         },
-        rowSelection: 'multiple', // 开启多行选择
+        // rowSelection: 'multiple', // 开启多行选择
         // groupSelectsChildren: true,
         suppressRowClickSelection: true,
         suppressAggFuncInHeader: true,

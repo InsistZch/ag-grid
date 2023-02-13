@@ -29,10 +29,12 @@ const onCellValueChanged = (e,gridOptions) => {
             return
             // gridOptions.api.refreshCells({force:true})
         }
+        const scale = (parseInt(e.newValue) - parseInt(e.oldValue)) / e.data['Copies']
         e.data['Copies'] += parseInt(e.newValue) - parseInt(e.oldValue)
-        let dish_detailed_data = agGridRow.dish_detailed(e.data['dish_key_id'], parseInt(e.data['Copies']))
-        e.data['whole'] = dish_detailed_data[0]
-        e.data['dish_key_id']['material_item'] = dish_detailed_data[1]
+        // 当前数据 增加比例
+        const countMaterialData = agGridRow.countMaterialData(e.data['dish_key_id']['material_item'], scale)
+        e.data['whole'] = countMaterialData[0]
+        e.data['dish_key_id']['material_item'] = countMaterialData[1]
         gridOptions.api.refreshCells({force:true})
     }else if(e.colDef.headerName == '菜品'){
         if(e.newValue == null || e.newValue == undefined || e.newValue.trim() == ""){
@@ -96,7 +98,7 @@ const onCellValueChanged = (e,gridOptions) => {
             // 再看切片方式是否在最后
             let dpc = index.dish_process_category.sort((a,b) => b.name.length - a.name.length)
             // console.log(dpc)
-            for (const dish_process_category of dpc) {
+            dpc: for (const dish_process_category of dpc) {
                 let name = dish_process_category.name
 
                 // let isJudeg = true
@@ -107,6 +109,10 @@ const onCellValueChanged = (e,gridOptions) => {
                     // 查看d[1]是否存在表中切配方式
                     // 查看d[1]是否存在该配料
                     // 小米 小米辣
+                    // data_name => 
+                    // d[1] => 餐品名称 || 餐品名称+切片方式
+                    // name 切片方式
+                    // mV 表中餐品名称
                     if(d[1].includes(name) && d[1].includes(mV) && mV.trim() != ""){
                         // console.log(d[1], name, mV)
                         let judeg = true
@@ -124,44 +130,38 @@ const onCellValueChanged = (e,gridOptions) => {
                             // console.log(mV, d[1])
                             if(mV == d[1]){
                                 // console.log(mV, d[1])
-                                break
+                                break dpc
                             }else{
                                 // d[1] = d[1].split(name)[0]
                                 d[1] = d[1].substr(0, d[1].length - name.length)
                             }
                             // const judeg = 
-                            console.log(name)
                             e.data.dish_key_id.material_item.push({
                                 ...material_item,
                                 dish_process_category_name: name,
                             })
-                            break
+                            break dpc
                         }
                         // console.log(d[1])
                         break
-                    }
-                    // else if(data_name == mV && mV.trim() != ""){
-                    //     // 
-                    //     const value = data_name.split(mV)[1]
-                    //     console.log(value)
-                    //     // 只要有有一个等于就返回true
-                    //     // const judeg = index.dish_process_category.every(v => v.name != value && value != undefined)
-                    //     // console.log(d[1], mV, value, judeg)
+                    }else if(data_name == mV && mV.trim() != ""){
+                        // 
+                        const value = data_name.split(mV)[1]
+                        // 只要有有一个等于就返回true
+                        // const judeg = index.dish_process_category.every(v => v.name != value && value != undefined)
+                        // console.log(d[1], mV, value, judeg)
                         
-                    //     if(!judeg){
-                    //         console.log(name)
-                    //         e.data.dish_key_id.material_item.push({
-                    //             ...material_item,
-                    //             dish_process_category_name: name,
-                    //             unit_name:d[3],
-                    //             dish_qty:d[2],
-                    //         })
-                    //         // console.log(e.data.dish_key_id.material_item)
-                    //         break
-                    //     }else{
-                    //         continue 
-                    //     }
-                    // }
+                        if(!judeg){
+                            e.data.dish_key_id.material_item.push({
+                                ...material_item,
+                                dish_process_category_name: "",
+                                unit_name:d[3],
+                                dish_qty:d[2],
+                            })
+                            // console.log(e.data.dish_key_id.material_item)
+                            break dpc
+                        }
+                    }
                     
                 }
             }
@@ -176,7 +176,7 @@ const onCellValueChanged = (e,gridOptions) => {
                             ...v,
                             unit_name:d[3],
                             dish_qty:d[2],
-                            dish_process_category_name: value == "" ? '无' : value
+                            dish_process_category_name: value
                         })
                     }else{
                         pre.push(v)
@@ -399,7 +399,7 @@ const getContextMenuItems = (params, gridOptions) => {
                 gridOptions.api.applyTransaction({ remove: selRows });
             }
         },
-        ...params.defaultItems
+        // ...params.defaultItems
     ]
     return result
 }
