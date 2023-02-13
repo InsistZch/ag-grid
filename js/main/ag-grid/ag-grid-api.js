@@ -399,7 +399,7 @@ const getContextMenuItems = (params, gridOptions) => {
                 gridOptions.api.applyTransaction({ remove: selRows });
             }
         },
-        ...params.defaultItems
+        // ...params.defaultItems
     ]
     return result
 }
