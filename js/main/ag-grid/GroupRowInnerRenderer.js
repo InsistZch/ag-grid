@@ -1,3 +1,4 @@
+/** @odoo-module **/
 class GroupRowInnerRenderer {
     // 初始化
     init(params){
