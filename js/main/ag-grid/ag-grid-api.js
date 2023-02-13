@@ -29,10 +29,12 @@ const onCellValueChanged = (e,gridOptions) => {
             return
             // gridOptions.api.refreshCells({force:true})
         }
+        const scale = (parseInt(e.newValue) - parseInt(e.oldValue)) / e.data['Copies']
         e.data['Copies'] += parseInt(e.newValue) - parseInt(e.oldValue)
-        let dish_detailed_data = agGridRow.dish_detailed(e.data['dish_key_id'], parseInt(e.data['Copies']))
-        e.data['whole'] = dish_detailed_data[0]
-        e.data['dish_key_id']['material_item'] = dish_detailed_data[1]
+        // 当前数据 增加比例
+        const countMaterialData = agGridRow.countMaterialData(e.data['dish_key_id']['material_item'], scale)
+        e.data['whole'] = countMaterialData[0]
+        e.data['dish_key_id']['material_item'] = countMaterialData[1]
         gridOptions.api.refreshCells({force:true})
     }else if(e.colDef.headerName == '菜品'){
         if(e.newValue == null || e.newValue == undefined || e.newValue.trim() == ""){
@@ -130,7 +132,6 @@ const onCellValueChanged = (e,gridOptions) => {
                                 d[1] = d[1].substr(0, d[1].length - name.length)
                             }
                             // const judeg = 
-                            console.log(name)
                             e.data.dish_key_id.material_item.push({
                                 ...material_item,
                                 dish_process_category_name: name,
@@ -176,7 +177,7 @@ const onCellValueChanged = (e,gridOptions) => {
                             ...v,
                             unit_name:d[3],
                             dish_qty:d[2],
-                            dish_process_category_name: value == "" ? '无' : value
+                            dish_process_category_name: value
                         })
                     }else{
                         pre.push(v)
