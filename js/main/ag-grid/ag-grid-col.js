@@ -249,7 +249,12 @@ const col = () => {
             cursor: pointer;
             `
             createImg.onclick = () => {
+                if (!params.data.dish_key_id.id) {
+                    alert('菜品不存在!!!')
+                    return;
+                }
                 const {dish_key_id:{material_item}} = params.data
+
                 const mt = material_item.reduce((pre, v) => {
                     const judeg = pre.every(v2 => v2.id != v.id)
                     if(params.data.whole.includes(v.name.split('-')[0]) && judeg){
