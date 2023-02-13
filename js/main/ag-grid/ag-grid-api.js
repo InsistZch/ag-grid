@@ -11,6 +11,12 @@ const addData = (e, i, el) => {
     i == 0 ? `<option value="${e.id}" selected>${e.name}</option>`:
     `<option value="${e.id}">${e.name}</option>`
 }
+// 添加material_item数据
+// const addMaterial_item = (params,obj) => {
+//     params.data.dish_key_id.material_item.push({
+//         ...obj
+//     })
+// }
 
 
 // cellRenderer > onCellValueChanged
@@ -74,7 +80,7 @@ const onCellValueChanged = (e,gridOptions) => {
             // 当找不到用户输入的单位,则回滚
             
             const judeg = index.material_purchase_unit_category.every(v => v.name != d[3])
-            console.log(d)
+            // console.log(d)
             if(judeg && d[3] != undefined && d[3].trim() != "" ){
                 // console.log(d)
                 e.data[`${e.colDef.field}`] = e.oldValue
@@ -111,20 +117,21 @@ const onCellValueChanged = (e,gridOptions) => {
                         }
                         // console.log(judeg)
                         if(judeg){
+                            // 去掉切片方式
                             // console.log(mV, d[1])
                             if(mV == d[1]){
-                                console.log(mV, d[1])
+                                // console.log(mV, d[1])
                                 break
                             }else{
                                 // d[1] = d[1].split(name)[0]
                                 d[1] = d[1].substr(0, d[1].length - name.length)
                             }
+                            // const judeg = 
                             e.data.dish_key_id.material_item.push({
                                 ...material_item,
                                 dish_process_category_name: name,
-                                unit_name:d[3]
                             })
-                            // console.log(e.data.dish_key_id.material_item)
+                            break
                         }
                         // console.log(d[1])
                         break
@@ -133,23 +140,39 @@ const onCellValueChanged = (e,gridOptions) => {
                         const value = d[1].split(mV)[1]
                         // 只有有一个等于就返回true
                         const judeg = index.dish_process_category.every(v => v.name != value && value != "")
-                        console.log(d[1], mV, value, judeg)
+                        // console.log(d[1], mV, value, judeg)
                         if(!judeg){
                             e.data.dish_key_id.material_item.push({
                                 ...material_item,
                                 dish_process_category_name: name,
-                                unit_name:d[3]
                             })
+                            break
                         }else{
                             continue
                         }
                     }
                     
                 }
-                
-                
             }
-
+            // console.log(e.data.dish_key_id.material_item)
+            //  去掉所有重复的数据
+            e.data.dish_key_id.material_item = e.data.dish_key_id.material_item.reduce((pre,v) => {
+                const judeg = [...pre].every(v2 => v2.id != v.id)
+                if(judeg){
+                    if(d[1] == v.name.split('-')[0]){
+                        pre.push({
+                            ...v,
+                            unit_name:d[3],
+                            dish_qty:d[2],
+                        })
+                    }else{
+                        pre.push(v)
+                    }
+                    
+                }
+                return pre
+            },[])
+            // console.log(d)
             // console.log('111')
             // 查找 菜品配量是否存在
 
@@ -161,7 +184,7 @@ const onCellValueChanged = (e,gridOptions) => {
             // 确认该配料是否存在
             for (const material_item of index.material_item) {
                 let name = material_item.name.split('-')[0]
-                console.log(material_item, name)
+                // console.log(material_item, name)
                 if(name == d[1]){
                     // console.log(material_item)
                     //  确认是否输入数量，单位
@@ -207,7 +230,8 @@ const onCellValueChanged = (e,gridOptions) => {
                                 e.data.dish_key_id.material_item.push({
                                     ...material_item,
                                     dish_process_category_name:section,
-                                    unit_name: compamy
+                                    unit_name: compamy,
+                                    dish_qty: number
                                 })
 
                                 // 替换原数据
@@ -301,7 +325,9 @@ const onCellValueChanged = (e,gridOptions) => {
                             customSectionValue = customSectionValue == "无" ? "" : customSectionValue
                             e.data.dish_key_id.material_item.push({
                                 ...obj1,
-                                dish_process_category_name: customSectionValue
+                                dish_process_category_name: customSectionValue,
+                                unit_name: dish_process_category_name,
+                                dish_qty: 0,
                             })
                             
                             const str = data_name + customSectionValue + 0 + dish_process_category_name
@@ -321,6 +347,7 @@ const onCellValueChanged = (e,gridOptions) => {
                     e.data[`${e.colDef.field}`] = e.oldValue
                 }
             }
+            console.log(e.data.dish_key_id.material_item)
             gridOptions.api.refreshCells({force:true})
         }
         // gridOptions.api.refreshCells({force:true})

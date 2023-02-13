@@ -1,3 +1,5 @@
+// dinner_qty_upper_limit_kc 快餐上线
+// 
 export default [
 	{
 		"id": 37767, 

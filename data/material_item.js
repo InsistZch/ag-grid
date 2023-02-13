@@ -5308,21 +5308,21 @@ export default[
 		374901
 		]
 	}, 
-	{
-		"id": 371620, 
-		"name": "\u5927\u767d\u83dc-\u9c9c\u54c1-\u98df\u6750\uff0c\u9762\u7b4b-\u9c9c\u54c1-\u98df\u6750", 
-		"form": "\u9c9c\u54c1", 
-		"phase": "p1_material", 
-		"main_price": 1.0, 
-		"main_unit_id": [
-			9, 
-		"\u65a4"
-		], 
-		"repeat_tag": true, 
-		"bom_unit_ratio_ids": [
-		396403
-		]
-	}, 
+	// {
+	// 	"id": 371620, 
+	// 	"name": "\u5927\u767d\u83dc-\u9c9c\u54c1-\u98df\u6750\uff0c\u9762\u7b4b-\u9c9c\u54c1-\u98df\u6750", 
+	// 	"form": "\u9c9c\u54c1", 
+	// 	"phase": "p1_material", 
+	// 	"main_price": 1.0, 
+	// 	"main_unit_id": [
+	// 		9, 
+	// 	"\u65a4"
+	// 	], 
+	// 	"repeat_tag": true, 
+	// 	"bom_unit_ratio_ids": [
+	// 	396403
+	// 	]
+	// }, 
 	{
 		"id": 371614, 
 		"name": "\u7116\u8089-\u51bb\u54c1-\u98df\u6750", 

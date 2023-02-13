@@ -1,3 +1,5 @@
+//  price 菜品价格
+
 export default[
 	{
 		"id": 3093482, 
