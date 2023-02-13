@@ -35,6 +35,9 @@ const onCellValueChanged = (e,gridOptions) => {
         e.data['dish_key_id']['material_item'] = dish_detailed_data[1]
         gridOptions.api.refreshCells({force:true})
     }else if(e.colDef.headerName == '菜品'){
+        if(e.newValue == null || e.newValue == undefined || e.newValue.trim() == ""){
+            e.data[`${e.colDef.field}`] = e.oldValue
+        }
         gridOptions.api.refreshCells({force:true})
     }else if(e.colDef.headerName == '配量汇总'){
         let d1 = e.newValue
@@ -127,6 +130,7 @@ const onCellValueChanged = (e,gridOptions) => {
                                 d[1] = d[1].substr(0, d[1].length - name.length)
                             }
                             // const judeg = 
+                            console.log(name)
                             e.data.dish_key_id.material_item.push({
                                 ...material_item,
                                 dish_process_category_name: name,
@@ -135,35 +139,44 @@ const onCellValueChanged = (e,gridOptions) => {
                         }
                         // console.log(d[1])
                         break
-                    }else if(name == "无" && d[1].includes(mV) && mV.trim() != ""){
-                        // 
-                        const value = d[1].split(mV)[1]
-                        // 只有有一个等于就返回true
-                        const judeg = index.dish_process_category.every(v => v.name != value && value != "")
-                        // console.log(d[1], mV, value, judeg)
-                        if(!judeg){
-                            e.data.dish_key_id.material_item.push({
-                                ...material_item,
-                                dish_process_category_name: name,
-                            })
-                            break
-                        }else{
-                            continue
-                        }
                     }
+                    // else if(data_name == mV && mV.trim() != ""){
+                    //     // 
+                    //     const value = data_name.split(mV)[1]
+                    //     console.log(value)
+                    //     // 只要有有一个等于就返回true
+                    //     // const judeg = index.dish_process_category.every(v => v.name != value && value != undefined)
+                    //     // console.log(d[1], mV, value, judeg)
+                        
+                    //     if(!judeg){
+                    //         console.log(name)
+                    //         e.data.dish_key_id.material_item.push({
+                    //             ...material_item,
+                    //             dish_process_category_name: name,
+                    //             unit_name:d[3],
+                    //             dish_qty:d[2],
+                    //         })
+                    //         // console.log(e.data.dish_key_id.material_item)
+                    //         break
+                    //     }else{
+                    //         continue 
+                    //     }
+                    // }
                     
                 }
             }
-            // console.log(e.data.dish_key_id.material_item)
+            console.log(e.data.dish_key_id.material_item)
             //  去掉所有重复的数据
             e.data.dish_key_id.material_item = e.data.dish_key_id.material_item.reduce((pre,v) => {
                 const judeg = [...pre].every(v2 => v2.id != v.id)
                 if(judeg){
                     if(d[1] == v.name.split('-')[0]){
+                        const value = data_name.split(d[1])[1]
                         pre.push({
                             ...v,
                             unit_name:d[3],
                             dish_qty:d[2],
+                            dish_process_category_name: value == "" ? '无' : value
                         })
                     }else{
                         pre.push(v)

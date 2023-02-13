@@ -189,6 +189,7 @@ class customCells{
     // 如果返回true,编辑结果失效
     isCancelAfterEnd(){
         const currentData = this.ele.querySelector('input').value
+        if(currentData == undefined || currentData == null || currentData.trim()) return true
         for (const e of this.dish_data) {
             // console.log(e,this.params)
             if(e.name == currentData){
