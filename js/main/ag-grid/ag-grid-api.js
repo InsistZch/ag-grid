@@ -172,6 +172,27 @@ const onCellValueChanged = (e,gridOptions) => {
             }
             console.log(e.data.dish_key_id.material_item)
            
+
+            //  去掉所有重复的数据
+            e.data.dish_key_id.material_item = e.data.dish_key_id.material_item.reduce((pre,v) => {
+                const judeg = [...pre].every(v2 => v2.id != v.id)
+                if(judeg){
+                    if(d[1] == v.name.split('-')[0]){
+                        const value = data_name.split(d[1])[1]
+                        pre.push({
+                            ...v,
+                            unit_name:d[3],
+                            dish_qty:d[2],
+                            dish_process_category_name: value
+                        })
+                    }else{
+                        pre.push(v)
+                    }
+                    
+                }
+                return pre
+            },[])
+            console.log(e.data.dish_key_id.material_item)
             // console.log(d)
             // console.log('111')
             // 查找 菜品配量是否存在
@@ -194,27 +215,40 @@ const onCellValueChanged = (e,gridOptions) => {
                         let dishes_section = document.querySelector('#write_Side_dishes_section')
                         let dishes_quantity = document.querySelector('#write_Side_dishes_quantity')
                         let dishes_company = document.querySelector('#write_Side_dishes_company')
+                        let dishes_category = document.querySelector('#write_Side_dishes_category')
 
                         console.log(name, material_item)
                         // 定义变量
                         // 查看是否带切片方式
                         let section_str = d[1] != data_name ? data_name.split(d[1])[1] : "无"
-                        // 插入对应数据
-                        dishes_name.value = d[1]
-                        
-                        index.dish_process_category.forEach(v => {
-                            dishes_section.innerHTML += v.name == section_str ? 
-                            `<option value="${v.id}" selected>${v.name}</option>`:
-                            `<option value="${v.id}">${v.name}</option>`
-                        })
-                        index.material_purchase_unit_category.forEach((v ,i) => addData(v, i, dishes_company))
-                        dishes_quantity.value = d[2] != undefined && d[2].trim() != "" ? d[2] : 0
+                        const m = index.material_item.filter(v => v.name.split('-')[0] == d[1])
                         //写入自定义dom操作 配菜
                         customFromDom({
                             parent:"#write_Side_dishes",
                             cancel:["#write_Side_dishes_cancel1","#write_Side_dishes_cancel2"],
                             sure:"#write_Side_dishes_sure",
-                            deleteData: ["#write_Side_dishes_section","#write_Side_dishes_company"],
+                            deleteData: ["#write_Side_dishes_section","#write_Side_dishes_company", "#write_Side_dishes_category"],
+                            initFun:() => {
+                                // 插入对应数据
+                                dishes_name.value = d[1]
+                                index.dish_process_category.forEach(v => {
+                                    dishes_section.innerHTML += v.name == section_str ? 
+                                    `<option value="${v.id}" selected>${v.name}</option>`:
+                                    `<option value="${v.id}">${v.name}</option>`
+                                })
+
+                                index.material_purchase_unit_category.forEach((v ,i) => addData(v, i, dishes_company))
+
+                                
+                                for (const m_item of m) {
+                                    dishes_category.innerHTML += `
+                                    <option value="${m_item.id}">${m_item.form}</option>`
+                                }
+
+                                dishes_quantity.value = d[2] != undefined && d[2].trim() != "" ? d[2] : 0
+
+                                console.log(m, d[1])
+                            },
                             cancelFun:() => {
                                 e.data[`${e.colDef.field}`] = e.oldValue
                                 gridOptions.api.refreshCells({force:true})
@@ -227,12 +261,17 @@ const onCellValueChanged = (e,gridOptions) => {
 
                                 let compamy = dishes_company.querySelector(`option[value="${dishes_company.value}"]`).innerText
                                 // console.log(compamy)
-                                e.data.dish_key_id.material_item.push({
-                                    ...material_item,
-                                    dish_process_category_name:section,
-                                    unit_name: compamy,
-                                    dish_qty: number
-                                })
+                                for (const m_item of m) {
+                                    if(m_item.id == dishes_category.value){
+                                        e.data.dish_key_id.material_item.push({
+                                            ...m_item,
+                                            dish_process_category_name:section,
+                                            unit_name: compamy,
+                                            dish_qty: number
+                                        })
+                                        break
+                                    }
+                                }
 
                                 // 替换原数据
                                 let str = ""
@@ -346,26 +385,6 @@ const onCellValueChanged = (e,gridOptions) => {
                     e.data[`${e.colDef.field}`] = e.oldValue
                 }
             }
-             //  去掉所有重复的数据
-             e.data.dish_key_id.material_item = e.data.dish_key_id.material_item.reduce((pre,v) => {
-                const judeg = [...pre].every(v2 => v2.id != v.id)
-                if(judeg){
-                    if(d[1] == v.name.split('-')[0]){
-                        const value = data_name.split(d[1])[1]
-                        pre.push({
-                            ...v,
-                            unit_name:d[3],
-                            dish_qty:d[2],
-                            dish_process_category_name: value
-                        })
-                    }else{
-                        pre.push(v)
-                    }
-                    
-                }
-                return pre
-            },[])
-            console.log(e.data.dish_key_id.material_item)
             gridOptions.api.refreshCells({force:true})
         }
         // gridOptions.api.refreshCells({force:true})
