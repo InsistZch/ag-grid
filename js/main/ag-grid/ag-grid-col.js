@@ -272,6 +272,10 @@ const col = () => {
                     material_item: [...params.data.dish_key_id.material_item]
                 })
                 console.log(params.data)
+
+                if (params.context && params.context.owl_widget) {
+                    params.context.owl_widget.Save_Row_Data(params.data)
+                }
             }
             return createImg
         }
