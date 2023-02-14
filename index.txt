@@ -52,6 +52,7 @@
 // 配量汇总数量统计bug
 // 同比增加bug
 // 新增菜品bug
+分类bug
 
 // 菜品族 dish_key dish_family_id
 单击显示菜品族

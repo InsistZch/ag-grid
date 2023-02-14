@@ -4,7 +4,10 @@ import index from '../../../data/index.js'
 const data = () => {
     let data = []
     const userIds = Object.keys(index.plan_day_record_show[0]['cus_loc_info']).map(v => v.split('_')[1])
-    const dinner_types = ['dn2','dn3','dn5','dn1']
+    const dinner_types = [...index.plan_day_record_show.reduce((pre, v) => {
+        pre.add(v.dinner_type)
+        return pre
+    }, new Set())]
 
     // let d2 = []
     // 加入餐标
