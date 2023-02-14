@@ -5,6 +5,11 @@ import customFromDom from './customFrom.js'
 import saveData from "../saveData/index.js"
 import { add_dish_bom_id, add_material_id } from "../tool.js"
 
+
+const specialMeal = {
+    index:1,
+    colors:['#2a598a', '#a77730', '#3e6b27', '#6b6d71', '#b25252']
+}
 // 添加对应数据
 const addData = (e, i, el) => {
     el.innerHTML += 
@@ -391,11 +396,87 @@ const onCellValueChanged = (e,gridOptions) => {
     }
 }
 
+
+
 const getContextMenuItems = (params, gridOptions) => {
+    
     console.log(params)
     const result = [
         {
             name:'向下新增一行',
+            action:() => {
+                const data = [{}]
+                for (const key in params.node.data) {
+                    if(!isNaN(key)){
+                        data[0][`${key}`] = 0
+                    }
+                }
+                
+                data[0]['Copies'] = 0
+                data[0]['cl1'] = params.node.data['cl1']
+                
+                data[0]['dish'] = ""
+                data[0]['dish_key_id'] = {
+                    dish_top_category_id:params.node.data['dish_key_id'].dish_top_category_id
+                }
+                data[0]['dinner_type'] = params.node.data['dinner_type']
+                data[0]['whole'] = ""
+                customFromDom({
+                    parent:"#Meal",
+                    deleteData:["#MealCategory"],
+                    cancel:["#Meal_cancel1", "#Meal_cancel2"],
+                    sure:"#Meal_sure",
+                    initFun(_parent){
+                        let MealCategory= _parent.querySelector('#MealCategory')
+                        index.dish_top_category.forEach(v => {
+                            MealCategory.innerHTML += v.name_cn == params.node.data['type'] ? 
+                            `<option value="${v.name_cn}" selected>${v.name_cn}</option>` :
+                            `<option value="${v.name_cn}">${v.name_cn}</option>`
+                        })
+                    },
+                    sureFun(_parent){
+                        const value = _parent.querySelector('#MealCategory').value
+                        data[0]['type'] = value
+                        if(specialMeal.index <= specialMeal.colors.length && value == "特色"){
+                            data[0]['specialMealID'] = specialMeal.index
+                            data[0]['specialMealColor'] = specialMeal.colors[specialMeal.index - 1]
+                            specialMeal.index ++
+                        }
+                        gridOptions.api.applyTransaction({ add: data, addIndex: params.node.rowIndex + 1})
+                    }
+                })
+                
+            }
+        },
+        {
+            name:'新增特色餐',
+            action: () => {
+                if(specialMeal.index <= specialMeal.colors.length){
+                    const data = [{}]
+                    for (const key in params.node.data) {
+                        if(!isNaN(key)){
+                            data[0][`${key}`] = 0
+                        }
+                    }
+                    data[0]['Copies'] = 0
+                    data[0]['cl1'] = params.node.data['cl1']
+                    data[0]['dinner_type'] = params.node.data['dinner_type']
+                    data[0]['dish'] = ""
+                    data[0]['dish_key_id'] = {
+                        dish_top_category_id: params.node.data['dish_key_id'].dish_top_category_id
+                    }
+                    data[0]['type'] = "特色"
+                    data[0]['specialMealID'] = specialMeal.index
+                    data[0]['specialMealColor'] = specialMeal.colors[specialMeal.index - 1]
+                    data[0]['whole'] = ""
+                    specialMeal.index += 1
+                    gridOptions.api.applyTransaction({ add: data})
+                }
+                
+            }
+        },
+        {
+            name:'新增特色餐配菜',
             action:() => {
                 const data = [{}]
                 for (const key in params.node.data) {
@@ -416,29 +497,6 @@ const getContextMenuItems = (params, gridOptions) => {
             }
         },
         {
-            name:'新增特色餐',
-            action: () => {
-                const addData = () => {
-                    const data = [{}]
-                    for (const key in params.node.data) {
-                        if(!isNaN(key)){
-                            data[0][`${key}`] = 0
-                        }
-                    }
-                    data[0]['Copies'] = 0
-                    data[0]['cl1'] = params.node.data['cl1']
-                    data[0]['dinner_type'] = params.node.data['dinner_type']
-                    data[0]['dish'] = ""
-                    data[0]['dish_key_id'] = {
-                        dish_top_category_id:params.node.data['dish_key_id'].dish_top_category_id
-                    }
-                    data[0]['type'] = params.node.data['type']
-                    data[0]['whole'] = ""
-                    }
-                // gridOptions.api.applyTransaction({ add: data, addIndex: params.node.rowIndex + 1})
-            }
-        },
-        {
             name:'删除本行',
             action:() => {
                 const selRows = gridOptions.api.getSelectedRows();
@@ -451,7 +509,15 @@ const getContextMenuItems = (params, gridOptions) => {
     return result
 }
 
-
+const getRowStyle = params => {
+    
+    if(params.data != undefined && params.data.type == '特色'){
+        return {
+            backgroundColor: params.data.specialMealColor,
+            color: "#fff"
+        }
+    }
+}
 export default {
-    onCellValueChanged,getContextMenuItems
+    onCellValueChanged,getContextMenuItems,getRowStyle
 }

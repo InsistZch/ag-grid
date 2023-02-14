@@ -29,17 +29,17 @@ const col = () => {
         {
             headerName:'类别',
             field:'type',
-            minWidth:73,
+            minWidth:80,
             editable:false,
             pinned: 'left',
             filter:true,
             menuTabs:[],
             checkboxSelection: true, //设置为true显示为复选框
             headerCheckboxSelection: true, //表头是否也显示复选框，全选反选用
-            cellRenderer: params => {
+            valueGetter: params => {
                 // console.log(params)
-
-                return params.value
+                let specialMealID = params.data.specialMealID != undefined ? params.data.specialMealID : ""
+                return params.data.type + specialMealID
             }
         },
         {
