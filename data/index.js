@@ -1,3 +1,4 @@
+/** @odoo-module **/
 import cus_loc from './cus_loc.js'
 import dinner_mode from './dinner_mode.js'
 import dish_bom from './dish_bom.js'
