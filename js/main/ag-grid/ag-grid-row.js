@@ -1,12 +1,41 @@
 /** @odoo-module **/
 import index from '../../../data/index.js'
+// 拿到餐标 => 客户信息 菜品信息 
 const data = () => {
     let data = []
+    const userIds = Object.keys(index.plan_day_record_show[0]['cus_loc_info']).map(v => v.split('_')[1])
+    const dinner_types = ['dn2','dn3','dn5','dn1']
+
+    // let d2 = []
+    for (const type_item of dinner_types) {
+        let obj = {}
+        for (const id of userIds) {
+            const dinner_mode_data = index.dinner_mode.find(v => v.cus_loc_id == id && type_item == v.dinner_type)
+            obj[id] = dinner_mode_data == undefined ? 0 : dinner_mode_data.price
+        }
+        obj['cl1'] = type_item == 'dn2' ? '午餐' : type_item == 'dn3' ? '晚餐' : type_item == 'dn5' ? '夜餐' : '早餐'
+        obj['dinner_type'] = type_item
+        obj['edit'] = false
+        obj['Copies'] = 0
+        obj['whole'] = ""
+        obj['type'] = "餐标"
+        data.push(obj)
+    }
+    // console.log(d2)
+    // for (const id of userIds) {
+    //     const obj = {}
+    //     for (const dinner_mode of index.dinner_mode) {
+    //         if(dinner_mode.cus_loc_id == id && dinner_mode.dinner_type == "dn2"){
+    //             console.log(dinner_mode)
+    //             break
+    //         }
+    //     }
+    // }
     for (const play_object of index.plan_day_record_show) {
         const json = play_object['cus_loc_info']
         // 计算总份数
         const obj = {}
-        obj['cl1'] = play_object['dinner_type'] == 'dn2' ? '午餐' : play_object['dinner_type'] == 'dn3' ? '晚餐' :'夜餐'
+        obj['cl1'] = play_object['dinner_type'] == 'dn2' ? '午餐' : play_object['dinner_type'] == 'dn3' ? '晚餐' : play_object['dinner_type'] == 'dn5' ? '夜餐' : '早餐'
         obj['dinner_type'] = play_object['dinner_type']
         let count = 0;
         for (const play_object_item of Object.keys(json)) {
@@ -32,7 +61,7 @@ const data = () => {
                         obj['type'] = dish_top_category.name_cn
                     }
                 }
-                const d_data = init_dish_detailed(play_object.manual_material_qty,count)
+                const d_data = init_dish_detailed(play_object.manual_material_qty, count)
                 obj['whole'] = d_data[0]
 
                 obj['dish_key_id'] = {
@@ -46,7 +75,7 @@ const data = () => {
         
         data.push(obj)
     }
-    // console.log(data)
+    console.log(data)
     return data
 }
 

@@ -561,5 +561,5 @@ const getRowStyle = params => {
     }
 }
 export default {
-    onCellValueChanged,getContextMenuItems,getRowStyle
+    onCellValueChanged, getContextMenuItems, getRowStyle
 }
