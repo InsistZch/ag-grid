@@ -185,6 +185,7 @@ const col = () => {
                     // data.push(e.data['dish_key_id']['material_item'])
                     // console.log(e.data.whole, value)
                     // console.log(e.data.whole.length, value.length)
+                    // console.log(e.data)
                     data.push(...e.data['dish_key_id']['material_item'])
                 }
             })

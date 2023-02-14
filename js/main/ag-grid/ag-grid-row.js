@@ -218,15 +218,64 @@ const dish_detailed = (dish_key,count) => {
 
 
 // 统计配量信息
-const countMaterialData = (material_items, scale) => {
-    let str = ""
-    for (const key in material_items) {
-        material_items[key]['dish_qty'] = parseInt(material_items[key]['dish_qty'])
-        const quantity = (material_items[key]['dish_qty'] + (material_items[key]['dish_qty'] * scale)).toFixed(2)
-        str += material_items[key].name.split('-')[0] + material_items[key].dish_process_category_name + quantity + material_items[key].unit_name + ' '
-        material_items[key]['dish_qty'] = quantity
+// 食品原食材如果有数量 则同比增加
+// 食品原食材没有数量 则去表中查询
+// 用户自添加食材如果有数量 则同比增加
+// 用户自添加食材如果没有数量 则不增加
+// 两种统计方式，一种为菜品原始食材 一种用户自加食材
+/*
+{
+    material_items: [material_item] => 食材列表
+    dish_key_id:    string|number   => 菜品id
+    oldCopies:      string|number   => 原份数
+    newCopies:      string|number   => 新份数
+}
+*/
+const countMaterialData = ({
+    material_items,
+    dish_key_id,
+    oldCopies,
+    newCopies
+}) => {
+    // console.log(dish_key_id)
+    // 选出食品原食材
+    const m_arr = []
+    const [,arr] = dish_detailed({id:dish_key_id}, newCopies)
+    console.log(material_items, arr)
+
+    for (const item of material_items) {
+        // 寻找该食材是否为食品原食材
+        const ingredients = arr.find(v => v.id == item.id)
+        // 是原食材进入if 不是原食材进入else
+        if(ingredients != undefined){
+            // 如果原食材没有数量则进入if 有数量则进入else
+            if(isNaN(item.dish_qty) || parseInt(item.dish_qty) == 0){
+                m_arr.push({...ingredients})
+            }else{
+                // 增加比例
+                const scale = (newCopies - oldCopies) / oldCopies
+                item.dish_qty = (parseInt(item.dish_qty) + (parseInt(item.dish_qty) * scale)).toFixed(2)
+                m_arr.push({...item})
+            }
+        }else{
+            // 如果自定义食材没有数量则进入if 否则进入else
+            if(isNaN(item.dish_qty) || parseInt(item.dish_qty) == 0){
+                item.dish_qty = 0
+                m_arr.push({...item})
+            }else{
+                // 增加比例
+                const scale = (newCopies - oldCopies) / oldCopies
+                item.dish_qty = (parseInt(item.dish_qty) + (parseInt(item.dish_qty) * scale)).toFixed(2)
+                m_arr.push({...item})
+            }
+        }
     }
-    return [str, material_items]
+    // whole字段
+    const str = m_arr.map(v => {
+        return v.name.split('-')[0] + v.dish_process_category_name + v.dish_qty + v.unit_name
+    }).join(' ')
+
+    return [str, m_arr]
 }
 
 // 通过文字，获取菜品

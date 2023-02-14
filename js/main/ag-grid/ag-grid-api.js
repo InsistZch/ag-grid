@@ -34,10 +34,17 @@ const onCellValueChanged = (e,gridOptions) => {
             return
             // gridOptions.api.refreshCells({force:true})
         }
-        const scale = (parseInt(e.newValue) - parseInt(e.oldValue)) / e.data['Copies']
-        e.data['Copies'] += parseInt(e.newValue) - parseInt(e.oldValue)
-        // 当前数据 增加比例
-        const countMaterialData = agGridRow.countMaterialData(e.data['dish_key_id']['material_item'], scale)
+        // const scale = (parseInt(e.newValue) - parseInt(e.oldValue)) / e.data['Copies']
+        const Copies =  e.data['Copies'] + (parseInt(e.newValue) - parseInt(e.oldValue))
+        
+        // 当前数据 
+        const countMaterialData = agGridRow.countMaterialData({
+            material_items: e.data['dish_key_id']['material_item'],
+            dish_key_id: e.data['dish_key_id']['id'],
+            oldCopies: e.data['Copies'],
+            newCopies: Copies
+        })
+        e.data['Copies'] = Copies
         e.data['whole'] = countMaterialData[0]
         e.data['dish_key_id']['material_item'] = countMaterialData[1]
         gridOptions.api.refreshCells({force:true})
@@ -458,12 +465,14 @@ const getContextMenuItems = (params, gridOptions) => {
                             data[0][`${key}`] = 0
                         }
                     }
+                    const {id} = index.dish_top_category.find(v => v.name_cn == "特色")
                     data[0]['Copies'] = 0
                     data[0]['cl1'] = params.node.data['cl1']
                     data[0]['dinner_type'] = params.node.data['dinner_type']
                     data[0]['dish'] = ""
                     data[0]['dish_key_id'] = {
-                        dish_top_category_id: params.node.data['dish_key_id'].dish_top_category_id
+                        dish_top_category_id: id,
+                        material_item:[]
                     }
                     data[0]['type'] = "特色"
                     data[0]['specialMealID'] = specialMeal.index
@@ -478,22 +487,55 @@ const getContextMenuItems = (params, gridOptions) => {
         {
             name:'新增特色餐配菜',
             action:() => {
+                if(specialMeal.index == 1) return
                 const data = [{}]
                 for (const key in params.node.data) {
                     if(!isNaN(key)){
                         data[0][`${key}`] = 0
                     }
                 }
+                
                 data[0]['Copies'] = 0
                 data[0]['cl1'] = params.node.data['cl1']
-                data[0]['dinner_type'] = params.node.data['dinner_type']
+                
                 data[0]['dish'] = ""
-                data[0]['dish_key_id'] = {
-                    dish_top_category_id:params.node.data['dish_key_id'].dish_top_category_id
-                }
-                data[0]['type'] = params.node.data['type']
+                
+                data[0]['dinner_type'] = params.node.data['dinner_type']
                 data[0]['whole'] = ""
-                gridOptions.api.applyTransaction({ add: data, addIndex: params.node.rowIndex + 1})
+                customFromDom({
+                    parent:"#SpecialMeal",
+                    deleteData:["#SpecialMealCategory"],
+                    cancel:["#SpecialMealCategory_cancel1", "#SpecialMealCategory_cancel2"],
+                    sure:"#SpecialMealCategorys_sure",
+                    initFun(_parent){
+                        let SpecialMealCategory = _parent.querySelector('#SpecialMealCategory')
+                        let MealCategory = _parent.querySelector('#MealCategory')
+                        for (let index = 1; index < specialMeal.index; index++) {
+                            SpecialMealCategory.innerHTML += `
+                            <option value="${index}">特色${index}</option>`
+                        }
+                        index.dish_top_category.forEach(v => {
+                            if(v.name_cn == "特色") return
+                            MealCategory.innerHTML += v.name_cn == params.node.data['type'] ? 
+                            `<option value="${v.id}" selected>${v.name_cn}</option>` :
+                            `<option value="${v.id}">${v.name_cn}</option>`
+                        })
+                    },
+                    sureFun(_parent){
+                        const SpecialMealCategory = _parent.querySelector('#SpecialMealCategory')
+                        const MealCategory = _parent.querySelector('#MealCategory')
+                        const value = MealCategory.querySelector(`option[value="${MealCategory.value}"]`)
+
+                        data[0]['dish_key_id'] = {
+                            dish_top_category_id: MealCategory.value,
+                            material_item:[]
+                        }
+                        data[0]['type'] = value.innerText
+                        data[0]['specialMealColor'] = specialMeal.colors[SpecialMealCategory.value - 1]
+                        console.log(data)
+                        gridOptions.api.applyTransaction({ add: data, addIndex: params.node.rowIndex + 1})
+                    }
+                })
             }
         },
         {
@@ -511,7 +553,7 @@ const getContextMenuItems = (params, gridOptions) => {
 
 const getRowStyle = params => {
     
-    if(params.data != undefined && params.data.type == '特色'){
+    if(params.data != undefined && params.data.specialMealColor != undefined){
         return {
             backgroundColor: params.data.specialMealColor,
             color: "#fff"
