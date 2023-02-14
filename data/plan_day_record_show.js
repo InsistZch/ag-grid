@@ -233,7 +233,7 @@ export default[
 	}, 
 			{
 		"unit_id": 9, 
-		"dish_qty": 30, 
+		"dish_qty": 20, 
 		"process_id": 11, 
 		"material_id": 371593
 	}
@@ -575,4 +575,4 @@ export default[
 	}
 		]
 	}
-		]
+]

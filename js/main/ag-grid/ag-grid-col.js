@@ -62,7 +62,7 @@ const col = () => {
                         switch (dish_key.material_tag) {
                             case '其他':
                                 color = "black"
-                                title = "其他"
+                                title = ""
                                 break;
                             case '冻品': 
                                 color = "#9a870a"
@@ -112,8 +112,8 @@ const col = () => {
         obj['cellRenderer'] = (params) => {
             // console.log(params)
             if(params.data.edit == false) return params.value
-            if(isNaN(params.value)){
-                return params.value
+            if(isNaN(params.value) || params.value == null){
+                return 0
             }
             params.value = Math.ceil(params.value)
             // console.log(1)
@@ -241,7 +241,7 @@ const col = () => {
         pinned:'right',
         menuTabs:[],
         editable:false,
-        minWidth: 35,
+        minWidth: 25,
         cellRenderer: params => {
             if(params.data.edit == false) return params.value
             const createImg = document.createElement('img')
@@ -249,8 +249,8 @@ const col = () => {
             // createImg.src = '/gmm/static/src/img/saveData.png' // 这个不用再改
             createImg.src = './public/img/saveData.png'
             createImg.style.cssText = `
-            height:20px;
-            width:20px;
+            height:15px;
+            width:15px;
             position: absolute;
             left:50%;
             top:50%;
