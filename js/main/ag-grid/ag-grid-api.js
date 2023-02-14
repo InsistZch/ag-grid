@@ -60,7 +60,11 @@ const onCellValueChanged = (e,gridOptions) => {
         // e.api.forEachNode((node,index) => {
         //     console.log(node.data, index)
         // })
-        if(d1 == "" || e.newValue.trim() == e.oldValue.trim()) return 
+        if(d1.trim() == ""){
+            e.data.dish_key_id.material_item = []
+            return
+        }
+        if(e.newValue.trim() == e.oldValue.trim()) return 
         if(d1[d1.length - 1] != " ") d1 += ' '
         // console.log(e)
         // 可能为单位，也可能为新增数据
@@ -561,5 +565,5 @@ const getRowStyle = params => {
     }
 }
 export default {
-    onCellValueChanged,getContextMenuItems,getRowStyle
+    onCellValueChanged, getContextMenuItems, getRowStyle
 }

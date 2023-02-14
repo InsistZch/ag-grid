@@ -53,6 +53,8 @@ const col = () => {
             filter:true,
             menuTabs:[],
             cellRenderer: params => {
+               console.log(params)
+               if(params.value == "" || params.value == undefined) return ""
                 // 其他 冻品 鲜肉 半成品
                 let color = "",title = ""
                 for (const dish_key of index.dish_key) {
@@ -109,6 +111,7 @@ const col = () => {
         obj['menuTabs'] = []
         obj['cellRenderer'] = (params) => {
             // console.log(params)
+            if(params.data.edit == false) return params.value
             if(isNaN(params.value)){
                 return params.value
             }
@@ -139,6 +142,7 @@ const col = () => {
         menuTabs:[],
         minWidth:350,
         cellRenderer:(params) => {
+            if(params.data.edit == false) return params.value
             //  主要功能为
             // 第一、找到所有表内有的配料信息
             // 第二、找到所有相同的配料信息，并返回标红
@@ -186,7 +190,9 @@ const col = () => {
                     // console.log(e.data.whole, value)
                     // console.log(e.data.whole.length, value.length)
                     // console.log(e.data)
-                    data.push(...e.data['dish_key_id']['material_item'])
+                    if(e.data.edit != false && e.data.edit != undefined){
+                        data.push(...e.data['dish_key_id']['material_item'])
+                    }
                 }
             })
             // console.log(data)
@@ -237,6 +243,7 @@ const col = () => {
         editable:false,
         minWidth: 35,
         cellRenderer: params => {
+            if(params.data.edit == false) return params.value
             const createImg = document.createElement('img')
             createImg.title = '保存本列餐品'
             // createImg.src = '/gmm/static/src/img/saveData.png' // 这个不用再改
