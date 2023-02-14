@@ -28,6 +28,7 @@ const addData = (e, i, el) => {
 const onCellValueChanged = (e,gridOptions) => {
     // console.log(e)
     if(e.colDef.headerName != '菜品' && e.colDef.headerName != '配量汇总'){
+        if(e.newValue == undefined || e.newValue == null) e.newValue = 0
         if(isNaN(e.newValue)) {
             e.data[`${e.colDef.field}`] = e.oldValue
             gridOptions.api.refreshCells({force:true})
@@ -559,11 +560,18 @@ const getContextMenuItems = (params, gridOptions) => {
 }
 
 const getRowStyle = params => {
-    
-    if(params.data != undefined && params.data.specialMealColor != undefined){
-        return {
-            backgroundColor: params.data.specialMealColor,
-            color: "#fff"
+    if(params.data != undefined){
+        if(params.data.specialMealColor != undefined){
+            return {
+                backgroundColor: params.data.specialMealColor,
+                color: "#fff"
+            }
+        }else if(params.data.type == "餐标"){
+            return {
+                color: "#aaa",
+                fontStyle: "italic",
+                fontWeight: "600",
+            }
         }
     }
 }

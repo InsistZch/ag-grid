@@ -23,7 +23,7 @@ const data = () => {
         obj['Copies'] = 0
         obj['whole'] = ""
         obj['type'] = "餐标"
-        obj['specialMealColor'] = "#00000090"
+        // obj['specialMealColor'] = "#00000090"
         data.push(obj)
     }
     // console.log(d2)
@@ -66,6 +66,7 @@ const data = () => {
                         obj['type'] = dish_top_category.name_cn
                     }
                 }
+                // console.log(play_object.manual_material_qty)
                 const d_data = init_dish_detailed(play_object.manual_material_qty, count)
                 obj['whole'] = d_data[0]
 
@@ -132,7 +133,7 @@ const duibi = (cus_loc_id, dish_id, dinner_type) => {
 const headHookLimit = (userId,dinner_type) => {
     for (const dinner_mode of index.dinner_mode) {
         if(userId == dinner_mode.cus_loc_id && dinner_type == dinner_mode.dinner_type){
-            return dinner_type == "快餐" ? dinner_mode.dinner_qty_upper_limit_kc : dinner_mode.dinner_qty_upper_limit_ts
+            return dinner_type == "特色" ? dinner_mode.dinner_qty_upper_limit_ts : dinner_mode.dinner_qty_upper_limit_kc
         }
     }
     return 0
@@ -149,6 +150,7 @@ dish_qty    => 每100份 所需总量
 // count => 总量
 // 初始化获取菜品详细信息
 const init_dish_detailed = (manual_material_qty,count) => {
+    // console.log(manual_material_qty)
     // console.log(manual_material_qty_json, count)
     // 获取当前菜品详细配料
     let str = ""
@@ -179,9 +181,9 @@ const init_dish_detailed = (manual_material_qty,count) => {
                 break
             }
         }
-        str += json.dish_qty.toFixed(2)
-        console.log(json.dish_qty)
-        obj['dish_qty'] = json.dish_qty
+        str += Math.ceil(json.dish_qty)
+        // console.log(json.dish_qty)
+        obj['dish_qty'] = Math.ceil(json.dish_qty)
         // 查找单位
         for (const material_purchase_unit_category of index.material_purchase_unit_category) {
             if(material_purchase_unit_category.id == json.unit_id){
@@ -233,8 +235,8 @@ const dish_detailed = (dish_key,count) => {
                 }
             }
             
-            str += ((count * 0.01) * dish_bom.gbom_qty_high).toFixed(2)
-            arr_data['dish_qty'] = ((count * 0.01) * dish_bom.gbom_qty_high).toFixed(2)
+            str += Math.ceil((count * 0.01) * dish_bom.gbom_qty_high)
+            arr_data['dish_qty'] = Math.ceil((count * 0.01) * dish_bom.gbom_qty_high)
             for (const material_purchase_unit_category of index.material_purchase_unit_category) {
                 if(material_purchase_unit_category.id == dish_bom.unit_id){
                     // console.log(5, material_purchase_unit_category)
@@ -277,7 +279,7 @@ const countMaterialData = ({
     // 选出食品原食材
     const m_arr = []
     const [,arr] = dish_detailed({id:dish_key_id}, newCopies)
-    console.log(material_items, arr)
+    // console.log(material_items, arr)
 
     for (const item of material_items) {
         // 寻找该食材是否为食品原食材
@@ -290,7 +292,7 @@ const countMaterialData = ({
             }else{
                 // 增加比例
                 const scale = (newCopies - oldCopies) / oldCopies
-                item.dish_qty = (parseInt(item.dish_qty) + (parseInt(item.dish_qty) * scale)).toFixed(2)
+                item.dish_qty = Math.ceil(parseInt(item.dish_qty) + (parseInt(item.dish_qty) * scale))
                 m_arr.push({...item})
             }
         }else{
@@ -301,7 +303,7 @@ const countMaterialData = ({
             }else{
                 // 增加比例
                 const scale = (newCopies - oldCopies) / oldCopies
-                item.dish_qty = (parseInt(item.dish_qty) + (parseInt(item.dish_qty) * scale)).toFixed(2)
+                item.dish_qty = Math.ceil(parseInt(item.dish_qty) + (parseInt(item.dish_qty) * scale))
                 m_arr.push({...item})
             }
         }

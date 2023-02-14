@@ -12,10 +12,14 @@ class GroupRowInnerRenderer {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        height:30px;
+        height: 30px;
         display: flex;
         justify-content: center;
         align-items: center;
+        padding:.2rem .6rem;
+        border-radius: 5px;
+        border: solid 1px #000;
+        font-size: .8rem;
         `
         eGui.style.cssText = `
         display:flex;
