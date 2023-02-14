@@ -190,7 +190,7 @@ const col = () => {
                     // console.log(e.data.whole, value)
                     // console.log(e.data.whole.length, value.length)
                     // console.log(e.data)
-                    if(e.data.edit != false && e.data.edit != undefined){
+                    if(e.data.edit == undefined){
                         data.push(...e.data['dish_key_id']['material_item'])
                     }
                 }
