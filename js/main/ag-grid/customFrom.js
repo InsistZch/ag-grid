@@ -16,16 +16,16 @@ const dom = ({parent,cancel,sure,deleteData,cancelFun = () => {},sureFun = () =>
     // 删除数据
     const deldata = () => {
         for (const deleteData_item of deleteData) {
-            document.querySelector(deleteData_item).innerHTML = ""
+            _parent.querySelector(deleteData_item).innerHTML = ""
         }
     }
 
     // 显示页面
     _parent.style.display = 'block'
-    initFun()
+    initFun(_parent)
     // 取消页面
     for (const cancel_item of cancel) {
-        const _cancel_item = document.querySelector(cancel_item)
+        const _cancel_item = _parent.querySelector(cancel_item)
         _cancel_item.onclick = () => {
             cancelFun()
             deldata()
@@ -33,7 +33,7 @@ const dom = ({parent,cancel,sure,deleteData,cancelFun = () => {},sureFun = () =>
         }
     }
     _sure.onclick = () => {
-        sureFun()
+        sureFun(_parent)
         deldata()
         _parent.style.display = 'none'
     }

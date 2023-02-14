@@ -52,6 +52,7 @@ const init_grid_options = () => {
             // gridOptions.api.sizeColumnsToFit();//调整表格大小自适应
         },
         onCellValueChanged: (e) => agGridApi.onCellValueChanged(e,gridOptions),
+        getRowStyle: params => agGridApi.getRowStyle(params),
         // paginationAutoPageSize: true, //根据网页高度自动分页（前端分页）
     };
 
