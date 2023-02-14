@@ -7,6 +7,7 @@ const data = () => {
     const dinner_types = ['dn2','dn3','dn5','dn1']
 
     // let d2 = []
+    // 加入餐标
     for (const type_item of dinner_types) {
         let obj = {}
         for (const id of userIds) {
@@ -19,6 +20,7 @@ const data = () => {
         obj['Copies'] = 0
         obj['whole'] = ""
         obj['type'] = "餐标"
+        obj['specialMealColor'] = "#00000090"
         data.push(obj)
     }
     // console.log(d2)

@@ -60,7 +60,8 @@ const onCellValueChanged = (e,gridOptions) => {
         // e.api.forEachNode((node,index) => {
         //     console.log(node.data, index)
         // })
-        if(d1.trim() == ""){
+        if(e.newValue == null || d1.trim() == "" ){
+            e.data.whole = ""
             e.data.dish_key_id.material_item = []
             return
         }

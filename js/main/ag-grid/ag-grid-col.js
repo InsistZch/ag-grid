@@ -53,7 +53,7 @@ const col = () => {
             filter:true,
             menuTabs:[],
             cellRenderer: params => {
-               console.log(params)
+            //    console.log(params)
                if(params.value == "" || params.value == undefined) return ""
                 // 其他 冻品 鲜肉 半成品
                 let color = "",title = ""
