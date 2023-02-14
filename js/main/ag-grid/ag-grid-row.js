@@ -132,7 +132,7 @@ const duibi = (cus_loc_id, dish_id, dinner_type) => {
 const headHookLimit = (userId,dinner_type) => {
     for (const dinner_mode of index.dinner_mode) {
         if(userId == dinner_mode.cus_loc_id && dinner_type == dinner_mode.dinner_type){
-            return dinner_mode.dinner_qty_upper_limit_kc
+            return dinner_type == "快餐" ? dinner_mode.dinner_qty_upper_limit_kc : dinner_mode.dinner_qty_upper_limit_ts
         }
     }
     return 0
@@ -180,6 +180,7 @@ const init_dish_detailed = (manual_material_qty,count) => {
             }
         }
         str += json.dish_qty.toFixed(2)
+        console.log(json.dish_qty)
         obj['dish_qty'] = json.dish_qty
         // 查找单位
         for (const material_purchase_unit_category of index.material_purchase_unit_category) {
@@ -272,6 +273,7 @@ const countMaterialData = ({
     newCopies
 }) => {
     // console.log(dish_key_id)
+    // console.log('111')
     // 选出食品原食材
     const m_arr = []
     const [,arr] = dish_detailed({id:dish_key_id}, newCopies)
