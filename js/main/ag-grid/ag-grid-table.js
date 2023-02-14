@@ -12,8 +12,7 @@ const init_grid_options = () => {
         rowData: data(),
         defaultColDef: {
             editable: params => {
-                const judeg =  params.colDef.field == 'dish' || params.colDef.field == "whole"
-                if(params.data.edit == false && judeg){
+                if(params.data.edit == false){
                     return false
                 }
                 return true
