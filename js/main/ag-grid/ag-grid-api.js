@@ -8,7 +8,7 @@ import { add_dish_bom_id, add_material_id } from "../tool.js"
 
 const specialMeal = {
     index:1,
-    colors:['#2a598a', '#a77730', '#3e6b27', '#6b6d71', '#b25252']
+    colors:['#2a598a66', '#a7773066', '#3e6b2766', '#6b6d7166', '#b2525266']
 }
 // 添加对应数据
 const addData = (e, i, el) => {
@@ -569,7 +569,8 @@ const getRowStyle = params => {
             }
         }else if(params.data.type == "餐标"){
             return {
-                color: "#aaa",
+                backgroundColor:"#00000022",
+                color: "#fff",
                 fontStyle: "italic",
                 fontWeight: "600",
             }
