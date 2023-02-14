@@ -428,9 +428,7 @@ const getContextMenuItems = (params, gridOptions) => {
                 data[0]['cl1'] = params.node.data['cl1']
                 
                 data[0]['dish'] = ""
-                data[0]['dish_key_id'] = {
-                    dish_top_category_id:params.node.data['dish_key_id'].dish_top_category_id
-                }
+                
                 data[0]['dinner_type'] = params.node.data['dinner_type']
                 data[0]['whole'] = ""
                 customFromDom({
@@ -442,17 +440,21 @@ const getContextMenuItems = (params, gridOptions) => {
                         let MealCategory= _parent.querySelector('#MealCategory')
                         index.dish_top_category.forEach(v => {
                             MealCategory.innerHTML += v.name_cn == params.node.data['type'] ? 
-                            `<option value="${v.name_cn}" selected>${v.name_cn}</option>` :
-                            `<option value="${v.name_cn}">${v.name_cn}</option>`
+                            `<option value="${v.id}" selected>${v.name_cn}</option>` :
+                            `<option value="${v.id}">${v.name_cn}</option>`
                         })
                     },
                     sureFun(_parent){
-                        const value = _parent.querySelector('#MealCategory').value
+                        const MealCategory = _parent.querySelector('#MealCategory')
+                        const value = MealCategory.querySelector(`option[value="${MealCategory.value}"]`).innerText
                         data[0]['type'] = value
                         if(specialMeal.index <= specialMeal.colors.length && value == "特色"){
                             data[0]['specialMealID'] = specialMeal.index
                             data[0]['specialMealColor'] = specialMeal.colors[specialMeal.index - 1]
                             specialMeal.index ++
+                        }
+                        data[0]['dish_key_id'] = {
+                            dish_top_category_id:MealCategory.value
                         }
                         gridOptions.api.applyTransaction({ add: data, addIndex: params.node.rowIndex + 1})
                     }
