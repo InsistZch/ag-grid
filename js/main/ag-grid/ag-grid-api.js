@@ -565,7 +565,7 @@ const getRowStyle = params => {
         if(params.data.specialMealColor != undefined){
             return {
                 backgroundColor: params.data.specialMealColor,
-                color: "#fff"
+                color: "#ddd"
             }
         }else if(params.data.type == "餐标"){
             return {

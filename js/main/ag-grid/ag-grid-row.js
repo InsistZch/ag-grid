@@ -130,10 +130,16 @@ const duibi = (cus_loc_id, dish_id, dinner_type) => {
 }
 // 厨师长限制
 // userId dinner_type
-const headHookLimit = (userId,dinner_type) => {
+const headHookLimit = (userId, dinner_type, type) => {
     for (const dinner_mode of index.dinner_mode) {
         if(userId == dinner_mode.cus_loc_id && dinner_type == dinner_mode.dinner_type){
-            return dinner_type == "特色" ? dinner_mode.dinner_qty_upper_limit_ts : dinner_mode.dinner_qty_upper_limit_kc
+            if(type == "特色"){
+                return dinner_mode.dinner_qty_upper_limit_ts
+            }else if(type == "汤粥"){
+                return dinner_mode.dinner_qty_upper_limit_kc + dinner_mode.dinner_qty_upper_limit_ts
+            }else{
+                return dinner_mode.dinner_qty_upper_limit_kc
+            }
         }
     }
     return 0
