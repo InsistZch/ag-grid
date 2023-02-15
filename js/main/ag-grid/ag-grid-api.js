@@ -8,7 +8,7 @@ import { add_dish_bom_id, add_material_id } from "../tool.js"
 
 const specialMeal = {
     index:1,
-    colors:['#2a598a', '#a77730', '#3e6b27', '#6b6d71', '#b25252']
+    colors:['#2a598a66', '#a7773066', '#3e6b2766', '#6b6d7166', '#b2525266']
 }
 // 添加对应数据
 const addData = (e, i, el) => {
@@ -56,6 +56,7 @@ const onCellValueChanged = (e,gridOptions) => {
         gridOptions.api.refreshCells({force:true})
     }else if(e.colDef.headerName == '配量汇总'){
         let d1 = e.newValue
+        // console.log(e)
         // // let colData = e.columnApi.getColumn('whole')
         // // console.log(e.columnApi.getColumnState())
         // e.api.forEachNode((node,index) => {
@@ -188,7 +189,7 @@ const onCellValueChanged = (e,gridOptions) => {
                     
                 }
             }
-            console.log(e.data.dish_key_id.material_item)
+            // console.log(e.data.dish_key_id.material_item)
            
 
             //  去掉所有重复的数据
@@ -210,7 +211,7 @@ const onCellValueChanged = (e,gridOptions) => {
                 }
                 return pre
             },[])
-            console.log(e.data.dish_key_id.material_item)
+            // console.log(e.data.dish_key_id.material_item)
             // console.log(d)
             // console.log('111')
             // 查找 菜品配量是否存在
@@ -564,11 +565,12 @@ const getRowStyle = params => {
         if(params.data.specialMealColor != undefined){
             return {
                 backgroundColor: params.data.specialMealColor,
-                color: "#fff"
+                color: "#ddd"
             }
         }else if(params.data.type == "餐标"){
             return {
-                color: "#aaa",
+                backgroundColor:"#00000022",
+                color: "#fff",
                 fontStyle: "italic",
                 fontWeight: "600",
             }

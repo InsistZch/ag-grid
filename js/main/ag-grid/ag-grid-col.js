@@ -119,7 +119,7 @@ const col = () => {
             // console.log(1)
             // console.log(params)
             // userId dinner_type
-            let hook = headHookLimit(params.colDef.field,params.data.dinner_type)
+            let hook = headHookLimit(params.colDef.field, params.data.dinner_type, params.data.type)
             // user_id,dish_id
             let d = duibi(params.colDef.field, params.data.dish_key_id.id, params.data.dinner_type)
             let value = ""
@@ -190,7 +190,7 @@ const col = () => {
                     // console.log(e.data.whole, value)
                     // console.log(e.data.whole.length, value.length)
                     // console.log(e.data)
-                    if(e.data.edit != false && e.data.edit != undefined){
+                    if(e.data.edit == undefined){
                         data.push(...e.data['dish_key_id']['material_item'])
                     }
                 }
