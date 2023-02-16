@@ -11,10 +11,13 @@ main.main div.content{
 
 .ag-theme-balham[class^=ag-]{
     --ag-font-size: 12px;
-    --ag-grid-size: 4px;
+    --ag-grid-size: 10px;
     --ag-list-item-height: 40px;
     --ag-row-height: 40px;
     --ag-cell-horizontal-border: solid #cecece96;
+    --ag-list-item-height: 50px;
+    --ag-row-height: 40px;
+    --ag-cell-horizontal-padding: 10px;
 }
 
 .createDish{

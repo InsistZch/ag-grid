@@ -133,10 +133,11 @@ class customCells{
 
             // 获取到本行数据
             const doubleClickGetRowData = ({data}) => {
+                // console.log(data)
                 this.dish_data.push({
                     name:data.dishName,
                     id:data.id,
-                    dish_top_category_id:data.dish_top_category_id
+                    dish_top_category_id: params.data.dish_key_id.dish_top_category_id
                 })
                 input.value = data.dishName
                 let d = document.querySelector('#exampleModal')
@@ -145,10 +146,11 @@ class customCells{
                 input.focus();
             }
             const clickGetRowData = ({data}) => {
+                // console.log(data)
                 this.dish_data.push({
                     name:data.dishName,
                     id:data.id,
-                    dish_top_category_id:data.dish_top_category_id
+                    dish_top_category_id: params.data.dish_key_id.dish_top_category_id
                 })
                 input.value = data.dishName
                 
@@ -192,7 +194,8 @@ class customCells{
         if(currentData == undefined || currentData == null || currentData.trim() == "") return true
         for (const e of this.dish_data) {
             // console.log(e,this.params)
-            if(e.name == currentData){
+            if(e.name == currentData && e.dish_top_category_id == this.params.data.dish_key_id.dish_top_category_id){
+                // console.log(e, this.params)
                 if(e.name == this.params.data.dish){
                     return false
                 }

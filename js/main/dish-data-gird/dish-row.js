@@ -6,6 +6,7 @@ const row = (dish_top_category_id) => {
     for (const dish_key of index.dish_key) {
         let obj = {}
         if(dish_top_category_id == dish_key.dish_top_category_id){
+            // console.log(dish_top_category_id, dish_key.dish_top_category_id)
             obj['dishName'] = dish_key.name
             let sp = dish_key.spicy.split('spicy')[1]
             if(sp == '1'){

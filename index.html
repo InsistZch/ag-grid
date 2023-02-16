@@ -369,7 +369,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon4333">请选择餐品类别</span>
                 </div>
-                <select class="form-control" id="MealCategory" aria-describedby="modal-bodycustom-addon4">
+                <select class="form-control" id="MealCategory22" aria-describedby="modal-bodycustom-addon4">
                 </select>
             </div>
         </div>
@@ -392,6 +392,12 @@
     import saveData from './js/main/saveData/index.js'
 
     console.log(data_index)
+
+    // for (const item of data_index.dish_key) {
+    //     if(item.name == "水煮肉片"){
+    //         console.log(item)
+    //     }
+    // }
     document.addEventListener("DOMContentLoaded", function () {
         let agOption = main_index.init_grid_options();
         const eGridDiv = document.querySelector('#myGrid');

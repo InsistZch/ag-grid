@@ -141,8 +141,8 @@ const col = () => {
         pinned: 'right',
         menuTabs:[],
         minWidth:250,
-        autoHeight: true,
-        wrapText: true,
+        // autoHeight: true,
+        // wrapText: true,
         cellRenderer:(params) => {
             if(params.data.edit == false) return params.value
             //  主要功能为

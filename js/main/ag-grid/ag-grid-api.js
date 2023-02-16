@@ -58,12 +58,13 @@ const onCellValueChanged = (e,gridOptions) => {
         }
         for (const item of index.dish_key) {
             if(item.name == e.newValue){
-                if(item.dish_top_category_id != e.data.dish_key_id.dish_top_category_id){
+                if(item.dish_top_category_id != e.data.dish_key_id.dish_top_category_id && item.name != e.data.dish){
+                    // console.log(item, e.data)
                     e.data[`${e.colDef.field}`] = e.oldValue
                 }
             }
         }
-        // console.log(e.newValue, e.oldValue, e.data[`${e.colDef.field}`])
+        console.log(e.newValue, e.oldValue, e.data[`${e.colDef.field}`])
         const arr = ["早餐", "中餐", "晚餐", "夜餐"]
         for (const item of arr) {
             if(e.newValue == item){
@@ -475,8 +476,11 @@ const getContextMenuItems = (params, gridOptions) => {
                             dish_top_category_id: MealCategory.value,
                             material_item:[]
                         }
-                        console.log(params, params.node.rowIndex)
+                        // const id = parseInt(gridOptions.api.getDisplayedRowAtIndex(params.node.rowIndex).rowIndex) + 1
+                        console.log(params)
+                        gridOptions.api.expandAll()
                         gridOptions.api.applyTransaction({ add: data, addIndex: params.node.rowIndex + 1})
+
                     }
                 })
                 
@@ -536,7 +540,7 @@ const getContextMenuItems = (params, gridOptions) => {
                     sure:"#SpecialMealCategorys_sure",
                     initFun(_parent){
                         let SpecialMealCategory = _parent.querySelector('#SpecialMealCategory')
-                        let MealCategory = _parent.querySelector('#MealCategory')
+                        let MealCategory = _parent.querySelector('#MealCategory22')
                         for (let index = 1; index < specialMeal.index; index++) {
                             SpecialMealCategory.innerHTML += `
                             <option value="${index}">特色${index}</option>`
@@ -551,7 +555,7 @@ const getContextMenuItems = (params, gridOptions) => {
                     },
                     sureFun(_parent){
                         const SpecialMealCategory = _parent.querySelector('#SpecialMealCategory')
-                        const MealCategory = _parent.querySelector('#MealCategory')
+                        const MealCategory = _parent.querySelector('#MealCategory22')
                         const value = MealCategory.querySelector(`option[value="${MealCategory.value}"]`)
 
                         data[0]['dish_key_id'] = {
