@@ -1,3 +1,5 @@
+/** @odoo-module **/
+
 // Example locale file for English, give this to your locale team to translate
 
 const AG_GRID_LOCALE_EN = {
