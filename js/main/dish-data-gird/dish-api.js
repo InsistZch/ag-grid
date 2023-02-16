@@ -1,3 +1,4 @@
+/** @odoo-module **/
 const menuTabs = params => {
     console.log(params)
 }
