@@ -1,5 +1,6 @@
 /** @odoo-module **/
 import index from '../../../data/index.js'
+import specialMeal from './specialMeal.js'
 // 拿到餐标 => 客户信息 菜品信息 
 const data = () => {
     let data = []
@@ -64,6 +65,12 @@ const data = () => {
                 for (const dish_top_category of index.dish_top_category) {
                     if(dish_key.dish_top_category_id == dish_top_category.id){
                         obj['type'] = dish_top_category.name_cn
+                        if(dish_top_category.name_cn == "特色"){
+                            obj['type'] = dish_top_category.name_cn + specialMeal.index
+                            obj['specialMealID'] = specialMeal.index
+                            obj['specialMealColor'] = specialMeal.colors[specialMeal.index - 1]
+                            specialMeal.index ++
+                        }
                     }
                 }
                 // console.log(play_object.manual_material_qty)

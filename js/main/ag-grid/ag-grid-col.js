@@ -205,12 +205,12 @@ const col = () => {
             // console.log(1, data)
             // console.log(2, material_item)
             for (const mt of material_item) {
-                console.log(mt)
+                // console.log(mt)
                 let str = mt.name.split('-')[0]
                 if(mt.form == "鲜品"){
                     value = value.replace(`${str}`, `<span style="color: green;" title="鲜品">${str}</span>`)
                 }else if(mt.form == "冻品"){
-                    console.log("冻品")
+                    // console.log("冻品")
                     value = value.replace(`${str}`, `<span style="color: #af7700;" title="冻品">${str}</span>`)
                 }else if(mt.form == "半成品"){
                     value = value.replace(`${str}`, `<span style="color: #7a3e09;" title="半成品">${str}</span>`)

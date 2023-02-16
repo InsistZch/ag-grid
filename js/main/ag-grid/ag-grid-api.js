@@ -4,12 +4,9 @@ import index from '../../../data/index.js'
 import customFromDom from './customFrom.js'
 import saveData from "../saveData/index.js"
 import { add_dish_bom_id, add_material_id } from "../tool.js"
+import specialMeal from "./specialMeal.js"
 
 
-const specialMeal = {
-    index:1,
-    colors:['#2a598a66', '#a7773066', '#3e6b2766', '#6b6d7166', '#b2525266']
-}
 // 添加对应数据
 const addData = (e, i, el) => {
     el.innerHTML += 
