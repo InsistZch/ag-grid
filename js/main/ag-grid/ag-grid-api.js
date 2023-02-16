@@ -35,6 +35,11 @@ const onCellValueChanged = (e,gridOptions) => {
             return
             // gridOptions.api.refreshCells({force:true})
         }
+        if(parseInt(e.newValue) < 0){
+            e.newValue = 0
+            e.data[`${e.colDef.field}`] = 0
+        }
+        // console.log(e.newValue)
         // const scale = (parseInt(e.newValue) - parseInt(e.oldValue)) / e.data['Copies']
         const Copies =  e.data['Copies'] + (parseInt(e.newValue) - parseInt(e.oldValue))
         
@@ -58,6 +63,12 @@ const onCellValueChanged = (e,gridOptions) => {
                 if(item.dish_top_category_id != e.data.dish_top_category_id){
                     e.data[`${e.colDef.field}`] = e.oldValue
                 }
+            }
+        }
+        const arr = ["早餐", "中餐", "晚餐", "夜餐"]
+        for (const item of arr) {
+            if(e.newValue == item){
+                e.data[`${e.colDef.field}`] = e.oldValue
             }
         }
         gridOptions.api.refreshCells({force:true})
@@ -571,13 +582,13 @@ const getRowStyle = params => {
     if(params.data != undefined){
         if(params.data.specialMealColor != undefined){
             return {
-                backgroundColor: params.data.specialMealColor,
-                color: "#ddd"
+                borderBottom: `solid ${params.data.SpecialMealCategory} 1px`,
+                // color: "#ddd",
             }
         }else if(params.data.type == "餐标"){
             return {
-                backgroundColor:"#00000022",
-                color: "#fff",
+                backgroundColor:"#bfbfbf33",
+                color: "#666",
                 fontStyle: "italic",
                 fontWeight: "600",
             }
@@ -585,6 +596,10 @@ const getRowStyle = params => {
     }
 }
 
+// const onPasteStart = params => {
+//     console.log(params)
+// }
+
 export default {
-    onCellValueChanged, getContextMenuItems, getRowStyle, 
+    onCellValueChanged, getContextMenuItems, getRowStyle
 }
