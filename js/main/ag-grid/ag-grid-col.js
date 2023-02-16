@@ -148,13 +148,14 @@ const col = () => {
             // 第二、找到所有相同的配料信息，并返回标红
             // console.log(1)
             let data = [];
+            
             // console.log(params)
             let {value, data:{dish_key_id:{material_item}}} = params
             // console.log(105, params)
             if(value == '' || value == null) return value
             // console.log(typeof value, value)
-            value = value.replace(`/<span style="color:red;">/g`,'')
-            value = value.replace('/</span>/g','')
+            // value = value.replace(`/<span style="color:red;">/g`,'')
+            // value = value.replace('/</span>/g','')
             
             if(value[value.length - 1] != " ") value += ' '
             // console.log(108, material_item)
@@ -207,13 +208,15 @@ const col = () => {
             for (const mt of material_item) {
                 // console.log(mt)
                 let str = mt.name.split('-')[0]
-                if(mt.form == "鲜品"){
-                    value = value.replace(`${str}`, `<span style="color: green;" title="鲜品">${str}</span>`)
-                }else if(mt.form == "冻品"){
-                    // console.log("冻品")
-                    value = value.replace(`${str}`, `<span style="color: #af7700;" title="冻品">${str}</span>`)
-                }else if(mt.form == "半成品"){
-                    value = value.replace(`${str}`, `<span style="color: #7a3e09;" title="半成品">${str}</span>`)
+                if(mt.top_category_id == 1 || mt.top_category_id == 2){
+                    if(mt.form == "鲜品"){
+                        value = value.replace(`${str}`, `<span style="color: green;" title="鲜品">${str}</span>`)
+                    }else if(mt.form == "冻品"){
+                        // console.log("冻品")
+                        value = value.replace(`${str}`, `<span style="color: #af7700;" title="冻品">${str}</span>`)
+                    }else if(mt.form == "半成品"){
+                        value = value.replace(`${str}`, `<span style="color: #7a3e09;" title="半成品">${str}</span>`)
+                    }
                 }
             }
             for (const dish_family of index.dish_family) {
@@ -260,23 +263,28 @@ const col = () => {
         pinned:'right',
         menuTabs:[],
         editable:false,
-        minWidth: 25,
+        minWidth: 35,
         cellRenderer: params => {
             if(params.data.edit == false) return params.value
-            const createImg = document.createElement('img')
-            createImg.title = '保存本列餐品'
+            const createspan = document.createElement('span')
+            createspan.title = '保存本列餐品'
             // createImg.src = '/gmm/static/src/img/saveData.png' // 这个不用再改
-            createImg.src = './public/img/saveData.png'
-            createImg.style.cssText = `
+            // createImg.src = './public/img/saveData.png'
+            createspan.innerText = "保存"
+            createspan.style.cssText = `
             height:15px;
             width:15px;
             position: absolute;
-            left:50%;
-            top:50%;
+            left:35%;
+            top:20%;
             transform: translate(-50%, -50%);
             cursor: pointer;
+            font-size: 8px;
+            color: #624aaf;
+            font-weight: 500;
+            // text-decoration: underline 1px #000;
             `
-            createImg.onclick = () => {
+            createspan.onclick = () => {
                 if (!params.data.dish_key_id.id) {
                     alert('菜品不存在!!!')
                     return;
@@ -305,7 +313,7 @@ const col = () => {
                     params.context.owl_widget.Save_Row_Data(params.data)
                 }
             }
-            return createImg
+            return createspan
         }
     })
     return col
