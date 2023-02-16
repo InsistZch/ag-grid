@@ -11,6 +11,7 @@ import material_item_bom_unit_ratio from './material_item_bom_unit_ratio.js'
 import material_item from './material_item.js'
 import material_purchase_unit_category from './material_purchase_unit_category.js'
 import plan_day_record_show from './plan_day_record_show.js'
+import material_top_category from './material_top_category.js'
 
 export default {
     cus_loc,
@@ -24,5 +25,6 @@ export default {
     material_item_bom_unit_ratio,
     material_item,
     material_purchase_unit_category,
-    plan_day_record_show
+    plan_day_record_show,
+    material_top_category
 }
