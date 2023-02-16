@@ -140,7 +140,9 @@ const col = () => {
         field:"whole",
         pinned: 'right',
         menuTabs:[],
-        minWidth:350,
+        minWidth:250,
+        autoHeight: true,
+        wrapText: true,
         cellRenderer:(params) => {
             if(params.data.edit == false) return params.value
             //  主要功能为
