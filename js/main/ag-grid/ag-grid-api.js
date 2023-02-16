@@ -584,8 +584,9 @@ const getRowStyle = params => {
     if(params.data != undefined){
         if(params.data.specialMealColor != undefined){
             return {
-                borderBottom: `solid ${params.data.SpecialMealCategory} 1px`,
-                // color: "#ddd",
+                backgroundColor: params.data.specialMealColor,
+                // borderBottom: `solid ${params.data.SpecialMealCategory} 1px`,
+                color: "#ddd",
             }
         }else if(params.data.type == "餐标"){
             return {
