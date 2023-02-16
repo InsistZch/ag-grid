@@ -81,7 +81,7 @@ const data = () => {
         
         data.push(obj)
     }
-    console.log(data)
+    // console.log(data)
     return data
 }
 
@@ -179,7 +179,10 @@ const init_dish_detailed = (manual_material_qty,count) => {
             if(dish_process_category.id == json.process_id){
                 obj['process_id'] = dish_process_category.id
                 if(dish_process_category.name != '无'){
-                    str += dish_process_category.name
+                    if(str[str.length - 1] != dish_process_category.name){
+                        str += dish_process_category.name
+                    }
+                    
                     obj['dish_process_category_name'] = dish_process_category.name
                 }else{
                     obj['dish_process_category_name'] = ''
@@ -236,7 +239,10 @@ const dish_detailed = (dish_key,count) => {
                         break;
                     }
                     arr_data.dish_process_category_name = dish_process_category.name
-                    str += dish_process_category.name
+                    
+                    if(str[str.length - 1] != dish_process_category.name){
+                        str += dish_process_category.name
+                    }
                     break;
                 }
             }
@@ -316,7 +322,13 @@ const countMaterialData = ({
     }
     // whole字段
     const str = m_arr.map(v => {
-        return v.name.split('-')[0] + v.dish_process_category_name + v.dish_qty + v.unit_name
+        const name = v.name.split('-')[0]
+        if(name[name.length - 1] == v.dish_process_category_name){
+            return v.name.split('-')[0] + v.dish_qty + v.unit_name
+        }else{
+            return v.name.split('-')[0] + v.dish_process_category_name + v.dish_qty + v.unit_name
+        }
+        
     }).join(' ')
 
     return [str, m_arr]

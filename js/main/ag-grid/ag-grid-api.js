@@ -83,8 +83,8 @@ const onCellValueChanged = (e,gridOptions) => {
             if (material.trim() == "") continue
             
             // 鸭肉片23.58斤 鸭肉片 23.58 斤
-            let d = material.match(/([\u4e00-\u9fa5a-zA-Z]+)?([0-9]+\.?\d+)?([\u4e00-\u9fa5a-zA-Z]+)?/)
-            // console.log(d)
+            let d = material.match(/([\u4e00-\u9fa5a-zA-Z]+)?(\d*\.?\d+?)?([\u4e00-\u9fa5a-zA-Z]+)?/)
+            console.log(d)
              
             // 如果输入的不是汉字或者字母 回滚
             if(d == null){
@@ -228,6 +228,7 @@ const onCellValueChanged = (e,gridOptions) => {
                 if(name == d[1]){
                     // console.log(material_item)
                     //  确认是否输入数量，单位
+                    console.log(d, d[2], [3])
                     if(d[2] == undefined || d[3] == undefined){
                         // 查找材料名称 切片方式 数量 单位
                         let dishes_name = document.querySelector('#write_Side_dishes_name')
