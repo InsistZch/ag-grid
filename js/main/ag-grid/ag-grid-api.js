@@ -4,12 +4,9 @@ import index from '../../../data/index.js'
 import customFromDom from './customFrom.js'
 import saveData from "../saveData/index.js"
 import { add_dish_bom_id, add_material_id } from "../tool.js"
+import specialMeal from "./specialMeal.js"
 
 
-const specialMeal = {
-    index:1,
-    colors:['#2a598a66', '#a7773066', '#3e6b2766', '#6b6d7166', '#b2525266']
-}
 // 添加对应数据
 const addData = (e, i, el) => {
     el.innerHTML += 
@@ -35,6 +32,11 @@ const onCellValueChanged = (e,gridOptions) => {
             return
             // gridOptions.api.refreshCells({force:true})
         }
+        if(parseInt(e.newValue) < 0){
+            e.newValue = 0
+            e.data[`${e.colDef.field}`] = 0
+        }
+        // console.log(e.newValue)
         // const scale = (parseInt(e.newValue) - parseInt(e.oldValue)) / e.data['Copies']
         const Copies =  e.data['Copies'] + (parseInt(e.newValue) - parseInt(e.oldValue))
         
@@ -50,8 +52,23 @@ const onCellValueChanged = (e,gridOptions) => {
         e.data['dish_key_id']['material_item'] = countMaterialData[1]
         gridOptions.api.refreshCells({force:true})
     }else if(e.colDef.headerName == '菜品'){
+        console.log('111')
         if(e.newValue == null || e.newValue == undefined || e.newValue.trim() == ""){
             e.data[`${e.colDef.field}`] = e.oldValue
+        }
+        for (const item of index.dish_key) {
+            if(item.name == e.newValue){
+                if(item.dish_top_category_id != e.data.dish_key_id.dish_top_category_id){
+                    e.data[`${e.colDef.field}`] = e.oldValue
+                }
+            }
+        }
+        // console.log(e.newValue, e.oldValue, e.data[`${e.colDef.field}`])
+        const arr = ["早餐", "中餐", "晚餐", "夜餐"]
+        for (const item of arr) {
+            if(e.newValue == item){
+                e.data[`${e.colDef.field}`] = e.oldValue
+            }
         }
         gridOptions.api.refreshCells({force:true})
     }else if(e.colDef.headerName == '配量汇总'){
@@ -83,8 +100,8 @@ const onCellValueChanged = (e,gridOptions) => {
             if (material.trim() == "") continue
             
             // 鸭肉片23.58斤 鸭肉片 23.58 斤
-            let d = material.match(/([\u4e00-\u9fa5a-zA-Z]+)?([0-9]+\.?\d+)?([\u4e00-\u9fa5a-zA-Z]+)?/)
-            // console.log(d)
+            let d = material.match(/([\u4e00-\u9fa5a-zA-Z]+)?(\d*\.?\d+?)?([\u4e00-\u9fa5a-zA-Z]+)?/)
+            console.log(d)
              
             // 如果输入的不是汉字或者字母 回滚
             if(d == null){
@@ -228,6 +245,7 @@ const onCellValueChanged = (e,gridOptions) => {
                 if(name == d[1]){
                     // console.log(material_item)
                     //  确认是否输入数量，单位
+                    console.log(d, d[2], [3])
                     if(d[2] == undefined || d[3] == undefined){
                         // 查找材料名称 切片方式 数量 单位
                         let dishes_name = document.querySelector('#write_Side_dishes_name')
@@ -410,8 +428,6 @@ const onCellValueChanged = (e,gridOptions) => {
     }
 }
 
-
-
 const getContextMenuItems = (params, gridOptions) => {
     
     console.log(params)
@@ -456,7 +472,8 @@ const getContextMenuItems = (params, gridOptions) => {
                             specialMeal.index ++
                         }
                         data[0]['dish_key_id'] = {
-                            dish_top_category_id:MealCategory.value
+                            dish_top_category_id:MealCategory.value,
+                            material_item:[]
                         }
                         gridOptions.api.applyTransaction({ add: data, addIndex: params.node.rowIndex + 1})
                     }
@@ -565,18 +582,24 @@ const getRowStyle = params => {
         if(params.data.specialMealColor != undefined){
             return {
                 backgroundColor: params.data.specialMealColor,
-                color: "#ddd"
+                // borderBottom: `solid ${params.data.SpecialMealCategory} 1px`,
+                color: "#ddd",
             }
         }else if(params.data.type == "餐标"){
             return {
-                backgroundColor:"#00000022",
-                color: "#fff",
+                backgroundColor:"#bfbfbf33",
+                color: "#666",
                 fontStyle: "italic",
                 fontWeight: "600",
             }
         }
     }
 }
+
+// const onPasteStart = params => {
+//     console.log(params)
+// }
+
 export default {
     onCellValueChanged, getContextMenuItems, getRowStyle
 }

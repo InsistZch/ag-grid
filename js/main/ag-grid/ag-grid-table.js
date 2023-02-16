@@ -15,6 +15,7 @@ const init_grid_options = () => {
                 if(params.data.edit == false){
                     return false
                 }
+                console.log(params)
                 return true
             },//单元表格是否可编辑
             // enableRowGroup: true,
@@ -46,7 +47,8 @@ const init_grid_options = () => {
         // },
         groupRowRendererParams: {
             suppressCount: true,
-            innerRenderer: GroupRowInnerRenderer
+            innerRenderer: GroupRowInnerRenderer,
+            editable:false
         },
         groupDefaultExpanded: -1,
         getContextMenuItems:(e) => agGridApi.getContextMenuItems(e,gridOptions),
@@ -58,6 +60,7 @@ const init_grid_options = () => {
         },
         onCellValueChanged: (e) => agGridApi.onCellValueChanged(e,gridOptions),
         getRowStyle: params => agGridApi.getRowStyle(params),
+        // onPasteStart: params => agGridApi.onPasteStart(params),
         // paginationAutoPageSize: true, //根据网页高度自动分页（前端分页）
     };
 

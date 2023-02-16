@@ -1,5 +1,6 @@
 /** @odoo-module **/
 import index from '../../../data/index.js'
+import specialMeal from './specialMeal.js'
 // 拿到餐标 => 客户信息 菜品信息 
 const data = () => {
     let data = []
@@ -64,6 +65,12 @@ const data = () => {
                 for (const dish_top_category of index.dish_top_category) {
                     if(dish_key.dish_top_category_id == dish_top_category.id){
                         obj['type'] = dish_top_category.name_cn
+                        if(dish_top_category.name_cn == "特色"){
+                            obj['type'] = dish_top_category.name_cn + specialMeal.index
+                            obj['specialMealID'] = specialMeal.index
+                            obj['specialMealColor'] = specialMeal.colors[specialMeal.index - 1]
+                            specialMeal.index ++
+                        }
                     }
                 }
                 // console.log(play_object.manual_material_qty)
@@ -81,7 +88,7 @@ const data = () => {
         
         data.push(obj)
     }
-    console.log(data)
+    // console.log(data)
     return data
 }
 
@@ -179,7 +186,10 @@ const init_dish_detailed = (manual_material_qty,count) => {
             if(dish_process_category.id == json.process_id){
                 obj['process_id'] = dish_process_category.id
                 if(dish_process_category.name != '无'){
-                    str += dish_process_category.name
+                    if(str[str.length - 1] != dish_process_category.name){
+                        str += dish_process_category.name
+                    }
+                    
                     obj['dish_process_category_name'] = dish_process_category.name
                 }else{
                     obj['dish_process_category_name'] = ''
@@ -236,7 +246,10 @@ const dish_detailed = (dish_key,count) => {
                         break;
                     }
                     arr_data.dish_process_category_name = dish_process_category.name
-                    str += dish_process_category.name
+                    
+                    if(str[str.length - 1] != dish_process_category.name){
+                        str += dish_process_category.name
+                    }
                     break;
                 }
             }
@@ -316,7 +329,13 @@ const countMaterialData = ({
     }
     // whole字段
     const str = m_arr.map(v => {
-        return v.name.split('-')[0] + v.dish_process_category_name + v.dish_qty + v.unit_name
+        const name = v.name.split('-')[0]
+        if(name[name.length - 1] == v.dish_process_category_name){
+            return v.name.split('-')[0] + v.dish_qty + v.unit_name
+        }else{
+            return v.name.split('-')[0] + v.dish_process_category_name + v.dish_qty + v.unit_name
+        }
+        
     }).join(' ')
 
     return [str, m_arr]
