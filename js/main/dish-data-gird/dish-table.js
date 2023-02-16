@@ -2,7 +2,7 @@
 import col from "./dish-col.js";
 import data from './dish-row.js';
 import api from './dish-api.js';
-import locale from './../../../locale/index.js'
+import locale from '../locale/index.js'
 
 const gridOptions = (dish_top_category_id,onCellDoubleClicked,onCellClicked) => {
     return {
