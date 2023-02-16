@@ -204,6 +204,26 @@ const col = () => {
             // }
             // console.log(1, data)
             // console.log(2, material_item)
+            for (const mt of material_item) {
+                console.log(mt)
+                let str = mt.name.split('-')[0]
+                if(mt.form == "鲜品"){
+                    value = value.replace(`${str}`, `<span style="color: green;" title="鲜品">${str}</span>`)
+                }else if(mt.form == "冻品"){
+                    console.log("冻品")
+                    value = value.replace(`${str}`, `<span style="color: #af7700;" title="冻品">${str}</span>`)
+                }else if(mt.form == "半成品"){
+                    value = value.replace(`${str}`, `<span style="color: #7a3e09;" title="半成品">${str}</span>`)
+                }
+            }
+            for (const dish_family of index.dish_family) {
+                for (const item of material_item) {
+                    if(item.id == dish_family){
+                        let str = item.name.split('-')[0]
+                        value = value.replace(str, `<span style="color: red;" title="前一天使用食材">${str}</span>`)
+                    }
+                }
+            }
             // 找到相同则标红
             for (const mt1 of material_item) {
                 for (const d1 of data) {
@@ -215,7 +235,7 @@ const col = () => {
                                 break
                             }
                         }
-                        value = value.replace(`${str}`,`<span style="color:red;">${str}</span>`)
+                        value = value.replace(`${str}`,`<span style="color:red;" title="出现相同菜品">${str}</span>`)
                     }
                 }
             }
