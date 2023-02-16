@@ -55,16 +55,18 @@ const onCellValueChanged = (e,gridOptions) => {
         e.data['dish_key_id']['material_item'] = countMaterialData[1]
         gridOptions.api.refreshCells({force:true})
     }else if(e.colDef.headerName == '菜品'){
+        console.log('111')
         if(e.newValue == null || e.newValue == undefined || e.newValue.trim() == ""){
             e.data[`${e.colDef.field}`] = e.oldValue
         }
         for (const item of index.dish_key) {
             if(item.name == e.newValue){
-                if(item.dish_top_category_id != e.data.dish_top_category_id){
+                if(item.dish_top_category_id != e.data.dish_key_id.dish_top_category_id){
                     e.data[`${e.colDef.field}`] = e.oldValue
                 }
             }
         }
+        // console.log(e.newValue, e.oldValue, e.data[`${e.colDef.field}`])
         const arr = ["早餐", "中餐", "晚餐", "夜餐"]
         for (const item of arr) {
             if(e.newValue == item){
