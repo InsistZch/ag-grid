@@ -53,6 +53,13 @@ const onCellValueChanged = (e,gridOptions) => {
         if(e.newValue == null || e.newValue == undefined || e.newValue.trim() == ""){
             e.data[`${e.colDef.field}`] = e.oldValue
         }
+        for (const item of index.dish_key) {
+            if(item.name == e.newValue){
+                if(item.dish_top_category_id != e.data.dish_top_category_id){
+                    e.data[`${e.colDef.field}`] = e.oldValue
+                }
+            }
+        }
         gridOptions.api.refreshCells({force:true})
     }else if(e.colDef.headerName == '配量汇总'){
         let d1 = e.newValue
@@ -411,8 +418,6 @@ const onCellValueChanged = (e,gridOptions) => {
     }
 }
 
-
-
 const getContextMenuItems = (params, gridOptions) => {
     
     console.log(params)
@@ -457,7 +462,8 @@ const getContextMenuItems = (params, gridOptions) => {
                             specialMeal.index ++
                         }
                         data[0]['dish_key_id'] = {
-                            dish_top_category_id:MealCategory.value
+                            dish_top_category_id:MealCategory.value,
+                            material_item:[]
                         }
                         gridOptions.api.applyTransaction({ add: data, addIndex: params.node.rowIndex + 1})
                     }
@@ -578,6 +584,7 @@ const getRowStyle = params => {
         }
     }
 }
+
 export default {
-    onCellValueChanged, getContextMenuItems, getRowStyle
+    onCellValueChanged, getContextMenuItems, getRowStyle, 
 }
