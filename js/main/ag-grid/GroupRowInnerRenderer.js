@@ -17,10 +17,12 @@ class GroupRowInnerRenderer {
         display: flex;
         justify-content: center;
         align-items: center;
-        padding:.2rem .6rem;
+        padding: .2rem .6rem;
         border-radius: 5px;
-        border: solid 1px #000;
+        border: none;
         font-size: .8rem;
+        background-color: #71639e;
+        color: #fff;
         `
         eGui.style.cssText = `
         display:flex;

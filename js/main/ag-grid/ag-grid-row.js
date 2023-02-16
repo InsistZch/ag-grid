@@ -65,7 +65,7 @@ const data = () => {
                 for (const dish_top_category of index.dish_top_category) {
                     if(dish_key.dish_top_category_id == dish_top_category.id){
                         obj['type'] = dish_top_category.name_cn
-                        if(dish_top_category.name_cn == "特色"){
+                        if(dish_top_category.name_cn == "特色" && specialMeal.index <= specialMeal.colors.length){
                             obj['type'] = dish_top_category.name_cn + specialMeal.index
                             obj['specialMealID'] = specialMeal.index
                             obj['specialMealColor'] = specialMeal.colors[specialMeal.index - 1]

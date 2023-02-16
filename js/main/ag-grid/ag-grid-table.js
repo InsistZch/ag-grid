@@ -15,7 +15,7 @@ const init_grid_options = () => {
                 if(params.data.edit == false){
                     return false
                 }
-                console.log(params)
+                // console.log(params)
                 return true
             },//单元表格是否可编辑
             // enableRowGroup: true,

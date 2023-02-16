@@ -581,9 +581,11 @@ const getRowStyle = params => {
     if(params.data != undefined){
         if(params.data.specialMealColor != undefined){
             return {
-                backgroundColor: params.data.specialMealColor,
-                // borderBottom: `solid ${params.data.SpecialMealCategory} 1px`,
-                color: "#ddd",
+                // backgroundColor: params.data.specialMealColor,
+                borderBottom: `solid 2px ${params.data.specialMealColor}`
+                // textDecoration: "underline 2px #000"
+                // textDecoration: `underline 2px ${params.data.SpecialMealCategory} !important`,
+                // color: "#ddd",
             }
         }else if(params.data.type == "餐标"){
             return {

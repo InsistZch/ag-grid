@@ -1,6 +1,8 @@
 /** @odoo-module **/
 import col from "./dish-col.js";
 import data from './dish-row.js';
+import api from './dish-api.js';
+import locale from './../../../locale/index.js'
 
 const gridOptions = (dish_top_category_id,onCellDoubleClicked,onCellClicked) => {
     return {
@@ -14,14 +16,29 @@ const gridOptions = (dish_top_category_id,onCellDoubleClicked,onCellClicked) => 
             // filter: true,  //开启刷选
             minWidth: 200,
             floatingFilter: true,
+            menuTabs: ["generalMenuTab"]
         },
+        getMainMenuItems: params => {
+            console.log(params)
+            const arr = ['autoSizeThis', 'autoSizeAll', 'separator', "pinSubMenu"]
+            let arr2 = params.defaultItems.reduce((pre, v) => {
+                const judeg = arr.every(v1 => v1 != v)
+                if(judeg){
+                    pre.push(v)
+                }
+                return pre
+            }, [])
+            return arr2
+        },
+        postProcessPopup: params => api.postProcessPopup(params),
         suppressColumnMoveAnimation:false,
-        
         onCellDoubleClicked,
         onCellClicked,
         pagination: true,
         rowSelection: 'single',
+        // menuTabs: params => api.menuTabs(params),
         paginationAutoPageSize: true, //根据网页高度自动分页（前端分页）
+        localeText:locale
     }
 };
 export default gridOptions
