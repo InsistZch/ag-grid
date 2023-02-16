@@ -66,7 +66,6 @@ const data = () => {
                     if(dish_key.dish_top_category_id == dish_top_category.id){
                         obj['type'] = dish_top_category.name_cn
                         if(dish_top_category.name_cn == "特色" && specialMeal.index <= specialMeal.colors.length){
-                            obj['type'] = dish_top_category.name_cn + specialMeal.index
                             obj['specialMealID'] = specialMeal.index
                             obj['specialMealColor'] = specialMeal.colors[specialMeal.index - 1]
                             specialMeal.index ++
@@ -138,9 +137,10 @@ const duibi = (cus_loc_id, dish_id, dinner_type) => {
 // 厨师长限制
 // userId dinner_type
 const headHookLimit = (userId, dinner_type, type) => {
+    // console.log(type)
     for (const dinner_mode of index.dinner_mode) {
         if(userId == dinner_mode.cus_loc_id && dinner_type == dinner_mode.dinner_type){
-            if(type == "特色"){
+            if(type == "特色" || type.includes("特色")){
                 return dinner_mode.dinner_qty_upper_limit_ts
             }else if(type == "汤粥"){
                 return dinner_mode.dinner_qty_upper_limit_kc + dinner_mode.dinner_qty_upper_limit_ts

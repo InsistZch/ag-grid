@@ -21,8 +21,8 @@ class GroupRowInnerRenderer {
         border-radius: 5px;
         border: none;
         font-size: .8rem;
-        background-color: #71639e;
-        color: #fff;
+        background-color: transparent;
+        color: #71639e;
         `
         eGui.style.cssText = `
         display:flex;

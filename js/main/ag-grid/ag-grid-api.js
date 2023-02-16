@@ -430,7 +430,7 @@ const onCellValueChanged = (e,gridOptions) => {
 
 const getContextMenuItems = (params, gridOptions) => {
     
-    console.log(params)
+    // console.log(params)
     const result = [
         {
             name:'向下新增一行',
@@ -472,9 +472,10 @@ const getContextMenuItems = (params, gridOptions) => {
                             specialMeal.index ++
                         }
                         data[0]['dish_key_id'] = {
-                            dish_top_category_id:MealCategory.value,
+                            dish_top_category_id: MealCategory.value,
                             material_item:[]
                         }
+                        console.log(params, params.node.rowIndex)
                         gridOptions.api.applyTransaction({ add: data, addIndex: params.node.rowIndex + 1})
                     }
                 })
@@ -540,6 +541,7 @@ const getContextMenuItems = (params, gridOptions) => {
                             SpecialMealCategory.innerHTML += `
                             <option value="${index}">特色${index}</option>`
                         }
+                        console.log(_parent, MealCategory)
                         index.dish_top_category.forEach(v => {
                             if(v.name_cn == "特色") return
                             MealCategory.innerHTML += v.name_cn == params.node.data['type'] ? 
