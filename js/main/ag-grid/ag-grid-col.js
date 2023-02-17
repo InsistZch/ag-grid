@@ -105,7 +105,7 @@ const col = () => {
         const obj = {}
         obj['headerName'] = item['name']
         obj['field'] = `${item['id']}`
-        obj['minWidth'] = 50
+        obj['minWidth'] = 45
         obj['columnGroupShow'] = count++ < 10 ? 'closed' : 'open'
         obj['valueParser'] = params => Number(params.newValue)
         obj['menuTabs'] = []
