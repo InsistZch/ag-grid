@@ -60,6 +60,7 @@ const init_grid_options = () => {
         },
         onCellValueChanged: (e) => agGridApi.onCellValueChanged(e,gridOptions),
         getRowStyle: params => agGridApi.getRowStyle(params),
+        onCellClicked: params => agGridApi.onCellClicked(params),
         // onPasteStart: params => agGridApi.onPasteStart(params),
         // paginationAutoPageSize: true, //根据网页高度自动分页（前端分页）
     };

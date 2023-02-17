@@ -58,7 +58,10 @@ const onCellValueChanged = (e,gridOptions) => {
         }
         for (const item of index.dish_key) {
             if(item.name == e.newValue){
-                if(item.dish_top_category_id != e.data.dish_key_id.dish_top_category_id && item.name != e.data.dish){
+                // console.log(item, e.data)
+                // console.log(item.dish_top_category_id != e.data.dish_key_id.dish_top_category_id)
+                // console.log(item.name != e.data.dish)
+                if(item.dish_top_category_id != e.data.dish_key_id.dish_top_category_id && item.name != e.oldValue){
                     // console.log(item, e.data)
                     e.data[`${e.colDef.field}`] = e.oldValue
                 }
@@ -102,7 +105,7 @@ const onCellValueChanged = (e,gridOptions) => {
             
             // 鸭肉片23.58斤 鸭肉片 23.58 斤
             let d = material.match(/([\u4e00-\u9fa5a-zA-Z]+)?(\d*\.?\d+?)?([\u4e00-\u9fa5a-zA-Z]+)?/)
-            console.log(d)
+            // console.log(d)
              
             // 如果输入的不是汉字或者字母 回滚
             if(d == null){
@@ -388,10 +391,10 @@ const onCellValueChanged = (e,gridOptions) => {
                                 material_id: m_id,
                                 dish_key_id: e.data.dish_key_id['id'],
                                 process_id: customSection.value,
-                                gbom_qty_high:0,
-                                gbom_qty_mid:0,
-                                gbom_qty_low:0,
-                                unit_id:customCompany.value
+                                gbom_qty_high: 0,
+                                gbom_qty_mid: 0,
+                                gbom_qty_low: 0,
+                                unit_id: customCompany.value
                             }
                             index.dish_bom.push(obj)
                             console.log(obj)
@@ -612,10 +615,16 @@ const getRowStyle = params => {
     }
 }
 
+const onCellClicked = params => {
+    if(params.colDef.field == "dish"){
+        console.log(params)
+    }
+    
+}
 // const onPasteStart = params => {
 //     console.log(params)
 // }
 
 export default {
-    onCellValueChanged, getContextMenuItems, getRowStyle
+    onCellValueChanged, getContextMenuItems, getRowStyle, onCellClicked
 }

@@ -159,7 +159,7 @@ class customCells{
                 input.focus();
             }
             // 创建表格
-            const d = dishTable(params.data.dish_key_id.dish_top_category_id,doubleClickGetRowData,clickGetRowData);
+            const d = dishTable(params.data.dish_key_id.dish_top_category_id, doubleClickGetRowData,clickGetRowData);
             new agGrid.Grid(dish_dataDiv, d);
             d.api.sizeColumnsToFit();
         }

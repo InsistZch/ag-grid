@@ -48,7 +48,7 @@ const col = () => {
             minWidth: 82,
             // cellEditor: "agSelectCellEditor",
             // cellEditorParams:{values:dish_dropdown()},
-            cellEditor:customCells,
+            cellEditor: customCells,
             pinned: 'left',
             filter:true,
             menuTabs:[],
@@ -221,7 +221,7 @@ const col = () => {
                     }
                 }
             }
-            for (const dish_family of index.dish_family) {
+            for (const dish_family of index.forbidden_material_ids) {
                 for (const item of material_item) {
                     if(item.id == dish_family){
                         let str = item.name.split('-')[0]
