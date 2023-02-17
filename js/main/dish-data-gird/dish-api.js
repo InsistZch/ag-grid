@@ -4,7 +4,7 @@ const menuTabs = params => {
 }
 
 const postProcessPopup = params => {
-    console.log(params)
+    // console.log(params)
     // const ePopup = params.ePopup;
 
     // let oldTopStr = ePopup.style.top;

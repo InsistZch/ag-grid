@@ -134,6 +134,7 @@ class customCells{
             // 获取到本行数据
             const doubleClickGetRowData = ({data}) => {
                 // console.log(data)
+                if(data == undefined) return
                 this.dish_data.push({
                     name:data.dishName,
                     id:data.id,
@@ -147,6 +148,7 @@ class customCells{
             }
             const clickGetRowData = ({data}) => {
                 // console.log(data)
+                if(data == undefined) return
                 this.dish_data.push({
                     name:data.dishName,
                     id:data.id,

@@ -19,7 +19,7 @@ const gridOptions = (dish_top_category_id,onCellDoubleClicked,onCellClicked) => 
             menuTabs: ["generalMenuTab"]
         },
         getMainMenuItems: params => {
-            console.log(params)
+            // console.log(params)
             const arr = ['autoSizeThis', 'autoSizeAll', 'separator', "pinSubMenu"]
             let arr2 = params.defaultItems.reduce((pre, v) => {
                 const judeg = arr.every(v1 => v1 != v)
