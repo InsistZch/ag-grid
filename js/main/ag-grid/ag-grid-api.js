@@ -618,6 +618,7 @@ const getRowStyle = params => {
                 color: "#666",
                 fontStyle: "italic",
                 fontWeight: "600",
+                // display: params.data.show ? "flex" : "none"
             }
         }
     }

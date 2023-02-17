@@ -4,39 +4,8 @@ import specialMeal from './specialMeal.js'
 // 拿到餐标 => 客户信息 菜品信息 
 const data = () => {
     let data = []
-    const userIds = Object.keys(index.plan_day_record_show[0]['cus_loc_info']).map(v => v.split('_')[1])
-    const dinner_types = [...index.plan_day_record_show.reduce((pre, v) => {
-        pre.add(v.dinner_type)
-        return pre
-    }, new Set())]
 
-    // let d2 = []
-    // 加入餐标
-    for (const type_item of dinner_types) {
-        let obj = {}
-        for (const id of userIds) {
-            const dinner_mode_data = index.dinner_mode.find(v => v.cus_loc_id == id && type_item == v.dinner_type)
-            obj[id] = dinner_mode_data == undefined ? 0 : dinner_mode_data.price
-        }
-        obj['cl1'] = type_item == 'dn2' ? '午餐' : type_item == 'dn3' ? '晚餐' : type_item == 'dn5' ? '夜餐' : '早餐'
-        obj['dinner_type'] = type_item
-        obj['edit'] = false
-        obj['Copies'] = 0
-        obj['whole'] = ""
-        obj['type'] = "餐标"
-        // obj['specialMealColor'] = "#00000090"
-        data.push(obj)
-    }
-    // console.log(d2)
-    // for (const id of userIds) {
-    //     const obj = {}
-    //     for (const dinner_mode of index.dinner_mode) {
-    //         if(dinner_mode.cus_loc_id == id && dinner_mode.dinner_type == "dn2"){
-    //             console.log(dinner_mode)
-    //             break
-    //         }
-    //     }
-    // }
+    // data.push(...mealPrice())
     for (const play_object of index.plan_day_record_show) {
         const json = play_object['cus_loc_info']
         // 计算总份数
@@ -75,7 +44,6 @@ const data = () => {
                 // console.log(play_object.manual_material_qty)
                 const d_data = init_dish_detailed(play_object.manual_material_qty, count)
                 obj['whole'] = d_data[0]
-
                 obj['dish_key_id'] = {
                     id:dish_key.id,
                     dish_top_category_id:dish_key.dish_top_category_id,
@@ -150,6 +118,32 @@ const headHookLimit = (userId, dinner_type, type) => {
         }
     }
     return 0
+}
+
+// 加入餐价格
+const mealPrice = () => {
+    let data = []
+    const userIds = Object.keys(index.plan_day_record_show[0]['cus_loc_info']).map(v => v.split('_')[1])
+    const dinner_types = [...index.plan_day_record_show.reduce((pre, v) => {
+        pre.add(v.dinner_type)
+        return pre
+    }, new Set())]
+    for (const type_item of dinner_types) {
+        let obj = {}
+        for (const id of userIds) {
+            const dinner_mode_data = index.dinner_mode.find(v => v.cus_loc_id == id && type_item == v.dinner_type)
+            obj[id] = dinner_mode_data == undefined ? 0 : dinner_mode_data.price
+        }
+        obj['cl1'] = type_item == 'dn2' ? '午餐' : type_item == 'dn3' ? '晚餐' : type_item == 'dn5' ? '夜餐' : '早餐'
+        obj['dinner_type'] = type_item
+        obj['edit'] = false
+        obj['Copies'] = 0
+        obj['whole'] = ""
+        obj['type'] = "餐标"
+        // obj['specialMealColor'] = "#00000090"
+        data.push(obj)
+    }
+    return data
 }
 
 
@@ -343,9 +337,9 @@ const countMaterialData = ({
 
 // 通过文字，获取菜品
 export {
-    data,dish_detailed,duibi,headHookLimit,countMaterialData
+    data,dish_detailed,duibi,headHookLimit,countMaterialData,mealPrice
 }
 
 export default {
-    data,dish_detailed,duibi,headHookLimit,countMaterialData
+    data,dish_detailed,duibi,headHookLimit,countMaterialData,mealPrice
 }
