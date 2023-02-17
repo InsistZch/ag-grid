@@ -49,21 +49,34 @@ class customCells{
             let dishCategory = document.querySelector('#dishCategory')
             dishCategory.value = params.data.dish_key_id.dish_top_category_id
             // 获取辣度
-            let dishSpicy = document.querySelector("#dishSpicy")
+            // let dishSpicy = document.querySelector("#dishSpicy")
             let successCreateDish = document.querySelector('#successCreateDish')
+            
+            let dishSubCategory = document.querySelector('#dishSubCategory')
+            let dishColors = document.querySelector('#dishColors')
+            // 插入数据
+            index.dish_sub_category.forEach(v => {
+                if(v.dish_top_category_id == params.data.dish_key_id.dish_top_category_id){
+                    dishSubCategory.innerHTML += `<option value="${v.id}">${v.name_cn}</option>`
+                }
+            })
+            
+
             successCreateDish.onclick = () => {
                 let obj = {
                     "id": add_dish_key_id(),
-                    "name":dishInput.value,
-                    "dish_top_category_id":dishCategory.value,
-                    "spicy":dishSpicy.value,
+                    "name": dishInput.value,
+                    "dish_top_category_id": dishCategory.value,
+                    "spicy":"spicy1",
                     "is_fish":false,
                     "is_organ":false,
                     "is_semi_finished":false,
                     "is_fried":false,
                     "odor":"odor_0",
                     "is_shrimp":false,
-                    "is_color_additive":false
+                    "is_color_additive":false,
+                    dish_sub_category_id: dishSubCategory.value,
+                    material_tag: dishColors.value
                 }
                 saveData.new_dish_key_list.push(obj)
                 index.dish_key.push(obj)

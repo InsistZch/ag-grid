@@ -19,11 +19,7 @@
     <!-- <link href="https://www.itxst.com/package/ag-grid/styles/ag-grid.css" rel="stylesheet"/> -->
     <!-- jQuery and JavaScript Bundle with Popper -->
     <style>
-        .baocun {
-            margin: 1rem 0;
-            margin-left: 1rem;
-            
-        }
+        
     </style>
 </head>
 <body>
@@ -111,27 +107,19 @@
     </button>
 </header>
 <main class="main">
-    <button class="baocun">保存</button>
-    <div class="header box-border hMax_w100">
-        <div class="title">
-            <h3 class="title_text">
-                <a title="上一级目录">日菜单一览 </a>/ (2023-01-16)
-            </h3>
-            <div class="search">
-                <input type="search"/>
-                <svg t="1673850288542" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                     xmlns="http://www.w3.org/2000/svg" p-id="2728" width="15" height="15">
-                    <path d="M731.5456 214.4256c-68.8128-68.8128-160.5632-106.7008-257.8432-106.7008s-189.0304 37.888-258.048 106.7008c-142.1312 142.1312-142.1312 373.5552 0 515.6864 68.8128 68.8128 160.5632 106.7008 257.8432 106.7008s189.0304-37.888 257.8432-106.7008c142.336-142.1312 142.336-373.5552 0.2048-515.6864zM688.128 686.6944c-57.344 57.344-133.5296 88.8832-214.6304 88.8832s-157.2864-31.5392-214.6304-88.8832c-118.1696-118.1696-118.1696-310.6816 0.2048-428.8512 57.344-57.344 133.5296-88.8832 214.6304-88.8832s157.2864 31.5392 214.6304 88.8832c118.1696 118.3744 118.1696 310.6816-0.2048 428.8512z m232.448 190.8736l-113.8688-113.8688c-8.8064-8.8064-28.4672-13.5168-43.2128 0-13.9264 12.6976-8.8064 35.6352 0 44.6464l113.8688 113.8688c4.5056 4.5056 27.648 15.9744 44.2368-1.2288 13.7216-14.1312 7.9872-34.6112-1.024-43.4176z"
-                          p-id="2729">
-                    </path>
-                </svg>
-            </div>
+    <div class="header">
+        <div class="function">
+            <button class="purchase">采购</button>
+            <button class="plan_sheet">计划单</button>
+            <button class="picking">领料</button>
+            <button class="update">更新</button>
         </div>
-
-        <div class="ag-theme-balham" id="myGrid" style="height: 700px;">
-        </div>
+        <span class="date">2023-2-17 日计划</span>
+        <span class="saveDataSpan">数据已经变化，如退出请按“更新”按钮</span>
     </div>
-    </main>
+    <div class="ag-theme-balham" id="myGrid" style="height: 700px;">
+    </div>
+</main>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-lg modal-fullscreen-xl-down">
@@ -183,55 +171,32 @@
                         <option value="342">果饮</option>
                     </select>
                 </div>
-                <!-- <div class="input-group mb-3">
+                <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon22">菜品子类</span>
                     </div>
-                    <select class="form-control" id="dishCategory" aria-describedby="basic-addon22">
-                        <option value="1" selected="1">大荤</option>
-                        <option value="2">小荤</option>
-                        <option value="3">素菜</option>
-                        <option value="4">特色</option>
-                        <option value="5">汤粥</option>
-                        <option value="344">主食</option>
-                        <option value="8">点心</option>
-                        <option value="14">小菜</option>
-                        <option value="342">果饮</option>
+                    <select class="form-control" id="dishSubCategory" aria-describedby="basic-addon22">
                     </select>
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon22">菜品族</span>
                     </div>
-                    <select class="form-control" id="dishCategory" aria-describedby="basic-addon22">
-                        <option value="1" selected="1">大荤</option>
-                        <option value="2">小荤</option>
-                        <option value="3">素菜</option>
-                        <option value="4">特色</option>
-                        <option value="5">汤粥</option>
-                        <option value="344">主食</option>
-                        <option value="8">点心</option>
-                        <option value="14">小菜</option>
-                        <option value="342">果饮</option>
+                    <select class="form-control" id="dishFamily" aria-describedby="basic-addon22">
                     </select>
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon22">颜色</span>
                     </div>
-                    <select class="form-control" id="dishCategory" aria-describedby="basic-addon22">
-                        <option value="1" selected="1">大荤</option>
-                        <option value="2">小荤</option>
-                        <option value="3">素菜</option>
-                        <option value="4">特色</option>
-                        <option value="5">汤粥</option>
-                        <option value="344">主食</option>
-                        <option value="8">点心</option>
-                        <option value="14">小菜</option>
-                        <option value="342">果饮</option>
+                    <select class="form-control" id="dishColors" aria-describedby="basic-addon22">
+                        <option value="其他" selected>其他</option>
+                        <option value="冻品">冻品</option>
+                        <option value="鲜肉">鲜肉</option>
+                        <option value="半成品">半成品</option>
                     </select>
-                </div> -->
-                <div class="input-group mb-3">
+                </div>
+                <!-- <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon3">辣度</span>
                     </div>
@@ -241,7 +206,7 @@
                         <option value="spicy3">中辣</option>
                         <option value="spicy4">特辣</option>
                     </select>
-                </div>
+                </div> -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>

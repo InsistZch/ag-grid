@@ -127,6 +127,7 @@ const onCellValueChanged = (e,gridOptions) => {
 
             // 发现两个一样的菜品,回滚
             // console.log(e.newValue.split(d[0]))
+            // 大肉片与大肉片片为一种食材
             if(e.data != undefined){
                 const arr = e.data['dish_key_id']['material_item'].map(v => v.name.split('-')[0])
                 for (const item of arr) {
@@ -372,7 +373,7 @@ const onCellValueChanged = (e,gridOptions) => {
                             e.data[`${e.colDef.field}`] = e.oldValue
                             gridOptions.api.refreshCells({force:true})
                         },
-                        sureFun:() => {
+                        sureFun:(_parent) => {
                             console.log(customPhase, customPhase.value)
                             const customPhaseValue = customPhase.querySelector(`option[value="${customPhase.value}"]`).innerText
                             let name = `${customName.value}-${customFrom.value}-${customPhaseValue}`
@@ -623,7 +624,10 @@ const getRowStyle = params => {
 
 const onCellClicked = params => {
     if(params.colDef.field == "dish"){
-        console.log(params)
+        // console.log(params)
+        const { dish_family_id } = index.dish_key.find(v => v.id == params.data.dish_key_id.id)
+        const arr = index.dish_family.filter(v => v.id == dish_family_id)
+        console.log(arr)
     }
     
 }

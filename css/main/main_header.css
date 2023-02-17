@@ -1,36 +1,33 @@
 main.main div.header{
-    padding: 0 .5rem;
+    padding: 0 3rem;
     color: rgb(73, 80, 87);
-}
-div.header div.title{
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    margin: 1rem 0;
 }
-div.header div.title h3.title_text{
-    font-weight: normal;
-    color: rgba(73, 80, 87, 0.76);
-}
-div.header div.title h3.title_text>a{
-    color: #66598f;
-}
-div.title div.search{
+div.header div.function{
     display: flex;
     justify-content: center;
-    position: relative;
+    align-items: center;
 }
-div.title div.search input{
-    border: none;
+div.header button{
     outline: none;
-    background-color: transparent;
-    width: 50rem;
-    border-bottom: solid 1px rgba(73, 80, 87, 0.3);
-    padding-bottom: .3em;
+    border: none;
+    background-color: #71639e;
+    color: #fff;
+    border-radius: 5px;
+    padding: .2rem .5rem;
 }
-div.title div.search input:focus{
-    border-bottom: solid 1px #66598f;
+div.header div.function button{
+    margin: 0 .5rem;
 }
-div.title div.search svg{
-    position: absolute;
-    right: 0;
+div.header span.date{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
+}
+div.header .saveDataSpan {
+    color: rgb(247, 51, 51);
+    font-weight: 600;
 }
