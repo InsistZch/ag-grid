@@ -61,7 +61,7 @@ const data = () => {
 
 //3139803  3507
 // 对比用户是否想吃该菜品
-const duibi = (cus_loc_id, dish_id, dinner_type) => {
+const duibi = (cus_loc_id, dish_id, dinner_type, material_item) => {
     let obj1 = {}
     let obj2 = {}
     
@@ -97,6 +97,22 @@ const duibi = (cus_loc_id, dish_id, dinner_type) => {
         return ['虾',false]
     }else if(obj1['is_color_additive'] == true && obj2['is_color_additive'] == false){
         return ['色素',false]
+    }else if(obj2['dislike_material_ids'].length > 0){
+        // console.log(obj2)
+        // 找到当前食材
+        const items = index.material_item.filter(v => {
+            for (const id of obj2['dislike_material_ids']) {
+                return id == v.id
+            }
+        })
+        for (const ts of items) {
+            for (const item of material_item) {
+                if(ts.id == item.id){
+                    return [ts.name.split('-')[0], false]
+                }
+            }
+        }
+        return ['', true]
     }else{
         return ['',true]
     }
