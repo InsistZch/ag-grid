@@ -430,12 +430,13 @@ const onCellValueChanged = (e,gridOptions) => {
 }
 
 const getContextMenuItems = (params, gridOptions) => {
-    
+    if(params.node.data == undefined) return
     // console.log(params)
     const result = [
         {
             name:'向下新增一行',
             action:() => {
+                
                 const data = [{}]
                 for (const key in params.node.data) {
                     if(!isNaN(key)){
@@ -480,7 +481,12 @@ const getContextMenuItems = (params, gridOptions) => {
                         console.log(params)
                         gridOptions.api.expandAll()
                         gridOptions.api.applyTransaction({ add: data, addIndex: params.node.rowIndex + 1})
-
+                        // gridOptions.api.forEachNode(node => {
+                        //     if(node.key != params.node.data.cl1){
+                        //         console.log(node, params)
+                        //         node.setExpanded(false)
+                        //     }
+                        // });
                     }
                 })
                 
@@ -564,7 +570,9 @@ const getContextMenuItems = (params, gridOptions) => {
                         }
                         data[0]['type'] = value.innerText
                         data[0]['specialMealColor'] = specialMeal.colors[SpecialMealCategory.value - 1]
-                        console.log(data)
+                        // console.log(data)
+
+                        gridOptions.api.expandAll()
                         gridOptions.api.applyTransaction({ add: data, addIndex: params.node.rowIndex + 1})
                     }
                 })
