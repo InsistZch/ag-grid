@@ -5,7 +5,7 @@ import customFromDom from './customFrom.js'
 import saveData from "../saveData/index.js"
 import { add_dish_bom_id, add_material_id } from "../tool.js"
 import specialMeal from "./specialMeal.js"
-
+// import 
 
 // 添加对应数据
 const addData = (e, i, el) => {
@@ -23,6 +23,7 @@ const addData = (e, i, el) => {
 
 // cellRenderer > onCellValueChanged
 const onCellValueChanged = (e,gridOptions) => {
+    document.querySelector('#saveDataSpan').style.visibility = "visible"
     // console.log(e)
     if(e.colDef.headerName != '菜品' && e.colDef.headerName != '配量汇总'){
         if(e.newValue == undefined || e.newValue == null) e.newValue = 0

@@ -2,7 +2,7 @@ main.main div.header{
     padding: 0 3rem;
     color: rgb(73, 80, 87);
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     margin: 1rem 0;
 }
 div.header div.function{
@@ -30,4 +30,5 @@ div.header span.date{
 div.header .saveDataSpan {
     color: rgb(247, 51, 51);
     font-weight: 600;
+    visibility:hidden;
 }
