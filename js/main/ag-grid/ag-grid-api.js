@@ -158,6 +158,7 @@ const onCellValueChanged = (e,gridOptions) => {
                     // d[1] => 餐品名称 || 餐品名称+切片方式
                     // name 切片方式
                     // mV 表中餐品名称
+                    // 猪心片片  猪心 
                     if(d[1].includes(name) && d[1].includes(mV) && mV.trim() != ""){
                         // console.log(d[1], name, mV)
                         let judeg = true
@@ -181,10 +182,13 @@ const onCellValueChanged = (e,gridOptions) => {
                                 d[1] = d[1].substr(0, d[1].length - name.length)
                             }
                             // const judeg = 
-                            e.data.dish_key_id.material_item.push({
-                                ...material_item,
-                                dish_process_category_name: name,
-                            })
+                            console.log('1')
+                            if(d[1] == data_name){
+                                e.data.dish_key_id.material_item.push({
+                                    ...material_item,
+                                    dish_process_category_name: name,
+                                })
+                            }
                             break dpc
                         }
                         // console.log(d[1])
@@ -197,6 +201,7 @@ const onCellValueChanged = (e,gridOptions) => {
                         // console.log(d[1], mV, value, judeg)
                         
                         if(!judeg){
+                            console.log('2')
                             e.data.dish_key_id.material_item.push({
                                 ...material_item,
                                 dish_process_category_name: "",
@@ -210,7 +215,7 @@ const onCellValueChanged = (e,gridOptions) => {
                     
                 }
             }
-            // console.log(e.data.dish_key_id.material_item)
+            console.log(e.data.dish_key_id.material_item)
            
 
             //  去掉所有重复的数据
@@ -401,7 +406,8 @@ const onCellValueChanged = (e,gridOptions) => {
                             // saveData.new_or_update_dish_bom_list.new.push(obj)
                             let dish_process_category_name = customCompany.querySelector(`option[value="${customCompany.value}"]`).innerText
                             let customSectionValue = customSection.querySelector(`option[value="${customSection.value}"]`).innerText
-                            customSectionValue = customSectionValue == "无" ? "" : customSectionValue
+                            console.log(customSectionValue, d)
+                            customSectionValue = customSectionValue == "无" || customSectionValue == d[2] ? "" : customSectionValue
                             e.data.dish_key_id.material_item.push({
                                 ...obj1,
                                 dish_process_category_name: customSectionValue,
@@ -409,7 +415,7 @@ const onCellValueChanged = (e,gridOptions) => {
                                 dish_qty: 0,
                             })
                             
-                            const str = data_name + customSectionValue + 0 + dish_process_category_name
+                            const str = customName.value + customSectionValue + 0 + dish_process_category_name
                             // e.data[`${e.colDef.field}`] = e.data[`${e.colDef.field}`].replace(data_name, str)
                             // e.data
                             const strs = e.data[`${e.colDef.field}`].split(' ')
