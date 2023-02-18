@@ -176,21 +176,21 @@ const onCellValueChanged = (e,gridOptions) => {
                         if(judeg){
                             // 去掉切片方式
                             // console.log(mV, d[1])
+                            let j = false
                             if(mV == d[1]){
                                 // console.log(mV, d[1])
                                 break dpc
                             }else{
                                 // d[1] = d[1].split(name)[0]
+                                j = true
                                 d[1] = d[1].substr(0, d[1].length - name.length)
                             }
                             // const judeg = 
-                            console.log('1')
-                            if(d[1] == data_name){
-                                e.data.dish_key_id.material_item.push({
-                                    ...material_item,
-                                    dish_process_category_name: name,
-                                })
-                            }
+                            console.log('1', d[1], data_name)
+                            e.data.dish_key_id.material_item.push({
+                                ...material_item,
+                                dish_process_category_name: name,
+                            })
                             break dpc
                         }
                         // console.log(d[1])
