@@ -4,7 +4,14 @@ import specialMeal from './specialMeal.js'
 // 拿到餐标 => 客户信息 菜品信息 
 const data = () => {
     let data = []
-
+    // 设置用户id与当前餐类别
+    window.cus_loc_ids = Object.keys(index.plan_day_record_show[0]['cus_loc_info']).map(v => v.split('_')[1])
+    window.dinner_types = [...index.plan_day_record_show.reduce((pre, v) => {
+        pre.add(v.dinner_type)
+        return pre
+    }, new Set())]
+    
+    // data.push(...mealCopies())
     // data.push(...mealPrice())
     for (const play_object of index.plan_day_record_show) {
         const json = play_object['cus_loc_info']
@@ -44,9 +51,11 @@ const data = () => {
                 // console.log(play_object.manual_material_qty)
                 const d_data = init_dish_detailed(play_object.manual_material_qty, count)
                 obj['whole'] = d_data[0]
+                obj['edit'] = true
+                obj['configure'] = false
                 obj['dish_key_id'] = {
-                    id:dish_key.id,
-                    dish_top_category_id:dish_key.dish_top_category_id,
+                    id: dish_key.id,
+                    dish_top_category_id: dish_key.dish_top_category_id,
                     material_item: d_data[1]
                 }
                 
@@ -136,33 +145,92 @@ const headHookLimit = (userId, dinner_type, type) => {
     return 0
 }
 
-// 加入餐价格
+// configure => 是否为配置信息
+// edit  => 可否输入
+// 加入餐标
 const mealPrice = () => {
+    return mealAbstract({
+        name:'price',
+        type:"餐标",
+        edit: false,
+        configure: false
+    })
+}
+
+// 加入餐配置
+const mealCopies = () => {
+    let fastConfiguration = mealAbstract({
+        name: 'dinner_qty_upper_limit_kc',
+        type: '快餐配置',
+        edit: true,
+        configure: true
+    })
+
+    fastConfiguration = setCopies(fastConfiguration)
+
+    let specialConfiguration = mealAbstract({
+        name: 'dinner_qty_upper_limit_ts',
+        type: '特色配置',
+        edit: true,
+        configure: true
+    })
+
+    specialConfiguration = setCopies(specialConfiguration)
+
+    return [
+        ...fastConfiguration,
+        ...specialConfiguration,
+    ]
+}
+
+// 设置份数
+const setCopies = (objs) => {
+    
+    for (const obj of objs) {
+        obj['Copies'] = 0
+        for (const key of Object.keys(obj)) {
+            if(!isNaN(key)){
+                obj['Copies'] += obj[key]
+            }
+        }
+    }
+    // console.log(objs)
+    return objs
+}
+
+// 餐配置信息的抽象方法
+// name => 配置信息数据字段名称
+// type => 表格显示名称
+// edit => 是否可以编辑
+const mealAbstract = ({
+    name,
+    type,
+    edit,
+    configure
+}) => {
     let data = []
-    const userIds = Object.keys(index.plan_day_record_show[0]['cus_loc_info']).map(v => v.split('_')[1])
-    const dinner_types = [...index.plan_day_record_show.reduce((pre, v) => {
-        pre.add(v.dinner_type)
-        return pre
-    }, new Set())]
+    // 获取所有用户id
+    const userIds = window.cus_loc_ids
+    // 获取当前餐别
+    const dinner_types = window.dinner_types
     for (const type_item of dinner_types) {
         let obj = {}
         for (const id of userIds) {
             const dinner_mode_data = index.dinner_mode.find(v => v.cus_loc_id == id && type_item == v.dinner_type)
-            obj[id] = dinner_mode_data == undefined ? 0 : dinner_mode_data.price
+            obj[id] = dinner_mode_data == undefined ? 0 : dinner_mode_data[name]
         }
         obj['cl1'] = type_item == 'dn2' ? '午餐' : type_item == 'dn3' ? '晚餐' : type_item == 'dn5' ? '夜餐' : '早餐'
         obj['dinner_type'] = type_item
-        obj['edit'] = false
+        obj['edit'] = edit
         obj['Copies'] = 0
         obj['whole'] = ""
-        obj['type'] = "餐标"
+        obj['configure'] = configure
+        obj['type'] = type
         // obj['specialMealColor'] = "#00000090"
         data.push(obj)
     }
     return data
 }
-
-
 // manual_material_qty_json => 菜品信息
 /*
 material_id => material_item
@@ -353,9 +421,9 @@ const countMaterialData = ({
 
 // 通过文字，获取菜品
 export {
-    data,dish_detailed,duibi,headHookLimit,countMaterialData,mealPrice
+    data,dish_detailed,duibi,headHookLimit,countMaterialData,mealPrice, mealCopies
 }
 
 export default {
-    data,dish_detailed,duibi,headHookLimit,countMaterialData,mealPrice
+    data,dish_detailed,duibi,headHookLimit,countMaterialData,mealPrice, mealCopies
 }

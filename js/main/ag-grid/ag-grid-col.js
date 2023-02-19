@@ -111,8 +111,8 @@ const col = () => {
         obj['valueParser'] = params => Number(params.newValue)
         obj['menuTabs'] = []
         obj['cellRenderer'] = (params) => {
-            // console.log(params)
-            if(params.data.edit == false) return params.value
+            // console.log(Restrictions(params))
+            if(Restrictions(params)) return params.value
             if(isNaN(params.value) || params.value == null){
                 return 0
             }
@@ -145,7 +145,7 @@ const col = () => {
         // autoHeight: true,
         // wrapText: true,
         cellRenderer:(params) => {
-            if(params.data.edit == false) return params.value
+            if(Restrictions(params)) return params.value
             //  主要功能为
             // 第一、找到所有表内有的配料信息
             // 第二、找到所有相同的配料信息，并返回标红
@@ -194,7 +194,7 @@ const col = () => {
                     // console.log(e.data.whole, value)
                     // console.log(e.data.whole.length, value.length)
                     // console.log(e.data)
-                    if(e.data.dish == "" || e.data.edit == false) return
+                    if(e.data.dish == "" || Restrictions(e)) return
                     data.push(...e.data['dish_key_id']['material_item'])
                 }
             })
@@ -268,7 +268,7 @@ const col = () => {
         editable:false,
         minWidth: 35,
         cellRenderer: params => {
-            if(params.data.edit == false) return params.value
+            if(Restrictions(params)) return params.value
             const createspan = document.createElement('span')
             createspan.title = '保存本列餐品'
             // createImg.src = '/gmm/static/src/img/saveData.png' // 这个不用再改
@@ -321,6 +321,17 @@ const col = () => {
     })
     return col
 }
+// 如果不可输入，则不计算菜品和配量汇总
+// 如果为配置信息，则不计算菜品和配量汇总
+// return false 表示该框可输入
+const Restrictions = params => {
+    // console.log(params.data)
+    if(params.data.edit == false) return true
+    if(params.data.configure == true) return true
+    return false
+}
 
-
+export {
+    Restrictions
+}
 export default col

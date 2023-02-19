@@ -5,6 +5,7 @@ import customFromDom from './customFrom.js'
 import saveData from "../saveData/index.js"
 import { add_dish_bom_id, add_material_id } from "../tool.js"
 import specialMeal from "./specialMeal.js"
+import {Restrictions} from './ag-grid-col.js'
 // import 
 
 // 添加对应数据
@@ -40,20 +41,40 @@ const onCellValueChanged = (e,gridOptions) => {
         // console.log(e.newValue)
         // const scale = (parseInt(e.newValue) - parseInt(e.oldValue)) / e.data['Copies']
         const Copies =  e.data['Copies'] + (parseInt(e.newValue) - parseInt(e.oldValue))
-        
+        // 进入该if只有两种可能
+        // 第一，改变了快餐配置
+        // 第二，改变了特色配置
+        if(Restrictions(e)){
+            e.data['Copies'] = Copies
+            e.api.forEachNode(v => {
+                if(v.data == undefined || v.data.cl1 != e.data.cl1) return
+                console.log(v)
+                // 改变当前列所有符合条件的值
+                if(e.data.type == "快餐配置"){
+                    if(v.data.specialMealID != null) return
+                    if(v.data.type == "特色配置") return
+                    v.data[`${e.colDef.field}`] = e.newValue
+                }else{
+                    if(v.data.specialMealID == null) return
+                    if(v.data.type == "快餐配置") return
+                    v.data[`${e.colDef.field}`] = e.newValue
+                }
+            })
+        }else{
+            const countMaterialData = agGridRow.countMaterialData({
+                material_items: e.data['dish_key_id']['material_item'],
+                dish_key_id: e.data['dish_key_id']['id'],
+                oldCopies: e.data['Copies'],
+                newCopies: Copies
+            })
+            e.data['Copies'] = Copies
+            e.data['whole'] = countMaterialData[0]
+            e.data['dish_key_id']['material_item'] = countMaterialData[1]
+        }
         // 当前数据 
-        const countMaterialData = agGridRow.countMaterialData({
-            material_items: e.data['dish_key_id']['material_item'],
-            dish_key_id: e.data['dish_key_id']['id'],
-            oldCopies: e.data['Copies'],
-            newCopies: Copies
-        })
-        e.data['Copies'] = Copies
-        e.data['whole'] = countMaterialData[0]
-        e.data['dish_key_id']['material_item'] = countMaterialData[1]
+        
         gridOptions.api.refreshCells({force:true})
     }else if(e.colDef.headerName == '菜品'){
-        console.log('111')
         if(e.newValue == null || e.newValue == undefined || e.newValue.trim() == ""){
             e.data[`${e.colDef.field}`] = e.oldValue
         }
@@ -186,7 +207,7 @@ const onCellValueChanged = (e,gridOptions) => {
                                 d[1] = d[1].substr(0, d[1].length - name.length)
                             }
                             // const judeg = 
-                            console.log('1', d[1], data_name)
+                            // console.log('1', d[1], data_name)
                             e.data.dish_key_id.material_item.push({
                                 ...material_item,
                                 dish_process_category_name: name,
@@ -627,6 +648,7 @@ const getRowStyle = params => {
 const onCellClicked = params => {
     if(params.colDef.field == "dish"){
         // console.log(params)
+        if(Restrictions(params)) return;
         const { dish_family_id } = index.dish_key.find(v => v.id == params.data.dish_key_id.id)
         const arr = index.dish_family.filter(v => v.id == dish_family_id)
         console.log(arr)

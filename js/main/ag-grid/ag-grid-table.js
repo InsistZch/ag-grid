@@ -1,6 +1,6 @@
 /** @odoo-module **/
 import agGridApi from './ag-grid-api.js'
-import col from './ag-grid-col.js'
+import col,{Restrictions} from './ag-grid-col.js'
 import {data} from './ag-grid-row.js'
 import GroupRowInnerRenderer from './GroupRowInnerRenderer.js'
 
@@ -12,8 +12,11 @@ const init_grid_options = () => {
         rowData: data(),
         defaultColDef: {
             editable: params => {
-                if(params.data.edit == false){
-                    return false
+                // console.log(params)
+                if(isNaN(params.colDef.field)){
+                    if(Restrictions(params)){
+                        return false
+                    }
                 }
                 // console.log(params)
                 return true

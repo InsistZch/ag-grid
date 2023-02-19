@@ -1,5 +1,5 @@
 /** @odoo-module **/
-import {mealPrice} from "./ag-grid-row.js"
+import {mealPrice,mealCopies } from "./ag-grid-row.js"
 class GroupRowInnerRenderer {
     // 初始化
     init(params){
@@ -36,15 +36,46 @@ class GroupRowInnerRenderer {
         ${cssText}
         margin-left: 10rem;
         `
-        let btnjudeg = false
         // 设置监听事件
         btn.onclick = () => {
-            console.log(params)
+            // console.log(params)
+            const data = []
+            // 获取全部设置
+            const c = mealCopies()
+            // console.log(c)
+            // 查看当前餐类别份数是否存在
+            params.api.forEachNode(v => {
+                if(v.data != undefined) {
+                    if(v.data.configure && v.data.cl1 == params.value){
+                        data.push(v.data)
+                    }
+                    
+                }
+            })
+            // console.log(data)
+            // 当份数不存在时
+            if(data.length == 0){
+                const d2 = c.filter(v => v.cl1 == params.value)
+                params.api.applyTransaction({add: [...d2], addIndex: 0})
+            }else{
+                let d = []
+                params.api.forEachNode(v => {
+                    // 保证不是分组行
+                    if(v.data != null){
+                        // 保证不是同类配置
+                        if(v.data.configure == true && v.data.cl1 == params.value) return
+                        d.push(v.data)
+                    }
+                })
+                // console.log(d)
+                params.api.setRowData(d)
+            }
         }
 
         btn2.onclick = () => {
             // setRowHeight
             // console.log(params)
+            // console.log(window.cus_loc_ids)
             const data = []
             params.api.forEachNode(v => {
                 if(v.data != undefined) {
@@ -52,6 +83,7 @@ class GroupRowInnerRenderer {
                     data.push(v.data)
                 }
             })
+
             // btn2judeg = !btn2judeg
             // console.log(data)
             // params.api.setRowData(data)
