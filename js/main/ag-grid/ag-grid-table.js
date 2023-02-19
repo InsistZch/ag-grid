@@ -12,8 +12,10 @@ const init_grid_options = () => {
         rowData: data(),
         defaultColDef: {
             editable: params => {
-                // console.log(params)
                     if(Restrictions(params)){
+                        return false
+                    }
+                    if(params.data.configure == true && isNaN(params.colDef.field)){
                         return false
                     }
                 // console.log(params)

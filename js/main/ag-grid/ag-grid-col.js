@@ -3,6 +3,7 @@ import index from '../../../data/index.js'
 import customCells from './ag-grid-customCells.js';
 import {duibi,headHookLimit} from './ag-grid-row.js';
 import preserved_dishes from './preserved_dishes.js';
+import mealCopies from './special_fast_data.js'
 // 定义列
 const col = () => {
     const col = [
@@ -128,16 +129,23 @@ const col = () => {
             // console.log(params)
             // userId dinner_type
             let hook = headHookLimit(params.colDef.field, params.data.dinner_type, params.data.type)
+            let hook2 = mealCopies.find(v => v.cl1 == params.data.cl1 && v.type == params.data.type)
+            console.log(hook2)
             // user_id,dish_id
-            let d = duibi(params.colDef.field, params.data.dish_key_id.id, params.data.dinner_type, params.data.dish_key_id.material_item)
+            
             let value = ""
             if(params.value > hook){
                 value = `<span style="color:red;" title="超出厨师长限制 限制为：${hook}">${params.value}</span>`
-            }else if(d){
+            }else{
                 value = params.value
             }
-            if(!d[1]){
-                value =  `<span style="color:red;" title="客户禁忌,客户不吃${d[0]}">${params.value}</span>`
+            if(!params.data.configure){
+                let d = duibi(params.colDef.field, params.data.dish_key_id.id, params.data.dinner_type, params.data.dish_key_id.material_item)
+                if(!d[1]){
+                    value =  `<span style="color:red;" title="客户禁忌,客户不吃${d[0]}">${params.value}</span>`
+                }
+            }else if(params.data.configure && !params.data.fixed){
+
             }
             return value
         }
@@ -152,7 +160,7 @@ const col = () => {
         // autoHeight: true,
         // wrapText: true,
         cellRenderer:(params) => {
-            if(Restrictions(params)) return params.value
+            if(Restrictions(params) || !params.data.fixed) return params.value
             //  主要功能为
             // 第一、找到所有表内有的配料信息
             // 第二、找到所有相同的配料信息，并返回标红
@@ -201,7 +209,7 @@ const col = () => {
                     // console.log(e.data.whole, value)
                     // console.log(e.data.whole.length, value.length)
                     // console.log(e.data)
-                    if(e.data.dish == "" || Restrictions(e)) return
+                    if(e.data.dish == "" || Restrictions(e) || !e.data.fixed) return
                     data.push(...e.data['dish_key_id']['material_item'])
                 }
             })
@@ -275,7 +283,7 @@ const col = () => {
         editable:false,
         minWidth: 35,
         cellRenderer: params => {
-            if(Restrictions(params)) return params.value
+            if(Restrictions(params) || !params.data.fixed) return params.value
             const createspan = document.createElement('span')
             createspan.title = '保存本列餐品'
             // createImg.src = '/gmm/static/src/img/saveData.png' // 这个不用再改
@@ -333,8 +341,8 @@ const col = () => {
 // return false 表示该框可输入
 const Restrictions = params => {
     // console.log(params.data)
-    if(params.data.edit == false) return true
-    if(params.data.configure == true) return true
+    if(!params.data.edit) return true
+    if(params.data.configure && params.data.fixed) return true
     return false
 }
 

@@ -1,15 +1,19 @@
 /** @odoo-module **/
 import index from '../../../data/index.js'
 import specialMeal from './specialMeal.js'
+
+// 向window添加数据
+window.cus_loc_ids = Object.keys(index.plan_day_record_show[0]['cus_loc_info']).map(v => v.split('_')[1])
+window.dinner_types = [...index.plan_day_record_show.reduce((pre, v) => {
+    pre.add(v.dinner_type)
+    return pre
+}, new Set())]
+
 // 拿到餐标 => 客户信息 菜品信息 
 const data = () => {
     let data = []
     // 设置用户id与当前餐类别
-    window.cus_loc_ids = Object.keys(index.plan_day_record_show[0]['cus_loc_info']).map(v => v.split('_')[1])
-    window.dinner_types = [...index.plan_day_record_show.reduce((pre, v) => {
-        pre.add(v.dinner_type)
-        return pre
-    }, new Set())]
+    
     
 
     

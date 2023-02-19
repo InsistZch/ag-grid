@@ -42,21 +42,21 @@ const onCellValueChanged = (e,gridOptions) => {
         // const scale = (parseInt(e.newValue) - parseInt(e.oldValue)) / e.data['Copies']
         const Copies =  e.data['Copies'] + (parseInt(e.newValue) - parseInt(e.oldValue))
         // 进入该if只有两种可能
-        // 第一，改变了快餐配置
-        // 第二，改变了特色配置
-        if(Restrictions(e)){
+        // 第一，改变了快餐
+        // 第二，改变了特色
+        if(e.data.configure && !e.data.fixed){
             e.data['Copies'] = Copies
             e.api.forEachNode(v => {
                 if(v.data == undefined || v.data.cl1 != e.data.cl1) return
-                console.log(v)
+                // console.log(v)
                 // 改变当前列所有符合条件的值
-                if(e.data.type == "快餐配置"){
+                if(e.data.type == "快餐"){
                     if(v.data.specialMealID != null) return
-                    if(v.data.type == "特色配置") return
+                    if(v.data.type == "特色" || v.data.type == "特色配置" || v.data.type == "快餐配置") return
                     v.data[`${e.colDef.field}`] = e.newValue
                 }else{
                     if(v.data.specialMealID == null) return
-                    if(v.data.type == "快餐配置") return
+                    if(v.data.type == "快餐" || v.data.type == "特色配置" || v.data.type == "快餐配置") return
                     v.data[`${e.colDef.field}`] = e.newValue
                 }
             })

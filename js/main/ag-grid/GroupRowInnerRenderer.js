@@ -1,5 +1,7 @@
 /** @odoo-module **/
-import {mealPrice,mealCopies } from "./ag-grid-row.js"
+import {mealPrice } from "./ag-grid-row.js"
+// 获取快餐，特色初始化数据
+import c from './special_fast_data.js'
 class GroupRowInnerRenderer {
     // 初始化
     init(params){
@@ -42,10 +44,6 @@ class GroupRowInnerRenderer {
             const data = []
             // 获取全部设置
             // edit fixed types
-            const c = mealCopies(true, false, {
-                t1: "快餐",
-                t2: "特色"
-            })
             // console.log(c)
             // 查看当前餐类别份数是否存在
             params.api.forEachNode(v => {
@@ -57,18 +55,33 @@ class GroupRowInnerRenderer {
                     
                 }
             })
-            console.log(data)
+            // console.log(data)
             // 当份数不存在时
             if(data.length == 0){
                 const d2 = c.filter(v => v.cl1 == params.value)
-                params.api.applyTransaction({add: [...d2], addIndex: 0})
+                let addIndex = 0
+                params.api.forEachNode((v,i) => {{
+                    if(v.data != null && v.data.cl1 == params.value && v.data.type == "特色配置"){
+                        addIndex = i + 1
+                    }
+                }})
+                params.api.applyTransaction({add: [...d2], addIndex})
             }else{
                 let d = []
                 params.api.forEachNode(v => {
                     // 保证不是分组行
                     if(v.data != null){
                         // 保证不是同类配置
-                        if(v.data.configure == true && v.data.cl1 == params.value && v.data.fixed == false) return
+                        if(v.data.configure == true && v.data.cl1 == params.value && v.data.fixed == false) {
+                            for (const key in c) {
+                                if(c[key].type == v.data.type){
+                                    c[key] = {...v.data}
+                                    return
+                                }
+                                
+                            }
+                            return
+                        }
                         d.push(v.data)
                     }
                 })
