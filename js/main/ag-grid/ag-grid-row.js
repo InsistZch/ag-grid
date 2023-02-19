@@ -17,7 +17,7 @@ const data = () => {
     
 
     
-    data.push(...mealCopies())
+    // data.push(...mealCopies())
     // data.push(...mealPrice())
     for (const play_object of index.plan_day_record_show) {
         const json = play_object['cus_loc_info']
@@ -139,18 +139,19 @@ const duibi = (cus_loc_id, dish_id, dinner_type, material_item) => {
 // userId dinner_type
 const headHookLimit = (userId, dinner_type, type) => {
     // console.log(type)
+    let limit = 0
     for (const dinner_mode of index.dinner_mode) {
         if(userId == dinner_mode.cus_loc_id && dinner_type == dinner_mode.dinner_type){
             if(type == "特色" || type.includes("特色")){
-                return dinner_mode.dinner_qty_upper_limit_ts
+                limit =  dinner_mode.dinner_qty_upper_limit_ts
             }else if(type == "汤粥"){
-                return dinner_mode.dinner_qty_upper_limit_kc + dinner_mode.dinner_qty_upper_limit_ts
+                limit = dinner_mode.dinner_qty_upper_limit_kc + dinner_mode.dinner_qty_upper_limit_ts
             }else{
-                return dinner_mode.dinner_qty_upper_limit_kc
+                limit = dinner_mode.dinner_qty_upper_limit_kc
             }
         }
     }
-    return 0
+    return limit
 }
 
 // configure => 是否为配置信息
@@ -295,10 +296,11 @@ const init_dish_detailed = (manual_material_qty,count) => {
         }
         str += Math.ceil(json.dish_qty)
         json.dish_qty = Math.ceil(json.dish_qty)
-        obj.main_price = (obj.main_price).toFixed(2)
-        // console.log(json.dish_qty, obj.main_price)
-        costPrice += json.dish_qty * obj.main_price
+        obj.main_price = Number(obj.main_price)
         obj['dish_qty'] = Math.ceil(json.dish_qty)
+        // console.log(obj.main_price)
+        costPrice += obj.main_price
+        
         // 查找单位
         for (const material_purchase_unit_category of index.material_purchase_unit_category) {
             if(material_purchase_unit_category.id == json.unit_id){
@@ -436,8 +438,8 @@ const countMaterialData = ({
             }
         }
         // console.log(item, item.dish_qty, item.main_price)
-        item['main_price'] = Number(item['main_price']).toFixed(2)
-        costPrice += item.dish_qty * item.main_price
+        item['main_price'] = Number(item['main_price'])
+        costPrice += item.main_price
     }
     costPrice = costPrice.toFixed(2)
     // whole字段

@@ -50,15 +50,18 @@ const onCellValueChanged = (e,gridOptions) => {
                 if(v.data == undefined || v.data.cl1 != e.data.cl1) return
                 // console.log(v)
                 // 改变当前列所有符合条件的值
+                // 计算改变比率
+                const ratio = ((parseInt(e.newValue) - parseInt(e.oldValue)) / parseInt(e.oldValue)).toFixed(2)
+                
                 if(e.data.type == "快餐"){
-                    if(v.data.specialMealID != null) return
-                    if(v.data.type == "特色" || v.data.type == "特色配置" || v.data.type == "快餐配置") return
-                    v.data[`${e.colDef.field}`] = e.newValue
+                    // 当specialMealID有值时，表示类型为特餐
+                    if(v.data.specialMealID != null || v.data.type == "快餐" || v.data.type == "特色") return
+                    v.data[`${e.colDef.field}`] = v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio)
                 }else{
-                    if(v.data.specialMealID == null) return
-                    if(v.data.type == "快餐" || v.data.type == "特色配置" || v.data.type == "快餐配置") return
-                    v.data[`${e.colDef.field}`] = e.newValue
+                    if(v.data.specialMealID == null || v.data.type == "快餐" || v.data.type == "特色") return
+                    v.data[`${e.colDef.field}`] = v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio)
                 }
+                
             })
         }else{
             const countMaterialData = agGridRow.countMaterialData({

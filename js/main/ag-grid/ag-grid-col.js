@@ -3,7 +3,7 @@ import index from '../../../data/index.js'
 import customCells from './ag-grid-customCells.js';
 import {duibi,headHookLimit} from './ag-grid-row.js';
 import preserved_dishes from './preserved_dishes.js';
-import mealCopies from './special_fast_data.js'
+import mealCopies from './special_fast_data.js';
 // 定义列
 const col = () => {
     const col = [
@@ -128,9 +128,17 @@ const col = () => {
             // console.log(1)
             // console.log(params)
             // userId dinner_type
-            let hook = headHookLimit(params.colDef.field, params.data.dinner_type, params.data.type)
-            let hook2 = mealCopies.find(v => v.cl1 == params.data.cl1 && v.type == params.data.type)
-            console.log(hook2)
+            // let hook = headHookLimit(params.colDef.field, params.data.dinner_type, params.data.type)
+            let hook = mealCopies.filter(v => {
+                return v.cl1 == params.data.cl1
+            })
+            if(params.data.type.includes("特色")){
+                hook = hook.find(v => v.type == "特色")
+            }else{
+                hook = hook.find(v => v.type == "快餐")
+            }
+            hook = hook[`${params.colDef.field}`]
+            // console.log(hook)                 
             // user_id,dish_id
             
             let value = ""
