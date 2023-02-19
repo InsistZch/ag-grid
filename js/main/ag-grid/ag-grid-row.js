@@ -298,8 +298,11 @@ const init_dish_detailed = (manual_material_qty,count) => {
         json.dish_qty = Math.ceil(json.dish_qty)
         obj.main_price = Number(obj.main_price)
         obj['dish_qty'] = Math.ceil(json.dish_qty)
-        // console.log(obj.main_price)
-        costPrice += obj.main_price
+        // console.log(obj)
+        const [{main_unit_bom_unit_ratio}] = index.material_item_bom_unit_ratio.filter(v => v.material_id == obj.id && v.purchase_unit_id == obj.main_unit_id)
+        // console.log(ratio)
+        // console.log(obj.name, obj.main_price, main_unit_bom_unit_ratio)
+        costPrice += obj.main_price * main_unit_bom_unit_ratio
         
         // 查找单位
         for (const material_purchase_unit_category of index.material_purchase_unit_category) {
