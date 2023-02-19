@@ -13,7 +13,6 @@ const init_grid_options = () => {
         defaultColDef: {
             editable: params => {
                 // console.log(params)
-                    console.log(Restrictions(params))
                     if(Restrictions(params)){
                         return false
                     }
