@@ -478,14 +478,11 @@ const getContextMenuItems = (params, gridOptions) => {
                         data[0][`${key}`] = 0
                     }
                 }
-                
-                data[0]['Copies'] = 0
-                data[0]['cl1'] = params.node.data['cl1']
-                
-                data[0]['dish'] = ""
-                
-                data[0]['dinner_type'] = params.node.data['dinner_type']
-                data[0]['whole'] = ""
+                data[0] = {
+                    ...data[0],
+                    ...addRowPublicPart(params)
+                }
+                // data[0][]
                 customFromDom({
                     parent:"#Meal",
                     deleteData:["#MealCategory"],
@@ -538,10 +535,11 @@ const getContextMenuItems = (params, gridOptions) => {
                         }
                     }
                     const {id} = index.dish_top_category.find(v => v.name_cn == "特色")
-                    data[0]['Copies'] = 0
-                    data[0]['cl1'] = params.node.data['cl1']
-                    data[0]['dinner_type'] = params.node.data['dinner_type']
-                    data[0]['dish'] = ""
+
+                    data[0] = {
+                        ...data[0],
+                        ...addRowPublicPart(params)
+                    }
                     data[0]['dish_key_id'] = {
                         dish_top_category_id: id,
                         material_item:[]
@@ -549,7 +547,6 @@ const getContextMenuItems = (params, gridOptions) => {
                     data[0]['type'] = "特色"
                     data[0]['specialMealID'] = specialMeal.index
                     data[0]['specialMealColor'] = specialMeal.colors[specialMeal.index - 1]
-                    data[0]['whole'] = ""
                     specialMeal.index += 1
                     gridOptions.api.applyTransaction({ add: data})
                 }
@@ -566,14 +563,10 @@ const getContextMenuItems = (params, gridOptions) => {
                         data[0][`${key}`] = 0
                     }
                 }
-                
-                data[0]['Copies'] = 0
-                data[0]['cl1'] = params.node.data['cl1']
-                
-                data[0]['dish'] = ""
-                
-                data[0]['dinner_type'] = params.node.data['dinner_type']
-                data[0]['whole'] = ""
+                data[0] = {
+                    ...data[0],
+                    ...addRowPublicPart(params)
+                }
                 customFromDom({
                     parent:"#SpecialMeal",
                     deleteData:["#SpecialMealCategory"],
@@ -624,6 +617,20 @@ const getContextMenuItems = (params, gridOptions) => {
         // ...params.defaultItems
     ]
     return result
+}
+// 添加行信息的公共添加部分
+const addRowPublicPart = (params) => {
+    const obj = {}
+    obj['Copies'] = 0
+    obj['cl1'] = params.node.data['cl1']
+    obj['dish'] = ""
+    obj['dinner_type'] = params.node.data['dinner_type']
+    obj['whole'] = ""
+    obj['edit'] = true
+    obj['configure'] = false
+    obj['fixed'] = true
+    obj['costPrice'] = 0
+    return obj
 }
 
 const getRowStyle = params => {

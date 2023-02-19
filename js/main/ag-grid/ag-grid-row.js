@@ -11,7 +11,9 @@ const data = () => {
         return pre
     }, new Set())]
     
-    // data.push(...mealCopies())
+
+    
+    data.push(...mealCopies())
     // data.push(...mealPrice())
     for (const play_object of index.plan_day_record_show) {
         const json = play_object['cus_loc_info']
@@ -53,6 +55,7 @@ const data = () => {
                 obj['whole'] = d_data[0]
                 obj['edit'] = true
                 obj['configure'] = false
+                obj['fixed'] = true
                 obj['costPrice'] = d_data[2]
                 obj['dish_key_id'] = {
                     id: dish_key.id,
@@ -159,21 +162,26 @@ const mealPrice = () => {
 }
 
 // 加入餐配置
-const mealCopies = () => {
+const mealCopies = (edit = false, fixed = true, types = {
+    t1: "快餐配置",
+    t2: "特色配置"
+}) => {
     let fastConfiguration = mealAbstract({
         name: 'dinner_qty_upper_limit_kc',
-        type: '快餐配置',
-        edit: false,
-        configure: true
+        type: types.t1,
+        edit,
+        fixed,
+        configure: true,
     })
 
     fastConfiguration = setCopies(fastConfiguration)
 
     let specialConfiguration = mealAbstract({
         name: 'dinner_qty_upper_limit_ts',
-        type: '特色配置',
-        edit: false,
-        configure: true
+        type: types.t2,
+        edit,
+        fixed,
+        configure: true,
     })
 
     specialConfiguration = setCopies(specialConfiguration)
@@ -203,10 +211,13 @@ const setCopies = (objs) => {
 // name => 配置信息数据字段名称
 // type => 表格显示名称
 // edit => 是否可以编辑
+// fixed => 是否为固定展示信息
+// configure => 是否为配置信息
 const mealAbstract = ({
     name,
     type,
     edit,
+    fixed,
     configure
 }) => {
     let data = []
@@ -225,6 +236,7 @@ const mealAbstract = ({
         obj['edit'] = edit
         obj['Copies'] = 0
         obj['whole'] = ""
+        obj['fixed'] = fixed
         obj['configure'] = configure
         obj['type'] = type
         // obj['specialMealColor'] = "#00000090"

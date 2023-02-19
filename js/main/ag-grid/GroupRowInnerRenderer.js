@@ -41,18 +41,23 @@ class GroupRowInnerRenderer {
             // console.log(params)
             const data = []
             // 获取全部设置
-            const c = mealCopies()
+            // edit fixed types
+            const c = mealCopies(true, false, {
+                t1: "快餐",
+                t2: "特色"
+            })
             // console.log(c)
             // 查看当前餐类别份数是否存在
             params.api.forEachNode(v => {
                 if(v.data != undefined) {
                     if(v.data.configure && v.data.cl1 == params.value){
+                        if(v.data.fixed) return
                         data.push(v.data)
                     }
                     
                 }
             })
-            // console.log(data)
+            console.log(data)
             // 当份数不存在时
             if(data.length == 0){
                 const d2 = c.filter(v => v.cl1 == params.value)
@@ -63,7 +68,7 @@ class GroupRowInnerRenderer {
                     // 保证不是分组行
                     if(v.data != null){
                         // 保证不是同类配置
-                        if(v.data.configure == true && v.data.cl1 == params.value) return
+                        if(v.data.configure == true && v.data.cl1 == params.value && v.data.fixed == false) return
                         d.push(v.data)
                     }
                 })
