@@ -26,7 +26,7 @@ const addData = (e, i, el) => {
 const onCellValueChanged = (e,gridOptions) => {
     document.querySelector('#saveDataSpan').style.visibility = "visible"
     // console.log(e)
-    if(e.colDef.headerName != '菜品' && e.colDef.headerName != '配量汇总'){
+    if(e.colDef.headerName != '菜品' && e.colDef.headerName != '配量汇总' && e.colDef.headerName != "成本价"){
         if(e.newValue == undefined || e.newValue == null) e.newValue = 0
         if(isNaN(e.newValue)) {
             e.data[`${e.colDef.field}`] = e.oldValue
@@ -70,6 +70,7 @@ const onCellValueChanged = (e,gridOptions) => {
             e.data['Copies'] = Copies
             e.data['whole'] = countMaterialData[0]
             e.data['dish_key_id']['material_item'] = countMaterialData[1]
+            e.data['costPrice'] = countMaterialData[2]
         }
         // 当前数据 
         
@@ -458,6 +459,8 @@ const onCellValueChanged = (e,gridOptions) => {
             gridOptions.api.refreshCells({force:true})
         }
         // gridOptions.api.refreshCells({force:true})
+    }else if(e.colDef.headerName == "成本价"){
+
     }
 }
 

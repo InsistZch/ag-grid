@@ -53,6 +53,7 @@ const data = () => {
                 obj['whole'] = d_data[0]
                 obj['edit'] = true
                 obj['configure'] = false
+                obj['costPrice'] = d_data[2]
                 obj['dish_key_id'] = {
                     id: dish_key.id,
                     dish_top_category_id: dish_key.dish_top_category_id,
@@ -246,6 +247,7 @@ const init_dish_detailed = (manual_material_qty,count) => {
     // 获取当前菜品详细配料
     let str = ""
     let arr = []
+    let costPrice = 0
     for (const json of manual_material_qty) {
         // 查找材料名称
         let obj = {}
@@ -276,7 +278,10 @@ const init_dish_detailed = (manual_material_qty,count) => {
             }
         }
         str += Math.ceil(json.dish_qty)
-        // console.log(json.dish_qty)
+        json.dish_qty = Math.ceil(json.dish_qty)
+        obj.main_price = (obj.main_price).toFixed(2)
+        // console.log(json.dish_qty, obj.main_price)
+        costPrice += json.dish_qty * obj.main_price
         obj['dish_qty'] = Math.ceil(json.dish_qty)
         // 查找单位
         for (const material_purchase_unit_category of index.material_purchase_unit_category) {
@@ -290,7 +295,8 @@ const init_dish_detailed = (manual_material_qty,count) => {
         // console.log()
         arr.push(obj)
     }
-    return [str,arr]
+    costPrice = Number(costPrice).toFixed(2)
+    return [str, arr, costPrice]
 }
 
 // 获取菜品详细信息
@@ -333,7 +339,16 @@ const dish_detailed = (dish_key,count) => {
             }
             
             str += Math.ceil((count * 0.01) * dish_bom.gbom_qty_high)
+
             arr_data['dish_qty'] = Math.ceil((count * 0.01) * dish_bom.gbom_qty_high)
+
+            
+            arr_data.main_price = (arr_data.main_price).toFixed(2)
+            // console.log(arr_data['dish_qty'], arr_data.main_price)
+            // costPrice += json.dish_qty * obj.main_price
+
+            // console.log(arr_data)
+
             for (const material_purchase_unit_category of index.material_purchase_unit_category) {
                 if(material_purchase_unit_category.id == dish_bom.unit_id){
                     // console.log(5, material_purchase_unit_category)
@@ -343,7 +358,6 @@ const dish_detailed = (dish_key,count) => {
                     arr_data['unit_id'] = material_purchase_unit_category.id
                 }
             }
-            // console.log(arr_data)
             arr.push(arr_data)
         }
     }
@@ -376,6 +390,7 @@ const countMaterialData = ({
     // 选出食品原食材
     const m_arr = []
     const [,arr] = dish_detailed({id:dish_key_id}, newCopies)
+    let costPrice = 0;
     // console.log(material_items, arr)
 
     for (const item of material_items) {
@@ -404,7 +419,11 @@ const countMaterialData = ({
                 m_arr.push({...item})
             }
         }
+        console.log(item, item.dish_qty, item.main_price)
+        item['main_price'] = Number(item['main_price']).toFixed(2)
+        costPrice += item.dish_qty * item.main_price
     }
+    costPrice = costPrice.toFixed(2)
     // whole字段
     const str = m_arr.map(v => {
         const name = v.name.split('-')[0]
@@ -416,7 +435,7 @@ const countMaterialData = ({
         
     }).join(' ')
 
-    return [str, m_arr]
+    return [str, m_arr, costPrice]
 }
 
 // 通过文字，获取菜品

@@ -88,6 +88,13 @@ const col = () => {
             }
         },
         {
+            headerName: '成本价',
+            field: 'costPrice',
+            minWidth: 30,
+            pinned: 'left',
+            editable:false,
+        },
+        {
             headerName:'份数',
             field:'Copies',
             // minWidth:10,
