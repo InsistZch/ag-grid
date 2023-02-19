@@ -1,3 +1,4 @@
+/** @odoo-module **/
 import { mealCopies } from "./ag-grid-row.js"
 
 export default mealCopies(true, false, {
