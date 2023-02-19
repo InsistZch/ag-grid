@@ -163,7 +163,7 @@ const mealCopies = () => {
     let fastConfiguration = mealAbstract({
         name: 'dinner_qty_upper_limit_kc',
         type: '快餐配置',
-        edit: true,
+        edit: false,
         configure: true
     })
 
@@ -172,7 +172,7 @@ const mealCopies = () => {
     let specialConfiguration = mealAbstract({
         name: 'dinner_qty_upper_limit_ts',
         type: '特色配置',
-        edit: true,
+        edit: false,
         configure: true
     })
 
@@ -419,7 +419,7 @@ const countMaterialData = ({
                 m_arr.push({...item})
             }
         }
-        console.log(item, item.dish_qty, item.main_price)
+        // console.log(item, item.dish_qty, item.main_price)
         item['main_price'] = Number(item['main_price']).toFixed(2)
         costPrice += item.dish_qty * item.main_price
     }

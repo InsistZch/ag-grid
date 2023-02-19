@@ -13,11 +13,10 @@ const init_grid_options = () => {
         defaultColDef: {
             editable: params => {
                 // console.log(params)
-                if(isNaN(params.colDef.field)){
+                    console.log(Restrictions(params))
                     if(Restrictions(params)){
                         return false
                     }
-                }
                 // console.log(params)
                 return true
             },//单元表格是否可编辑
