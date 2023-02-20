@@ -1,7 +1,7 @@
 /** @odoo-module **/
 import index from '../../../data/index.js'
 import customCells from './ag-grid-customCells.js';
-import {duibi,headHookLimit} from './ag-grid-row.js';
+import {duibi} from './ag-grid-row.js';
 import preserved_dishes from './preserved_dishes.js';
 import mealCopies from './special_fast_data.js';
 // 定义列
@@ -91,7 +91,7 @@ const col = () => {
         {
             headerName: '成本价',
             field: 'costPrice',
-            minWidth: 30,
+            minWidth: 60,
             pinned: 'left',
             editable:false,
         },
@@ -115,7 +115,6 @@ const col = () => {
         obj['field'] = `${item['id']}`
         obj['minWidth'] = 40
         obj['maxWidth'] = 60
-        obj['columnGroupShow'] = count++ < 10 ? 'closed' : 'open'
         obj['valueParser'] = params => Number(params.newValue)
         obj['menuTabs'] = []
         obj['cellRenderer'] = (params) => {

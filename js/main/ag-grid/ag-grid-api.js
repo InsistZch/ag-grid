@@ -7,6 +7,8 @@ import { add_dish_bom_id, add_material_id } from "../tool.js"
 import specialMeal from "./specialMeal.js"
 import {Restrictions} from './ag-grid-col.js'
 import { copiesNumber } from './../otherApi/index.js'
+import { countMaterialData } from './ag-grid-row.js'
+import {add_material_item_bom_unit_ratio_id} from './../tool.js'
 // import 
 
 // 添加对应数据
@@ -28,7 +30,11 @@ const onCellValueChanged = (e,gridOptions) => {
     document.querySelector('#saveDataSpan').style.visibility = "visible"
     // console.log(e)
     if(e.colDef.headerName != '菜品' && e.colDef.headerName != '配量汇总' && e.colDef.headerName != "成本价"){
-        if(e.newValue == undefined || e.newValue == null || String(e.newValue).trim() == "") e.newValue = 0
+        if(e.newValue == undefined || e.newValue == null || String(e.newValue).trim() == "") {
+            e.data[`${e.colDef.field}`] = 0
+            e.newValue = 0
+        }
+        // console.log(e.newValue)
         if(isNaN(e.newValue)) {
             e.data[`${e.colDef.field}`] = e.oldValue
             gridOptions.api.refreshCells({force:true})
@@ -41,7 +47,7 @@ const onCellValueChanged = (e,gridOptions) => {
         }
         // console.log(e.newValue)
         // const scale = (parseInt(e.newValue) - parseInt(e.oldValue)) / e.data['Copies']
-        const Copies =  copiesNumber(e.data['Copies'] + (Math.ceil(e.newValue) - parseInt(e.oldValue)))
+        const Copies =  e.data['Copies'] + (Math.ceil(e.newValue) - parseInt(e.oldValue))
         // 进入该if只有两种可能
         // 第一，改变了快餐
         // 第二，改变了特色
@@ -65,20 +71,23 @@ const onCellValueChanged = (e,gridOptions) => {
                 
             })
         }else{
-            // console.log('111')
+            // e.data[`${e.colDef.field}`] = copiesNumber(e.data[`${e.colDef.field}`])
+            // console.log(e.data['Copies'], Copies)
             const countMaterialData = agGridRow.countMaterialData({
                 material_items: e.data['dish_key_id']['material_item'],
                 dish_key_id: e.data['dish_key_id']['id'],
                 oldCopies: e.data['Copies'],
                 newCopies: Copies
             })
+            console.log(countMaterialData, Copies)
             e.data['Copies'] = Copies
             e.data['whole'] = countMaterialData[0]
             e.data['dish_key_id']['material_item'] = countMaterialData[1]
-            e.data['costPrice'] = countMaterialData[2]
+            e.data['costPrice'] = isNaN(countMaterialData[2]) ? 0 : countMaterialData[2]  
         }
+        console.log(e.data)
         // 当前数据 101
-        e.data[`${e.colDef.field}`] = copiesNumber(e.data[`${e.colDef.field}`])
+        
         gridOptions.api.refreshCells({force:true})
     }else if(e.colDef.headerName == '菜品'){
         if(e.newValue == null || e.newValue == undefined || e.newValue.trim() == ""){
@@ -171,7 +180,7 @@ const onCellValueChanged = (e,gridOptions) => {
                 // console.log(units)
                 const judeg = units.every(v => v.name != d[3])
                 // console.log(d)
-                if(judeg && d[3] != undefined && d[3].trim() != "" ){
+                if(judeg && d[3] != undefined && d[3].trim() != ""){
                     // console.log(d)
                     const unit_category = index.material_purchase_unit_category.find(v => v.name== d[3])
                     if(unit_category == undefined){
@@ -189,11 +198,34 @@ const onCellValueChanged = (e,gridOptions) => {
                                 gridOptions.api.refreshCells({force:true})
                             },
                             sureFun(_parent){
-                                let ratio = _parent.querySelector('#foodUnit_ratio')
+                                const ratio = _parent.querySelector('#foodUnit_ratio')
+                                const unitName = _parent.querySelector('#foodUnit_unitName')
+                                const unitNameValue = unitName.querySelector(`option[value="${unitName.value}"]`)
                                 if(ratio.value == null || ratio.value.trim() == ""){
                                     return false
                                 }
+                                const material_item = e.data.dish_key_id.material_item.find(v => {
+                                    return v.name.split('-')[0] + v.unit_name == d[1]
+                                })
+                                const id = add_material_item_bom_unit_ratio_id()
+                                // 插入数据表内数据
+                                index.material_item_bom_unit_ratio.push({
+                                    "id": id,
+                                    "material_id": material_item.id, 
+                                    "purchase_unit_id": unitName.value, 
+                                    "main_unit_bom_unit_ratio": Number(ratio.value)
+                                })
+                                // 插入展示表数据
+                                for (const item of e.data.dish_key_id.material_item) {
+                                    if(item.id == material_item.id){
+                                        item['main_unit_bom_unit_ratio'] = Number(ratio.value)
+                                        item['unit_id'] = unitName.value
+                                        item['unit_name'] = unitNameValue.innerText
+                                        item['bom_unit_ratio_ids'].push(id)
+                                    }
+                                }
 
+                                gridOptions.api.refreshCells({force:true})
                                 return true
                             },
                             initFun(_parent){
@@ -534,11 +566,14 @@ const onCellValueChanged = (e,gridOptions) => {
                     e.data[`${e.colDef.field}`] = e.oldValue
                 }
             }
-            countMaterialData({
+            // 当配量汇总发生改变时，costPrice也需要刷新
+            const [,,costPrice] = countMaterialData({
                 material_items: e.data.dish_key_id.material_item,
                 dish_key_id: e.data.dish_key_id.id,
-                oldCopies: e.data.dish_key_id
+                oldCopies: e.data.Copies,
+                newCopies: e.data.Copies
             })
+            e.data.costPrice = costPrice
             gridOptions.api.refreshCells({force:true})
         }
         // gridOptions.api.refreshCells({force:true})

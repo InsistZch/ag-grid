@@ -5,8 +5,8 @@ import {data} from './ag-grid-row.js'
 import GroupRowInnerRenderer from './GroupRowInnerRenderer.js'
 
 
-const init_grid_options = () => {
 
+const init_grid_options = () => {
     const gridOptions = {
         columnDefs: col(),
         rowData: data(),

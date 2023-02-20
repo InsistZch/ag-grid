@@ -12,6 +12,7 @@ let make_add_function = () => {
 const add_material_id = make_add_function();
 const add_dish_bom_id = make_add_function();
 const add_dish_key_id = make_add_function();
+const add_material_item_bom_unit_ratio_id = make_add_function();
 
 
 
@@ -19,4 +20,5 @@ export {
     add_material_id,
     add_dish_bom_id,
     add_dish_key_id,
+    add_material_item_bom_unit_ratio_id
 }
