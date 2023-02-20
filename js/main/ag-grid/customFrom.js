@@ -5,7 +5,7 @@
 // sure => string
 // deleteData => array[string]
 // cancelFun => function
-// sureFun => function
+// sureFun => function  => return Boolean
 // initFun => function
 // }
 
@@ -33,9 +33,9 @@ const dom = ({parent,cancel,sure,deleteData,cancelFun = () => {},sureFun = () =>
         }
     }
     _sure.onclick = () => {
-        sureFun(_parent)
-        deldata()
-        _parent.style.display = 'none'
+        const isSure = sureFun(_parent)
+        isSure ?  deldata() : ""
+        isSure ? _parent.style.display = 'none' : ""
     }
     return _parent
 }

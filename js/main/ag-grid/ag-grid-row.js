@@ -1,6 +1,7 @@
 /** @odoo-module **/
 import index from '../../../data/index.js'
 import specialMeal from './specialMeal.js'
+import {copiesNumber} from './../otherApi/index.js'
 
 // 向window添加数据
 window.cus_loc_ids = Object.keys(index.plan_day_record_show[0]['cus_loc_info']).map(v => v.split('_')[1])
@@ -29,6 +30,7 @@ const data = () => {
         for (const play_object_item of Object.keys(json)) {
             const item2 = play_object_item.split('_')[1]
             // console.log(item2, json[play_object_item])
+            json[play_object_item] = copiesNumber(json[play_object_item])
             obj[`${item2}`] = json[play_object_item]
             count += json[play_object_item]
         }
@@ -234,7 +236,7 @@ const mealAbstract = ({
         let obj = {}
         for (const id of userIds) {
             const dinner_mode_data = index.dinner_mode.find(v => v.cus_loc_id == id && type_item == v.dinner_type)
-            obj[id] = dinner_mode_data == undefined ? 0 : dinner_mode_data[name]
+            obj[id] = dinner_mode_data == undefined ? 0 : copiesNumber(dinner_mode_data[name]) 
         }
         obj['cl1'] = type_item == 'dn2' ? '午餐' : type_item == 'dn3' ? '晚餐' : type_item == 'dn5' ? '夜餐' : '早餐'
         obj['dinner_type'] = type_item
@@ -302,7 +304,8 @@ const init_dish_detailed = (manual_material_qty,count) => {
         const [{main_unit_bom_unit_ratio}] = index.material_item_bom_unit_ratio.filter(v => v.material_id == obj.id && v.purchase_unit_id == obj.main_unit_id)
         // console.log(ratio)
         // console.log(obj.name, obj.main_price, main_unit_bom_unit_ratio)
-        costPrice += obj.main_price * main_unit_bom_unit_ratio
+        obj['main_unit_bom_unit_ratio'] = main_unit_bom_unit_ratio
+        costPrice += (obj.main_price * main_unit_bom_unit_ratio * obj['dish_qty']) / count
         
         // 查找单位
         for (const material_purchase_unit_category of index.material_purchase_unit_category) {
@@ -319,7 +322,7 @@ const init_dish_detailed = (manual_material_qty,count) => {
     costPrice = Number(costPrice).toFixed(2)
     return [str, arr, costPrice]
 }
-
+// 
 // 获取菜品详细信息
 const dish_detailed = (dish_key,count) => {
     // 获取当前菜品详细配料
@@ -425,7 +428,8 @@ const countMaterialData = ({
             }else{
                 // 增加比例
                 const scale = (newCopies - oldCopies) / oldCopies
-                item.dish_qty = Math.ceil(parseInt(item.dish_qty) + (parseInt(item.dish_qty) * scale))
+                console.log(scale,item.dish_qty)
+                item.dish_qty = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))
                 m_arr.push({...item})
             }
         }else{
@@ -436,13 +440,14 @@ const countMaterialData = ({
             }else{
                 // 增加比例
                 const scale = (newCopies - oldCopies) / oldCopies
-                item.dish_qty = Math.ceil(parseInt(item.dish_qty) + (parseInt(item.dish_qty) * scale))
+                console.log(scale,item.dish_qty)
+                item.dish_qty = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))
                 m_arr.push({...item})
             }
         }
         // console.log(item, item.dish_qty, item.main_price)
         item['main_price'] = Number(item['main_price'])
-        costPrice += item.main_price
+        costPrice += (item.main_price * item.main_unit_bom_unit_ratio * item.dish_qty) / newCopies
     }
     costPrice = costPrice.toFixed(2)
     // whole字段

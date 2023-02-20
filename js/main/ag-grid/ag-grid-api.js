@@ -6,6 +6,7 @@ import saveData from "../saveData/index.js"
 import { add_dish_bom_id, add_material_id } from "../tool.js"
 import specialMeal from "./specialMeal.js"
 import {Restrictions} from './ag-grid-col.js'
+import { copiesNumber } from './../otherApi/index.js'
 // import 
 
 // 添加对应数据
@@ -27,7 +28,7 @@ const onCellValueChanged = (e,gridOptions) => {
     document.querySelector('#saveDataSpan').style.visibility = "visible"
     // console.log(e)
     if(e.colDef.headerName != '菜品' && e.colDef.headerName != '配量汇总' && e.colDef.headerName != "成本价"){
-        if(e.newValue == undefined || e.newValue == null) e.newValue = 0
+        if(e.newValue == undefined || e.newValue == null || String(e.newValue).trim() == "") e.newValue = 0
         if(isNaN(e.newValue)) {
             e.data[`${e.colDef.field}`] = e.oldValue
             gridOptions.api.refreshCells({force:true})
@@ -40,7 +41,7 @@ const onCellValueChanged = (e,gridOptions) => {
         }
         // console.log(e.newValue)
         // const scale = (parseInt(e.newValue) - parseInt(e.oldValue)) / e.data['Copies']
-        const Copies =  e.data['Copies'] + (parseInt(e.newValue) - parseInt(e.oldValue))
+        const Copies =  copiesNumber(e.data['Copies'] + (Math.ceil(e.newValue) - parseInt(e.oldValue)))
         // 进入该if只有两种可能
         // 第一，改变了快餐
         // 第二，改变了特色
@@ -51,19 +52,20 @@ const onCellValueChanged = (e,gridOptions) => {
                 // console.log(v)
                 // 改变当前列所有符合条件的值
                 // 计算改变比率
-                const ratio = ((parseInt(e.newValue) - parseInt(e.oldValue)) / parseInt(e.oldValue)).toFixed(2)
+                const ratio = ((copiesNumber(Math.ceil(e.newValue))  - parseInt(e.oldValue)) / parseInt(e.oldValue))
                 
                 if(e.data.type == "快餐"){
                     // 当specialMealID有值时，表示类型为特餐
                     if(v.data.specialMealID != null || v.data.type == "快餐" || v.data.type == "特色") return
-                    v.data[`${e.colDef.field}`] = v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio)
+                    v.data[`${e.colDef.field}`] = copiesNumber(Math.ceil(v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio)))
                 }else{
                     if(v.data.specialMealID == null || v.data.type == "快餐" || v.data.type == "特色") return
-                    v.data[`${e.colDef.field}`] = v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio)
+                    v.data[`${e.colDef.field}`] = copiesNumber(Math.ceil(v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio)))
                 }
                 
             })
         }else{
+            // console.log('111')
             const countMaterialData = agGridRow.countMaterialData({
                 material_items: e.data['dish_key_id']['material_item'],
                 dish_key_id: e.data['dish_key_id']['id'],
@@ -75,8 +77,8 @@ const onCellValueChanged = (e,gridOptions) => {
             e.data['dish_key_id']['material_item'] = countMaterialData[1]
             e.data['costPrice'] = countMaterialData[2]
         }
-        // 当前数据 
-        
+        // 当前数据 101
+        e.data[`${e.colDef.field}`] = copiesNumber(e.data[`${e.colDef.field}`])
         gridOptions.api.refreshCells({force:true})
     }else if(e.colDef.headerName == '菜品'){
         if(e.newValue == null || e.newValue == undefined || e.newValue.trim() == ""){
@@ -141,15 +143,84 @@ const onCellValueChanged = (e,gridOptions) => {
             }
 
             // 当找不到用户输入的单位,则回滚
-            
-            const judeg = index.material_purchase_unit_category.every(v => v.name != d[3])
-            // console.log(d)
-            if(judeg && d[3] != undefined && d[3].trim() != "" ){
+
+            // 找到当前所有的单位id
+            let bom_unit_ratio_ids = e.data.dish_key_id.material_item.find(v => {
+                const vname = v.name.split('-')[0]
+                const ename = d[1].substr(0, d[1].length - v.dish_process_category_name.length)
+
+
+                // console.log(vname, ename, d[1], d[3])
+                return vname == ename
+            })
+            if(bom_unit_ratio_ids != null){
+                bom_unit_ratio_ids = bom_unit_ratio_ids.bom_unit_ratio_ids
+                // 找到所有的单位
+                const units = []
+                for (const id of bom_unit_ratio_ids) {
+                    for (const unit_ratio of index.material_item_bom_unit_ratio) {
+                        if(id == unit_ratio.id){
+                            const {name} = index.material_purchase_unit_category.find(v => v.id == unit_ratio.purchase_unit_id)
+                            units.push({
+                                ...unit_ratio,
+                                name
+                            })
+                        }
+                    }
+                }
+                // console.log(units)
+                const judeg = units.every(v => v.name != d[3])
                 // console.log(d)
-                e.data[`${e.colDef.field}`] = e.oldValue
-                gridOptions.api.refreshCells({force:true})
-                break
+                if(judeg && d[3] != undefined && d[3].trim() != "" ){
+                    // console.log(d)
+                    const unit_category = index.material_purchase_unit_category.find(v => v.name== d[3])
+                    if(unit_category == undefined){
+                        e.data[`${e.colDef.field}`] = e.oldValue
+                        gridOptions.api.refreshCells({force:true})
+                        break
+                    }else{
+                        customFromDom({
+                            parent:"#foodUnit",
+                            cancel:["#foodUnit_cancel1", "#foodUnit_cancel2"],
+                            sure: "#foodUnit_sure",
+                            deleteData: ["#foodUnit_unitName"],
+                            cancelFun(){
+                                e.data[`${e.colDef.field}`] = e.oldValue
+                                gridOptions.api.refreshCells({force:true})
+                            },
+                            sureFun(_parent){
+                                let ratio = _parent.querySelector('#foodUnit_ratio')
+                                if(ratio.value == null || ratio.value.trim() == ""){
+                                    return false
+                                }
+
+                                return true
+                            },
+                            initFun(_parent){
+                                const unitName = _parent.querySelector('#foodUnit_unitName')
+                                const ratio = _parent.querySelector('#foodUnit_ratio')
+                                ratio.value = 1
+                                ratio.onkeyup = (e) => {
+                                    if(isNaN(ratio.value) || parseFloat(ratio.value) < 0){
+                                        ratio.value = 1
+                                    }
+                                    if(ratio.value.trim() == ""){
+                                        ratio.focus()
+                                    }
+                                }
+
+                                index.material_purchase_unit_category.forEach(v => {
+                                    unitName.innerHTML += v.name == d[3] ? 
+                                `<option value=${v.id} selected>${v.name}</option>` :
+                                `<option value=${v.id}>${v.name}</option>`
+                                })
+                            },
+                        })
+                    }
+                    
+                }
             }
+            
 
             // 发现两个一样的菜品,回滚
             // console.log(e.newValue.split(d[0]))
@@ -215,6 +286,8 @@ const onCellValueChanged = (e,gridOptions) => {
                             e.data.dish_key_id.material_item.push({
                                 ...material_item,
                                 dish_process_category_name: name,
+                                unit_name:d[3],
+                                dish_qty:d[2],
                             })
                             break dpc
                         }
@@ -228,7 +301,6 @@ const onCellValueChanged = (e,gridOptions) => {
                         // console.log(d[1], mV, value, judeg)
                         
                         if(!judeg){
-                            console.log('2')
                             e.data.dish_key_id.material_item.push({
                                 ...material_item,
                                 dish_process_category_name: "",
@@ -242,7 +314,7 @@ const onCellValueChanged = (e,gridOptions) => {
                     
                 }
             }
-            console.log(e.data.dish_key_id.material_item)
+            // console.log(e.data.dish_key_id.material_item)
            
 
             //  去掉所有重复的数据
@@ -251,11 +323,12 @@ const onCellValueChanged = (e,gridOptions) => {
                 if(judeg){
                     if(d[1] == v.name.split('-')[0]){
                         const value = data_name.split(d[1])[1]
+                        console.log(value, d[3])
                         pre.push({
                             ...v,
                             unit_name:d[3],
                             dish_qty:d[2],
-                            dish_process_category_name: value
+                            dish_process_category_name: d[3]
                         })
                     }else{
                         pre.push(v)
@@ -290,7 +363,7 @@ const onCellValueChanged = (e,gridOptions) => {
                         let dishes_company = document.querySelector('#write_Side_dishes_company')
                         let dishes_category = document.querySelector('#write_Side_dishes_category')
 
-                        console.log(name, material_item)
+                        // console.log(name, material_item)
                         // 定义变量
                         // 查看是否带切片方式
                         let section_str = d[1] != data_name ? data_name.split(d[1])[1] : "无"
@@ -361,6 +434,7 @@ const onCellValueChanged = (e,gridOptions) => {
                                 // e.data[`${e.colDef.field}`] = e.data[`${e.colDef.field}`].replace(`/${data_name}(\d+)?(.+)? /`, )
                                 e.data[`${e.colDef.field}`] = str
                                 gridOptions.api.refreshCells({force:true})
+                                return true
                             }
                         })
                     }
@@ -400,7 +474,7 @@ const onCellValueChanged = (e,gridOptions) => {
                             gridOptions.api.refreshCells({force:true})
                         },
                         sureFun:(_parent) => {
-                            console.log(customPhase, customPhase.value)
+                            // console.log(customPhase, customPhase.value)
                             const customPhaseValue = customPhase.querySelector(`option[value="${customPhase.value}"]`).innerText
                             let name = `${customName.value}-${customFrom.value}-${customPhaseValue}`
                             
@@ -453,12 +527,18 @@ const onCellValueChanged = (e,gridOptions) => {
                             }
                             e.data[`${e.colDef.field}`] = strs.join(' ')
                             gridOptions.api.refreshCells({force:true})
+                            return true
                         }
-                        })
+                    })
                 }else{
                     e.data[`${e.colDef.field}`] = e.oldValue
                 }
             }
+            countMaterialData({
+                material_items: e.data.dish_key_id.material_item,
+                dish_key_id: e.data.dish_key_id.id,
+                oldCopies: e.data.dish_key_id
+            })
             gridOptions.api.refreshCells({force:true})
         }
         // gridOptions.api.refreshCells({force:true})
@@ -516,6 +596,8 @@ const getContextMenuItems = (params, gridOptions) => {
                         console.log(params)
                         gridOptions.api.expandAll()
                         gridOptions.api.applyTransaction({ add: data, addIndex: params.node.rowIndex + 1})
+
+                        return  true
                         // gridOptions.api.forEachNode(node => {
                         //     if(node.key != params.node.data.cl1){
                         //         console.log(node, params)
@@ -605,6 +687,8 @@ const getContextMenuItems = (params, gridOptions) => {
 
                         gridOptions.api.expandAll()
                         gridOptions.api.applyTransaction({ add: data, addIndex: params.node.rowIndex + 1})
+
+                        return true
                     }
                 })
             }
