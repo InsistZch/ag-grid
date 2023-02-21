@@ -79,13 +79,13 @@ const onCellValueChanged = (e,gridOptions) => {
                 oldCopies: e.data['Copies'],
                 newCopies: Copies
             })
-            console.log(countMaterialData, Copies)
+            // console.log(countMaterialData, Copies)
             e.data['Copies'] = Copies
             e.data['whole'] = countMaterialData[0]
             e.data['dish_key_id']['material_item'] = countMaterialData[1]
             e.data['costPrice'] = isNaN(countMaterialData[2]) ? 0 : countMaterialData[2]  
         }
-        console.log(e.data)
+        // console.log(e.data)
         // 当前数据 101
         
         gridOptions.api.refreshCells({force:true})
