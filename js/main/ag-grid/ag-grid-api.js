@@ -161,7 +161,7 @@ const onCellValueChanged = (e,gridOptions) => {
             // 找到当前所有的单位id
             let bom_unit_ratio_ids = e.data.dish_key_id.material_item.find(v => {
                 const vname = v.name.split('-')[0]
-                console.log(v)
+                // console.log(v)
                 const ename = d[1].substr(0, d[1].length - (v.dish_process_category_name == undefined ? 0 : v.dish_process_category_name.length))
                 // console.log(vname, ename, d[1], d[3])
                 return vname == ename
@@ -181,7 +181,11 @@ const onCellValueChanged = (e,gridOptions) => {
                         }
                     }
                 }
-                // console.log(units)
+                console.log(units)
+                // dish_process_category_name => 切片方式
+                // unit_name => 单位
+                // 判断whole字段中的单位是否全部 不等于 当前的已有的单位
+                // 全部不等于返回 true
                 const judeg = units.every(v => v.name != d[3])
                 // console.log(d)
                 if(judeg && d[3] != undefined && d[3].trim() != ""){
@@ -254,6 +258,23 @@ const onCellValueChanged = (e,gridOptions) => {
                         })
                     }
                     
+                }else{
+                    // 切换转换比等信息
+                    const m_item = e.data.dish_key_id.material_item
+                    unit: for (const unit of units) {
+                        for (const key in m_item) {
+                            if(unit.name == d[3]){
+                                // console.log(m_item, unit)
+                                m_item[key]['main_unit_bom_unit_ratio'] = unit.main_unit_bom_unit_ratio
+                                m_item[key]['main_unit_id'] = unit.id
+                                m_item[key]['unit_id'] = unit.purchase_unit_id
+                                m_item[key]['unit_name'] = unit.name
+                                break unit
+                            }
+                        }
+                    }
+                    // console.log(m_item)
+                    e.data.dish_key_id.material_item = [...m_item]
                 }
             }
             
@@ -339,8 +360,8 @@ const onCellValueChanged = (e,gridOptions) => {
                             e.data.dish_key_id.material_item.push({
                                 ...material_item,
                                 dish_process_category_name: "",
-                                unit_name:d[3],
-                                dish_qty:d[2],
+                                unit_name: d[3],
+                                dish_qty: d[2],
                             })
                             // console.log(e.data.dish_key_id.material_item)
                             break dpc
@@ -357,13 +378,15 @@ const onCellValueChanged = (e,gridOptions) => {
                 const judeg = [...pre].every(v2 => v2.id != v.id)
                 if(judeg){
                     if(d[1] == v.name.split('-')[0]){
-                        const value = data_name.split(d[1])[1]
+                        // const value = data_name.split(d[1])[1]
                         // console.log(value, d[3])
+                        // dish_process_category_name => 切片方式
+                        const dish_process_category_name = data_name.split(d[1])[1]
                         pre.push({
                             ...v,
                             unit_name:d[3],
                             dish_qty:d[2],
-                            dish_process_category_name: d[3]
+                            dish_process_category_name,
                         })
                     }else{
                         pre.push(v)

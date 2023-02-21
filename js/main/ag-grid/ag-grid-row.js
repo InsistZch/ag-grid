@@ -457,6 +457,7 @@ const countMaterialData = ({
         m_item['main_price'] = Number(m_item['main_price'])
         // console.log(m_item)
         let { main_unit_bom_unit_ratio } = index.material_item_bom_unit_ratio.find(v => v.material_id == m_item.id && v.purchase_unit_id == m_item.unit_id)
+        
         // main_unit_bom_unit_ratio = main_unit_bom_unit_ratio == undefined ? 0 : main_unit_bom_unit_ratio.main_unit_bom_unit_ratio
         m_item['main_unit_bom_unit_ratio'] = main_unit_bom_unit_ratio
         costPrice += (m_item.main_price * m_item.main_unit_bom_unit_ratio * m_item.dish_qty) / newCopies
