@@ -161,9 +161,8 @@ const onCellValueChanged = (e,gridOptions) => {
             // 找到当前所有的单位id
             let bom_unit_ratio_ids = e.data.dish_key_id.material_item.find(v => {
                 const vname = v.name.split('-')[0]
-                const ename = d[1].substr(0, d[1].length - v.dish_process_category_name.length)
-
-
+                console.log(v)
+                const ename = d[1].substr(0, d[1].length - (v.dish_process_category_name == undefined ? 0 : v.dish_process_category_name.length))
                 // console.log(vname, ename, d[1], d[3])
                 return vname == ename
             })
@@ -309,17 +308,16 @@ const onCellValueChanged = (e,gridOptions) => {
                         if(judeg){
                             // 去掉切片方式
                             // console.log(mV, d[1])
-                            let j = false
-                            if(mV == d[1]){
+                            if(material_item.name.split('-')[0] + name != d[1]) continue
+                            if(mV != d[1]){
                                 // console.log(mV, d[1])
-                                break dpc
+                                d[1] = d[1].substr(0, d[1].length - name.length)
                             }else{
                                 // d[1] = d[1].split(name)[0]
-                                j = true
-                                d[1] = d[1].substr(0, d[1].length - name.length)
+                                // d[1] = d[1].substr(0, d[1].length - name.length)
                             }
                             // const judeg = 
-                            // console.log('1', d[1], data_name)
+                            // console.log(material_item)
                             e.data.dish_key_id.material_item.push({
                                 ...material_item,
                                 dish_process_category_name: name,
@@ -360,7 +358,7 @@ const onCellValueChanged = (e,gridOptions) => {
                 if(judeg){
                     if(d[1] == v.name.split('-')[0]){
                         const value = data_name.split(d[1])[1]
-                        console.log(value, d[3])
+                        // console.log(value, d[3])
                         pre.push({
                             ...v,
                             unit_name:d[3],
@@ -391,7 +389,7 @@ const onCellValueChanged = (e,gridOptions) => {
                 if(name == d[1]){
                     // console.log(material_item)
                     //  确认是否输入数量，单位
-                    console.log(d, d[2], [3])
+                    // console.log(d, d[2], [3])
                     if(d[2] == undefined || d[3] == undefined){
                         // 查找材料名称 切片方式 数量 单位
                         let dishes_name = document.querySelector('#write_Side_dishes_name')
@@ -430,7 +428,7 @@ const onCellValueChanged = (e,gridOptions) => {
 
                                 dishes_quantity.value = d[2] != undefined && d[2].trim() != "" ? d[2] : 0
 
-                                console.log(m, d[1])
+                                // console.log(m, d[1])
                             },
                             cancelFun:() => {
                                 e.data[`${e.colDef.field}`] = e.oldValue
@@ -458,16 +456,18 @@ const onCellValueChanged = (e,gridOptions) => {
 
                                 // 替换原数据
                                 let str = ""
-                                console.log(e.data[`${e.colDef.field}`].split(' '))
+                                // console.log(e.data[`${e.colDef.field}`].split(' '))
                                 for (let item of e.data[`${e.colDef.field}`].split(' ')) {
+                                    if(item.trim() == "") continue
                                     const dish_str = dishes_name.value + section + number + compamy + " "
+                                    // console.log(dish_str)
                                     if(dish_str.includes(item.replace(/\d+(\.\d+)?/, number))){
                                         str += dish_str
                                         continue
                                     }
                                     str += item + " "
                                 }
-                                console.log(str)
+                                // console.log(str)
                                 // e.data[`${e.colDef.field}`] = e.data[`${e.colDef.field}`].replace(`/${data_name}(\d+)?(.+)? /`, )
                                 e.data[`${e.colDef.field}`] = str
                                 gridOptions.api.refreshCells({force:true})
