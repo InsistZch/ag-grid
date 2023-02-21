@@ -414,7 +414,7 @@ const countMaterialData = ({
     // console.log(dish_key_id)
     // console.log('111')
     // 选出食品原食材
-    console.log(newCopies, oldCopies)
+    // console.log(newCopies, oldCopies)
     const m_arr = []
     const [,arr] = dish_detailed({id:dish_key_id}, newCopies)
     let costPrice = 0;
@@ -423,6 +423,7 @@ const countMaterialData = ({
     for (const item of material_items) {
         // 寻找该食材是否为食品原食材
         const ingredients = arr.find(v => v.id == item.id)
+        // console.log(ingredients)
         // 是原食材进入if 不是原食材进入else
         if(ingredients != undefined){
             // 如果原食材没有数量则进入if 有数量则进入else
@@ -454,12 +455,14 @@ const countMaterialData = ({
     for (const m_item of m_arr) {
         // console.log(item, item.dish_qty, item.main_price)
         m_item['main_price'] = Number(m_item['main_price'])
+        // console.log(m_item)
         let { main_unit_bom_unit_ratio } = index.material_item_bom_unit_ratio.find(v => v.material_id == m_item.id && v.purchase_unit_id == m_item.unit_id)
+        
         // main_unit_bom_unit_ratio = main_unit_bom_unit_ratio == undefined ? 0 : main_unit_bom_unit_ratio.main_unit_bom_unit_ratio
         m_item['main_unit_bom_unit_ratio'] = main_unit_bom_unit_ratio
         costPrice += (m_item.main_price * m_item.main_unit_bom_unit_ratio * m_item.dish_qty) / newCopies
     }
-    console.log(m_arr)
+    // console.log(m_arr)
     costPrice = costPrice.toFixed(2)
     // whole字段
     const str = m_arr.map(v => {

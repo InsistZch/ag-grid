@@ -7,7 +7,7 @@ const copiesNumber = (num) => {
         let lastNumber = String(num)[String(num).length - 1]
         if(Number(lastNumber) > 5){
             num = num - Number(lastNumber) + 10
-        }else{
+        }else if(Number(lastNumber) != 0){
             num = num - Number(lastNumber) + 5
         }
         return num

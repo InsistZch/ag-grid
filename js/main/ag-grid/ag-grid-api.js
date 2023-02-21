@@ -51,6 +51,9 @@ const onCellValueChanged = (e,gridOptions) => {
         // 进入该if只有两种可能
         // 第一，改变了快餐
         // 第二，改变了特色
+        // 增加比例
+        const ratio = ((Math.ceil(e.newValue) - parseInt(e.oldValue)) / parseInt(e.oldValue == 0 ? 1 : e.oldValue))
+        // console.log(e.newValue, e.oldValue, ratio)
         if(e.data.configure && !e.data.fixed){
             e.data['Copies'] = Copies
             e.api.forEachNode(v => {
@@ -58,17 +61,19 @@ const onCellValueChanged = (e,gridOptions) => {
                 // console.log(v)
                 // 改变当前列所有符合条件的值
                 // 计算改变比率
-                const ratio = ((copiesNumber(Math.ceil(e.newValue))  - parseInt(e.oldValue)) / parseInt(e.oldValue))
-                
+
                 if(e.data.type == "快餐"){
                     // 当specialMealID有值时，表示类型为特餐
                     if(v.data.specialMealID != null || v.data.type == "快餐" || v.data.type == "特色") return
                     v.data[`${e.colDef.field}`] = copiesNumber(Math.ceil(v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio)))
                 }else{
-                    if(v.data.specialMealID == null || v.data.type == "快餐" || v.data.type == "特色") return
-                    v.data[`${e.colDef.field}`] = copiesNumber(Math.ceil(v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio)))
+                    
+                    if(v.data.specialMealID == null || v.data.type == "快餐") return
+                    if(v.data.specialMealID == null && v.data.type == "特色") return
+                    // console.log(Math.ceil( v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio) ))
+                    v.data[`${e.colDef.field}`] = copiesNumber( Math.ceil( v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio) ) )
+                    // console.log(v.data[`${e.colDef.field}`])
                 }
-                
             })
         }else{
             // e.data[`${e.colDef.field}`] = copiesNumber(e.data[`${e.colDef.field}`])
@@ -79,13 +84,13 @@ const onCellValueChanged = (e,gridOptions) => {
                 oldCopies: e.data['Copies'],
                 newCopies: Copies
             })
-            console.log(countMaterialData, Copies)
+            // console.log(countMaterialData, Copies)
             e.data['Copies'] = Copies
             e.data['whole'] = countMaterialData[0]
             e.data['dish_key_id']['material_item'] = countMaterialData[1]
             e.data['costPrice'] = isNaN(countMaterialData[2]) ? 0 : countMaterialData[2]  
         }
-        console.log(e.data)
+        // console.log(e.data)
         // 当前数据 101
         
         gridOptions.api.refreshCells({force:true})
@@ -156,9 +161,8 @@ const onCellValueChanged = (e,gridOptions) => {
             // 找到当前所有的单位id
             let bom_unit_ratio_ids = e.data.dish_key_id.material_item.find(v => {
                 const vname = v.name.split('-')[0]
-                const ename = d[1].substr(0, d[1].length - v.dish_process_category_name.length)
-
-
+                // console.log(v)
+                const ename = d[1].substr(0, d[1].length - (v.dish_process_category_name == undefined ? 0 : v.dish_process_category_name.length))
                 // console.log(vname, ename, d[1], d[3])
                 return vname == ename
             })
@@ -177,7 +181,11 @@ const onCellValueChanged = (e,gridOptions) => {
                         }
                     }
                 }
-                // console.log(units)
+                console.log(units)
+                // dish_process_category_name => 切片方式
+                // unit_name => 单位
+                // 判断whole字段中的单位是否全部 不等于 当前的已有的单位
+                // 全部不等于返回 true
                 const judeg = units.every(v => v.name != d[3])
                 // console.log(d)
                 if(judeg && d[3] != undefined && d[3].trim() != ""){
@@ -250,6 +258,23 @@ const onCellValueChanged = (e,gridOptions) => {
                         })
                     }
                     
+                }else{
+                    // 切换转换比等信息
+                    const m_item = e.data.dish_key_id.material_item
+                    unit: for (const unit of units) {
+                        for (const key in m_item) {
+                            if(unit.name == d[3]){
+                                // console.log(m_item, unit)
+                                m_item[key]['main_unit_bom_unit_ratio'] = unit.main_unit_bom_unit_ratio
+                                m_item[key]['main_unit_id'] = unit.id
+                                m_item[key]['unit_id'] = unit.purchase_unit_id
+                                m_item[key]['unit_name'] = unit.name
+                                break unit
+                            }
+                        }
+                    }
+                    // console.log(m_item)
+                    e.data.dish_key_id.material_item = [...m_item]
                 }
             }
             
@@ -304,17 +329,16 @@ const onCellValueChanged = (e,gridOptions) => {
                         if(judeg){
                             // 去掉切片方式
                             // console.log(mV, d[1])
-                            let j = false
-                            if(mV == d[1]){
+                            if(material_item.name.split('-')[0] + name != d[1]) continue
+                            if(mV != d[1]){
                                 // console.log(mV, d[1])
-                                break dpc
+                                d[1] = d[1].substr(0, d[1].length - name.length)
                             }else{
                                 // d[1] = d[1].split(name)[0]
-                                j = true
-                                d[1] = d[1].substr(0, d[1].length - name.length)
+                                // d[1] = d[1].substr(0, d[1].length - name.length)
                             }
                             // const judeg = 
-                            // console.log('1', d[1], data_name)
+                            // console.log(material_item)
                             e.data.dish_key_id.material_item.push({
                                 ...material_item,
                                 dish_process_category_name: name,
@@ -329,15 +353,15 @@ const onCellValueChanged = (e,gridOptions) => {
                         // 
                         const value = data_name.split(mV)[1]
                         // 只要有有一个等于就返回true
-                        // const judeg = index.dish_process_category.every(v => v.name != value && value != undefined)
+                        const judeg = index.dish_process_category.every(v => v.name != value && value != undefined)
                         // console.log(d[1], mV, value, judeg)
                         
                         if(!judeg){
                             e.data.dish_key_id.material_item.push({
                                 ...material_item,
                                 dish_process_category_name: "",
-                                unit_name:d[3],
-                                dish_qty:d[2],
+                                unit_name: d[3],
+                                dish_qty: d[2],
                             })
                             // console.log(e.data.dish_key_id.material_item)
                             break dpc
@@ -354,13 +378,15 @@ const onCellValueChanged = (e,gridOptions) => {
                 const judeg = [...pre].every(v2 => v2.id != v.id)
                 if(judeg){
                     if(d[1] == v.name.split('-')[0]){
-                        const value = data_name.split(d[1])[1]
-                        console.log(value, d[3])
+                        // const value = data_name.split(d[1])[1]
+                        // console.log(value, d[3])
+                        // dish_process_category_name => 切片方式
+                        const dish_process_category_name = data_name.split(d[1])[1]
                         pre.push({
                             ...v,
                             unit_name:d[3],
                             dish_qty:d[2],
-                            dish_process_category_name: d[3]
+                            dish_process_category_name,
                         })
                     }else{
                         pre.push(v)
@@ -386,7 +412,7 @@ const onCellValueChanged = (e,gridOptions) => {
                 if(name == d[1]){
                     // console.log(material_item)
                     //  确认是否输入数量，单位
-                    console.log(d, d[2], [3])
+                    // console.log(d, d[2], [3])
                     if(d[2] == undefined || d[3] == undefined){
                         // 查找材料名称 切片方式 数量 单位
                         let dishes_name = document.querySelector('#write_Side_dishes_name')
@@ -425,7 +451,7 @@ const onCellValueChanged = (e,gridOptions) => {
 
                                 dishes_quantity.value = d[2] != undefined && d[2].trim() != "" ? d[2] : 0
 
-                                console.log(m, d[1])
+                                // console.log(m, d[1])
                             },
                             cancelFun:() => {
                                 e.data[`${e.colDef.field}`] = e.oldValue
@@ -453,16 +479,18 @@ const onCellValueChanged = (e,gridOptions) => {
 
                                 // 替换原数据
                                 let str = ""
-                                console.log(e.data[`${e.colDef.field}`].split(' '))
+                                // console.log(e.data[`${e.colDef.field}`].split(' '))
                                 for (let item of e.data[`${e.colDef.field}`].split(' ')) {
+                                    if(item.trim() == "") continue
                                     const dish_str = dishes_name.value + section + number + compamy + " "
+                                    // console.log(dish_str)
                                     if(dish_str.includes(item.replace(/\d+(\.\d+)?/, number))){
                                         str += dish_str
                                         continue
                                     }
                                     str += item + " "
                                 }
-                                console.log(str)
+                                // console.log(str)
                                 // e.data[`${e.colDef.field}`] = e.data[`${e.colDef.field}`].replace(`/${data_name}(\d+)?(.+)? /`, )
                                 e.data[`${e.colDef.field}`] = str
                                 gridOptions.api.refreshCells({force:true})

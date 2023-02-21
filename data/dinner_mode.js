@@ -1,6 +1,6 @@
 export default[
     {
-        "id": 37768,
+        "id": 37767,
         "cus_loc_id": 3412,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 19,
@@ -20,7 +20,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37775,
+        "id": 37774,
         "cus_loc_id": 3412,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 4,
@@ -40,7 +40,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37782,
+        "id": 37781,
         "cus_loc_id": 3412,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -60,7 +60,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37432,
+        "id": 37431,
         "cus_loc_id": 3396,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 80,
@@ -80,10 +80,10 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37439,
+        "id": 37438,
         "cus_loc_id": 3396,
         "dinner_type": "dn3",
-        "dinner_qty_upper_limit_kc": 30,
+        "dinner_qty_upper_limit_kc": 60,
         "dish_pattern": "211",
         "spicy_preference": "spicy1",
         "is_fish": true,
@@ -100,7 +100,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37446,
+        "id": 37445,
         "cus_loc_id": 3396,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -120,7 +120,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 38293,
+        "id": 38292,
         "cus_loc_id": 3437,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 50,
@@ -140,7 +140,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 38300,
+        "id": 38299,
         "cus_loc_id": 3437,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 0,
@@ -160,7 +160,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 38307,
+        "id": 38306,
         "cus_loc_id": 3437,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -180,7 +180,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37201,
+        "id": 37200,
         "cus_loc_id": 3385,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 52,
@@ -202,7 +202,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37208,
+        "id": 37207,
         "cus_loc_id": 3385,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 20,
@@ -224,7 +224,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37215,
+        "id": 37214,
         "cus_loc_id": 3385,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -244,10 +244,10 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37873,
+        "id": 37872,
         "cus_loc_id": 3417,
         "dinner_type": "dn2",
-        "dinner_qty_upper_limit_kc": 180,
+        "dinner_qty_upper_limit_kc": 120,
         "dish_pattern": "111",
         "spicy_preference": "spicy1",
         "is_fish": true,
@@ -258,13 +258,13 @@ export default[
         "is_odor": true,
         "is_shrimp": true,
         "price": 10.0,
-        "dinner_qty_upper_limit_ts": 0,
+        "dinner_qty_upper_limit_ts": 60,
         "is_color_additive": true,
         "material_cost_ratio_high_lmt": 0.5,
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37880,
+        "id": 37879,
         "cus_loc_id": 3417,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 40,
@@ -284,7 +284,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37887,
+        "id": 37886,
         "cus_loc_id": 3417,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -304,7 +304,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 36970,
+        "id": 36969,
         "cus_loc_id": 3344,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 90,
@@ -324,7 +324,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 36977,
+        "id": 36976,
         "cus_loc_id": 3344,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 80,
@@ -344,7 +344,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 36984,
+        "id": 36983,
         "cus_loc_id": 3344,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -364,7 +364,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37600,
+        "id": 37599,
         "cus_loc_id": 3404,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 12,
@@ -384,7 +384,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37607,
+        "id": 37606,
         "cus_loc_id": 3404,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 0,
@@ -404,7 +404,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37614,
+        "id": 37613,
         "cus_loc_id": 3404,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -424,10 +424,10 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37012,
+        "id": 37011,
         "cus_loc_id": 3376,
         "dinner_type": "dn2",
-        "dinner_qty_upper_limit_kc": 100,
+        "dinner_qty_upper_limit_kc": 60,
         "dish_pattern": "211",
         "spicy_preference": "spicy1",
         "is_fish": true,
@@ -438,13 +438,13 @@ export default[
         "is_odor": true,
         "is_shrimp": true,
         "price": 15.0,
-        "dinner_qty_upper_limit_ts": 0,
+        "dinner_qty_upper_limit_ts": 40,
         "is_color_additive": true,
         "material_cost_ratio_high_lmt": 0.5,
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37019,
+        "id": 37018,
         "cus_loc_id": 3376,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 60,
@@ -464,7 +464,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37026,
+        "id": 37025,
         "cus_loc_id": 3376,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -484,7 +484,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 36991,
+        "id": 36990,
         "cus_loc_id": 3345,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 30,
@@ -504,7 +504,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 36998,
+        "id": 36997,
         "cus_loc_id": 3345,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 20,
@@ -524,7 +524,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37005,
+        "id": 37004,
         "cus_loc_id": 3345,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -544,7 +544,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37684,
+        "id": 37683,
         "cus_loc_id": 3408,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 22,
@@ -564,7 +564,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37691,
+        "id": 37690,
         "cus_loc_id": 3408,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 10,
@@ -584,7 +584,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37698,
+        "id": 37697,
         "cus_loc_id": 3408,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -604,7 +604,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 38230,
+        "id": 38229,
         "cus_loc_id": 3434,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 90,
@@ -624,7 +624,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 38237,
+        "id": 38236,
         "cus_loc_id": 3434,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 40,
@@ -644,7 +644,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 38244,
+        "id": 38243,
         "cus_loc_id": 3434,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -664,7 +664,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37537,
+        "id": 37536,
         "cus_loc_id": 3401,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 20,
@@ -684,7 +684,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37544,
+        "id": 37543,
         "cus_loc_id": 3401,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 0,
@@ -704,7 +704,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37551,
+        "id": 37550,
         "cus_loc_id": 3401,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -724,7 +724,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37474,
+        "id": 37473,
         "cus_loc_id": 3398,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 23,
@@ -744,7 +744,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37481,
+        "id": 37480,
         "cus_loc_id": 3398,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 36,
@@ -764,7 +764,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37488,
+        "id": 37487,
         "cus_loc_id": 3398,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -784,7 +784,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 38251,
+        "id": 38250,
         "cus_loc_id": 3435,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 20,
@@ -804,7 +804,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 38258,
+        "id": 38257,
         "cus_loc_id": 3435,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 21,
@@ -824,7 +824,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 38265,
+        "id": 38264,
         "cus_loc_id": 3435,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -844,7 +844,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 39158,
+        "id": 39157,
         "cus_loc_id": 3502,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 180,
@@ -864,7 +864,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 39165,
+        "id": 39164,
         "cus_loc_id": 3502,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 60,
@@ -884,7 +884,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 39172,
+        "id": 39171,
         "cus_loc_id": 3502,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -904,7 +904,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 39179,
+        "id": 39178,
         "cus_loc_id": 3503,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 95,
@@ -924,7 +924,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 39186,
+        "id": 39185,
         "cus_loc_id": 3503,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 45,
@@ -944,7 +944,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 39193,
+        "id": 39192,
         "cus_loc_id": 3503,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -964,7 +964,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37579,
+        "id": 37578,
         "cus_loc_id": 3403,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 2,
@@ -984,7 +984,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37586,
+        "id": 37585,
         "cus_loc_id": 3403,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 0,
@@ -1004,7 +1004,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37593,
+        "id": 37592,
         "cus_loc_id": 3403,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -1024,7 +1024,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37327,
+        "id": 37326,
         "cus_loc_id": 3391,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 100,
@@ -1044,7 +1044,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37334,
+        "id": 37333,
         "cus_loc_id": 3391,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 0,
@@ -1064,7 +1064,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37341,
+        "id": 37340,
         "cus_loc_id": 3391,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -1084,7 +1084,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37411,
+        "id": 37410,
         "cus_loc_id": 3395,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 110,
@@ -1104,7 +1104,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37418,
+        "id": 37417,
         "cus_loc_id": 3395,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 70,
@@ -1124,7 +1124,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37425,
+        "id": 37424,
         "cus_loc_id": 3395,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 60,
@@ -1144,7 +1144,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 39200,
+        "id": 39199,
         "cus_loc_id": 3504,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 100,
@@ -1164,7 +1164,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 39207,
+        "id": 39206,
         "cus_loc_id": 3504,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 80,
@@ -1184,7 +1184,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 39214,
+        "id": 39213,
         "cus_loc_id": 3504,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 20,
@@ -1204,7 +1204,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37558,
+        "id": 37557,
         "cus_loc_id": 3402,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 74,
@@ -1224,7 +1224,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37565,
+        "id": 37564,
         "cus_loc_id": 3402,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 11,
@@ -1244,7 +1244,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37572,
+        "id": 37571,
         "cus_loc_id": 3402,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -1264,7 +1264,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37663,
+        "id": 37662,
         "cus_loc_id": 3407,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 40,
@@ -1284,7 +1284,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37670,
+        "id": 37669,
         "cus_loc_id": 3407,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 0,
@@ -1304,7 +1304,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37677,
+        "id": 37676,
         "cus_loc_id": 3407,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -1324,7 +1324,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37495,
+        "id": 37494,
         "cus_loc_id": 3399,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 30,
@@ -1344,7 +1344,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37502,
+        "id": 37501,
         "cus_loc_id": 3399,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 20,
@@ -1364,7 +1364,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37509,
+        "id": 37508,
         "cus_loc_id": 3399,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -1384,7 +1384,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37159,
+        "id": 37158,
         "cus_loc_id": 3383,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 150,
@@ -1404,7 +1404,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37166,
+        "id": 37165,
         "cus_loc_id": 3383,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 140,
@@ -1424,7 +1424,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37173,
+        "id": 37172,
         "cus_loc_id": 3383,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -1444,10 +1444,10 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37222,
+        "id": 37221,
         "cus_loc_id": 3386,
         "dinner_type": "dn2",
-        "dinner_qty_upper_limit_kc": 80,
+        "dinner_qty_upper_limit_kc": 150,
         "dish_pattern": "211",
         "spicy_preference": "spicy4",
         "is_fish": true,
@@ -1458,13 +1458,13 @@ export default[
         "is_odor": true,
         "is_shrimp": true,
         "price": 15.0,
-        "dinner_qty_upper_limit_ts": 70,
+        "dinner_qty_upper_limit_ts": 0,
         "is_color_additive": true,
         "material_cost_ratio_high_lmt": 0.5,
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37229,
+        "id": 37228,
         "cus_loc_id": 3386,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 70,
@@ -1484,7 +1484,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37236,
+        "id": 37235,
         "cus_loc_id": 3386,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 2,
@@ -1504,7 +1504,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37705,
+        "id": 37704,
         "cus_loc_id": 3409,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 240,
@@ -1524,7 +1524,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37712,
+        "id": 37711,
         "cus_loc_id": 3409,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 70,
@@ -1544,7 +1544,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37719,
+        "id": 37718,
         "cus_loc_id": 3409,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -1564,10 +1564,10 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37264,
+        "id": 37263,
         "cus_loc_id": 3388,
         "dinner_type": "dn2",
-        "dinner_qty_upper_limit_kc": 125,
+        "dinner_qty_upper_limit_kc": 70,
         "dish_pattern": "212",
         "spicy_preference": "spicy4",
         "is_fish": true,
@@ -1578,13 +1578,13 @@ export default[
         "is_odor": true,
         "is_shrimp": true,
         "price": 14.0,
-        "dinner_qty_upper_limit_ts": 0,
+        "dinner_qty_upper_limit_ts": 60,
         "is_color_additive": true,
         "material_cost_ratio_high_lmt": 0.5,
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37271,
+        "id": 37270,
         "cus_loc_id": 3388,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 70,
@@ -1604,7 +1604,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37278,
+        "id": 37277,
         "cus_loc_id": 3388,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 5,
@@ -1624,7 +1624,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37243,
+        "id": 37242,
         "cus_loc_id": 3387,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 100,
@@ -1644,7 +1644,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37250,
+        "id": 37249,
         "cus_loc_id": 3387,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 5,
@@ -1664,7 +1664,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37257,
+        "id": 37256,
         "cus_loc_id": 3387,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -1684,10 +1684,10 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37306,
+        "id": 37305,
         "cus_loc_id": 3390,
         "dinner_type": "dn2",
-        "dinner_qty_upper_limit_kc": 150,
+        "dinner_qty_upper_limit_kc": 80,
         "dish_pattern": "202",
         "spicy_preference": "spicy4",
         "is_fish": true,
@@ -1698,16 +1698,16 @@ export default[
         "is_odor": true,
         "is_shrimp": true,
         "price": 13.0,
-        "dinner_qty_upper_limit_ts": 0,
+        "dinner_qty_upper_limit_ts": 70,
         "is_color_additive": true,
         "material_cost_ratio_high_lmt": 0.5,
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37313,
+        "id": 37312,
         "cus_loc_id": 3390,
         "dinner_type": "dn3",
-        "dinner_qty_upper_limit_kc": 2,
+        "dinner_qty_upper_limit_kc": 20,
         "dish_pattern": "202",
         "spicy_preference": "spicy4",
         "is_fish": true,
@@ -1724,7 +1724,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37320,
+        "id": 37319,
         "cus_loc_id": 3390,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -1744,7 +1744,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 38272,
+        "id": 38271,
         "cus_loc_id": 3436,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 25,
@@ -1764,7 +1764,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 38279,
+        "id": 38278,
         "cus_loc_id": 3436,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 15,
@@ -1784,7 +1784,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 38286,
+        "id": 38285,
         "cus_loc_id": 3436,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -1804,7 +1804,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37621,
+        "id": 37620,
         "cus_loc_id": 3405,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 10,
@@ -1824,7 +1824,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37628,
+        "id": 37627,
         "cus_loc_id": 3405,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 0,
@@ -1844,7 +1844,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37635,
+        "id": 37634,
         "cus_loc_id": 3405,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
@@ -1864,7 +1864,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37369,
+        "id": 37368,
         "cus_loc_id": 3393,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 65,
@@ -1884,7 +1884,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37376,
+        "id": 37375,
         "cus_loc_id": 3393,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 110,
@@ -1904,7 +1904,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37383,
+        "id": 37382,
         "cus_loc_id": 3393,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 80,
@@ -1924,7 +1924,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37453,
+        "id": 37452,
         "cus_loc_id": 3397,
         "dinner_type": "dn2",
         "dinner_qty_upper_limit_kc": 38,
@@ -1944,7 +1944,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37460,
+        "id": 37459,
         "cus_loc_id": 3397,
         "dinner_type": "dn3",
         "dinner_qty_upper_limit_kc": 0,
@@ -1964,7 +1964,7 @@ export default[
         "material_cost_ratio_low_lmt": 0.4
     },
     {
-        "id": 37467,
+        "id": 37466,
         "cus_loc_id": 3397,
         "dinner_type": "dn5",
         "dinner_qty_upper_limit_kc": 0,
