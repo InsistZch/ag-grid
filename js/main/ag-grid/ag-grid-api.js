@@ -23,7 +23,10 @@ const addData = (e, i, el) => {
 //         ...obj
 //     })
 // }
+// 添加material_item中的数据
+const addMaterialItem = () => {
 
+}
 
 // cellRenderer > onCellValueChanged
 const onCellValueChanged = (e,gridOptions) => {
@@ -181,7 +184,7 @@ const onCellValueChanged = (e,gridOptions) => {
                         }
                     }
                 }
-                console.log(units)
+                // console.log(units)
                 // dish_process_category_name => 切片方式
                 // unit_name => 单位
                 // 判断whole字段中的单位是否全部 不等于 当前的已有的单位
@@ -314,6 +317,7 @@ const onCellValueChanged = (e,gridOptions) => {
                     // name 切片方式
                     // mV 表中餐品名称
                     // 猪心片片  猪心 
+                    // d[1]含有切片方式并且含有菜品名称
                     if(d[1].includes(name) && d[1].includes(mV) && mV.trim() != ""){
                         // console.log(d[1], name, mV)
                         let judeg = true
@@ -339,29 +343,50 @@ const onCellValueChanged = (e,gridOptions) => {
                             }
                             // const judeg = 
                             // console.log(material_item)
+                            // 获取单位
+                            if(d[2] == undefined || d[3] == undefined) break
+                            const unit_category = index.material_purchase_unit_category.find(v => v.name == d[3])
+                            // 获取切片方式
+                            console.log(d)
+                            const pcValue = data_name.split(d[1])[1] == "" ? "无" : data_name.split(d[1])[1]
+
+                            const process_category = index.dish_process_category.find(v => v.name == pcValue)
                             e.data.dish_key_id.material_item.push({
                                 ...material_item,
                                 dish_process_category_name: name,
                                 unit_name:d[3],
                                 dish_qty:d[2],
+                                material_id: material_item.id,
+                                process_id: process_category.id,
+                                unit_id: unit_category.id
                             })
                             break dpc
                         }
                         // console.log(d[1])
                         break
-                    }else if(data_name == mV && mV.trim() != ""){
                         // 
+                    }else if(data_name == mV && mV.trim() != ""){
+                        // 找到当前切片方式
                         const value = data_name.split(mV)[1]
                         // 只要有有一个等于就返回true
                         const judeg = index.dish_process_category.every(v => v.name != value && value != undefined)
                         // console.log(d[1], mV, value, judeg)
                         
                         if(!judeg){
+                            // 获取单位
+                            const unit_category = index.material_purchase_unit_category.find(v => v.name == d[3])
+                            // 获取切片方式
+                            const pcValue = data_name.split(d[1])[1] == "" ? "无" : data_name.split(d[1])[1]
+                            const process_category = index.dish_process_category.find(v => v.name == pcValue)
+
                             e.data.dish_key_id.material_item.push({
                                 ...material_item,
                                 dish_process_category_name: "",
                                 unit_name: d[3],
                                 dish_qty: d[2],
+                                material_id: material_item.id,
+                                process_id: process_category.id,
+                                unit_id: unit_category.id
                             })
                             // console.log(e.data.dish_key_id.material_item)
                             break dpc
@@ -370,7 +395,7 @@ const onCellValueChanged = (e,gridOptions) => {
                     
                 }
             }
-            // console.log(e.data.dish_key_id.material_item)
+            console.log(e.data.dish_key_id.material_item)
            
 
             //  去掉所有重复的数据
@@ -382,11 +407,20 @@ const onCellValueChanged = (e,gridOptions) => {
                         // console.log(value, d[3])
                         // dish_process_category_name => 切片方式
                         const dish_process_category_name = data_name.split(d[1])[1]
+
+                        // 获取单位
+                        const unit_category = index.material_purchase_unit_category.find(v => v.name == d[3])
+                        // 获取切片方式
+                        const pcValue = data_name.split(d[1])[1] == "" ? "无" : data_name.split(d[1])[1]
+                        const process_category = index.dish_process_category.find(v => v.name == pcValue)
                         pre.push({
                             ...v,
                             unit_name:d[3],
                             dish_qty:d[2],
                             dish_process_category_name,
+                            material_id: v.id,
+                            process_id: process_category.id,
+                            unit_id: unit_category.id
                         })
                     }else{
                         pre.push(v)
@@ -395,7 +429,7 @@ const onCellValueChanged = (e,gridOptions) => {
                 }
                 return pre
             },[])
-            // console.log(e.data.dish_key_id.material_item)
+            console.log(e.data.dish_key_id.material_item)
             // console.log(d)
             // console.log('111')
             // 查找 菜品配量是否存在
@@ -471,7 +505,10 @@ const onCellValueChanged = (e,gridOptions) => {
                                             ...m_item,
                                             dish_process_category_name:section,
                                             unit_name: compamy,
-                                            dish_qty: number
+                                            dish_qty: number,
+                                            // material_id: m_item.id,
+                                            // process_id: process_category.id,
+                                            // unit_id: unit_category.id
                                         })
                                         break
                                     }
