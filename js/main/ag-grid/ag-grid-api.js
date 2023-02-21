@@ -51,6 +51,9 @@ const onCellValueChanged = (e,gridOptions) => {
         // 进入该if只有两种可能
         // 第一，改变了快餐
         // 第二，改变了特色
+        // 增加比例
+        const ratio = ((Math.ceil(e.newValue) - parseInt(e.oldValue)) / parseInt(e.oldValue == 0 ? 1 : e.oldValue))
+        // console.log(e.newValue, e.oldValue, ratio)
         if(e.data.configure && !e.data.fixed){
             e.data['Copies'] = Copies
             e.api.forEachNode(v => {
@@ -58,17 +61,19 @@ const onCellValueChanged = (e,gridOptions) => {
                 // console.log(v)
                 // 改变当前列所有符合条件的值
                 // 计算改变比率
-                const ratio = ((copiesNumber(Math.ceil(e.newValue))  - parseInt(e.oldValue)) / parseInt(e.oldValue))
-                
+
                 if(e.data.type == "快餐"){
                     // 当specialMealID有值时，表示类型为特餐
                     if(v.data.specialMealID != null || v.data.type == "快餐" || v.data.type == "特色") return
                     v.data[`${e.colDef.field}`] = copiesNumber(Math.ceil(v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio)))
                 }else{
-                    if(v.data.specialMealID == null || v.data.type == "快餐" || v.data.type == "特色") return
-                    v.data[`${e.colDef.field}`] = copiesNumber(Math.ceil(v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio)))
+                    
+                    if(v.data.specialMealID == null || v.data.type == "快餐") return
+                    if(v.data.specialMealID == null && v.data.type == "特色") return
+                    // console.log(Math.ceil( v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio) ))
+                    v.data[`${e.colDef.field}`] = copiesNumber( Math.ceil( v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio) ) )
+                    // console.log(v.data[`${e.colDef.field}`])
                 }
-                
             })
         }else{
             // e.data[`${e.colDef.field}`] = copiesNumber(e.data[`${e.colDef.field}`])
@@ -329,7 +334,7 @@ const onCellValueChanged = (e,gridOptions) => {
                         // 
                         const value = data_name.split(mV)[1]
                         // 只要有有一个等于就返回true
-                        // const judeg = index.dish_process_category.every(v => v.name != value && value != undefined)
+                        const judeg = index.dish_process_category.every(v => v.name != value && value != undefined)
                         // console.log(d[1], mV, value, judeg)
                         
                         if(!judeg){
