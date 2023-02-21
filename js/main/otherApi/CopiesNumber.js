@@ -1,3 +1,4 @@
+/** @odoo-module **/
 const copiesNumber = (num) => {
     num = Math.ceil(num)
     if(num == 0 || num < 10) return Math.ceil(num)

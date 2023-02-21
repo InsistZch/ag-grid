@@ -1,3 +1,4 @@
+/** @odoo-module **/
 import index from './../../../data/index.js'
 const addWindowData = () => {
     // 向window添加数据
