@@ -1,7 +1,7 @@
 /** @odoo-module **/
 import {mealPrice } from "./ag-grid-row.js"
 // 获取快餐，特色初始化数据
-import c from './special_fast_data.js'
+import init_mc from './special_fast_data.js'
 class GroupRowInnerRenderer {
     // 初始化
     init(params){
@@ -38,13 +38,14 @@ class GroupRowInnerRenderer {
         ${cssText}
         margin-left: 10rem;
         `
+
+        let c = init_mc()
         // 设置监听事件
         btn.onclick = () => {
             // console.log(params)
             const data = []
             // 获取全部设置
             // edit fixed types
-            // console.log(c)
             // 查看当前餐类别份数是否存在
             params.api.forEachNode(v => {
                 if(v.data != undefined) {
