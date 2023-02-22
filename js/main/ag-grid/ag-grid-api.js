@@ -57,22 +57,25 @@ const onCellValueChanged = (e,gridOptions) => {
         // 增加比例
         const ratio = ((Math.ceil(e.newValue) - parseInt(e.oldValue)) / parseInt(e.oldValue == 0 ? 1 : e.oldValue))
         // console.log(e.newValue, e.oldValue, ratio)
+        // 是配置 并且不固定
         if(e.data.configure && !e.data.fixed){
             e.data['Copies'] = Copies
             e.api.forEachNode(v => {
+                // 如果没有数据或者餐品类别不同，直接return
                 if(v.data == undefined || v.data.cl1 != e.data.cl1) return
                 // console.log(v)
                 // 改变当前列所有符合条件的值
                 // 计算改变比率
-
+                v.data[`${e.colDef.field}`] = Number(v.data[`${e.colDef.field}`] )
                 if(e.data.type == "快餐"){
                     // 当specialMealID有值时，表示类型为特餐
-                    if(v.data.specialMealID != null || v.data.type == "快餐" || v.data.type == "特色") return
+                    if(v.data.specialMealID != null || v.data.specialMealColor != null || v.data.type == "快餐" || v.data.type == "特色") return
                     v.data[`${e.colDef.field}`] = copiesNumber(Math.ceil(v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio)))
                 }else{
                     
-                    if(v.data.specialMealID == null || v.data.type == "快餐") return
-                    if(v.data.specialMealID == null && v.data.type == "特色") return
+                    if(v.data.specialMealColor == null || v.data.type == "快餐") return
+                    if(v.data.specialMealColor == null && v.data.type == "特色") return
+                    console.log(111)
                     // console.log(Math.ceil( v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio) ))
                     v.data[`${e.colDef.field}`] = copiesNumber( Math.ceil( v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio) ) )
                     // console.log(v.data[`${e.colDef.field}`])
@@ -216,10 +219,11 @@ const onCellValueChanged = (e,gridOptions) => {
                                     return false
                                 }
                                 const material_item = e.data.dish_key_id.material_item.find(v => {
-                                    return v.name.split('-')[0] + v.unit_name == d[1]
+                                    return v.name.split('-')[0] == d[1]
                                 })
                                 const id = add_material_item_bom_unit_ratio_id()
                                 // 插入数据表内数据
+                                // console.log(material_item, d[1])
                                 index.material_item_bom_unit_ratio.push({
                                     "id": id,
                                     "material_id": material_item.id, 
@@ -235,7 +239,13 @@ const onCellValueChanged = (e,gridOptions) => {
                                         item['bom_unit_ratio_ids'].push(id)
                                     }
                                 }
-
+                                const [,,costPrice] = countMaterialData({
+                                    material_items: e.data.dish_key_id.material_item,
+                                    dish_key_id: e.data.dish_key_id.id,
+                                    oldCopies: e.data.Copies,
+                                    newCopies: e.data.Copies
+                                })
+                                e.data.costPrice = costPrice
                                 gridOptions.api.refreshCells({force:true})
                                 return true
                             },
@@ -388,7 +398,7 @@ const onCellValueChanged = (e,gridOptions) => {
                     
                 }
             }
-            console.log(e.data.dish_key_id.material_item)
+            // console.log(e.data.dish_key_id.material_item)
            
 
             //  去掉所有重复的数据
@@ -422,7 +432,7 @@ const onCellValueChanged = (e,gridOptions) => {
                 }
                 return pre
             },[])
-            console.log(e.data.dish_key_id.material_item)
+            // console.log(e.data.dish_key_id.material_item)
             // console.log(d)
             // console.log('111')
             // 查找 菜品配量是否存在
@@ -624,6 +634,7 @@ const onCellValueChanged = (e,gridOptions) => {
                     e.data[`${e.colDef.field}`] = e.oldValue
                 }
             }
+            console.log(e.data)
             // 当配量汇总发生改变时，costPrice也需要刷新
             const [,,costPrice] = countMaterialData({
                 material_items: e.data.dish_key_id.material_item,
@@ -676,17 +687,17 @@ const getContextMenuItems = (params, gridOptions) => {
                         const MealCategory = _parent.querySelector('#MealCategory')
                         const value = MealCategory.querySelector(`option[value="${MealCategory.value}"]`).innerText
                         data[0]['type'] = value
-                        if(specialMeal.index <= specialMeal.colors.length && value == "特色"){
-                            data[0]['specialMealID'] = specialMeal.index
-                            data[0]['specialMealColor'] = specialMeal.colors[specialMeal.index - 1]
-                            specialMeal.index ++
+                        if(specialMeal.Catering[params.node.data.dinner_type] <= specialMeal.colors.length && value == "特色"){
+                            data[0]['specialMealID'] = specialMeal.Catering[params.node.data.dinner_type]
+                            data[0]['specialMealColor'] = specialMeal.colors[specialMeal.Catering[params.node.data.dinner_type] - 1]
+                            specialMeal.Catering[params.node.data.dinner_type] ++
                         }
                         data[0]['dish_key_id'] = {
                             dish_top_category_id: MealCategory.value,
                             material_item:[]
                         }
                         // const id = parseInt(gridOptions.api.getDisplayedRowAtIndex(params.node.rowIndex).rowIndex) + 1
-                        console.log(params)
+                        // console.log(params)
                         gridOptions.api.expandAll()
                         gridOptions.api.applyTransaction({ add: data, addIndex: params.node.rowIndex + 1})
 
@@ -705,7 +716,7 @@ const getContextMenuItems = (params, gridOptions) => {
         {
             name:'新增特色餐',
             action: () => {
-                if(specialMeal.index <= specialMeal.colors.length){
+                if(specialMeal.Catering[params.node.data.dinner_type]<= specialMeal.colors.length){
                     const data = [{}]
                     for (const key in params.node.data) {
                         if(!isNaN(key)){
@@ -720,12 +731,12 @@ const getContextMenuItems = (params, gridOptions) => {
                     }
                     data[0]['dish_key_id'] = {
                         dish_top_category_id: id,
-                        material_item:[]
+                        material_item: []
                     }
                     data[0]['type'] = "特色"
-                    data[0]['specialMealID'] = specialMeal.index
-                    data[0]['specialMealColor'] = specialMeal.colors[specialMeal.index - 1]
-                    specialMeal.index += 1
+                    data[0]['specialMealID'] = specialMeal.Catering[params.node.data.dinner_type]
+                    data[0]['specialMealColor'] = specialMeal.colors[specialMeal.Catering[params.node.data.dinner_type] - 1]
+                    specialMeal.Catering[params.node.data.dinner_type] += 1
                     gridOptions.api.applyTransaction({ add: data})
                 }
                 
@@ -734,7 +745,8 @@ const getContextMenuItems = (params, gridOptions) => {
         {
             name:'新增特色餐配菜',
             action:() => {
-                if(specialMeal.index == 1) return
+                console.log(params)
+                if(specialMeal.Catering[params.node.data.dinner_type] == 1) return
                 const data = [{}]
                 for (const key in params.node.data) {
                     if(!isNaN(key)){
@@ -753,11 +765,12 @@ const getContextMenuItems = (params, gridOptions) => {
                     initFun(_parent){
                         let SpecialMealCategory = _parent.querySelector('#SpecialMealCategory')
                         let MealCategory = _parent.querySelector('#MealCategory22')
-                        for (let index = 1; index < specialMeal.index; index++) {
+
+                        for (let index = 1; index < specialMeal.Catering[params.node.data.dinner_type]; index++) {
                             SpecialMealCategory.innerHTML += `
                             <option value="${index}">特色${index}</option>`
                         }
-                        console.log(_parent, MealCategory)
+                        // console.log(_parent, MealCategory)
                         index.dish_top_category.forEach(v => {
                             if(v.name_cn == "特色") return
                             MealCategory.innerHTML += v.name_cn == params.node.data['type'] ? 
@@ -812,6 +825,7 @@ const addRowPublicPart = (params) => {
     obj['costPrice'] = 0
     return obj
 }
+
 
 const getRowStyle = params => {
     if(params.data != undefined){

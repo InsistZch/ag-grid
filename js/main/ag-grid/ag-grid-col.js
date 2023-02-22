@@ -163,10 +163,12 @@ const col = () => {
         field:"whole",
         pinned: 'right',
         menuTabs:[],
-        minWidth:450,
+        minWidth:250,
         // autoHeight: true,
         // wrapText: true,
         cellRenderer:(params) => {
+            if(params.data.whole.trim() == "" || params.data.dish_key_id.material_item == []) return params.value
+            // if(params.data.dish == "") return params.value
             if(Restrictions(params) || !params.data.fixed) return params.value
             //  主要功能为
             // 第一、找到所有表内有的配料信息
@@ -208,10 +210,12 @@ const col = () => {
             params.data.dish_key_id.material_item = arr
             // console.log(params.data.dish_key_id.material_item)
 
-            // 找到当前列的全部数据
+            // 找到当前菜品列的全部数据
             params.api.forEachNode((e) => {
                 if(e.data == null) return
-                if(e.data.dinner_type == params.data.dinner_type && params.rowIndex != e.rowIndex ){
+                // 问题所在 params.rowIndex != e.rowIndex
+                // console.log(params, e)
+                if(e.data.dinner_type == params.data.dinner_type && params.node.id != e.id ){
                     // data.push(e.data['dish_key_id']['material_item'])
                     // console.log(e.data.whole, value)
                     // console.log(e.data.whole.length, value.length)
@@ -252,6 +256,7 @@ const col = () => {
                     }
                 }
             }
+            // console.log(material_item, data)
             // 找到相同则标红
             for (const mt1 of material_item) {
                 for (const d1 of data) {
@@ -259,10 +264,13 @@ const col = () => {
                         let str = ""
                         for (const material_item of index.material_item) {
                             if(material_item.id == d1.id){
+                                // console.log(material_item, d1)
                                 str = material_item.name.split('-')[0]
                                 break
                             }
                         }
+                        // console.log(str, params.data)    
+                        // console.log(mt1, d1)
                         value = value.replace(`${str}`,`<span style="color:red;" title="出现相同菜品">${str}</span>`)
                     }
                 }
