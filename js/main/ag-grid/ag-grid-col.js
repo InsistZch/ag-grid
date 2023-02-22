@@ -163,7 +163,7 @@ const col = () => {
         field:"whole",
         pinned: 'right',
         menuTabs:[],
-        minWidth:250,
+        minWidth:450,
         // autoHeight: true,
         // wrapText: true,
         cellRenderer:(params) => {

@@ -307,7 +307,7 @@ const init_dish_detailed = (manual_material_qty,count) => {
         // console.log(ratio)
         // console.log(obj.name, obj.main_price, main_unit_bom_unit_ratio)
         obj['main_unit_bom_unit_ratio'] = main_unit_bom_unit_ratio
-        costPrice += (obj.main_price * main_unit_bom_unit_ratio * obj['dish_qty']) / count
+        costPrice += (obj.main_price * obj['dish_qty']) / count * main_unit_bom_unit_ratio
         
         // 查找单位
         for (const material_purchase_unit_category of index.material_purchase_unit_category) {
@@ -368,8 +368,8 @@ const dish_detailed = (dish_key,count) => {
 
             arr_data['dish_qty'] = Math.ceil((count * 0.01) * dish_bom.gbom_qty_high)
 
-            
-            arr_data.main_price = (arr_data.main_price).toFixed(2)
+            console.log(arr_data)
+            arr_data.main_price = (Number(arr_data.main_price)).toFixed(2)
             // console.log(arr_data['dish_qty'], arr_data.main_price)
             // costPrice += json.dish_qty * obj.main_price
 
@@ -457,10 +457,10 @@ const countMaterialData = ({
         m_item['main_price'] = Number(m_item['main_price'])
         // console.log(m_item)
         let { main_unit_bom_unit_ratio } = index.material_item_bom_unit_ratio.find(v => v.material_id == m_item.id && v.purchase_unit_id == m_item.unit_id)
-        
+
         // main_unit_bom_unit_ratio = main_unit_bom_unit_ratio == undefined ? 0 : main_unit_bom_unit_ratio.main_unit_bom_unit_ratio
         m_item['main_unit_bom_unit_ratio'] = main_unit_bom_unit_ratio
-        costPrice += (m_item.main_price * m_item.main_unit_bom_unit_ratio * m_item.dish_qty) / newCopies
+        costPrice += (m_item.main_price  * m_item.dish_qty) / newCopies * m_item.main_unit_bom_unit_ratio
     }
     // console.log(m_arr)
     costPrice = costPrice.toFixed(2)

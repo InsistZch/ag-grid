@@ -118,6 +118,7 @@ class GroupRowInnerRenderer {
             if(arr.length == 0){
                 for (const mealsPrice_item of mealsPrice) {
                     if(mealsPrice_item.cl1 == params.value){
+                        mealsPrice_item['Copies'] = null
                         params.api.applyTransaction({add: [mealsPrice_item], addIndex: 0})
                     }
                 }

@@ -301,11 +301,14 @@ const onCellValueChanged = (e,gridOptions) => {
             // 再看切片方式是否在最后
             let dpc = index.dish_process_category.sort((a,b) => b.name.length - a.name.length)
             // console.log(dpc)
+            // dpc为切片方式
             dpc: for (const dish_process_category of dpc) {
-                let name = dish_process_category.name
-
+                let name = dish_process_category.name == "无" ? "" : dish_process_category.name
+                
                 // let isJudeg = true
+                // material_item => 食材列表
                 for (const material_item of index.material_item) {
+                    // 当前食材名称
                     let mV =  material_item.name.split('-')[0]
                     // console.log(mV, d[1], name)
                     // 没有切片方式
@@ -318,80 +321,70 @@ const onCellValueChanged = (e,gridOptions) => {
                     // mV 表中餐品名称
                     // 猪心片片  猪心 
                     // d[1]含有切片方式并且含有菜品名称
-                    if(d[1].includes(name) && d[1].includes(mV) && mV.trim() != ""){
+                    // name + mV == d[1]
+                    if(mV + name == d[1] && mV.trim() != ""){
                         // console.log(d[1], name, mV)
-                        let judeg = true
-                        // 细丝 
-                        // 丝 细丝
-                        // 需要判断
-                        for(let i = 1; i <= name.length; i ++){
-                            if(d[1][d[1].length - i] != name[name.length - i]){
-                                judeg = false
-                            }
+                        // let judeg = true
+                        // for(let i = 1; i <= name.length; i ++){
+                        //     if(d[1][d[1].length - i] != name[name.length - i]){
+                        //         judeg = false
+                        //     }
+                        // }
+                        
+                        if(mV + name != d[1]) break
+                        if(mV != d[1]){
+                            d[1] = d[1].substr(0, d[1].length - name.length)
                         }
-                        // console.log(judeg)
-                        if(judeg){
-                            // 去掉切片方式
-                            // console.log(mV, d[1])
-                            if(material_item.name.split('-')[0] + name != d[1]) continue
-                            if(mV != d[1]){
-                                // console.log(mV, d[1])
-                                d[1] = d[1].substr(0, d[1].length - name.length)
-                            }else{
-                                // d[1] = d[1].split(name)[0]
-                                // d[1] = d[1].substr(0, d[1].length - name.length)
-                            }
-                            // const judeg = 
-                            // console.log(material_item)
-                            // 获取单位
-                            if(d[2] == undefined || d[3] == undefined) break
-                            const unit_category = index.material_purchase_unit_category.find(v => v.name == d[3])
-                            // 获取切片方式
-                            console.log(d)
-                            const pcValue = data_name.split(d[1])[1] == "" ? "无" : data_name.split(d[1])[1]
+                        // 当数量或者单位不存在时 跳出循环
+                        if(d[2] == undefined || d[3] == undefined) break dpc
 
-                            const process_category = index.dish_process_category.find(v => v.name == pcValue)
-                            e.data.dish_key_id.material_item.push({
-                                ...material_item,
-                                dish_process_category_name: name,
-                                unit_name:d[3],
-                                dish_qty:d[2],
-                                material_id: material_item.id,
-                                process_id: process_category.id,
-                                unit_id: unit_category.id
-                            })
-                            break dpc
-                        }
-                        // console.log(d[1])
+                         // 获取单位
+                            
+                         const unit_category = index.material_purchase_unit_category.find(v => v.name == d[3])
+                         // 获取切片方式
+                         // console.log(d)
+                         const pcValue = data_name.split(d[1])[1] == "" ? "无" : data_name.split(d[1])[1]
+
+                         const process_category = index.dish_process_category.find(v => v.name == pcValue)
+                         e.data.dish_key_id.material_item.push({
+                             ...material_item,
+                             dish_process_category_name: name,
+                             unit_name:d[3],
+                             dish_qty:d[2],
+                             material_id: material_item.id,
+                             process_id: process_category.id,
+                             unit_id: unit_category.id
+                         })
                         break
                         // 
-                    }else if(data_name == mV && mV.trim() != ""){
-                        // 找到当前切片方式
-                        const value = data_name.split(mV)[1]
-                        // 只要有有一个等于就返回true
-                        const judeg = index.dish_process_category.every(v => v.name != value && value != undefined)
-                        // console.log(d[1], mV, value, judeg)
-                        
-                        if(!judeg){
-                            // 获取单位
-                            const unit_category = index.material_purchase_unit_category.find(v => v.name == d[3])
-                            // 获取切片方式
-                            const pcValue = data_name.split(d[1])[1] == "" ? "无" : data_name.split(d[1])[1]
-                            const process_category = index.dish_process_category.find(v => v.name == pcValue)
-
-                            e.data.dish_key_id.material_item.push({
-                                ...material_item,
-                                dish_process_category_name: "",
-                                unit_name: d[3],
-                                dish_qty: d[2],
-                                material_id: material_item.id,
-                                process_id: process_category.id,
-                                unit_id: unit_category.id
-                            })
-                            // console.log(e.data.dish_key_id.material_item)
-                            break dpc
-                        }
                     }
+                    // else if(data_name == mV && mV.trim() != ""){
+                    //     // 找到当前切片方式
+                    //     const value = data_name.split(mV)[1]
+                    //     // 只要有有一个等于就返回true
+                    //     const judeg = index.dish_process_category.every(v => v.name != value && value != undefined)
+                    //     // console.log(d[1], mV, value, judeg)
+                        
+                    //     if(!judeg){
+                    //         // 获取单位
+                    //         const unit_category = index.material_purchase_unit_category.find(v => v.name == d[3])
+                    //         // 获取切片方式
+                    //         const pcValue = data_name.split(d[1])[1] == "" ? "无" : data_name.split(d[1])[1]
+                    //         const process_category = index.dish_process_category.find(v => v.name == pcValue)
+
+                    //         e.data.dish_key_id.material_item.push({
+                    //             ...material_item,
+                    //             dish_process_category_name: "",
+                    //             unit_name: d[3],
+                    //             dish_qty: d[2],
+                    //             material_id: material_item.id,
+                    //             process_id: process_category.id,
+                    //             unit_id: unit_category.id
+                    //         })
+                    //         // console.log(e.data.dish_key_id.material_item)
+                    //         break dpc
+                    //     }
+                    // }
                     
                 }
             }
@@ -406,8 +399,8 @@ const onCellValueChanged = (e,gridOptions) => {
                         // const value = data_name.split(d[1])[1]
                         // console.log(value, d[3])
                         // dish_process_category_name => 切片方式
+                        if(v.unit_id == null) return pre
                         const dish_process_category_name = data_name.split(d[1])[1]
-
                         // 获取单位
                         const unit_category = index.material_purchase_unit_category.find(v => v.name == d[3])
                         // 获取切片方式
@@ -846,6 +839,7 @@ const onCellClicked = params => {
     if(params.colDef.field == "dish"){
         // console.log(params)
         if(Restrictions(params)) return;
+        if(params.data.configure || params.data.dish == "" || params.data.dish == undefined) return
         const { dish_family_id } = index.dish_key.find(v => v.id == params.data.dish_key_id.id)
         const arr = index.dish_family.filter(v => v.id == dish_family_id)
         console.log(arr)
