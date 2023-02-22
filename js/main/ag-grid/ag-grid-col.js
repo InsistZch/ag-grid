@@ -325,7 +325,7 @@ const col = () => {
                 }, [])
                 params.data.dish_key_id.material_item = mt
                 // 保存数据
-                preserved_dishes.set(params.data.dish_key_id.id,{
+                preserved_dishes.set(params.data.dish_key_id.id, {
                     dish_key_id: params.data.dish_key_id.id,
                     dish_key_name: params.data.dish,
                     dinner_type: params.data.dinner_type,
