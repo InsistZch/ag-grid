@@ -17,12 +17,6 @@ const addData = (e, i, el) => {
     i == 0 ? `<option value="${e.id}" selected>${e.name}</option>`:
     `<option value="${e.id}">${e.name}</option>`
 }
-// 添加material_item数据
-// const addMaterial_item = (params,obj) => {
-//     params.data.dish_key_id.material_item.push({
-//         ...obj
-//     })
-// }
 // 添加material_item中的数据
 const addMaterialItem = () => {
 
@@ -215,7 +209,6 @@ const onCellValueChanged = (e,gridOptions) => {
                             sureFun(_parent){
                                 const ratio = _parent.querySelector('#foodUnit_ratio')
                                 const unitName = _parent.querySelector('#foodUnit_unitName')
-                                const unitNameValue = unitName.querySelector(`option[value="${unitName.value}"]`)
                                 if(ratio.value == null || ratio.value.trim() == ""){
                                     return false
                                 }
@@ -227,7 +220,7 @@ const onCellValueChanged = (e,gridOptions) => {
                                 const obj = {
                                     "id": id,
                                     "material_id": material_item.id, 
-                                    "purchase_unit_id": unitName.value, 
+                                    "purchase_unit_id": unitName.getAttribute('unitID'), 
                                     "main_unit_bom_unit_ratio": Number(ratio.value)
                                 }
                                 // console.log(material_item, d[1])

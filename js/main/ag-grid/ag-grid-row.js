@@ -75,6 +75,8 @@ const data = () => {
         
         data.push(obj)
     }
+    // data.unshift(cost_proportion(data)[2])
+    
     // console.log(data)
     return data
 }
@@ -400,6 +402,76 @@ const dish_detailed = (dish_key,count) => {
     return [str,arr]
 }
 
+// 成本占比
+const cost_proportion = (data) => {
+    // console.log(data)
+    
+    // 找到每个用户
+    const cus_loc = Object.keys(data[0]).filter(v => !isNaN(v))
+    // console.log(cus_loc)
+    // 算出每个用户的成本价
+    const costPrices = cus_loc.reduce((pre, v) => {
+        let costPrice = 0
+        for (const data_item of data) {
+            costPrice += data_item[v] * data_item['costPrice']
+        }
+        pre.set(v, Number(costPrice.toFixed(2)))
+        return pre
+    }, new Map())
+    // console.log(costPrices)
+
+    // 算出每个用户的销售额 份数x单价
+        // 餐标 => 单价
+    const mealPrices = mealPrice()
+    // console.log(mealPrices)
+    const sales_volume = cus_loc.reduce((pre, v) => {
+        let sales = new Map()
+        for (const meal_item of mealPrices) {
+            let meal_category_sales = 0
+            for (const data_item of data) {
+                // data_item[v] => 份数
+                // 
+                if(data_item.configure || data_item.edit == false || data_item.fixed == false) continue
+                if(data_item.dinner_type != meal_item.dinner_type) continue
+                meal_category_sales += data_item[v] * meal_item[v]
+            }
+            sales.set(meal_item.dinner_type, meal_category_sales)
+            // console.log(meal_item.cl1, meal_category_sales, v)
+        }
+        const obj = {
+            total: 0
+        }
+        sales.forEach((v, i) => {
+            obj[i] = v
+            obj.total += v
+        })
+        pre.set(v, obj)
+        return pre
+    }, new Map())
+    // console.log(sales_volume)
+
+    // 计算出成本占比
+    const costs = {}
+    let cost_totle_obj = {
+        cost_price: 0,
+        sales_volume: 0,
+    }
+    for (const loc_item of cus_loc) {
+        costs[loc_item] = ((costPrices.get(loc_item) / sales_volume.get(loc_item).total) * 100).toFixed(1) + "%"
+        cost_totle_obj.cost_price += costPrices.get(loc_item)
+        cost_totle_obj.sales_volume += sales_volume.get(loc_item).total
+    }
+    costs['costPrice'] = ((cost_totle_obj.cost_price / cost_totle_obj.sales_volume) * 100).toFixed(1) + "%"
+    costs['edit'] = false
+    costs['configure'] = true
+    costs['fixed'] = true
+    costs['whole'] = ""
+    costs['type'] = "成本比例"
+    // console.log(costs)
+    // 成本数据 销售数据 总占比数据
+    return [costPrices, sales_volume, costs]
+}
+
 
 // 统计配量信息
 // 食品原食材如果有数量 则同比增加
@@ -491,11 +563,13 @@ const countMaterialData = ({
     return [str, m_arr, costPrice]
 }
 
+
+
 // 通过文字，获取菜品
 export {
-    data,dish_detailed,duibi,headHookLimit,countMaterialData,mealPrice, mealCopies
+    data,dish_detailed,duibi,headHookLimit,countMaterialData,mealPrice, mealCopies, cost_proportion
 }
 
 export default {
-    data,dish_detailed,duibi,headHookLimit,countMaterialData,mealPrice, mealCopies
+    data,dish_detailed,duibi,headHookLimit,countMaterialData,mealPrice, mealCopies, cost_proportion
 }

@@ -61,7 +61,6 @@ class customCells{
                 }
             })
             
-
             successCreateDish.onclick = () => {
                 let obj = {
                     "id": add_dish_key_id(),

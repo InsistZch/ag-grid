@@ -1,15 +1,16 @@
 /** @odoo-module **/
 import agGridApi from './ag-grid-api.js'
 import col,{Restrictions} from './ag-grid-col.js'
-import {data} from './ag-grid-row.js'
+import {data, cost_proportion} from './ag-grid-row.js'
 import GroupRowInnerRenderer from './GroupRowInnerRenderer.js'
 
 
 
 const init_grid_options = () => {
+    const d = data()
     const gridOptions = {
         columnDefs: col(),
-        rowData: data(),
+        rowData: d,
         defaultColDef: {
             editable: params => {
                     if(Restrictions(params)){
@@ -58,9 +59,12 @@ const init_grid_options = () => {
         // editType: 'fullRow',
         onGridReady: function (params) {
             //表格创建完成后执行的事件
-            // console.log(params)
+            console.log(params)
             // gridOptions.api.sizeColumnsToFit();//调整表格大小自适应
+            // gridOptions.api.setPinnedTopRowData([cost_proportion(d)[2]])
+            
         },
+        pinnedTopRowData: [cost_proportion(d)[2]],
         onCellValueChanged: (e) => agGridApi.onCellValueChanged(e,gridOptions),
         getRowStyle: params => agGridApi.getRowStyle(params),
         onCellClicked: params => agGridApi.onCellClicked(params),

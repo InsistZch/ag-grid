@@ -11,6 +11,7 @@ class GroupRowInnerRenderer {
         const span = document.createElement('span')
         const btn = document.createElement('button')
         const btn2 = document.createElement('button')
+        const costbtn = document.createElement('button')
         // 设置样式
         const cssText = `
         position: absolute;
@@ -38,6 +39,9 @@ class GroupRowInnerRenderer {
         ${cssText}
         margin-left: 10rem;
         `
+        costbtn.style.cssText = `
+        ${cssText}
+        margin-left: 15rem;`
 
         let c = init_mc()
         // 设置监听事件
@@ -128,15 +132,19 @@ class GroupRowInnerRenderer {
             // params.api.onRowHeightChanged(0, true)
             // params.api.refreshCells({force:true})
         }
+
+        costbtn.onclick = () => {
+
+        }
         // 插入内容
-        span.innerText = params.value
+        span.innerHTML = `<span style="font-weight: 600;">${params.value}</span>`
         btn.innerText = "份数"
         btn2.innerText = "餐标"
-
+        costbtn.innerText = "成本"
         eGui.appendChild(span)
         eGui.appendChild(btn)
         eGui.appendChild(btn2)
-
+        eGui.appendChild(costbtn)
         // 发到this
         this.eGui = eGui
     }
