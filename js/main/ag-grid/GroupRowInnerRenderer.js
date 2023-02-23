@@ -1,5 +1,5 @@
 /** @odoo-module **/
-import {mealPrice } from "./ag-grid-row.js"
+import {mealPrice, cost_proportion} from "./ag-grid-row.js"
 // 获取快餐，特色初始化数据
 import init_mc from './special_fast_data.js'
 class GroupRowInnerRenderer {
@@ -134,7 +134,46 @@ class GroupRowInnerRenderer {
         }
 
         costbtn.onclick = () => {
+            const arr = []
+            let dinner_type = ""
+            params.api.forEachNode(v => {
+                if(v.data == null) return
+                if(v.data.configure == true || v.data.edit == false) return
+                if(params.value == v.data.cl1){
+                    arr.push(v.data)
+                    dinner_type = v.data.cl1
+                }
+                // if(params.key == v.data.cl1){
+                //     arr.push(v)
+                // }
+            })
 
+            const d = cost_proportion(arr)
+            // 查看当前是否存在成本解析 默认为无
+            let judeg = false
+            const arr2 = []
+            params.api.forEachNode(v => {
+                if(v.data == null) return
+                if(v.data.type == d[2]['type'] && params.value == v.data.cl1){
+                    judeg = true
+                }else{
+                    arr2.push(v.data)
+                }
+            })
+
+            if(judeg){
+                params.api.setRowData(arr2)
+            }else{
+                const obj = {
+                    ...d[2],
+                    cl1: params.value,
+                    dinner_type,
+                }
+                // console.log(obj)
+                params.api.applyTransaction({add: [obj]})
+            }
+            
+            // console.log(d)
         }
         // 插入内容
         span.innerHTML = `<span style="font-weight: 600;">${params.value}</span>`

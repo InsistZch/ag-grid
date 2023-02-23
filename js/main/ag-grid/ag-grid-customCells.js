@@ -215,20 +215,22 @@ class customCells{
                 }
                 // console.log(e, currentData)
                 let obj = {
-                    dish_top_category_id:e.dish_top_category_id,
-                    id:e.id,
+                    dish_top_category_id: e.dish_top_category_id,
+                    id: e.id,
                 }
                 // // 判断当前菜品是否保存过
                 // const judeg = preserved_dishes.some(v => v.dish_key_name == currentData)
 
                 let dish_detailedValue = dish_detailed(e,this.params.data.Copies)
                 // console.log(this.params.data)
+                // 需要斤数
                 if(preserved_dishes.has(e.id)){
                     const value = preserved_dishes.get(e.id)
                     console.log(value)
                     if(value.dinner_type == this.params.data.dinner_type){
                         this.params.data.whole = value.whole
                         obj['material_item'] = [...value.material_item]
+                        
                     }else{
                         this.params.data.whole = dish_detailedValue[0]
                         obj['material_item'] = dish_detailedValue[1]
@@ -238,7 +240,7 @@ class customCells{
                     obj['material_item'] = dish_detailedValue[1]
                 }
                 this.params.data.dish_key_id = {...obj}
-                console.log(this.params.data.dish_key_id)
+                // console.log(this.params.data.dish_key_id)
                 this.currentData = currentData
                 return false
             }

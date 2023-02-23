@@ -59,7 +59,7 @@ const init_grid_options = () => {
         // editType: 'fullRow',
         onGridReady: function (params) {
             //表格创建完成后执行的事件
-            console.log(params)
+            // console.log(params)
             // gridOptions.api.sizeColumnsToFit();//调整表格大小自适应
             // gridOptions.api.setPinnedTopRowData([cost_proportion(d)[2]])
             

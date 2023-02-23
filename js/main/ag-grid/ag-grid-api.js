@@ -7,7 +7,7 @@ import { add_dish_bom_id, add_material_id } from "../tool.js"
 import specialMeal from "./specialMeal.js"
 import {Restrictions} from './ag-grid-col.js'
 import { copiesNumber } from './../otherApi/index.js'
-import { countMaterialData } from './ag-grid-row.js'
+import { countMaterialData, cost_proportion } from './ag-grid-row.js'
 import {add_material_item_bom_unit_ratio_id} from './../tool.js'
 // import 
 
@@ -18,8 +18,28 @@ const addData = (e, i, el) => {
     `<option value="${e.id}">${e.name}</option>`
 }
 // 添加material_item中的数据
-const addMaterialItem = () => {
+// 计算表单中份数，成本
+const calculateCopies = (data) => {
+    // 初始化份数数据
+    let Copies = 0
+    // 找到所有客户
+    const cus_locs = Object.keys(data).filter(v => !isNaN(v))
 
+    for (const c_item of cus_locs) {
+        Copies += Number(data[c_item])
+    }
+    console.log(Copies, data['Copies'])
+    const d = countMaterialData({
+        material_items: data['dish_key_id']['material_item'],
+        dish_key_id: data['dish_key_id']['id'],
+        oldCopies: data['Copies'],
+        newCopies: Copies,
+    })
+    data['Copies'] = Copies
+    data['whole'] = d[0]
+    data['dish_key_id']['material_item'] = d[1]
+    data['costPrice'] = d[2]
+    return data
 }
 
 // cellRenderer > onCellValueChanged
@@ -53,7 +73,7 @@ const onCellValueChanged = (e,gridOptions) => {
         // console.log(e.newValue, e.oldValue, ratio)
         // 是配置 并且不固定
         if(e.data.configure && !e.data.fixed){
-            e.data['Copies'] = Copies
+            // e.data['Copies'] = Copies
             e.api.forEachNode(v => {
                 // 如果没有数据或者餐品类别不同，直接return
                 if(v.data == undefined || v.data.cl1 != e.data.cl1) return
@@ -65,6 +85,10 @@ const onCellValueChanged = (e,gridOptions) => {
                     // 当specialMealID有值时，表示类型为特餐
                     if(v.data.specialMealID != null || v.data.specialMealColor != null || v.data.type == "快餐" || v.data.type == "特色") return
                     v.data[`${e.colDef.field}`] = copiesNumber(Math.ceil(v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio)))
+                    v.data = {
+                        ...calculateCopies(v.data)
+                    }
+                    
                 }else{
                     
                     if(v.data.specialMealColor == null || v.data.type == "快餐") return
@@ -72,8 +96,13 @@ const onCellValueChanged = (e,gridOptions) => {
                     console.log(111)
                     // console.log(Math.ceil( v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio) ))
                     v.data[`${e.colDef.field}`] = copiesNumber( Math.ceil( v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio) ) )
+                    v.data = {
+                        ...calculateCopies(v.data)
+                    }
+
                     // console.log(v.data[`${e.colDef.field}`])
                 }
+
             })
         }else{
             // e.data[`${e.colDef.field}`] = copiesNumber(e.data[`${e.colDef.field}`])
@@ -109,13 +138,20 @@ const onCellValueChanged = (e,gridOptions) => {
                 }
             }
         }
-        console.log(e.newValue, e.oldValue, e.data[`${e.colDef.field}`])
+        // console.log(e.data)
         const arr = ["早餐", "中餐", "晚餐", "夜餐"]
         for (const item of arr) {
             if(e.newValue == item){
                 e.data[`${e.colDef.field}`] = e.oldValue
             }
         }
+        const d = countMaterialData({
+            material_items: e.data.dish_key_id.material_item,
+            dish_key_id: e.data.dish_key_id.id,
+            oldCopies: e.data['Copies'],
+            newCopies: e.data['Copies']
+        })
+        e.data['costPrice'] = d[2]
         gridOptions.api.refreshCells({force:true})
     }else if(e.colDef.headerName == '配量汇总'){
         let d1 = e.newValue
@@ -653,8 +689,44 @@ const onCellValueChanged = (e,gridOptions) => {
         gridOptions.api.refreshCells({force:true})
         // gridOptions.api.refreshCells({force:true})
     }else if(e.colDef.headerName == "成本价"){
-
     }
+    // console.log(gridOptions)
+    const d = cost_proportion(gridOptions.rowData)
+    let cl1s = []
+    gridOptions.api.forEachNode(v => {
+        if(v.data == null) return
+        if(v.data.type == "成本比例"){
+            cl1s.push(v.data.cl1)
+        }
+    })
+    for (const c_item of cl1s) {
+        const arr = []
+        let dinner_type = ""
+        gridOptions.api.forEachNode(v => {
+            if(v.data == null) return
+            if(v.data.configure == true || v.data.edit == false) return
+            if(v.data.cl1 == c_item){
+                arr.push(v.data)
+                dinner_type = v.data.dinner_type
+            }
+        })
+        const d2 = cost_proportion(arr)
+        gridOptions.api.forEachNode(v => {
+            if(v.data == null) return
+            if(v.data.cl1 == c_item && v.data.type == "成本比例"){
+                gridOptions.api.applyTransaction({remove: [v.data]})
+            }
+        })
+        const obj = {
+            ...d2[2],
+            cl1: c_item,
+            dinner_type,
+        }
+        gridOptions.api.applyTransaction({add: [obj]})
+    }
+    gridOptions.api.setPinnedTopRowData([d[2]])
+    gridOptions.api.refreshCells({force:true})
+
 }
 
 const getContextMenuItems = (params, gridOptions) => {
