@@ -404,8 +404,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="unit_nameSpan">单位名称</span>
                 </div>
-                <select class="form-control" id="foodUnit_unitName" aria-describedby="modal-bodycustom-addon4">
-                </select>
+                <input class="form-control" id="foodUnit_unitName" aria-describedby="modal-bodycustom-addon4" readonly>
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
@@ -435,7 +434,13 @@
     console.log(data_index)
 
     // for (const item of data_index.material_item) {
-    //     if(item.name.indexOf("肉") != -1){
+    //     if(item.name.indexOf("中鸡腿") != -1){
+    //         console.log(item)
+    //     }
+    // }
+    // // purchase_unit_id
+    // for (const item of data_index.material_item_bom_unit_ratio) {
+    //     if(item.material_id == 360323 && item.purchase_unit_id == 5){
     //         console.log(item)
     //     }
     // }

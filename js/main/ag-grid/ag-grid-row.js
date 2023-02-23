@@ -302,7 +302,7 @@ const init_dish_detailed = (manual_material_qty,count) => {
         }
         str += Math.ceil(json.dish_qty)
         json.dish_qty = Math.ceil(json.dish_qty)
-        obj.main_price = Number(obj.main_price)
+        obj.main_price = Number(Number(obj.main_price).toFixed(2))
         obj['dish_qty'] = Math.ceil(json.dish_qty)
         // console.log(obj)
         const [{main_unit_bom_unit_ratio}] = index.material_item_bom_unit_ratio.filter(v => v.material_id == obj.id && v.purchase_unit_id == obj.main_unit_id)
@@ -323,7 +323,8 @@ const init_dish_detailed = (manual_material_qty,count) => {
         // console.log()
         arr.push(obj)
     }
-    costPrice = Number(costPrice).toFixed(2)
+    costPrice = Number(Number(costPrice).toFixed(2))
+    // console.log(costPrice)
     return [str, arr, costPrice]
 }
 // 
@@ -386,6 +387,13 @@ const dish_detailed = (dish_key,count) => {
                     arr_data['unit_id'] = material_purchase_unit_category.id
                 }
             }
+
+            // 添加当前菜品转换比等信息
+            const ratio = index.material_item_bom_unit_ratio.find(v => v.material_id == arr_data.material_id && v.purchase_unit_id == arr_data.unit_id)
+            arr_data = {
+                ...arr_data,
+                ...ratio
+            }
             arr.push(arr_data)
         }
     }
@@ -423,7 +431,7 @@ const countMaterialData = ({
     // console.log(material_items, arr)
 
     for (const item of material_items) {
-        // 寻找该食材是否为食品原食材
+        // 寻找该食材是否为食品原食材 
         const ingredients = arr.find(v => v.id == item.id)
         // console.log(ingredients)
         // 是原食材进入if 不是原食材进入else
@@ -454,6 +462,7 @@ const countMaterialData = ({
         }
         
     }
+    console.log(m_arr)
     for (const m_item of m_arr) {
         // console.log(item, item.dish_qty, item.main_price)
         m_item['main_price'] = Number(m_item['main_price'])
@@ -462,10 +471,13 @@ const countMaterialData = ({
 
         main_unit_bom_unit_ratio = main_unit_bom_unit_ratio == undefined ? 1 : main_unit_bom_unit_ratio.main_unit_bom_unit_ratio
         m_item['main_unit_bom_unit_ratio'] = main_unit_bom_unit_ratio
+        // console.log(m_item)
+        // console.log(m_item.main_price, m_item.dish_qty, newCopies, m_item.main_unit_bom_unit_ratio)
+        // console.log((m_item.main_price  * m_item.dish_qty) / (newCopies * m_item.main_unit_bom_unit_ratio))
         costPrice += (m_item.main_price  * m_item.dish_qty) / (newCopies * m_item.main_unit_bom_unit_ratio)
     }
     // console.log(m_arr)
-    costPrice = costPrice.toFixed(2)
+    costPrice = Number(costPrice.toFixed(2))
     // whole字段
     const str = m_arr.map(v => {
         const name = v.name.split('-')[0]
@@ -476,7 +488,6 @@ const countMaterialData = ({
         }
         
     }).join(' ')
-
     return [str, m_arr, costPrice]
 }
 
