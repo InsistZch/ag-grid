@@ -33,11 +33,11 @@ class GroupRowInnerRenderer {
         `
         btn.style.cssText =  `
         ${cssText}
-        margin-left: 5rem;`
+        margin-left: 10rem;`
 
         btn2.style.cssText = `
         ${cssText}
-        margin-left: 10rem;
+        margin-left: 5rem;
         `
         costbtn.style.cssText = `
         ${cssText}
@@ -170,7 +170,7 @@ class GroupRowInnerRenderer {
                     dinner_type,
                 }
                 // console.log(obj)
-                params.api.applyTransaction({add: [obj]})
+                params.api.applyTransaction({add: [obj], addIndex: 0})
             }
             
             // console.log(d)

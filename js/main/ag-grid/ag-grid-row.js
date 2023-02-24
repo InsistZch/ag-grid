@@ -394,7 +394,9 @@ const dish_detailed = (dish_key,count) => {
             const ratio = index.material_item_bom_unit_ratio.find(v => v.material_id == arr_data.material_id && v.purchase_unit_id == arr_data.unit_id)
             arr_data = {
                 ...arr_data,
-                ...ratio
+                main_unit_bom_unit_ratio: ratio.main_unit_bom_unit_ratio,
+                material_id: ratio.material_id,
+                purchase_unit_id: ratio.purchase_unit_id
             }
             arr.push(arr_data)
         }
@@ -505,9 +507,9 @@ const countMaterialData = ({
     // console.log(newCopies, oldCopies)
     const m_arr = []
     const [,arr] = dish_detailed({id:dish_key_id}, newCopies)
+    console.log(arr)
     let costPrice = 0;
     // console.log(material_items, arr)
-
     for (const item of material_items) {
         // 寻找该食材是否为食品原食材 
         const ingredients = arr.find(v => v.id == item.id)
@@ -516,11 +518,14 @@ const countMaterialData = ({
         if(ingredients != undefined){
             // 如果原食材没有数量则进入if 有数量则进入else
             // console.log(ingredients)
+            console.log(item)
             if(isNaN(item.dish_qty) || parseInt(item.dish_qty) == 0){
+                console.log(519, ingredients)
                 m_arr.push({...ingredients})
             }else{
                 // 增加比例
-                const scale = (newCopies - oldCopies) / oldCopies
+                const old = oldCopies == 0 ? 1 : oldCopies
+                const scale = (newCopies - oldCopies) / old
                 // console.log(scale,item.dish_qty)
                 item.dish_qty = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))
                 m_arr.push({...item})
@@ -532,7 +537,8 @@ const countMaterialData = ({
                 m_arr.push({...item})
             }else{
                 // 增加比例
-                const scale = (newCopies - oldCopies) / oldCopies
+                const old = oldCopies == 0 ? 1 : oldCopies
+                const scale = (newCopies - oldCopies) / old
                 // console.log(scale, item.dish_qty)
                 item.dish_qty = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))
                 m_arr.push({...item})

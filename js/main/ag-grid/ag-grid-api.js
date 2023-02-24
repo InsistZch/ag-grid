@@ -105,7 +105,7 @@ const onCellValueChanged = (e,gridOptions) => {
 
             })
         }else{
-            // e.data[`${e.colDef.field}`] = copiesNumber(e.data[`${e.colDef.field}`])
+            e.data[`${e.colDef.field}`] = copiesNumber(e.data[`${e.colDef.field}`])
             // console.log(e.data['Copies'], Copies)
             const countMaterialData = agGridRow.countMaterialData({
                 material_items: e.data['dish_key_id']['material_item'],
@@ -722,7 +722,7 @@ const onCellValueChanged = (e,gridOptions) => {
             cl1: c_item,
             dinner_type,
         }
-        gridOptions.api.applyTransaction({add: [obj]})
+        gridOptions.api.applyTransaction({add: [obj], addIndex: 0})
     }
     gridOptions.api.setPinnedTopRowData([d[2]])
     gridOptions.api.refreshCells({force:true})
