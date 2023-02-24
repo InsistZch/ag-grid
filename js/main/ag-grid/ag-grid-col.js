@@ -94,6 +94,23 @@ const col = () => {
             minWidth: 60,
             pinned: 'left',
             editable:false,
+            cellRenderer: params => {
+                if(params.data.type == "成本比例"){
+                    let style = ""
+                    const high = index.org_config.material_cost_ratio_high_lmt, low = index.org_config.material_cost_ratio_low_lmt
+                    let value = Number(params.data.costPrice.substr(0, params.data.costPrice.length - 1)) / 100
+                    if(value >= high){
+                        style = "red"
+                    }else if(value >= low){
+                        style = "green"
+                    }else{
+                        style = "black"
+                    }
+                    
+                    return `<span style="font-weight: 600;color: ${style};">${params.value}</span>`
+                }
+                return params.value
+            }
         },
         {
             headerName:'份数',

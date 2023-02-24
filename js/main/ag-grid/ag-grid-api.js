@@ -77,6 +77,7 @@ const onCellValueChanged = (e,gridOptions) => {
             e.api.forEachNode(v => {
                 // 如果没有数据或者餐品类别不同，直接return
                 if(v.data == undefined || v.data.cl1 != e.data.cl1) return
+                if(v.data.type == "成本比例" || v.data.type == "餐标") return
                 // console.log(v)
                 // 改变当前列所有符合条件的值
                 // 计算改变比率
@@ -331,7 +332,7 @@ const onCellValueChanged = (e,gridOptions) => {
                             break
                         }
                     }
-                    console.log(m_item)
+                    // console.log(m_item)
                     e.data.dish_key_id.material_item = [...m_item]
                 }
             }

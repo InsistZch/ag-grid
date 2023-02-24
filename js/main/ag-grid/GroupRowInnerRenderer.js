@@ -45,6 +45,7 @@ class GroupRowInnerRenderer {
 
         let c = init_mc()
         // 设置监听事件
+        // 份数
         btn.onclick = () => {
             // console.log(params)
             const data = []
@@ -64,12 +65,8 @@ class GroupRowInnerRenderer {
             // 当份数不存在时
             if(data.length == 0){
                 const d2 = c.filter(v => v.cl1 == params.value)
-                let addIndex = 0
-                params.api.forEachNode((v,i) => {{
-                    if(v.data != null && v.data.cl1 == params.value && v.data.type == "特色配置"){
-                        addIndex = i + 1
-                    }
-                }})
+                let addIndex = dataIndex(params)
+               
                 params.api.applyTransaction({add: [...d2], addIndex})
             }else{
                 let d = []
@@ -94,7 +91,7 @@ class GroupRowInnerRenderer {
                 params.api.setRowData(d)
             }
         }
-
+        // 餐标
         btn2.onclick = () => {
             // setRowHeight
             // console.log(params)
@@ -133,6 +130,7 @@ class GroupRowInnerRenderer {
             // params.api.refreshCells({force:true})
         }
 
+        // 成本
         costbtn.onclick = () => {
             const arr = []
             let dinner_type = ""
@@ -169,8 +167,9 @@ class GroupRowInnerRenderer {
                     cl1: params.value,
                     dinner_type,
                 }
-                // console.log(obj)
-                params.api.applyTransaction({add: [obj], addIndex: 0})
+                let addIndex = dataIndex(params)
+                
+                params.api.applyTransaction({add: [obj], addIndex})
             }
             
             // console.log(d)
@@ -196,6 +195,21 @@ class GroupRowInnerRenderer {
         return false;
     }
 
+}
+
+const dataIndex = (params) => {
+    let index = 0
+    params.api.forEachNode((v, i) => {
+        if(v.data == null) return
+        if(v.data.cl1 == params.value && v.data.type =="餐标"){
+            index = i + 1
+        }
+        if(v.data.configure && v.data.cl1 == params.value){
+            index = i + 1
+            // console.log(v.data)
+        }
+    })
+    return index
 }
 
 export default GroupRowInnerRenderer
