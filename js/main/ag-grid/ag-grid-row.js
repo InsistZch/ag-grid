@@ -507,7 +507,7 @@ const countMaterialData = ({
     // console.log(newCopies, oldCopies)
     const m_arr = []
     const [,arr] = dish_detailed({id:dish_key_id}, newCopies)
-    console.log(arr)
+    // console.log(arr)
     let costPrice = 0;
     // console.log(material_items, arr)
     for (const item of material_items) {
@@ -518,9 +518,9 @@ const countMaterialData = ({
         if(ingredients != undefined){
             // 如果原食材没有数量则进入if 有数量则进入else
             // console.log(ingredients)
-            console.log(item)
+            // console.log(item)
             if(isNaN(item.dish_qty) || parseInt(item.dish_qty) == 0){
-                console.log(519, ingredients)
+                // console.log(519, ingredients)
                 m_arr.push({...ingredients})
             }else{
                 // 增加比例
