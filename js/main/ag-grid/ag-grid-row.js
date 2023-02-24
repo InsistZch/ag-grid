@@ -526,7 +526,7 @@ const countMaterialData = ({
                 // 增加比例
                 const old = oldCopies == 0 ? 1 : oldCopies
                 const scale = (newCopies - oldCopies) / old
-                // console.log(scale,item.dish_qty)
+                console.log(scale,item.dish_qty)
                 item.dish_qty = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))
                 m_arr.push({...item})
             }
@@ -539,7 +539,7 @@ const countMaterialData = ({
                 // 增加比例
                 const old = oldCopies == 0 ? 1 : oldCopies
                 const scale = (newCopies - oldCopies) / old
-                // console.log(scale, item.dish_qty)
+                console.log(scale, item.dish_qty)
                 item.dish_qty = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))
                 m_arr.push({...item})
             }
