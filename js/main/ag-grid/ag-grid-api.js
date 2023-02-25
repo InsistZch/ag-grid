@@ -18,6 +18,7 @@ const addData = (e, i, el) => {
 }
 // 添加material_item中的数据
 // 计算表单中份数，成本
+// 判断当前数值是否大于限制数字，如果超过，则按照限制的最大数字变动
 const calculateCopies = (data) => {
     // 初始化份数数据
     let Copies = 0
@@ -85,7 +86,13 @@ const onCellValueChanged = (e,gridOptions) => {
                 if(e.data.type == "快餐"){
                     // 当specialMealID有值时，表示类型为特餐
                     if(v.data.specialMealID != null || v.data.specialMealColor != null || v.data.type == "快餐" || v.data.type == "特色") return
-                    v.data[`${e.colDef.field}`] = copiesNumber(Math.ceil(v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio)))
+                    let value = copiesNumber(Math.ceil(v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio)))
+                    if(value > e.newValue){
+                        v.data[`${e.colDef.field}`] = e.newValue
+                    }else{
+                        v.data[`${e.colDef.field}`] = value
+                    }
+                    
                     v.data = {
                         ...calculateCopies(v.data)
                     }
@@ -96,7 +103,12 @@ const onCellValueChanged = (e,gridOptions) => {
                     if(v.data.specialMealColor == null && v.data.type == "特色") return
                     console.log(111)
                     // console.log(Math.ceil( v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio) ))
-                    v.data[`${e.colDef.field}`] = copiesNumber( Math.ceil( v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio) ) )
+                    let value = copiesNumber(Math.ceil(v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio)))
+                    if(value > e.newValue){
+                        v.data[`${e.colDef.field}`] = e.newValue
+                    }else{
+                        v.data[`${e.colDef.field}`] = value
+                    }
                     v.data = {
                         ...calculateCopies(v.data)
                     }
@@ -711,6 +723,7 @@ const onCellValueChanged = (e,gridOptions) => {
         // gridOptions.api.refreshCells({force:true})
     }else if(e.colDef.headerName == "成本价"){
     }
+    gridOptions.api.refreshCells({force:true})
     // console.log(gridOptions)
     const d = cost_proportion(gridOptions.rowData)
     let cl1s = []
@@ -745,6 +758,7 @@ const onCellValueChanged = (e,gridOptions) => {
         }
         gridOptions.api.applyTransaction({add: [obj], addIndex: 0})
     }
+    console.log(d)
     gridOptions.api.setPinnedTopRowData([d[2]])
     gridOptions.api.refreshCells({force:true})
 
