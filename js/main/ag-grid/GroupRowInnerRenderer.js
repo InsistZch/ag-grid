@@ -145,8 +145,8 @@ class GroupRowInnerRenderer {
                 //     arr.push(v)
                 // }
             })
-
-            const d = cost_proportion(arr)
+            const c2 = c.filter(v => params.value == v.dinner_type)
+            const d = cost_proportion(arr, c2)
             // 查看当前是否存在成本解析 默认为无
             let judeg = false
             const arr2 = []

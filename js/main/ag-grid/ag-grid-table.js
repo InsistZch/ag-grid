@@ -3,7 +3,7 @@ import agGridApi from './ag-grid-api.js'
 import col,{Restrictions} from './ag-grid-col.js'
 import {data, cost_proportion} from './ag-grid-row.js'
 import GroupRowInnerRenderer from './GroupRowInnerRenderer.js'
-
+import mealcopies from './special_fast_data.js'
 
 
 const init_grid_options = () => {
@@ -64,7 +64,7 @@ const init_grid_options = () => {
             // gridOptions.api.setPinnedTopRowData([cost_proportion(d)[2]])
             
         },
-        pinnedTopRowData: [cost_proportion(d)[2]],
+        pinnedTopRowData: [cost_proportion(d, mealcopies())[2]],
         onCellValueChanged: (e) => agGridApi.onCellValueChanged(e,gridOptions),
         getRowStyle: params => agGridApi.getRowStyle(params),
         onCellClicked: params => agGridApi.onCellClicked(params),

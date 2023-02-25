@@ -130,7 +130,7 @@ const col = () => {
         const obj = {}
         obj['headerName'] = item['name']
         obj['field'] = `${item['id']}`
-        obj['minWidth'] = 40
+        obj['minWidth'] = 45
         obj['maxWidth'] = 50
         obj['valueParser'] = params => Number(params.newValue)
         obj['menuTabs'] = []

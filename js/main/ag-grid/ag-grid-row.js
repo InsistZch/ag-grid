@@ -2,8 +2,6 @@
 import index from '../../../data/index.js'
 import specialMeal from './specialMeal.js'
 import {copiesNumber} from './../otherApi/index.js'
-import {dataIndex} from './GroupRowInnerRenderer.js'
-// import mealcopies from './special_fast_data.js'
 
 
 
@@ -32,9 +30,11 @@ const data = () => {
             // console.log(item2, json[play_object_item])
             json[play_object_item] = copiesNumber(json[play_object_item])
             obj[`${item2}`] = json[play_object_item]
+            // obj[`${item2}`] = 0
             count += json[play_object_item]
         }
         obj['Copies'] = count
+        // obj['Copies'] = 0
         
         // 生成data
         for (const dish_key of index.dish_key) {
@@ -210,6 +210,7 @@ const setCopies = (objs) => {
         obj['Copies'] = 0
         for (const key of Object.keys(obj)) {
             if(!isNaN(key)){
+                // obj[key] = 0
                 obj['Copies'] += obj[key]
             }
         }
@@ -304,15 +305,17 @@ const init_dish_detailed = (manual_material_qty,count) => {
             }
         }
         str += Math.ceil(json.dish_qty)
+        // str += 0
         json.dish_qty = Math.ceil(json.dish_qty)
         obj.main_price = Number(Number(obj.main_price).toFixed(2))
         obj['dish_qty'] = Math.ceil(json.dish_qty)
+        // obj['dish_qty'] = 0
         // console.log(obj, json)
         const [{main_unit_bom_unit_ratio}] = index.material_item_bom_unit_ratio.filter(v => v.material_id == obj.id && v.purchase_unit_id == json.unit_id)
         // console.log(ratio)
         // console.log(obj.name, obj.main_price, main_unit_bom_unit_ratio)
         obj['main_unit_bom_unit_ratio'] = main_unit_bom_unit_ratio
-        costPrice += (obj.main_price * obj['dish_qty']) / (count * main_unit_bom_unit_ratio)
+        // costPrice += (obj.main_price * obj['dish_qty']) / (count * main_unit_bom_unit_ratio)
         
         // 查找单位
         for (const material_purchase_unit_category of index.material_purchase_unit_category) {
@@ -406,53 +409,48 @@ const dish_detailed = (dish_key,count) => {
 }
 
 // 成本占比
-const cost_proportion = (mealcopies) => {
+const cost_proportion = (data, mealCopies) => {
     // console.log(data)
     
     // 找到每个用户
-    const cus_loc = Object.keys(mealcopies[0]).filter(v => !isNaN(v))
+    const cus_loc = Object.keys(data[0]).filter(v => !isNaN(v))
     // console.log(cus_loc)
     // 算出每个用户的成本价
+    // new Map => (cus_loc_id, cost) => 用户id 成本价格
     const costPrices = cus_loc.reduce((pre, v) => {
         let costPrice = 0
-        for (const data_item of mealcopies) {
+        // 循环每一行数据，找到每一行数据成本价
+        // 当前用户份数，乘以成本价 得出此用户当前菜品成本价
+        for (const data_item of data) {
             costPrice += data_item[v] * data_item['costPrice']
         }
         pre.set(v, Number(costPrice.toFixed(2)))
         return pre
     }, new Map())
-    // console.log(costPrices)
+    // // console.log(costPrices)
 
-    // 算出每个用户的销售额 份数x单价
-        // 餐标 => 单价
+    // // 算出每个用户的销售额 份数x单价   份数 => 快餐、特色
+    //     // 餐标 => 单价
+    // []
     const mealPrices = mealPrice()
-    // console.log(mealPrices)
+
+    // new Map => (cus_loc_id, {})
     const sales_volume = cus_loc.reduce((pre, v) => {
+        // 找出当前用户的快餐与特色份数
+        // mealPrices为餐标数据  mealCopies为份数数据
+
+        // new map => (cl1, total) => 餐别 销售额统计
         let sales = new Map()
-        //  计算出单个用户 中餐、晚餐、总销售额
-
-        for (const meal_item of mealPrices) {
-            let meal_category_sales = 0
-            for (const copies_item of mealcopies) {
-                if(meal_item.dinner_type != copies_item.dinner_type) continue
-
-                meal_category_sales += copies_item[v] * meal_item[v]
+        for (const p_item of mealPrices) {
+            let category_total = 0
+            for (const c_item of mealCopies) {
+                if(p_item.dinner_type == c_item.dinner_type){
+                    category_total += p_item[v] * c_item[v]
+                }
             }
-            sales.set(meal_item.dinner_type, meal_category_sales)
+            sales.set(p_item.dinner_type, category_total)
         }
-        
-        // for (const meal_item of mealPrices) {
-        //     let meal_category_sales = 0
-        //     for (const data_item of data) {
-        //         // data_item[v] => 份数
-        //         // 
-        //         if(data_item.configure || data_item.edit == false || data_item.fixed == false) continue
-        //         if(data_item.dinner_type != meal_item.dinner_type) continue
-        //         meal_category_sales += data_item[v] * meal_item[v]
-        //     }
-        //     sales.set(meal_item.dinner_type, meal_category_sales)
-        //     // console.log(meal_item.cl1, meal_category_sales, v)
-        // }
+        // console.log(sales)
         const obj = {
             total: 0
         }
@@ -463,7 +461,6 @@ const cost_proportion = (mealcopies) => {
         pre.set(v, obj)
         return pre
     }, new Map())
-    // console.log(sales_volume)
 
     // 计算出成本占比
     const costs = {}
@@ -480,9 +477,11 @@ const cost_proportion = (mealcopies) => {
 
         costs[loc_item] = ((costPrices.get(loc_item) / sales_volume_total) * 100).toFixed(1) + "%"
         cost_totle_obj.cost_price += costPrices.get(loc_item)
-        cost_totle_obj.sales_volume += sales_volume_total
+        cost_totle_obj.sales_volume += sales_volume.get(loc_item).total
     }
-    costs['costPrice'] = ((cost_totle_obj.cost_price / cost_totle_obj.sales_volume) * 100).toFixed(1) + "%"
+    // console.log(cost_totle_obj) 
+    const sv = cost_totle_obj.sales_volume == 0 ? 1 : cost_totle_obj.sales_volume
+    costs['costPrice'] = ((cost_totle_obj.cost_price / sv) * 100).toFixed(1) + "%"
     costs['edit'] = false
     costs['configure'] = true
     costs['fixed'] = true
@@ -492,7 +491,6 @@ const cost_proportion = (mealcopies) => {
     // 成本数据 销售数据 总占比数据
     return [costPrices, sales_volume, costs]
 }
-
 
 // 统计配量信息
 // 食品原食材如果有数量 则同比增加
@@ -596,9 +594,9 @@ const countMaterialData = ({
 
 // 通过文字，获取菜品
 export {
-    data,dish_detailed,duibi,headHookLimit,countMaterialData,mealPrice, mealCopies, cost_proportion
+    data,dish_detailed,duibi,headHookLimit,countMaterialData,mealPrice, mealCopies, cost_proportion,
 }
 
 export default {
-    data,dish_detailed,duibi,headHookLimit,countMaterialData,mealPrice, mealCopies, cost_proportion
+    data,dish_detailed,duibi,headHookLimit,countMaterialData,mealPrice, mealCopies, cost_proportion,
 }
