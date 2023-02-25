@@ -30,7 +30,7 @@ const data = () => {
             // console.log(item2, json[play_object_item])
             json[play_object_item] = copiesNumber(json[play_object_item])
             obj[`${item2}`] = json[play_object_item]
-            // obj[`${item2}`] = 0
+            // obj[`${item2}`] = 0  
             count += json[play_object_item]
         }
         obj['Copies'] = count
