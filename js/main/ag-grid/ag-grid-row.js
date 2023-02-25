@@ -509,6 +509,7 @@ const countMaterialData = ({
     const [,arr] = dish_detailed({id:dish_key_id}, newCopies)
     // console.log(arr)
     let costPrice = 0;
+    
     // console.log(material_items, arr)
     for (const item of material_items) {
         // 寻找该食材是否为食品原食材 
@@ -526,7 +527,7 @@ const countMaterialData = ({
                 // 增加比例
                 const old = oldCopies == 0 ? 1 : oldCopies
                 const scale = (newCopies - oldCopies) / old
-                console.log(scale,item.dish_qty)
+                // console.log(scale,item.dish_qty)
                 item.dish_qty = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))
                 m_arr.push({...item})
             }
@@ -546,6 +547,7 @@ const countMaterialData = ({
         }
         
     }
+    newCopies = newCopies == 0 ? 1 : newCopies
     // console.log(m_arr)
     for (const m_item of m_arr) {
         // console.log(item, item.dish_qty, item.main_price)

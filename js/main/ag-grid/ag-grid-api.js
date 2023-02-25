@@ -3,12 +3,11 @@ import agGridRow from "./ag-grid-row.js"
 import index from '../../../data/index.js'
 import customFromDom from './customFrom.js'
 import saveData from "../saveData/index.js"
-import { add_dish_bom_id, add_material_id } from "../tool.js"
+import { add_dish_bom_id, add_material_id, add_material_item_bom_unit_ratio_id } from "../tool.js"
 import specialMeal from "./specialMeal.js"
 import {Restrictions} from './ag-grid-col.js'
 import { copiesNumber } from './../otherApi/index.js'
 import { countMaterialData, cost_proportion } from './ag-grid-row.js'
-import {add_material_item_bom_unit_ratio_id} from './../tool.js'
 // import 
 
 // 添加对应数据
@@ -28,7 +27,7 @@ const calculateCopies = (data) => {
     for (const c_item of cus_locs) {
         Copies += Number(data[c_item])
     }
-    console.log(Copies, data['Copies'])
+    // console.log(Copies, data['Copies'])
     const d = countMaterialData({
         material_items: data['dish_key_id']['material_item'],
         dish_key_id: data['dish_key_id']['id'],
@@ -38,6 +37,7 @@ const calculateCopies = (data) => {
     data['Copies'] = Copies
     data['whole'] = d[0]
     data['dish_key_id']['material_item'] = d[1]
+    // console.log(d[2])
     data['costPrice'] = d[2]
     return data
 }
@@ -616,15 +616,26 @@ const onCellValueChanged = (e,gridOptions) => {
                             // console.log(customPhase, customPhase.value)
                             const customPhaseValue = customPhase.querySelector(`option[value="${customPhase.value}"]`).innerText
                             let name = `${customName.value}-${customFrom.value}-${customPhaseValue}`
-                            
+                            const customPrice = _parent.querySelector('#customPrice')
                             let m_id = add_material_id()
-                            
+                            let r_id = add_material_item_bom_unit_ratio_id()
+                            index.material_item_bom_unit_ratio.push({
+                                id:r_id,
+                                main_unit_bom_unit_ratio: 1,
+                                material_id: m_id,
+                                purchase_unit_id: customCompany.value,
+                            })
                             //  添加数据
                             const obj1 = {
+                                bom_unit_ratio_ids: [m_id],
                                 id: m_id,
                                 name,
                                 form: customFrom.value,
-                                phase: customPhase.value
+                                phase: customPhase.value,
+                                main_price: customPrice.value,
+                                main_unit_id: customCompany.value,
+                                material_price_alert: Number(customPrice.value) + 3,
+                                repeat_tag: true,
                             }
                             // 记载数据
                             console.log(obj1)
@@ -667,6 +678,16 @@ const onCellValueChanged = (e,gridOptions) => {
                             e.data[`${e.colDef.field}`] = strs.join(' ')
                             gridOptions.api.refreshCells({force:true})
                             return true
+                        },
+                        initFun: (_parent) => {
+                            const customPrice = _parent.querySelector('#customPrice')
+                            const limitNumber = () => {
+                                if(isNaN(customPrice.value) || Number(customPrice.value) < 1){
+                                    customPrice.value = 1
+                                }
+                            }
+                            customPrice.onkeydown = () => limitNumber()
+                            customPrice.onwheel = () => limitNumber()
                         }
                     })
                 }else{
@@ -677,14 +698,13 @@ const onCellValueChanged = (e,gridOptions) => {
             // 当配量汇总发生改变时，costPrice也需要刷新
             gridOptions.api.refreshCells({force:true})
         }
-        console
-        const [,m_arr,costPrice] = countMaterialData({
+        const [,,costPrice] = countMaterialData({
             material_items: e.data.dish_key_id.material_item,
             dish_key_id: e.data.dish_key_id.id,
             oldCopies: e.data.Copies,
             newCopies: e.data.Copies
         })
-        console.log(e.data)
+        // console.log(e.data)
         e.data.costPrice = costPrice
         // e.data.dish_key_id.material_item = m_arr
         gridOptions.api.refreshCells({force:true})
