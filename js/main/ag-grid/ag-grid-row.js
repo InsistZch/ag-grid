@@ -2,6 +2,8 @@
 import index from '../../../data/index.js'
 import specialMeal from './specialMeal.js'
 import {copiesNumber} from './../otherApi/index.js'
+import {dataIndex} from './GroupRowInnerRenderer.js'
+// import mealcopies from './special_fast_data.js'
 
 
 
@@ -15,7 +17,6 @@ const data = () => {
         return pre
     }, new Set())]
     
-
     
     // data.push(...mealCopies())
     // data.push(...mealPrice())
@@ -405,16 +406,16 @@ const dish_detailed = (dish_key,count) => {
 }
 
 // 成本占比
-const cost_proportion = (data) => {
+const cost_proportion = (mealcopies) => {
     // console.log(data)
     
     // 找到每个用户
-    const cus_loc = Object.keys(data[0]).filter(v => !isNaN(v))
+    const cus_loc = Object.keys(mealcopies[0]).filter(v => !isNaN(v))
     // console.log(cus_loc)
     // 算出每个用户的成本价
     const costPrices = cus_loc.reduce((pre, v) => {
         let costPrice = 0
-        for (const data_item of data) {
+        for (const data_item of mealcopies) {
             costPrice += data_item[v] * data_item['costPrice']
         }
         pre.set(v, Number(costPrice.toFixed(2)))
@@ -428,18 +429,30 @@ const cost_proportion = (data) => {
     // console.log(mealPrices)
     const sales_volume = cus_loc.reduce((pre, v) => {
         let sales = new Map()
+        //  计算出单个用户 中餐、晚餐、总销售额
+
         for (const meal_item of mealPrices) {
             let meal_category_sales = 0
-            for (const data_item of data) {
-                // data_item[v] => 份数
-                // 
-                if(data_item.configure || data_item.edit == false || data_item.fixed == false) continue
-                if(data_item.dinner_type != meal_item.dinner_type) continue
-                meal_category_sales += data_item[v] * meal_item[v]
+            for (const copies_item of mealcopies) {
+                if(meal_item.dinner_type != copies_item.dinner_type) continue
+
+                meal_category_sales += copies_item[v] * meal_item[v]
             }
             sales.set(meal_item.dinner_type, meal_category_sales)
-            // console.log(meal_item.cl1, meal_category_sales, v)
         }
+        
+        // for (const meal_item of mealPrices) {
+        //     let meal_category_sales = 0
+        //     for (const data_item of data) {
+        //         // data_item[v] => 份数
+        //         // 
+        //         if(data_item.configure || data_item.edit == false || data_item.fixed == false) continue
+        //         if(data_item.dinner_type != meal_item.dinner_type) continue
+        //         meal_category_sales += data_item[v] * meal_item[v]
+        //     }
+        //     sales.set(meal_item.dinner_type, meal_category_sales)
+        //     // console.log(meal_item.cl1, meal_category_sales, v)
+        // }
         const obj = {
             total: 0
         }

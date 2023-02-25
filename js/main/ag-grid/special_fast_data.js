@@ -12,7 +12,7 @@ const init_mc = () => {
         })
         is_load = true
     }
-
+    
     return mealcopies
 }
 

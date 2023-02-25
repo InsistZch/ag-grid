@@ -212,4 +212,7 @@ const dataIndex = (params) => {
     return index
 }
 
+export {
+    dataIndex
+}
 export default GroupRowInnerRenderer

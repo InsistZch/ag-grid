@@ -8,6 +8,8 @@ import specialMeal from "./specialMeal.js"
 import {Restrictions} from './ag-grid-col.js'
 import { copiesNumber } from './../otherApi/index.js'
 import { countMaterialData, cost_proportion } from './ag-grid-row.js'
+import mealcopies from './special_fast_data.js'
+import {dataIndex} from './GroupRowInnerRenderer.js'
 // import 
 
 // 添加对应数据
@@ -65,7 +67,6 @@ const onCellValueChanged = (e,gridOptions) => {
         }
         // console.log(e.newValue)
         // const scale = (parseInt(e.newValue) - parseInt(e.oldValue)) / e.data['Copies']
-        e
         const Copies =  e.data['Copies'] + (copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue))
         // 进入该if只有两种可能
         // 第一，改变了快餐
@@ -97,6 +98,7 @@ const onCellValueChanged = (e,gridOptions) => {
                     v.data = {
                         ...calculateCopies(v.data)
                     }
+
                     
                 }else{
                     
@@ -726,40 +728,65 @@ const onCellValueChanged = (e,gridOptions) => {
     }
     gridOptions.api.refreshCells({force:true})
     // console.log(gridOptions)
-    const d = cost_proportion(gridOptions.rowData)
-    let cl1s = []
+    const d = cost_proportion(mealcopies())
+    const arr = []
+    for (const copies_item of mealcopies()) {
+        if(copies_item.dinner_type == e.data.dinner_type){
+            arr.push(copies_item)
+        }
+    }
+    const d2 = cost_proportion(arr)
     gridOptions.api.forEachNode(v => {
         if(v.data == null) return
-        if(v.data.type == "成本比例"){
-            cl1s.push(v.data.cl1)
+        if(v.data.cl1 == c_item && v.data.type == "成本比例"){
+            gridOptions.api.applyTransaction({remove: [v.data]})
         }
     })
-    for (const c_item of cl1s) {
-        const arr = []
-        let dinner_type = ""
-        gridOptions.api.forEachNode(v => {
-            if(v.data == null) return
-            if(v.data.configure == true || v.data.edit == false) return
-            if(v.data.cl1 == c_item){
-                arr.push(v.data)
-                dinner_type = v.data.dinner_type
-            }
-        })
-        const d2 = cost_proportion(arr)
-        gridOptions.api.forEachNode(v => {
-            if(v.data == null) return
-            if(v.data.cl1 == c_item && v.data.type == "成本比例"){
-                gridOptions.api.applyTransaction({remove: [v.data]})
-            }
-        })
-        const obj = {
-            ...d2[2],
-            cl1: c_item,
-            dinner_type,
-        }
-        gridOptions.api.applyTransaction({add: [obj], addIndex: 0})
+    const obj = {
+        ...d2[2],
+        cl1: c_item,
+        dinner_type,
     }
-    // console.log(d)
+    gridOptions.api.applyTransaction({add: [obj], addIndex: dataIndex(e)})
+    // let cl1s = []
+    // gridOptions.api.forEachNode(v => {
+    //     if(v.data == null) return
+    //     if(v.data.type == "成本比例"){
+    //         cl1s.push(v.data.cl1)
+    //     }
+    // })
+    // for (const c_item of cl1s) {
+    //     const arr = []
+    //     let dinner_type = ""
+    //     gridOptions.api.forEachNode(v => {
+    //         if(v.data == null) return
+    //         if(v.data.configure == true || v.data.edit == false) return
+    //         if(v.data.cl1 == c_item){
+    //             arr.push(v.data)
+    //             dinner_type = v.data.dinner_type
+    //         }
+    //     })
+    //     for (const copies_item of mealcopies()) {
+    //         if(copies_item.dinner_type == c_item){
+    //             arr.push(v)
+    //             dinner_type = v.data.dinner_type
+    //         }
+    //     }
+    //     const d2 = cost_proportion(arr)
+    //     gridOptions.api.forEachNode(v => {
+    //         if(v.data == null) return
+    //         if(v.data.cl1 == c_item && v.data.type == "成本比例"){
+    //             gridOptions.api.applyTransaction({remove: [v.data]})
+    //         }
+    //     })
+    //     const obj = {
+    //         ...d2[2],
+    //         cl1: c_item,
+    //         dinner_type,
+    //     }
+    //     gridOptions.api.applyTransaction({add: [obj], addIndex: 0})
+    // }
+    // // console.log(d)
     gridOptions.api.setPinnedTopRowData([d[2]])
     gridOptions.api.refreshCells({force:true})
 
