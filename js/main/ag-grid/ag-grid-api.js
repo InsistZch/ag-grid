@@ -65,12 +65,13 @@ const onCellValueChanged = (e,gridOptions) => {
         }
         // console.log(e.newValue)
         // const scale = (parseInt(e.newValue) - parseInt(e.oldValue)) / e.data['Copies']
-        const Copies =  e.data['Copies'] + (Math.ceil(e.newValue) - parseInt(e.oldValue))
+        e
+        const Copies =  e.data['Copies'] + (copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue))
         // 进入该if只有两种可能
         // 第一，改变了快餐
         // 第二，改变了特色
         // 增加比例
-        const ratio = ((Math.ceil(e.newValue) - parseInt(e.oldValue)) / parseInt(e.oldValue == 0 ? 1 : e.oldValue))
+        const ratio = ( ( copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue)) / parseInt(e.oldValue == 0 ? 1 : e.oldValue))
         // console.log(e.newValue, e.oldValue, ratio)
         // 是配置 并且不固定
         if(e.data.configure && !e.data.fixed){
@@ -82,7 +83,7 @@ const onCellValueChanged = (e,gridOptions) => {
                 // console.log(v)
                 // 改变当前列所有符合条件的值
                 // 计算改变比率
-                v.data[`${e.colDef.field}`] = Number(v.data[`${e.colDef.field}`] )
+                v.data[`${e.colDef.field}`] = copiesNumber(Number(v.data[`${e.colDef.field}`] ))
                 if(e.data.type == "快餐"){
                     // 当specialMealID有值时，表示类型为特餐
                     if(v.data.specialMealID != null || v.data.specialMealColor != null || v.data.type == "快餐" || v.data.type == "特色") return
@@ -758,7 +759,7 @@ const onCellValueChanged = (e,gridOptions) => {
         }
         gridOptions.api.applyTransaction({add: [obj], addIndex: 0})
     }
-    console.log(d)
+    // console.log(d)
     gridOptions.api.setPinnedTopRowData([d[2]])
     gridOptions.api.refreshCells({force:true})
 

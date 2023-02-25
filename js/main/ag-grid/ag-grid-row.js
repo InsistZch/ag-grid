@@ -528,7 +528,8 @@ const countMaterialData = ({
                 const old = oldCopies == 0 ? 1 : oldCopies
                 const scale = (newCopies - oldCopies) / old
                 // console.log(scale,item.dish_qty)
-                item.dish_qty = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))
+                const dish = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))
+                item.dish_qty = dish < 0 ? 0 : dish
                 m_arr.push({...item})
             }
         }else{
@@ -540,8 +541,9 @@ const countMaterialData = ({
                 // 增加比例
                 const old = oldCopies == 0 ? 1 : oldCopies
                 const scale = (newCopies - oldCopies) / old
-                console.log(scale, item.dish_qty)
-                item.dish_qty = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))
+                // console.log(scale, item.dish_qty)
+                const dish = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))
+                item.dish_qty = dish < 0 ? 0 : dish
                 m_arr.push({...item})
             }
         }
