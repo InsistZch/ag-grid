@@ -145,7 +145,7 @@ class GroupRowInnerRenderer {
                 //     arr.push(v)
                 // }
             })
-            const c2 = c.filter(v => params.value == v.dinner_type)
+            const c2 = c.filter(v => params.value == v.cl1)
             const d = cost_proportion(arr, c2)
             // 查看当前是否存在成本解析 默认为无
             let judeg = false
@@ -171,8 +171,8 @@ class GroupRowInnerRenderer {
                 
                 params.api.applyTransaction({add: [obj], addIndex})
             }
-            
-            // console.log(d)
+            console.log(arr, c2 )
+            console.log(d)
         }
         // 插入内容
         span.innerHTML = `<span style="font-weight: 600;">${params.value}</span>`

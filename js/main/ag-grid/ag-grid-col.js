@@ -30,7 +30,7 @@ const col = () => {
         {
             headerName:'类别',
             field:'type',
-            minWidth:60,
+            minWidth: 55,
             editable:false,
             pinned: 'left',
             filter:true,
@@ -91,7 +91,7 @@ const col = () => {
         {
             headerName: '成本',
             field: 'costPrice',
-            minWidth: 55,
+            minWidth: 50,
             pinned: 'left',
             editable:false,
             cellRenderer: params => {
@@ -124,13 +124,12 @@ const col = () => {
         },
     ]
     // 确定列数
-    let count = 0;
     const newCus_loc = index.cus_loc.sort((a, b) => a.no - b.no)
     for (const item of newCus_loc) {
         const obj = {}
         obj['headerName'] = item['name']
         obj['field'] = `${item['id']}`
-        obj['minWidth'] = 45
+        obj['minWidth'] = 42
         obj['valueParser'] = params => Number(params.newValue)
         obj['menuTabs'] = []
         obj['cellRenderer'] = (params) => {
