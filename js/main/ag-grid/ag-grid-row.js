@@ -315,7 +315,7 @@ const init_dish_detailed = (manual_material_qty,count) => {
         // console.log(ratio)
         // console.log(obj.name, obj.main_price, main_unit_bom_unit_ratio)
         obj['main_unit_bom_unit_ratio'] = main_unit_bom_unit_ratio
-        // costPrice += (obj.main_price * obj['dish_qty']) / (count * main_unit_bom_unit_ratio)
+        costPrice += (obj.main_price * obj['dish_qty']) / (count * main_unit_bom_unit_ratio)
         
         // 查找单位
         for (const material_purchase_unit_category of index.material_purchase_unit_category) {
