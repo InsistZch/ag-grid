@@ -486,7 +486,7 @@ const cost_proportion = (data, mealCopies) => {
     costs['configure'] = true
     costs['fixed'] = true
     costs['whole'] = ""
-    costs['type'] = "成本比例"
+    costs['type'] = "%"
     // console.log(costs)
     // 成本数据 销售数据 总占比数据
     return [costPrices, sales_volume, costs]

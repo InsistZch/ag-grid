@@ -30,7 +30,7 @@ const col = () => {
         {
             headerName:'类别',
             field:'type',
-            minWidth:80,
+            minWidth:60,
             editable:false,
             pinned: 'left',
             filter:true,
@@ -89,13 +89,13 @@ const col = () => {
             }
         },
         {
-            headerName: '成本价',
+            headerName: '成本',
             field: 'costPrice',
-            minWidth: 60,
+            minWidth: 55,
             pinned: 'left',
             editable:false,
             cellRenderer: params => {
-                if(params.data.type == "成本比例"){
+                if(params.data.type == "%"){
                     let style = ""
                     const high = index.org_config.material_cost_ratio_high_lmt, low = index.org_config.material_cost_ratio_low_lmt
                     let value = Number(params.data.costPrice.substr(0, params.data.costPrice.length - 1)) / 100
@@ -131,7 +131,6 @@ const col = () => {
         obj['headerName'] = item['name']
         obj['field'] = `${item['id']}`
         obj['minWidth'] = 45
-        obj['maxWidth'] = 50
         obj['valueParser'] = params => Number(params.newValue)
         obj['menuTabs'] = []
         obj['cellRenderer'] = (params) => {
@@ -313,25 +312,30 @@ const col = () => {
         pinned:'right',
         menuTabs:[],
         editable:false,
-        minWidth: 35,
+        minWidth: 25,
         cellRenderer: params => {
             if(Restrictions(params) || !params.data.fixed) return params.value
             const createspan = document.createElement('span')
             createspan.title = '保存本列餐品'
             // createImg.src = '/gmm/static/src/img/saveData.png' // 这个不用再改
             // createImg.src = './public/img/saveData.png'
-            createspan.innerText = "保存"
+            createspan.innerText = "存"
             createspan.style.cssText = `
-            height:15px;
-            width:15px;
+            height:20px;
+            width:20px;
             position: absolute;
-            left:35%;
-            top:20%;
+            left:50%;
+            top:50%;
             transform: translate(-50%, -50%);
             cursor: pointer;
             font-size: 8px;
             color: #624aaf;
             font-weight: 500;
+            border: 1px #000 solid;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             // text-decoration: underline 1px #000;
             `
             createspan.onclick = () => {

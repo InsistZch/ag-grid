@@ -80,7 +80,7 @@ const onCellValueChanged = (e,gridOptions) => {
             e.api.forEachNode(v => {
                 // 如果没有数据或者餐品类别不同，直接return
                 if(v.data == undefined || v.data.cl1 != e.data.cl1) return
-                if(v.data.type == "成本比例" || v.data.type == "餐标") return
+                if(v.data.type == "%" || v.data.type == "餐标") return
                 // console.log(v)
                 // 改变当前列所有符合条件的值
                 // 计算改变比率
@@ -744,7 +744,7 @@ const onCellValueChanged = (e,gridOptions) => {
     let cl1s = []
     gridOptions.api.forEachNode(v => {
         if(v.data == null) return
-        if(v.data.type == "成本比例"){
+        if(v.data.type == "%"){
             cl1s.push(v.data.cl1)
         }
     })
@@ -770,7 +770,7 @@ const onCellValueChanged = (e,gridOptions) => {
         const d = cost_proportion(costs_data, sales_data)
         gridOptions.api.forEachNode(v => {
             if(v.data == null) return
-            if(v.data.cl1 == c_item && v.data.type == "成本比例"){
+            if(v.data.cl1 == c_item && v.data.type == "%"){
                 gridOptions.api.applyTransaction({remove: [v.data]})
             }
         })
