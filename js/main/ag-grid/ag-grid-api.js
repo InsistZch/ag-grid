@@ -450,45 +450,6 @@ const onCellValueChanged = (e,gridOptions) => {
                     }       
                 }
             }
-            // console.log(d)
-            // console.log(e.data.dish_key_id.material_item)
-           
-
-            //  去掉所有重复的数据
-            // e.data.dish_key_id.material_item = e.data.dish_key_id.material_item.reduce((pre,v) => {
-            //     const judeg = [...pre].every(v2 => v2.id != v.id)
-            //     if(judeg){
-            //         pre.push(v)
-            //         // if(d[1] == v.name.split('-')[0]){
-            //         //     // const value = data_name.split(d[1])[1]
-            //         //     // console.log(value, d[3])
-            //         //     // dish_process_category_name => 切片方式
-            //         //     if(v.unit_id == null) return pre
-            //         //     const dish_process_category_name = data_name.split(d[1])[1]
-            //         //     // 获取单位
-            //         //     const unit_category = index.material_purchase_unit_category.find(v => v.name == d[3])
-            //         //     // 获取切片方式
-            //         //     const pcValue = data_name.split(d[1])[1] == "" ? "无" : data_name.split(d[1])[1]
-            //         //     const process_category = index.dish_process_category.find(v => v.name == pcValue)
-            //         //     pre.push({
-            //         //         ...v,
-            //         //         // unit_name:d[3],
-            //         //         // dish_qty:d[2],
-            //         //         dish_process_category_name,
-            //         //         material_id: v.id,
-            //         //         process_id: process_category.id,
-            //         //         unit_id: unit_category.id
-            //         //     })
-            //         // }else{
-            //         //     pre.push(v)
-            //         // }
-                    
-            //     }
-            //     return pre
-            // },[])
-            // console.log(e.data.dish_key_id.material_item)
-            // console.log(d)
-            // console.log('111')
             // 查找 菜品配量是否存在
 
             // 材料名称-切片方式-数量-单位
@@ -959,6 +920,7 @@ const addRowPublicPart = (params) => {
     obj['configure'] = false
     obj['fixed'] = true
     obj['costPrice'] = 0
+    obj['update'] = false
     return obj
 }
 

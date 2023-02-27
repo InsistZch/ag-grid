@@ -254,6 +254,7 @@ const mealAbstract = ({
         obj['fixed'] = fixed
         obj['configure'] = configure
         obj['type'] = type
+        obj['update'] = false
         // obj['specialMealColor'] = "#00000090"
         data.push(obj)
     }
@@ -499,6 +500,8 @@ const cost_proportion = (data, mealCopies) => {
 // 用户自添加食材如果有数量 则同比增加
 // 用户自添加食材如果没有数量 则不增加
 // 两种统计方式，一种为菜品原始食材 一种用户自加食材
+
+// 食材价格大于5元，保留一位小数点
 /*
 {
     material_items: [material_item] => 食材列表
