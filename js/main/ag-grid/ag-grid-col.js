@@ -23,7 +23,6 @@ const col = () => {
             field:'cl1',
             hide:true,
             rowGroup:true,
-            menuTabs:[],
             cellRenderer: 'agGroupCellRenderer',
             showRowGroup: true,
         },
@@ -34,7 +33,6 @@ const col = () => {
             editable:false,
             pinned: 'left',
             filter:true,
-            menuTabs:[],
             checkboxSelection: true, //设置为true显示为复选框
             headerCheckboxSelection: true, //表头是否也显示复选框，全选反选用
             valueGetter: params => {
@@ -51,8 +49,7 @@ const col = () => {
             // cellEditorParams:{values:dish_dropdown()},
             cellEditor: customCells,
             pinned: 'left',
-            filter:true,
-            menuTabs:[],
+            filter:true, 
             cellRenderer: params => {
             //    console.log(params)
                if(params.value == "" || params.value == undefined) return ""
@@ -119,8 +116,6 @@ const col = () => {
             minWidth: 48,
             editable:false,
             pinned: 'left',
-            menuTabs:[],
-            sortable: true,
         },
     ]
     // 确定列数
@@ -131,7 +126,6 @@ const col = () => {
         obj['field'] = `${item['id']}`
         obj['minWidth'] = 42
         obj['valueParser'] = params => Number(params.newValue)
-        obj['menuTabs'] = []
         obj['cellRenderer'] = (params) => {
             // console.log(Restrictions(params))
             if(Restrictions(params)) return params.value
@@ -177,7 +171,6 @@ const col = () => {
         headerName:'配量汇总',
         field:"whole",
         pinned: 'right',
-        menuTabs:[],
         minWidth:250,
         // autoHeight: true,
         // wrapText: true,
@@ -309,15 +302,12 @@ const col = () => {
         headerName:'',
         field:'save',
         pinned:'right',
-        menuTabs:[],
         editable:false,
         minWidth: 25,
         cellRenderer: params => {
             if(Restrictions(params) || !params.data.fixed) return params.value
             const createspan = document.createElement('span')
             createspan.title = '保存本列餐品'
-            // createImg.src = '/gmm/static/src/img/saveData.png' // 这个不用再改
-            // createImg.src = './public/img/saveData.png'
             createspan.innerText = "存"
             createspan.style.cssText = `
             height:20px;

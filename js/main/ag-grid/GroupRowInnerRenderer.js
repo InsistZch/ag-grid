@@ -69,26 +69,13 @@ class GroupRowInnerRenderer {
                
                 params.api.applyTransaction({add: [...d2], addIndex})
             }else{
-                let d = []
-                params.api.forEachNode(v => {
-                    // 保证不是分组行
-                    if(v.data != null){
-                        // 保证不是同类配置
-                        if(v.data.configure == true && v.data.cl1 == params.value && v.data.fixed == false) {
-                            for (const key in c) {
-                                if(c[key].type == v.data.type){
-                                    c[key] = {...v.data}
-                                    return
-                                }
-                                
-                            }
-                            return
-                        }
-                        d.push(v.data)
-                    }
+                const d = getRowData({
+                    params,
+                    rowTypes: ['快餐', '特色'],
+                    categoryName: params.value
                 })
-                // console.log(d)
-                params.api.setRowData(d)
+                params.api.applyTransaction({remove: d})
+                
             }
         }
         // 餐标
@@ -104,7 +91,6 @@ class GroupRowInnerRenderer {
                 }
             })
 
-            // btn2judeg = !btn2judeg
             // console.log(data)
             // params.api.setRowData(data)
             const mealsPrice = mealPrice()
@@ -147,7 +133,7 @@ class GroupRowInnerRenderer {
             })
             const c2 = c.filter(v => params.value == v.cl1)
             const d = cost_proportion(arr, c2)
-            // 查看当前是否存在成本解析 默认为无
+            // 查看当前是否存在成本 默认为无
             let judeg = false
             const arr2 = []
             params.api.forEachNode(v => {
@@ -171,8 +157,6 @@ class GroupRowInnerRenderer {
                 
                 params.api.applyTransaction({add: [obj], addIndex})
             }
-            console.log(arr, c2 )
-            console.log(d)
         }
         // 插入内容
         span.innerHTML = `<span style="font-weight: 600;">${params.value}</span>`
@@ -210,6 +194,27 @@ const dataIndex = (params) => {
         }
     })
     return index
+}
+
+// rowTypes => [type, type] => 行数据type字段
+// category => string => 餐别
+// configure => boolean => 判断是否为配置
+const getRowData = ({
+    params,
+    rowTypes,
+    categoryName,
+    configure = true}) => {
+    const data = []
+    params.api.forEachNode(v => {
+        if(v.data == null) return
+        if(v.data.cl1 != categoryName || v.data.configure != configure) return
+        for (const item of rowTypes) {
+            if(item == v.data.type) {
+                data.push(v.data)
+            }
+        }
+    })
+    return data
 }
 
 export {

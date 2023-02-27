@@ -271,6 +271,7 @@ dish_qty    => 每100份 所需总量
 const init_dish_detailed = (manual_material_qty,count) => {
     // console.log(manual_material_qty)
     // console.log(manual_material_qty_json, count)
+    count = count == 0 ? 1 : count
     // 获取当前菜品详细配料
     let str = ""
     let arr = []
@@ -314,7 +315,7 @@ const init_dish_detailed = (manual_material_qty,count) => {
         const [{main_unit_bom_unit_ratio}] = index.material_item_bom_unit_ratio.filter(v => v.material_id == obj.id && v.purchase_unit_id == json.unit_id)
         // console.log(ratio)
         // console.log(obj.name, obj.main_price, main_unit_bom_unit_ratio)
-        obj['main_unit_bom_unit_ratio'] = main_unit_bom_unit_ratio
+        obj['main_unit_bom_unit_ratio'] = main_unit_bom_unit_ratio == 0 ? 1 : main_unit_bom_unit_ratio
         costPrice += (obj.main_price * obj['dish_qty']) / (count * main_unit_bom_unit_ratio)
         
         // 查找单位

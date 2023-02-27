@@ -678,6 +678,7 @@ const onCellValueChanged = (e,gridOptions) => {
                                 ...obj1,
                                 dish_process_category_name: customSectionValue,
                                 unit_name: dish_process_category_name,
+                                main_unit_bom_unit_ratio: 1,
                                 dish_qty: 0,
                             })
                             
@@ -739,7 +740,7 @@ const onCellValueChanged = (e,gridOptions) => {
 
     
     const d = cost_proportion(arr, mealcopies())
-    console.log(gridOptions.rowData, mealcopies(), d)
+    // console.log(gridOptions.rowData, mealcopies(), d)
     gridOptions.api.setPinnedTopRowData([d[2]])
     let cl1s = []
     gridOptions.api.forEachNode(v => {
