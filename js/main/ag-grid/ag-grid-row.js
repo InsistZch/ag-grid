@@ -64,6 +64,7 @@ const data = () => {
                 obj['edit'] = true
                 obj['configure'] = false
                 obj['fixed'] = true
+                obj['update'] = false
                 obj['costPrice'] = d_data[2]
                 obj['dish_key_id'] = {
                     id: dish_key.id,
@@ -298,25 +299,34 @@ const init_dish_detailed = (manual_material_qty,count) => {
                     if(str[str.length - 1] != dish_process_category.name){
                         str += dish_process_category.name
                     }
-                    
                     obj['dish_process_category_name'] = dish_process_category.name
                 }else{
                     obj['dish_process_category_name'] = ''
                 }
-                break
+                break   
             }
         }
-        str += Math.ceil(json.dish_qty)
-        // str += 0
-        json.dish_qty = Math.ceil(json.dish_qty)
-        obj.main_price = Number(Number(obj.main_price).toFixed(2))
-        obj['dish_qty'] = Math.ceil(json.dish_qty)
-        // obj['dish_qty'] = 0
-        // console.log(obj, json)
+        
         const [{main_unit_bom_unit_ratio}] = index.material_item_bom_unit_ratio.filter(v => v.material_id == obj.id && v.purchase_unit_id == json.unit_id)
         // console.log(ratio)
         // console.log(obj.name, obj.main_price, main_unit_bom_unit_ratio)
         obj['main_unit_bom_unit_ratio'] = main_unit_bom_unit_ratio == 0 ? 1 : main_unit_bom_unit_ratio
+        // str += 0
+        
+        obj.main_price = Number(Number(obj.main_price).toFixed(2))
+        if((obj.main_price / main_unit_bom_unit_ratio) >= 5){
+            json.dish_qty = Number(json.dish_qty.toFixed(1))
+            obj['dish_qty'] =  Number(json.dish_qty.toFixed(1))
+            str += Number(json.dish_qty.toFixed(1))
+        }else{
+            json.dish_qty = Math.ceil(json.dish_qty)
+            obj['dish_qty'] = Math.ceil(json.dish_qty)
+            str += Math.ceil(json.dish_qty)
+        }
+        
+        // obj['dish_qty'] = 0
+        // console.log(obj, json)
+        
         costPrice += (obj.main_price * obj['dish_qty']) / (count * main_unit_bom_unit_ratio)
         
         // 查找单位
@@ -374,13 +384,22 @@ const dish_detailed = (dish_key,count) => {
                     break;
                 }
             }
-            
-            str += Math.ceil((count * 0.01) * dish_bom.gbom_qty_high)
 
-            arr_data['dish_qty'] = Math.ceil((count * 0.01) * dish_bom.gbom_qty_high)
+            arr_data.main_price = (Number(arr_data.main_price)).toFixed(2)
+            
+            if(arr_data.main_price / dish_bom.main_price >= 5){
+                str += Math.ceil(((count * 0.01) * dish_bom.gbom_qty_high).toFixed(1))
+                arr_data['dish_qty'] = Math.ceil(((count * 0.01) * dish_bom.gbom_qty_high).toFixed(1))
+            }else{
+                str += Math.ceil((count * 0.01) * dish_bom.gbom_qty_high)
+                arr_data['dish_qty'] = Math.ceil((count * 0.01) * dish_bom.gbom_qty_high)
+            }
+            
+
+            
 
             // console.log(arr_data)
-            arr_data.main_price = (Number(arr_data.main_price)).toFixed(2)
+            
             // console.log(arr_data['dish_qty'], arr_data.main_price)
             // costPrice += json.dish_qty * obj.main_price
 
@@ -514,55 +533,81 @@ const countMaterialData = ({
     material_items,
     dish_key_id,
     oldCopies,
-    newCopies
+    newCopies,
+    update=false
 }) => {
     // console.log(dish_key_id)
     // console.log('111')
     // 选出食品原食材
     // console.log(newCopies, oldCopies)
+    
     const m_arr = []
     const [,arr] = dish_detailed({id:dish_key_id}, newCopies)
     // console.log(arr)
     let costPrice = 0;
     
-    // console.log(material_items, arr)
-    for (const item of material_items) {
-        // 寻找该食材是否为食品原食材 
-        const ingredients = arr.find(v => v.id == item.id)
-        // console.log(ingredients)
-        // 是原食材进入if 不是原食材进入else
-        if(ingredients != undefined){
-            // 如果原食材没有数量则进入if 有数量则进入else
+    // 如果用户没有修改则进入该方法计算
+
+    if(update){
+        // console.log(material_items, arr)
+        for (const item of material_items) {
+            // 寻找该食材是否为食品原食材 
+            const ingredients = arr.find(v => v.id == item.id)
             // console.log(ingredients)
-            // console.log(item)
-            if(isNaN(item.dish_qty) || parseInt(item.dish_qty) == 0){
-                // console.log(519, ingredients)
-                m_arr.push({...ingredients})
+            // 是原食材进入if 不是原食材进入else
+            if(ingredients != undefined){
+                // 如果原食材没有数量则进入if 有数量则进入else
+                // console.log(ingredients) 
+                // console.log(item)
+                if(isNaN(item.dish_qty) || parseInt(item.dish_qty) == 0){
+                    // console.log(519, ingredients)
+                    m_arr.push({...ingredients})
+                }else{
+                    // 增加比例
+                    const old = oldCopies == 0 ? 1 : oldCopies
+                    const scale = (newCopies - oldCopies) / old
+                    // console.log(scale,item.dish_qty)
+                    let dish = 0
+                    if(item.main_price / item.main_unit_bom_unit_ratio >= 5){
+                        dish = Number((Number(item.dish_qty) + (Number(item.dish_qty) * scale)).toFixed(1))
+                    }else{
+                        dish = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))
+                    }
+                    item.dish_qty = dish < 0 ? 0 : dish
+                    m_arr.push({...item})
+                }
             }else{
-                // 增加比例
-                const old = oldCopies == 0 ? 1 : oldCopies
-                const scale = (newCopies - oldCopies) / old
-                // console.log(scale,item.dish_qty)
-                const dish = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))
-                item.dish_qty = dish < 0 ? 0 : dish
-                m_arr.push({...item})
+                // 如果自定义食材没有数量则进入if 否则进入else
+                if(isNaN(item.dish_qty) || parseInt(item.dish_qty) == 0){
+                    item.dish_qty = 0
+                    m_arr.push({...item})
+                }else{
+                    // 增加比例
+                    const old = oldCopies == 0 ? 1 : oldCopies
+                    const scale = (newCopies - oldCopies) / old
+                    // console.log(scale, item.dish_qty)
+                    let dish = 0
+                    if(item.main_price / item.main_unit_bom_unit_ratio >= 5){
+                        dish = Number((Number(item.dish_qty) + (Number(item.dish_qty) * scale)).toFixed(1))
+                    }else{
+                        dish = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))
+                    }
+                    item.dish_qty = dish < 0 ? 0 : dish
+                    m_arr.push({...item})
+                }
             }
-        }else{
-            // 如果自定义食材没有数量则进入if 否则进入else
-            if(isNaN(item.dish_qty) || parseInt(item.dish_qty) == 0){
-                item.dish_qty = 0
-                m_arr.push({...item})
-            }else{
-                // 增加比例
-                const old = oldCopies == 0 ? 1 : oldCopies
-                const scale = (newCopies - oldCopies) / old
-                // console.log(scale, item.dish_qty)
-                const dish = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))
-                item.dish_qty = dish < 0 ? 0 : dish
-                m_arr.push({...item})
+            
+        }
+    }else {
+        for (const item of material_items) {
+            for (const arr_item of arr) {
+                if(item.id == arr_item.id){
+                    m_arr.push(item)
+                    break
+                }
+                
             }
         }
-        
     }
     newCopies = newCopies == 0 ? 1 : newCopies
     // console.log(m_arr)
@@ -593,6 +638,7 @@ const countMaterialData = ({
     }).join(' ')
     return [str, m_arr, costPrice]
 }
+
 
 
 

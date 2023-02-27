@@ -36,6 +36,7 @@ const calculateCopies = (data) => {
         dish_key_id: data['dish_key_id']['id'],
         oldCopies: data['Copies'],
         newCopies: Copies,
+        update: e.data.update
     })
     data['Copies'] = Copies
     data['whole'] = d[0]
@@ -48,6 +49,7 @@ const calculateCopies = (data) => {
 // cellRenderer > onCellValueChanged
 const onCellValueChanged = (e,gridOptions) => {
     document.querySelector('#saveDataSpan').style.visibility = "visible"
+    
     // console.log(e)
     if(e.colDef.headerName != '菜品' && e.colDef.headerName != '配量汇总' && e.colDef.headerName != "成本价"){
         if(e.newValue == undefined || e.newValue == null || String(e.newValue).trim() == "") {
@@ -127,7 +129,8 @@ const onCellValueChanged = (e,gridOptions) => {
                 material_items: e.data['dish_key_id']['material_item'],
                 dish_key_id: e.data['dish_key_id']['id'],
                 oldCopies: e.data['Copies'],
-                newCopies: Copies
+                newCopies: Copies,
+                update: e.data.update
             })
             // console.log(countMaterialData, Copies)
             e.data['Copies'] = Copies
@@ -170,6 +173,7 @@ const onCellValueChanged = (e,gridOptions) => {
         e.data['costPrice'] = d[2]
         gridOptions.api.refreshCells({force:true})
     }else if(e.colDef.headerName == '配量汇总'){
+        e.data.update = true
         let d1 = e.newValue
         // console.log(e)
         // // let colData = e.columnApi.getColumn('whole')
@@ -292,7 +296,8 @@ const onCellValueChanged = (e,gridOptions) => {
                                     material_items: e.data.dish_key_id.material_item,
                                     dish_key_id: e.data.dish_key_id.id,
                                     oldCopies: e.data.Copies,
-                                    newCopies: e.data.Copies
+                                    newCopies: e.data.Copies,
+                                    update: e.data.update
                                 })
                                 e.data.costPrice = costPrice
                                 gridOptions.api.refreshCells({force:true})
@@ -679,7 +684,8 @@ const onCellValueChanged = (e,gridOptions) => {
             material_items: e.data.dish_key_id.material_item,
             dish_key_id: e.data.dish_key_id.id,
             oldCopies: e.data.Copies,
-            newCopies: e.data.Copies
+            newCopies: e.data.Copies,
+            update: e.data.update
         })
         // console.log(e.data)
         e.data.costPrice = costPrice
