@@ -36,7 +36,7 @@ const calculateCopies = (data) => {
         dish_key_id: data['dish_key_id']['id'],
         oldCopies: data['Copies'],
         newCopies: Copies,
-        update: e.data.update
+        update: data.update
     })
     data['Copies'] = Copies
     data['whole'] = d[0]

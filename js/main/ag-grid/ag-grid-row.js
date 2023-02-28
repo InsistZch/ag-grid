@@ -405,7 +405,7 @@ const dish_detailed = (dish_key,count) => {
                     const ratio = index.material_item_bom_unit_ratio.find(v => v.material_id == arr_data.material_id && v.purchase_unit_id == arr_data.unit_id)
                     // arr_data['main_unit_bom_unit_ratio'] = ratio.main_unit_bom_unit_ratio
                     
-                    console.log(arr_data, dish_bom)
+                    // console.log(arr_data, dish_bom)
                     if(arr_data.main_price / ratio.main_unit_bom_unit_ratio >= 5){
                         str += Math.ceil(((count * 0.01) * dish_bom.gbom_qty_high).toFixed(1))
                         arr_data['dish_qty'] = ((count * 0.01) * dish_bom.gbom_qty_high).toFixed(1)
@@ -544,7 +544,7 @@ const countMaterialData = ({
     const [,arr] = dish_detailed({id:dish_key_id}, newCopies)
     // console.log(arr)
     let costPrice = 0;
-    console.log(update)
+    // console.log(update)
     // 如果用户没有修改则进入该方法计算
     
     if(update){
