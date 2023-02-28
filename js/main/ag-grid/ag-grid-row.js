@@ -385,17 +385,7 @@ const dish_detailed = (dish_key,count) => {
                 }
             }
             // 添加当前菜品转换比等信息
-            const ratio = index.material_item_bom_unit_ratio.find(v => v.material_id == arr_data.material_id && v.purchase_unit_id == arr_data.unit_id)
-            arr_data['main_unit_bom_unit_ratio'] = ratio.main_unit_bom_unit_ratio
             
-            console.log(arr_data, dish)
-            if(arr_data.main_price / dish_bom.main_unit_bom_unit_ratio >= 5){
-                str += Math.ceil(((count * 0.01) * dish_bom.gbom_qty_high).toFixed(1))
-                arr_data['dish_qty'] = ((count * 0.01) * dish_bom.gbom_qty_high).toFixed(1)
-            }else{
-                str += Math.ceil((count * 0.01) * dish_bom.gbom_qty_high)
-                arr_data['dish_qty'] = Math.ceil((count * 0.01) * dish_bom.gbom_qty_high)
-            }
 
             // console.log(arr_data)
             
@@ -408,14 +398,30 @@ const dish_detailed = (dish_key,count) => {
                 if(material_purchase_unit_category.id == dish_bom.unit_id){
                     // console.log(5, material_purchase_unit_category)
                     
-                    str += material_purchase_unit_category.name + ' '
+                    
                     arr_data['unit_name'] = material_purchase_unit_category.name
                     arr_data['unit_id'] = material_purchase_unit_category.id
+
+                    const ratio = index.material_item_bom_unit_ratio.find(v => v.material_id == arr_data.material_id && v.purchase_unit_id == arr_data.unit_id)
+                    // arr_data['main_unit_bom_unit_ratio'] = ratio.main_unit_bom_unit_ratio
+                    
+                    console.log(arr_data, dish_bom)
+                    if(arr_data.main_price / ratio.main_unit_bom_unit_ratio >= 5){
+                        str += Math.ceil(((count * 0.01) * dish_bom.gbom_qty_high).toFixed(1))
+                        arr_data['dish_qty'] = ((count * 0.01) * dish_bom.gbom_qty_high).toFixed(1)
+                    }else{
+                        str += Math.ceil((count * 0.01) * dish_bom.gbom_qty_high)
+                        arr_data['dish_qty'] = Math.ceil((count * 0.01) * dish_bom.gbom_qty_high)
+                    }
+
+                    str += material_purchase_unit_category.name + ' '
+                    arr_data['material_id'] = ratio.material_id
+                    arr_data['purchase_unit_id'] = ratio.purchase_unit_id
+                    break
                 }
             }
 
-            arr_data['material_id'] = ratio.material_id
-            arr_data['purchase_unit_id'] = ratio.purchase_unit_id
+            
             arr.push(arr_data)
         }
     }
