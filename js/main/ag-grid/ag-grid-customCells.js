@@ -201,23 +201,29 @@ class customCells {
             }
             // 创建表格
             const d = dishTable(params.data.dish_key_id.dish_top_category_id, doubleClickGetRowData, clickGetRowData);
-            d.onGridReady = async () => {
-                console.log('fsfsfsfsf')
-                if (params.context.owl_widget) {
-                    let obj = {
-                        'dish_name': input.value.trim(),
 
-                    }
+            if (params.context.owl_widget) {
+                d.rowData = null
 
-                    if (!!obj.dish_name) {
-                        let arr = await params.context.owl_widget.get_dish_key_detail(obj, -1)
+                d.onGridReady = async () => {
+                    console.log('fsfsfsfsf')
 
-                        d.api.setRowData(arr)
-                    }
+                        let obj = {
+                            'dish_name': input.value.trim(),
+
+                        }
+
+                        if (!!obj.dish_name) {
+                            let arr = await params.context.owl_widget.get_dish_key_detail(obj, -1)
+
+                            d.api.setRowData(arr)
+                        }
 
 
                 }
             }
+
+
 
             new agGrid.Grid(dish_dataDiv, d);
             d.api.sizeColumnsToFit();
