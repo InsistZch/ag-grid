@@ -38,7 +38,8 @@ const gridOptions = (dish_top_category_id,onCellDoubleClicked,onCellClicked) => 
         rowSelection: 'single',
         // menuTabs: params => api.menuTabs(params),
         paginationAutoPageSize: true, //根据网页高度自动分页（前端分页）
-        localeText:locale
+        localeText:locale,
+        context: {},
     }
 };
 export default gridOptions
