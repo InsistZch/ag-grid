@@ -602,7 +602,7 @@ const countMaterialData = ({
         for (const item of material_items) {
             for (const arr_item of arr) {
                 if(item.id == arr_item.id){
-                    m_arr.push(item)
+                    m_arr.push(arr_item)
                     break
                 }
                 
