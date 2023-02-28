@@ -104,14 +104,56 @@ class customCells {
                 this.dish_data.push(dish_key)
             }
         }
+
+        let get_plan_day_data_list = () => {
+
+            // let dish_top_category_id = parseInt(params.data.dish_key_id.dish_top_category_id)
+            // let ds = index.plan_day_record_show.map(e => e.dish_key_id)
+            // let dish_names = index.dish_key.filter(e => ds.includes(parseInt(e.id))).map(e => e.name).filter(e => e !== params.data.dish)
+            let rs = []
+            params.api.forEachLeafNode(node => {
+
+                if (node.rowIndex !== params.rowIndex) {
+                    rs.push({
+                        dish_top_category_id: parseInt(node.data.dish_key_id.dish_top_category_id),
+                        dish: node.data.dish,
+                        dinner_type: node.data.dinner_type,
+                        Copies: node.data.Copies,
+                        costPrice: node.data.costPrice,
+                        material_item_bom_list: node.data.dish_key_id.material_item.map(e => {
+                            return {
+                                name: e.name,
+                                form: e.form,
+                                phase: e.phase,
+                                process_name: e.dish_process_category_name,
+                                dish_qty: e.dish_qty,
+                                unit_name: e.unit_name,
+
+                            }
+                        })
+                    })
+                }
+            })
+
+
+            return rs
+
+        }
+
         input.onkeyup = async () => {
             let str = ''
             // input.value
             let arr = []
             let dish_key_list = []
             if (params.context.owl_widget) {
+
+                let dish_top_category_id = parseInt(params.data.dish_key_id.dish_top_category_id)
+
+
                 let obj = {
-                    dish_name: input.value.trim()
+                    dish_name: input.value.trim(),
+                    dish_top_category_id: dish_top_category_id,
+                    plan_day_data_list: get_plan_day_data_list(),
                 }
 
                 if (!!obj.dish_name) {
@@ -207,22 +249,24 @@ class customCells {
 
                 d.onGridReady = async () => {
                     console.log('fsfsfsfsf')
+                    let dish_top_category_id = parseInt(params.data.dish_key_id.dish_top_category_id)
 
-                        let obj = {
-                            'dish_name': input.value.trim(),
 
-                        }
+                    let obj = {
+                        dish_name: input.value.trim(),
+                        dish_top_category_id: dish_top_category_id,
+                        plan_day_data_list: get_plan_day_data_list(),
+                    }
 
-                        if (!!obj.dish_name) {
-                            let arr = await params.context.owl_widget.get_dish_key_detail(obj, -1)
+                    if (!!obj.dish_name) {
+                        let arr = await params.context.owl_widget.get_dish_key_detail(obj, -1)
 
-                            d.api.setRowData(arr)
-                        }
+                        d.api.setRowData(arr)
+                    }
 
 
                 }
             }
-
 
 
             new agGrid.Grid(dish_dataDiv, d);
