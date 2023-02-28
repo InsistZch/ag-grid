@@ -140,12 +140,14 @@ const col = () => {
             let hook = init_mc().filter(v => {
                 return v.cl1 == params.data.cl1
             })
-            if(params.data.type.includes("特色")){
+            if(params.data.type.includes("特色") || params.data.specialMealColor != undefined){
                 hook = hook.find(v => v.type == "特色")
             }else{
                 hook = hook.find(v => v.type == "快餐")
             }
+            
             hook = hook[`${params.colDef.field}`]
+            // console.log(params.data.dish, params.colDef.field, hook)
             // console.log(hook)                 
             // user_id,dish_id
             
@@ -160,8 +162,6 @@ const col = () => {
                 if(!d[1]){
                     value =  `<span style="color:red;" title="客户禁忌,客户不吃${d[0]}">${params.value}</span>`
                 }
-            }else if(params.data.configure && !params.data.fixed){
-
             }
             return value
         }

@@ -106,7 +106,7 @@ const onCellValueChanged = (e,gridOptions) => {
                     
                     if(v.data.specialMealColor == null || v.data.type == "快餐") return
                     if(v.data.specialMealColor == null && v.data.type == "特色") return
-                    console.log(111)
+                    // console.log(111)
                     // console.log(Math.ceil( v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio) ))
                     let value = copiesNumber(Math.ceil(v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio)))
                     if(value > e.newValue){
