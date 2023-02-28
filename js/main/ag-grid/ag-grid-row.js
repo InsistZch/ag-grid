@@ -384,19 +384,18 @@ const dish_detailed = (dish_key,count) => {
                     break;
                 }
             }
-
-            arr_data.main_price = (Number(arr_data.main_price)).toFixed(2)
+            // 添加当前菜品转换比等信息
+            const ratio = index.material_item_bom_unit_ratio.find(v => v.material_id == arr_data.material_id && v.purchase_unit_id == arr_data.unit_id)
+            arr_data['main_unit_bom_unit_ratio'] = ratio.main_unit_bom_unit_ratio
             
-            if(arr_data.main_price / dish_bom.main_price >= 5){
+            console.log(arr_data, dish)
+            if(arr_data.main_price / dish_bom.main_unit_bom_unit_ratio >= 5){
                 str += Math.ceil(((count * 0.01) * dish_bom.gbom_qty_high).toFixed(1))
-                arr_data['dish_qty'] = Math.ceil(((count * 0.01) * dish_bom.gbom_qty_high).toFixed(1))
+                arr_data['dish_qty'] = ((count * 0.01) * dish_bom.gbom_qty_high).toFixed(1)
             }else{
                 str += Math.ceil((count * 0.01) * dish_bom.gbom_qty_high)
                 arr_data['dish_qty'] = Math.ceil((count * 0.01) * dish_bom.gbom_qty_high)
             }
-            
-
-            
 
             // console.log(arr_data)
             
@@ -415,14 +414,8 @@ const dish_detailed = (dish_key,count) => {
                 }
             }
 
-            // 添加当前菜品转换比等信息
-            const ratio = index.material_item_bom_unit_ratio.find(v => v.material_id == arr_data.material_id && v.purchase_unit_id == arr_data.unit_id)
-            arr_data = {
-                ...arr_data,
-                main_unit_bom_unit_ratio: ratio.main_unit_bom_unit_ratio,
-                material_id: ratio.material_id,
-                purchase_unit_id: ratio.purchase_unit_id
-            }
+            arr_data['material_id'] = ratio.material_id
+            arr_data['purchase_unit_id'] = ratio.purchase_unit_id
             arr.push(arr_data)
         }
     }
@@ -545,9 +538,9 @@ const countMaterialData = ({
     const [,arr] = dish_detailed({id:dish_key_id}, newCopies)
     // console.log(arr)
     let costPrice = 0;
-    
+    console.log(update)
     // 如果用户没有修改则进入该方法计算
-
+    
     if(update){
         // console.log(material_items, arr)
         for (const item of material_items) {

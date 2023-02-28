@@ -124,7 +124,7 @@ const onCellValueChanged = (e,gridOptions) => {
             })
         }else{
             e.data[`${e.colDef.field}`] = copiesNumber(e.data[`${e.colDef.field}`])
-            // console.log(e.data['Copies'], Copies)
+            // console.log(e.data, Copies)
             const countMaterialData = agGridRow.countMaterialData({
                 material_items: e.data['dish_key_id']['material_item'],
                 dish_key_id: e.data['dish_key_id']['id'],
