@@ -10,6 +10,7 @@ import { copiesNumber } from './../otherApi/index.js'
 import { countMaterialData, cost_proportion } from './ag-grid-row.js'
 import mealcopies from './special_fast_data.js'
 import {dataIndex} from './GroupRowInnerRenderer.js'
+import init_mp from "./meal_price.js"
 // import 
 
 // 添加对应数据
@@ -63,10 +64,24 @@ const onCellValueChanged = (e,gridOptions) => {
             return
             // gridOptions.api.refreshCells({force:true})
         }
+        const meal_price = init_mp().find(v => v.cl1 == e.data.cl1)
+        if(meal_price[e.colDef.field] == 0 || meal_price[e.colDef.field] == null){
+            let price = prompt("请输入餐标：")
+            while(isNaN(price) || Number(price) <= 0){
+                if(price == null || price.trim() == ""){
+                    e.data[`${e.colDef.field}`] = e.oldValue
+                    break 
+                }
+                price = prompt("请重新输入")
+            }
+            meal_price[e.colDef.field] = Number(price)
+        }
+
         if(parseInt(e.newValue) < 0){
             e.newValue = 0
             e.data[`${e.colDef.field}`] = 0
         }
+
         // console.log(e.newValue)
         // const scale = (parseInt(e.newValue) - parseInt(e.oldValue)) / e.data['Copies']
         const Copies =  e.data['Copies'] + (copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue))
@@ -117,14 +132,12 @@ const onCellValueChanged = (e,gridOptions) => {
                     v.data = {
                         ...calculateCopies(v.data)
                     }
-
-                    // console.log(v.data[`${e.colDef.field}`])
                 }
 
             })
         }else{
             e.data[`${e.colDef.field}`] = copiesNumber(e.data[`${e.colDef.field}`])
-            // console.log(e.data, Copies)
+            console.log(e.data, Copies)
             const countMaterialData = agGridRow.countMaterialData({
                 material_items: e.data['dish_key_id']['material_item'],
                 dish_key_id: e.data['dish_key_id']['id'],
@@ -132,11 +145,11 @@ const onCellValueChanged = (e,gridOptions) => {
                 newCopies: Copies,
                 update: e.data.update
             })
-            // console.log(countMaterialData, Copies)
+            console.log(countMaterialData, Copies)
             e.data['Copies'] = Copies
             e.data['whole'] = countMaterialData[0]
             e.data['dish_key_id']['material_item'] = countMaterialData[1]
-            e.data['costPrice'] = isNaN(countMaterialData[2]) ? 0 : countMaterialData[2]  
+            e.data['costPrice'] = isNaN(countMaterialData[2]) ? 0 : countMaterialData[2] 
         }
         // console.log(e.data)
         // 当前数据 101

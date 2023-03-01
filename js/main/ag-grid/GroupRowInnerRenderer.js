@@ -1,7 +1,9 @@
 /** @odoo-module **/
-import {mealPrice, cost_proportion} from "./ag-grid-row.js"
+import {cost_proportion} from "./ag-grid-row.js"
+
 // 获取快餐，特色初始化数据
 import init_mc from './special_fast_data.js'
+import init_mp from "./meal_price.js"
 class GroupRowInnerRenderer {
     // 初始化
     init(params){
@@ -93,7 +95,7 @@ class GroupRowInnerRenderer {
 
             // console.log(data)
             // params.api.setRowData(data)
-            const mealsPrice = mealPrice()
+            const mealsPrice = init_mp()
             let arr = []
             // 查看当前点击所点击的餐标是否存在
             params.api.forEachNode(v => {
@@ -112,8 +114,6 @@ class GroupRowInnerRenderer {
             }else {
                 params.api.setRowData(data)
             }
-            // params.api.onRowHeightChanged(0, true)
-            // params.api.refreshCells({force:true})
         }
 
         // 成本

@@ -112,7 +112,6 @@ class customCells {
             // let dish_names = index.dish_key.filter(e => ds.includes(parseInt(e.id))).map(e => e.name).filter(e => e !== params.data.dish)
             let rs = []
             params.api.forEachLeafNode(node => {
-
                 if (node.rowIndex !== params.rowIndex) {
                     rs.push({
                         dish_top_category_id: parseInt(node.data.dish_key_id.dish_top_category_id),

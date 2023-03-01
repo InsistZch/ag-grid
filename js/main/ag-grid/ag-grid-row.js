@@ -2,6 +2,7 @@
 import index from '../../../data/index.js'
 import specialMeal from './specialMeal.js'
 import {copiesNumber} from './../otherApi/index.js'
+import init_mp from './meal_price.js'
 
 
 
@@ -452,7 +453,7 @@ const cost_proportion = (data, mealCopies) => {
     // // 算出每个用户的销售额 份数x单价   份数 => 快餐、特色
     //     // 餐标 => 单价
     // []
-    const mealPrices = mealPrice()
+    const mealPrices = init_mp()
 
     // new Map => (cus_loc_id, {})
     const sales_volume = cus_loc.reduce((pre, v) => {
@@ -599,12 +600,23 @@ const countMaterialData = ({
         }
     }else {
         for (const item of material_items) {
-            for (const arr_item of arr) {
-                if(item.id == arr_item.id){
-                    m_arr.push(arr_item)
-                    break
+            // 寻找该食材是否为食品原食材 
+            const ingredients = arr.find(v => v.id == item.id)
+            if(ingredients != null){
+                m_arr.push(ingredients)
+            }else{
+                // 增加比例
+                const old = oldCopies == 0 ? 1 : oldCopies
+                const scale = (newCopies - oldCopies) / old
+                // console.log(scale, item.dish_qty)
+                let dish = 0
+                if(item.main_price / item.main_unit_bom_unit_ratio >= 5){
+                    dish = Number((Number(item.dish_qty) + (Number(item.dish_qty) * scale)).toFixed(1))
+                }else{
+                    dish = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))
                 }
-                
+                item.dish_qty = dish < 0 ? 0 : dish
+                m_arr.push({...item})
             }
         }
     }
