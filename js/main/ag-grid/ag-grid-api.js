@@ -141,7 +141,7 @@ const onCellValueChanged = (e,gridOptions) => {
         // console.log(e.data)
         // 当前数据 101
         
-        gridOptions.api.refreshCells({force:true})
+        // gridOptions.api.refreshCells({force:true})
     }else if(e.colDef.headerName == '菜品'){
         if(e.newValue == null || e.newValue == undefined || e.newValue.trim() == ""){
             e.data[`${e.colDef.field}`] = e.oldValue
@@ -208,154 +208,11 @@ const onCellValueChanged = (e,gridOptions) => {
             // 如果输入的不是汉字或者字母 回滚
             if(d == null){
                 e.data[`${e.colDef.field}`] = e.oldValue
-                gridOptions.api.refreshCells({force:true})
                 break
             }
 
             // 当找不到用户输入的单位,则回滚
 
-            // 找到当前所有的单位id
-            let bom_unit_ratio_ids = e.data.dish_key_id.material_item.find(v => {
-                const vname = v.name.split('-')[0]
-                // console.log(v)
-                const ename = d[1].substr(0, d[1].length - (v.dish_process_category_name == undefined ? 0 : v.dish_process_category_name.length))
-                // console.log(vname, ename, d[1], d[3])
-                return vname == ename
-            })
-            if(bom_unit_ratio_ids != null){
-                bom_unit_ratio_ids = bom_unit_ratio_ids.bom_unit_ratio_ids
-                // 找到所有的单位
-                const units = []
-                for (const id of bom_unit_ratio_ids) {
-                    for (const unit_ratio of index.material_item_bom_unit_ratio) {
-                        if(id == unit_ratio.id){
-                            const {name} = index.material_purchase_unit_category.find(v => v.id == unit_ratio.purchase_unit_id)
-                            units.push({
-                                ...unit_ratio,
-                                name
-                            })
-                        }
-                    }
-                }
-                // console.log(units)
-                // dish_process_category_name => 切片方式
-                // unit_name => 单位
-                // 判断whole字段中的单位是否全部 不等于 当前的已有的单位
-                // 全部不等于返回 true
-                const judeg = units.every(v => v.name != d[3])
-                // console.log(d)
-                if(judeg && d[3] != undefined && d[3].trim() != ""){
-                    // console.log(d)
-                    const unit_category = index.material_purchase_unit_category.find(v => v.name== d[3])
-                    if(unit_category == undefined){
-                        e.data[`${e.colDef.field}`] = e.oldValue
-                        gridOptions.api.refreshCells({force:true})
-                        break
-                    }else{
-                        // 添加食品单位
-                        customFromDom({
-                            parent:"#foodUnit",
-                            cancel:["#foodUnit_cancel1", "#foodUnit_cancel2"],
-                            sure: "#foodUnit_sure",
-                            deleteData: [],
-                            cancelFun(){
-                                e.data[`${e.colDef.field}`] = e.oldValue
-                                gridOptions.api.refreshCells({force:true})
-                            },
-                            sureFun(_parent){
-                                const ratio = _parent.querySelector('#foodUnit_ratio')
-                                const unitName = _parent.querySelector('#foodUnit_unitName')
-                                if(ratio.value == null || ratio.value.trim() == ""){
-                                    return false
-                                }
-                                const material_item = e.data.dish_key_id.material_item.find(v => {
-                                    return v.name.split('-')[0] == d[1]
-                                })
-                                const id = add_material_item_bom_unit_ratio_id()
-                                // 插入数据表内数据
-                                const obj = {
-                                    "id": id,
-                                    "material_id": material_item.id, 
-                                    "purchase_unit_id": unitName.getAttribute('unitID'), 
-                                    "main_unit_bom_unit_ratio": Number(ratio.value)
-                                }
-                                // console.log(material_item, d[1])
-                                index.material_item_bom_unit_ratio.push(obj)
-                                // 插入存储表格
-                                saveData.new_material_to_unit_ratio.push(obj)
-                                // 插入展示表数据
-                                for (const item of e.data.dish_key_id.material_item) {
-                                    if(item.id == material_item.id){
-                                        item['main_unit_bom_unit_ratio'] = Number(ratio.value)
-                                        item['unit_id'] = unitName.value
-                                        item['unit_name'] = unitNameValue.innerText
-                                        item['bom_unit_ratio_ids'].push(id)
-                                    }
-                                }
-                                const [,,costPrice] = countMaterialData({
-                                    material_items: e.data.dish_key_id.material_item,
-                                    dish_key_id: e.data.dish_key_id.id,
-                                    oldCopies: e.data.Copies,
-                                    newCopies: e.data.Copies,
-                                    update: e.data.update
-                                })
-                                e.data.costPrice = costPrice
-                                gridOptions.api.refreshCells({force:true})
-                                return true
-                            },
-                            initFun(_parent){
-                                const unitName = _parent.querySelector('#foodUnit_unitName')
-                                const ratio = _parent.querySelector('#foodUnit_ratio')
-                                ratio.value = 1
-                                ratio.onkeyup = (e) => {
-                                    if(isNaN(ratio.value) || parseFloat(ratio.value) < 0){
-                                        ratio.value = 1
-                                    }
-                                    if(ratio.value.trim() == ""){
-                                        ratio.focus()
-                                    }
-                                }
-                                const unit_category = index.material_purchase_unit_category.find(v => v.name == d[3])
-                                unitName.onkeyup = (e) => {
-                                    console.log(e)
-                                }
-                                console.log(unit_category)
-                                unitName.value = unit_category.name
-                                unitName.setAttribute('unitID', unit_category.id)
-                                // index.material_purchase_unit_category.forEach(v => {
-                                //     unitName.innerHTML += v.name == d[3] ? 
-                                // `<option value=${v.id} selected>${v.name}</option>` :
-                                // `<option value=${v.id}>${v.name}</option>`
-                                // })
-                            },
-                        })
-                    }
-                    
-                }else{
-                    // 切换转换比等信息
-                    // if(d[3] == )
-                    const m_key = e.data.dish_key_id.material_item.findIndex(v => {
-                        const name = v.name.split('-')[0]
-                        const category = v.dish_process_category_name == "无" ? "" : v.dish_process_category_name
-                        return name + category == d[1]
-                    })
-                    if(m_key == -1) break
-                    const m_item = e.data.dish_key_id.material_item
-                    for (const unit of units) {
-                        if(unit.name == d[3]){
-                            e.data.dish_key_id.material_item[m_key] = {
-                                ...e.data.dish_key_id.material_item[m_key],
-                                main_unit_bom_unit_ratio: unit.main_unit_bom_unit_ratio,
-                                unit_id: unit.purchase_unit_id,
-                                unit_name: unit.name
-                            }
-                            break
-                        }
-                    }
-                    // console.log(m_item)
-                    e.data.dish_key_id.material_item = [...m_item]
-                }
-            }
             
 
             // 发现两个一样的菜品,回滚
@@ -366,7 +223,6 @@ const onCellValueChanged = (e,gridOptions) => {
                 for (const item of arr) {
                     if(e.newValue.split(item).length > 2){
                         e.data[`${e.colDef.field}`] = e.oldValue
-                        gridOptions.api.refreshCells({force:true})
                         break material_data
                     }
                 }
@@ -676,6 +532,150 @@ const onCellValueChanged = (e,gridOptions) => {
                     e.data[`${e.colDef.field}`] = e.oldValue
                 }
             }
+            // 找到当前所有的单位id
+            let bom_unit_ratio_ids = e.data.dish_key_id.material_item.find(v => {
+                const vname = v.name.split('-')[0]
+                // console.log(v)
+                const ename = d[1].substr(0, d[1].length - (v.dish_process_category_name == undefined ? 0 : v.dish_process_category_name.length))
+                // console.log(vname, ename, d[1], d[3])
+                return vname == ename
+            })
+            console.log(bom_unit_ratio_ids)
+            if(bom_unit_ratio_ids != null){
+                bom_unit_ratio_ids = bom_unit_ratio_ids.bom_unit_ratio_ids
+                // 找到所有的单位
+                const units = []
+                for (const id of bom_unit_ratio_ids) {
+                    for (const unit_ratio of index.material_item_bom_unit_ratio) {
+                        if(id == unit_ratio.id){
+                            const {name} = index.material_purchase_unit_category.find(v => v.id == unit_ratio.purchase_unit_id)
+                            units.push({
+                                ...unit_ratio,
+                                name
+                            })
+                        }
+                    }
+                }
+                // console.log(units)
+                // dish_process_category_name => 切片方式
+                // unit_name => 单位
+                // 判断whole字段中的单位是否全部 不等于 当前的已有的单位
+                // 全部不等于返回 true
+                const judeg = units.every(v => v.name != d[3])
+                // console.log(d)
+                if(judeg && d[3] != undefined && d[3].trim() != ""){
+                    // console.log(d)
+                    const unit_category = index.material_purchase_unit_category.find(v => v.name== d[3])
+                    if(unit_category == undefined){
+                        e.data[`${e.colDef.field}`] = e.oldValue
+                        gridOptions.api.refreshCells({force:true})
+                        break
+                    }else{
+                        // 添加食品单位
+                        customFromDom({
+                            parent:"#foodUnit",
+                            cancel:["#foodUnit_cancel1", "#foodUnit_cancel2"],
+                            sure: "#foodUnit_sure",
+                            deleteData: [],
+                            cancelFun(){
+                                e.data[`${e.colDef.field}`] = e.oldValue
+                                gridOptions.api.refreshCells({force:true})
+                            },
+                            sureFun(_parent){
+                                const ratio = _parent.querySelector('#foodUnit_ratio')
+                                const unitName = _parent.querySelector('#foodUnit_unitName')
+                                if(ratio.value == null || ratio.value.trim() == ""){
+                                    return false
+                                }
+                                const material_item = e.data.dish_key_id.material_item.find(v => {
+                                    return v.name.split('-')[0] == d[1]
+                                })
+                                const id = add_material_item_bom_unit_ratio_id()
+                                // 插入数据表内数据
+                                const obj = {
+                                    "id": id,
+                                    "material_id": material_item.id, 
+                                    "purchase_unit_id": unitName.getAttribute('unitID'), 
+                                    "main_unit_bom_unit_ratio": Number(ratio.value)
+                                }
+                                // console.log(material_item, d[1])
+                                index.material_item_bom_unit_ratio.push(obj)
+                                // 插入存储表格
+                                saveData.new_material_to_unit_ratio.push(obj)
+                                // 插入展示表数据
+                                for (const item of e.data.dish_key_id.material_item) {
+                                    if(item.id == material_item.id){
+                                        item['main_unit_bom_unit_ratio'] = Number(ratio.value)
+                                        item['unit_id'] = unitName.value
+                                        item['unit_name'] = unitNameValue.innerText
+                                        item['bom_unit_ratio_ids'].push(id)
+                                    }
+                                }
+                                const [,,costPrice] = countMaterialData({
+                                    material_items: e.data.dish_key_id.material_item,
+                                    dish_key_id: e.data.dish_key_id.id,
+                                    oldCopies: e.data.Copies,
+                                    newCopies: e.data.Copies,
+                                    update: e.data.update
+                                })
+                                e.data.costPrice = costPrice
+                                gridOptions.api.refreshCells({force:true})
+                                return true
+                            },
+                            initFun(_parent){
+                                const unitName = _parent.querySelector('#foodUnit_unitName')
+                                const ratio = _parent.querySelector('#foodUnit_ratio')
+                                ratio.value = 1
+                                ratio.onkeyup = (e) => {
+                                    if(isNaN(ratio.value) || parseFloat(ratio.value) < 0){
+                                        ratio.value = 1
+                                    }
+                                    if(ratio.value.trim() == ""){
+                                        ratio.focus()
+                                    }
+                                }
+                                const unit_category = index.material_purchase_unit_category.find(v => v.name == d[3])
+                                unitName.onkeyup = (e) => {
+                                    console.log(e)
+                                }
+                                console.log(unit_category)
+                                unitName.value = unit_category.name
+                                unitName.setAttribute('unitID', unit_category.id)
+                                // index.material_purchase_unit_category.forEach(v => {
+                                //     unitName.innerHTML += v.name == d[3] ? 
+                                // `<option value=${v.id} selected>${v.name}</option>` :
+                                // `<option value=${v.id}>${v.name}</option>`
+                                // })
+                            },
+                        })
+                    }
+                    
+                }else{
+                    // 切换转换比等信息
+                    // if(d[3] == )
+                    const m_key = e.data.dish_key_id.material_item.findIndex(v => {
+                        const name = v.name.split('-')[0]
+                        const category = v.dish_process_category_name == "无" ? "" : v.dish_process_category_name
+                        return name + category == d[1]
+                    })
+                    if(m_key == -1) break
+                    const m_item = e.data.dish_key_id.material_item
+                    for (const unit of units) {
+                        if(unit.name == d[3]){
+                            m_item[m_key] = {
+                                ...e.data.dish_key_id.material_item[m_key],
+                                main_unit_bom_unit_ratio: unit.main_unit_bom_unit_ratio,
+                                unit_id: unit.purchase_unit_id,
+                                unit_name: unit.name
+                            }
+                            break
+                        }
+                    }
+                    // console.log(m_item)
+                    e.data.dish_key_id.material_item = [...m_item]
+                }
+            }
+            
             // console.log(e.data)
             // 当配量汇总发生改变时，costPrice也需要刷新
             gridOptions.api.refreshCells({force:true})
