@@ -66,15 +66,17 @@ const onCellValueChanged = (e,gridOptions) => {
         }
         const meal_price = init_mp().find(v => v.cl1 == e.data.cl1)
         if(meal_price[e.colDef.field] == 0 || meal_price[e.colDef.field] == null){
-            let price = prompt("请输入餐标：")
-            while(isNaN(price) || Number(price) <= 0){
-                if(price == null || price.trim() == ""){
-                    e.data[`${e.colDef.field}`] = e.oldValue
-                    break 
+            if(e.newValue != 0){
+                let price = prompt("请输入餐标：")
+                while(isNaN(price) || Number(price) <= 0){
+                    if(price == null || price.trim() == ""){
+                        e.data[`${e.colDef.field}`] = e.oldValue
+                        break
+                    }
+                    price = prompt("请重新输入")
                 }
-                price = prompt("请重新输入")
-            }
             meal_price[e.colDef.field] = Number(price)
+            }
         }
 
         if(parseInt(e.newValue) < 0){
