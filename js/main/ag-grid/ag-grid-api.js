@@ -228,8 +228,6 @@ const onCellValueChanged = (e,gridOptions) => {
 
             // 当找不到用户输入的单位,则回滚
 
-            
-
             // 发现两个一样的菜品,回滚
             // console.log(e.newValue.split(d[0]))
             // 大肉片与大肉片片为一种食材
@@ -290,6 +288,12 @@ const onCellValueChanged = (e,gridOptions) => {
                             
                          const unit_category = index.material_purchase_unit_category.find(v => v.name == d[3])
                          // 获取切片方式
+
+                         if(unit_category == undefined){
+                            e.data[`${e.colDef.field}`] = e.oldValue
+                            break dpc
+                         }
+
                          // console.log(d)
                          const pcValue = data_name.split(d[1])[1] == "" ? "无" : data_name.split(d[1])[1]
 
@@ -555,7 +559,7 @@ const onCellValueChanged = (e,gridOptions) => {
                 // console.log(vname, ename, d[1], d[3])
                 return vname == ename
             })
-            console.log(bom_unit_ratio_ids)
+            // console.log(bom_unit_ratio_ids)
             if(bom_unit_ratio_ids != null){
                 bom_unit_ratio_ids = bom_unit_ratio_ids.bom_unit_ratio_ids
                 // 找到所有的单位
@@ -705,7 +709,7 @@ const onCellValueChanged = (e,gridOptions) => {
         // console.log(e.data)
         e.data.costPrice = costPrice
         // e.data.dish_key_id.material_item = m_arr
-        gridOptions.api.refreshCells({force:true})
+        // gridOptions.api.refreshCells({force:true})
         // gridOptions.api.refreshCells({force:true})
     }else if(e.colDef.headerName == "成本价"){
     }
