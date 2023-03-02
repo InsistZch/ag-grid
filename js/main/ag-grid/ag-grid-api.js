@@ -190,17 +190,13 @@ const onCellValueChanged = (e,gridOptions) => {
     }else if(e.colDef.headerName == '配量汇总'){
         e.data.update = true
         let d1 = e.newValue
-        // console.log(e)
-        // // let colData = e.columnApi.getColumn('whole')
-        // // console.log(e.columnApi.getColumnState())
-        // e.api.forEachNode((node,index) => {
-        //     console.log(node.data, index)
-        // })
-        if(e.newValue == null || d1.trim() == "" ){
+        // 清空配量汇总
+        if(e.newValue == null || e.newValue.trim() == "" ){
             e.data.whole = ""
             e.data.dish_key_id.material_item = []
             return
         }
+        // 只添加空格
         if(e.newValue.trim() == e.oldValue.trim()) return 
         if(d1[d1.length - 1] != " ") d1 += ' '
         // console.log(e)
@@ -220,26 +216,266 @@ const onCellValueChanged = (e,gridOptions) => {
             let d = material.match(/([\u4e00-\u9fa5a-zA-Z]+)?(\d*\.?\d+?)?([\u4e00-\u9fa5a-zA-Z]+)?/)
             // console.log(d)
              
-            // 如果输入的不是汉字或者字母 回滚
+            // 输入数据错误，则跳出循环
             if(d == null){
                 e.data[`${e.colDef.field}`] = e.oldValue
-                break
+                continue
+            }
+            // 单个食材所需数据
+            const materialObj = {}
+            
+            // 
+            // 检查食材是否存在切配方式
+            // 分两种情况
+            // 小米 颗粒 辣 小米
+            // 猪肉片 猪肉片片
+            const process_category = index.dish_process_category.sort((a, b) => a.name.length - b.name.length)
+            // 查看食材是否存在
+            const materials = index.material_item.filter(v => {
+                return d[1].includes(v.name.split('-')[0])
+            })
+            console.log(d[1], materials)
+            
+            // 切配方式为可能存在
+            const mate = materials.filter(v => {
+                const name = v.name.split('-')[0]
+                if(name == d[1]){
+                    materialObj['material_item'] = {...v, name}
+                    materialObj['process_category'] = {
+                        id: 14,
+                        name: ''
+                    }
+                    return true
+                }else{
+                    for (const item of process_category) {
+                        if(name + item.name == d[1]){
+                            materialObj['material_item'] = {...v, name}
+                            materialObj['process_category'] = {...item}
+                            return true
+                        }
+                    }
+                    return false
+                }
+                // return name == d[1]
+            })
+            
+            console.log(mate, materialObj)
+            // 确认食材是否存在
+            let isExistMaterial = false
+
+            // 食材存在
+            if(mate.length > 0) isExistMaterial = true
+
+            // 食材不存在
+            // 创建食材
+            if(mate == undefined || mate.length == 0){
+                let isCreate = confirm(`尚无${d[1]}食品，是否创建？`)
+                if(isCreate){
+                    const customName = document.querySelector('#customName')
+
+                    // 添加可选数据
+                    let customFrom = document.querySelector('#customFrom')
+                    let customPhase = document.querySelector('#customPhase')
+                    
+                    
+                    let customSection = document.querySelector('#customSection')
+                    index.dish_process_category.forEach((e,i) => addData(e, i, customSection));
+
+                    let customCompany = document.querySelector('#customCompany')
+                    index.material_purchase_unit_category.forEach((e,i) => addData(e, i, customCompany))
+
+                    
+                    customName.value = d[1]
+                    // 创建食品
+                    customFromDom({
+                        parent:"#material_modal",
+                        cancel:["#material_modal_cancel1","#material_modal_cancel2"],
+                        sure:"#material_modal_sure",
+                        deleteData: ["#customCompany","#customSection"],
+                        cancelFun:() => {
+                            e.data[`${e.colDef.field}`] = e.oldValue
+                            gridOptions.api.refreshCells({force:true})
+                        },
+                        sureFun:(_parent) => {
+                            // console.log(customPhase, customPhase.value)
+                            const customPhaseValue = customPhase.querySelector(`option[value="${customPhase.value}"]`).innerText
+                            let name = `${customName.value}-${customFrom.value}-${customPhaseValue}`
+                            const customPrice = _parent.querySelector('#customPrice')
+                            let m_id = add_material_id()
+                            let r_id = add_material_item_bom_unit_ratio_id()
+                            index.material_item_bom_unit_ratio.push({
+                                id:r_id,
+                                main_unit_bom_unit_ratio: 1,
+                                material_id: m_id,
+                                purchase_unit_id: customCompany.value,
+                            })
+                            //  添加数据
+                            const obj1 = {
+                                bom_unit_ratio_ids: [m_id],
+                                id: m_id,
+                                name,
+                                form: customFrom.value,
+                                phase: customPhase.value,
+                                main_price: customPrice.value,
+                                main_unit_id: customCompany.value,
+                                material_price_alert: Number(customPrice.value) + 3,
+                                repeat_tag: true,
+                            }
+                            // 记载数据
+                            // console.log(obj1)
+                            saveData.new_material_item_list.push(obj1)
+                            index.material_item.push(obj1)
+                            // console.log(e)
+                            const obj = {
+                                id: add_dish_bom_id(),
+                                material_id: m_id,
+                                dish_key_id: e.data.dish_key_id['id'],
+                                process_id: customSection.value,
+                                gbom_qty_high: 0,
+                                gbom_qty_mid: 0,
+                                gbom_qty_low: 0,
+                                unit_id: customCompany.value
+                            }
+                            index.dish_bom.push(obj)
+                            // console.log(obj)
+                            // saveData.new_or_update_dish_bom_list.new.push(obj)
+                            let dish_process_category_name = customCompany.querySelector(`option[value="${customCompany.value}"]`).innerText
+                            let customSectionValue = customSection.querySelector(`option[value="${customSection.value}"]`).innerText
+                            // console.log(customSectionValue, d)
+                            customSectionValue = customSectionValue == "无" || customSectionValue == d[2] ? "" : customSectionValue
+                            e.data.dish_key_id.material_item.push({
+                                ...obj1,
+                                dish_process_category_name: customSectionValue,
+                                unit_name: dish_process_category_name,
+                                main_unit_bom_unit_ratio: 1,
+                                dish_qty: 0,
+                            })
+                            
+                            const str = customName.value + customSectionValue + 0 + dish_process_category_name
+                            // e.data[`${e.colDef.field}`] = e.data[`${e.colDef.field}`].replace(data_name, str)
+                            // e.data
+                            const strs = e.data[`${e.colDef.field}`].split(' ')
+                            for (const s_key in strs) {
+                                if(strs[s_key].includes(data_name)){
+                                    strs[s_key] = str
+                                }
+                            }
+                            e.data[`${e.colDef.field}`] = strs.join(' ')
+                            gridOptions.api.refreshCells({force:true})
+                            isExistMaterial = true
+                            return true
+                        },
+                        initFun: (_parent) => {
+                            const customPrice = _parent.querySelector('#customPrice')
+                            const limitNumber = () => {
+                                if(isNaN(customPrice.value) || Number(customPrice.value) < 1){
+                                    customPrice.value = 1
+                                }
+                            }
+                            customPrice.onkeydown = () => limitNumber()
+                            customPrice.onwheel = () => limitNumber()
+                        }
+                    })
+                    
+                }
             }
 
-            // 当找不到用户输入的单位,则回滚
+            // 判断是否有数量以及单位
+            if(isExistMaterial){
+                if(d[2] == undefined || d[3] == undefined){
+                    let dishes_name = document.querySelector('#write_Side_dishes_name')
+                    let dishes_section = document.querySelector('#write_Side_dishes_section')
+                    let dishes_quantity = document.querySelector('#write_Side_dishes_quantity')
+                    let dishes_company = document.querySelector('#write_Side_dishes_company')
+                    let dishes_category = document.querySelector('#write_Side_dishes_category')
+    
+                    // console.log(name, material_item)
+                    // 定义变量
+                    // 查看是否带切片方式
+                    let section_str = materialObj.process_category.name
+                    const m = index.material_item.filter(v => v.name.split('-')[0] == materialObj.material_item.name)
+                    //写入自定义dom操作 配菜
+                    customFromDom({
+                        parent:"#write_Side_dishes",
+                        cancel:["#write_Side_dishes_cancel1","#write_Side_dishes_cancel2"],
+                        sure:"#write_Side_dishes_sure",
+                        deleteData: ["#write_Side_dishes_section","#write_Side_dishes_company", "#write_Side_dishes_category"],
+                        initFun:() => {
+                            // 插入对应数据
+                            dishes_name.value = materialObj.material_item.name
+                            process_category.forEach(v => {
+                                dishes_section.innerHTML += v.name == section_str ? 
+                                `<option value="${v.id}" selected>${v.name}</option>`:
+                                `<option value="${v.id}">${v.name}</option>`
+                            })
+    
+                            index.material_purchase_unit_category.forEach((v ,i) => addData(v, i, dishes_company))
+    
+                            // 菜品可能是鲜品也可能是冻品
+                            for (const m_item of m) {
+                                dishes_category.innerHTML += `
+                                <option value="${m_item.id}">${m_item.form}</option>`
+                            }
+    
+                            dishes_quantity.value = d[2] != undefined && d[2].trim() != "" ? d[2] : 0
+    
+                            // console.log(m, d[1])
+                        },
+                        cancelFun:() => {
+                            e.data[`${e.colDef.field}`] = e.oldValue
+                            gridOptions.api.refreshCells({force:true})
+                        },
+                        sureFun:() => {
+                            let section = dishes_section.querySelector(`option[value="${dishes_section.value}"]`)
+                            section = section.innerText == "无" ? "" : section.innerText
+                            
+                            let number = dishes_quantity.value.trim() == "" ? 0 : dishes_quantity.value
+    
+                            let compamy = dishes_company.querySelector(`option[value="${dishes_company.value}"]`).innerText
+                            // console.log(compamy)
+                            for (const m_item of m) {
+                                if(m_item.id == dishes_category.value){
+                                    e.data.dish_key_id.material_item.push({
+                                        ...m_item,
+                                        dish_process_category_name:section,
+                                        unit_name: compamy,
+                                        dish_qty: number,
+                                        // material_id: m_item.id,
+                                        // process_id: process_category.id,
+                                        // unit_id: unit_category.id
+                                    })
+                                    break
+                                }
+                            }
+    
+                            // 替换原数据
+                            let str = ""
+                            // console.log(e.data[`${e.colDef.field}`].split(' '))
+                            for (let item of e.data[`${e.colDef.field}`].split(' ')) {
+                                if(item.trim() == "") continue
+                                const dish_str = dishes_name.value + section + number + compamy + " "
+                                // console.log(dish_str)
+                                if(dish_str.includes(item.replace(/\d+(\.\d+)?/, number))){
+                                    str += dish_str
+                                    continue
+                                }
+                                str += item + " "
+                            }
+                            // console.log(str)
+                            // e.data[`${e.colDef.field}`] = e.data[`${e.colDef.field}`].replace(`/${data_name}(\d+)?(.+)? /`, )
+                            e.data[`${e.colDef.field}`] = str
+                            gridOptions.api.refreshCells({force:true})
+                            return true
+                        }
+                    })
+                }    
+            }
 
+            // 上面的才是重构的代码
             // 发现两个一样的菜品,回滚
             // console.log(e.newValue.split(d[0]))
             // 大肉片与大肉片片为一种食材
-            if(e.data != undefined){
-                const arr = e.data['dish_key_id']['material_item'].map(v => v.name.split('-')[0])
-                for (const item of arr) {
-                    if(e.newValue.split(item).length > 2){
-                        e.data[`${e.colDef.field}`] = e.oldValue
-                        break material_data
-                    }
-                }
-            }
+
             // console.log(e)
             const data_name = d[1]
             // 先判断材料名称中是否含有切片方式
@@ -338,219 +574,106 @@ const onCellValueChanged = (e,gridOptions) => {
             // 如果不存在 则创建配料，检查该配料是否有切法 单位
 
             // 确认该配料是否存在
-            for (const material_item of index.material_item) {
-                let name = material_item.name.split('-')[0]
-                // console.log(material_item, name)
-                if(name == d[1]){
-                    // console.log(material_item)
-                    //  确认是否输入数量，单位
-                    // console.log(d, d[2], [3])
-                    if(d[2] == undefined || d[3] == undefined){
-                        // 查找材料名称 切片方式 数量 单位
-                        let dishes_name = document.querySelector('#write_Side_dishes_name')
-                        let dishes_section = document.querySelector('#write_Side_dishes_section')
-                        let dishes_quantity = document.querySelector('#write_Side_dishes_quantity')
-                        let dishes_company = document.querySelector('#write_Side_dishes_company')
-                        let dishes_category = document.querySelector('#write_Side_dishes_category')
+            // for (const material_item of index.material_item) {
+            //     let name = material_item.name.split('-')[0]
+            //     // console.log(material_item, name)
+            //     // if(name == d[1]){
+            //     //     // console.log(material_item)
+            //     //     //  确认是否输入数量，单位
+            //     //     // console.log(d, d[2], [3])
+            //     //     if(d[2] == undefined || d[3] == undefined){
+            //     //         // 查找材料名称 切片方式 数量 单位
+            //     //         let dishes_name = document.querySelector('#write_Side_dishes_name')
+            //     //         let dishes_section = document.querySelector('#write_Side_dishes_section')
+            //     //         let dishes_quantity = document.querySelector('#write_Side_dishes_quantity')
+            //     //         let dishes_company = document.querySelector('#write_Side_dishes_company')
+            //     //         let dishes_category = document.querySelector('#write_Side_dishes_category')
 
-                        // console.log(name, material_item)
-                        // 定义变量
-                        // 查看是否带切片方式
-                        let section_str = d[1] != data_name ? data_name.split(d[1])[1] : "无"
-                        const m = index.material_item.filter(v => v.name.split('-')[0] == d[1])
-                        //写入自定义dom操作 配菜
-                        customFromDom({
-                            parent:"#write_Side_dishes",
-                            cancel:["#write_Side_dishes_cancel1","#write_Side_dishes_cancel2"],
-                            sure:"#write_Side_dishes_sure",
-                            deleteData: ["#write_Side_dishes_section","#write_Side_dishes_company", "#write_Side_dishes_category"],
-                            initFun:() => {
-                                // 插入对应数据
-                                dishes_name.value = d[1]
-                                index.dish_process_category.forEach(v => {
-                                    dishes_section.innerHTML += v.name == section_str ? 
-                                    `<option value="${v.id}" selected>${v.name}</option>`:
-                                    `<option value="${v.id}">${v.name}</option>`
-                                })
+            //     //         // console.log(name, material_item)
+            //     //         // 定义变量
+            //     //         // 查看是否带切片方式
+            //     //         let section_str = d[1] != data_name ? data_name.split(d[1])[1] : "无"
+            //     //         const m = index.material_item.filter(v => v.name.split('-')[0] == d[1])
+            //     //         //写入自定义dom操作 配菜
+            //     //         customFromDom({
+            //     //             parent:"#write_Side_dishes",
+            //     //             cancel:["#write_Side_dishes_cancel1","#write_Side_dishes_cancel2"],
+            //     //             sure:"#write_Side_dishes_sure",
+            //     //             deleteData: ["#write_Side_dishes_section","#write_Side_dishes_company", "#write_Side_dishes_category"],
+            //     //             initFun:() => {
+            //     //                 // 插入对应数据
+            //     //                 dishes_name.value = d[1]
+            //     //                 index.dish_process_category.forEach(v => {
+            //     //                     dishes_section.innerHTML += v.name == section_str ? 
+            //     //                     `<option value="${v.id}" selected>${v.name}</option>`:
+            //     //                     `<option value="${v.id}">${v.name}</option>`
+            //     //                 })
 
-                                index.material_purchase_unit_category.forEach((v ,i) => addData(v, i, dishes_company))
+            //     //                 index.material_purchase_unit_category.forEach((v ,i) => addData(v, i, dishes_company))
 
                                 
-                                for (const m_item of m) {
-                                    dishes_category.innerHTML += `
-                                    <option value="${m_item.id}">${m_item.form}</option>`
-                                }
+            //     //                 for (const m_item of m) {
+            //     //                     dishes_category.innerHTML += `
+            //     //                     <option value="${m_item.id}">${m_item.form}</option>`
+            //     //                 }
 
-                                dishes_quantity.value = d[2] != undefined && d[2].trim() != "" ? d[2] : 0
+            //     //                 dishes_quantity.value = d[2] != undefined && d[2].trim() != "" ? d[2] : 0
 
-                                // console.log(m, d[1])
-                            },
-                            cancelFun:() => {
-                                e.data[`${e.colDef.field}`] = e.oldValue
-                                gridOptions.api.refreshCells({force:true})
-                            },
-                            sureFun:() => {
-                                let section = dishes_section.querySelector(`option[value="${dishes_section.value}"]`)
-                                section = section.innerText == "无" ? "" : section.innerText
+            //     //                 // console.log(m, d[1])
+            //     //             },
+            //     //             cancelFun:() => {
+            //     //                 e.data[`${e.colDef.field}`] = e.oldValue
+            //     //                 gridOptions.api.refreshCells({force:true})
+            //     //             },
+            //     //             sureFun:() => {
+            //     //                 let section = dishes_section.querySelector(`option[value="${dishes_section.value}"]`)
+            //     //                 section = section.innerText == "无" ? "" : section.innerText
                                 
-                                let number = dishes_quantity.value.trim() == "" ? 0 : dishes_quantity.value
+            //     //                 let number = dishes_quantity.value.trim() == "" ? 0 : dishes_quantity.value
 
-                                let compamy = dishes_company.querySelector(`option[value="${dishes_company.value}"]`).innerText
-                                // console.log(compamy)
-                                for (const m_item of m) {
-                                    if(m_item.id == dishes_category.value){
-                                        e.data.dish_key_id.material_item.push({
-                                            ...m_item,
-                                            dish_process_category_name:section,
-                                            unit_name: compamy,
-                                            dish_qty: number,
-                                            // material_id: m_item.id,
-                                            // process_id: process_category.id,
-                                            // unit_id: unit_category.id
-                                        })
-                                        break
-                                    }
-                                }
+            //     //                 let compamy = dishes_company.querySelector(`option[value="${dishes_company.value}"]`).innerText
+            //     //                 // console.log(compamy)
+            //     //                 for (const m_item of m) {
+            //     //                     if(m_item.id == dishes_category.value){
+            //     //                         e.data.dish_key_id.material_item.push({
+            //     //                             ...m_item,
+            //     //                             dish_process_category_name:section,
+            //     //                             unit_name: compamy,
+            //     //                             dish_qty: number,
+            //     //                             // material_id: m_item.id,
+            //     //                             // process_id: process_category.id,
+            //     //                             // unit_id: unit_category.id
+            //     //                         })
+            //     //                         break
+            //     //                     }
+            //     //                 }
 
-                                // 替换原数据
-                                let str = ""
-                                // console.log(e.data[`${e.colDef.field}`].split(' '))
-                                for (let item of e.data[`${e.colDef.field}`].split(' ')) {
-                                    if(item.trim() == "") continue
-                                    const dish_str = dishes_name.value + section + number + compamy + " "
-                                    // console.log(dish_str)
-                                    if(dish_str.includes(item.replace(/\d+(\.\d+)?/, number))){
-                                        str += dish_str
-                                        continue
-                                    }
-                                    str += item + " "
-                                }
-                                // console.log(str)
-                                // e.data[`${e.colDef.field}`] = e.data[`${e.colDef.field}`].replace(`/${data_name}(\d+)?(.+)? /`, )
-                                e.data[`${e.colDef.field}`] = str
-                                gridOptions.api.refreshCells({force:true})
-                                return true
-                            }
-                        })
-                    }
+            //     //                 // 替换原数据
+            //     //                 let str = ""
+            //     //                 // console.log(e.data[`${e.colDef.field}`].split(' '))
+            //     //                 for (let item of e.data[`${e.colDef.field}`].split(' ')) {
+            //     //                     if(item.trim() == "") continue
+            //     //                     const dish_str = dishes_name.value + section + number + compamy + " "
+            //     //                     // console.log(dish_str)
+            //     //                     if(dish_str.includes(item.replace(/\d+(\.\d+)?/, number))){
+            //     //                         str += dish_str
+            //     //                         continue
+            //     //                     }
+            //     //                     str += item + " "
+            //     //                 }
+            //     //                 // console.log(str)
+            //     //                 // e.data[`${e.colDef.field}`] = e.data[`${e.colDef.field}`].replace(`/${data_name}(\d+)?(.+)? /`, )
+            //     //                 e.data[`${e.colDef.field}`] = str
+            //     //                 gridOptions.api.refreshCells({force:true})
+            //     //                 return true
+            //     //             }
+            //     //         })
+            //     //     }
                     
-                    isTrue = false
-                    break
-                }
-            }
-            if(isTrue){
-                // 创建配菜
-                let isCreate = confirm(`尚无${d[1]}食品，是否创建？`)
-                if(isCreate){
-                    // 操作自定义modal
-                    const customName = document.querySelector('#customName')
-
-                    // 添加可选数据
-                    let customFrom = document.querySelector('#customFrom')
-                    let customPhase = document.querySelector('#customPhase')
-                    
-                    
-                    let customSection = document.querySelector('#customSection')
-                    index.dish_process_category.forEach((e,i) => addData(e, i, customSection));
-
-                    let customCompany = document.querySelector('#customCompany')
-                    index.material_purchase_unit_category.forEach((e,i) => addData(e, i, customCompany))
-
-                    
-                    customName.value = d[1]
-                    // 创建食品
-                    customFromDom({
-                        parent:"#material_modal",
-                        cancel:["#material_modal_cancel1","#material_modal_cancel2"],
-                        sure:"#material_modal_sure",
-                        deleteData: ["#customCompany","#customSection"],
-                        cancelFun:() => {
-                            e.data[`${e.colDef.field}`] = e.oldValue
-                            gridOptions.api.refreshCells({force:true})
-                        },
-                        sureFun:(_parent) => {
-                            // console.log(customPhase, customPhase.value)
-                            const customPhaseValue = customPhase.querySelector(`option[value="${customPhase.value}"]`).innerText
-                            let name = `${customName.value}-${customFrom.value}-${customPhaseValue}`
-                            const customPrice = _parent.querySelector('#customPrice')
-                            let m_id = add_material_id()
-                            let r_id = add_material_item_bom_unit_ratio_id()
-                            index.material_item_bom_unit_ratio.push({
-                                id:r_id,
-                                main_unit_bom_unit_ratio: 1,
-                                material_id: m_id,
-                                purchase_unit_id: customCompany.value,
-                            })
-                            //  添加数据
-                            const obj1 = {
-                                bom_unit_ratio_ids: [m_id],
-                                id: m_id,
-                                name,
-                                form: customFrom.value,
-                                phase: customPhase.value,
-                                main_price: customPrice.value,
-                                main_unit_id: customCompany.value,
-                                material_price_alert: Number(customPrice.value) + 3,
-                                repeat_tag: true,
-                            }
-                            // 记载数据
-                            console.log(obj1)
-                            saveData.new_material_item_list.push(obj1)
-                            index.material_item.push(obj1)
-                            // console.log(e)
-                            const obj = {
-                                id: add_dish_bom_id(),
-                                material_id: m_id,
-                                dish_key_id: e.data.dish_key_id['id'],
-                                process_id: customSection.value,
-                                gbom_qty_high: 0,
-                                gbom_qty_mid: 0,
-                                gbom_qty_low: 0,
-                                unit_id: customCompany.value
-                            }
-                            index.dish_bom.push(obj)
-                            console.log(obj)
-                            // saveData.new_or_update_dish_bom_list.new.push(obj)
-                            let dish_process_category_name = customCompany.querySelector(`option[value="${customCompany.value}"]`).innerText
-                            let customSectionValue = customSection.querySelector(`option[value="${customSection.value}"]`).innerText
-                            console.log(customSectionValue, d)
-                            customSectionValue = customSectionValue == "无" || customSectionValue == d[2] ? "" : customSectionValue
-                            e.data.dish_key_id.material_item.push({
-                                ...obj1,
-                                dish_process_category_name: customSectionValue,
-                                unit_name: dish_process_category_name,
-                                main_unit_bom_unit_ratio: 1,
-                                dish_qty: 0,
-                            })
-                            
-                            const str = customName.value + customSectionValue + 0 + dish_process_category_name
-                            // e.data[`${e.colDef.field}`] = e.data[`${e.colDef.field}`].replace(data_name, str)
-                            // e.data
-                            const strs = e.data[`${e.colDef.field}`].split(' ')
-                            for (const s_key in strs) {
-                                if(strs[s_key].includes(data_name)){
-                                    strs[s_key] = str
-                                }
-                            }
-                            e.data[`${e.colDef.field}`] = strs.join(' ')
-                            gridOptions.api.refreshCells({force:true})
-                            return true
-                        },
-                        initFun: (_parent) => {
-                            const customPrice = _parent.querySelector('#customPrice')
-                            const limitNumber = () => {
-                                if(isNaN(customPrice.value) || Number(customPrice.value) < 1){
-                                    customPrice.value = 1
-                                }
-                            }
-                            customPrice.onkeydown = () => limitNumber()
-                            customPrice.onwheel = () => limitNumber()
-                        }
-                    })
-                }else{
-                    e.data[`${e.colDef.field}`] = e.oldValue
-                }
-            }
+            //     //     isTrue = false
+            //     //     break
+            //     // }
+            // }
             // 找到当前所有的单位id
             let bom_unit_ratio_ids = e.data.dish_key_id.material_item.find(v => {
                 const vname = v.name.split('-')[0]
