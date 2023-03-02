@@ -9,7 +9,7 @@
 // initFun => function
 // }
 
-const dom = ({parent,cancel,sure,deleteData,cancelFun = () => {},sureFun = () => {},initFun = () => {}}) => {
+const dom = async ({parent,cancel,sure,deleteData,cancelFun = () => {},sureFun = () => {},initFun = () => {}}) => {
     const _parent = document.querySelector(parent)
 
     const _sure = document.querySelector(sure)
@@ -37,7 +37,9 @@ const dom = ({parent,cancel,sure,deleteData,cancelFun = () => {},sureFun = () =>
         isSure ?  deldata() : ""
         isSure ? _parent.style.display = 'none' : ""
     }
-    return _parent
+    return new Promise((r,j) => {
+        r(_parent)
+    })
 }
 
 export default dom
