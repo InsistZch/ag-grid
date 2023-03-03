@@ -250,18 +250,21 @@ const onCellValueChanged = async (e,gridOptions) => {
                 
                 // 切配方式为可能存在
                 const mate = materials.filter(v => {
+                    const name = v.name.split('-')[0]
                     if(name == d[1]){
-                        materialObj['material_item'] = {...v}
+                        materialObj['material_item'] = {...v, name}
                         materialObj['process_category'] = {
                             id: 14,
                             name: ''
                         }
+                        materialObj['name'] = v.name
                         return true
                     }else{
                         for (const item of process_category) {
                             if(name + item.name == d[1]){
-                                materialObj['material_item'] = {...v}
+                                materialObj['material_item'] = {...v, name}
                                 materialObj['process_category'] = {...item}
+                                materialObj['name'] = v.name
                                 return true
                             }
                         }
@@ -417,7 +420,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                         // 定义变量
                         // 查看是否带切片方式
                         let section_str = materialObj.process_category.name
-                        const m = index.material_item.filter(v => v.name.split('-')[0] == materialObj.material_item.name.split('-')[0])
+                        const m = index.material_item.filter(v => v.name.split('-')[0] == materialObj.material_item.name)
                         //写入自定义dom操作 配菜
                         customFromDom({
                             parent:"#write_Side_dishes",
@@ -426,7 +429,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                             deleteData: ["#write_Side_dishes_section","#write_Side_dishes_company", "#write_Side_dishes_category"],
                             initFun:() => {
                                 // 插入对应数据
-                                dishes_name.value = materialObj.material_item.name.split('-')[0]
+                                dishes_name.value = materialObj.material_item.name
                                 process_category.forEach(v => {
                                     dishes_section.innerHTML += v.name == section_str ? 
                                     `<option value="${v.id}" selected>${v.name}</option>`:
@@ -634,6 +637,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                          process_id: materialObj['process_category'].id,
                          dish_process_category_name: materialObj['process_category'].name,
 
+                         name: materialObj['name'],
                          dish_qty: d[2],
                          main_unit_bom_unit_ratio: materialObj['unitObj'].main_unit_bom_unit_ratio,
                          material_id: materialObj['unitObj'].material_id,
@@ -647,6 +651,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                          process_id: materialObj['process_category'].id,
                          dish_process_category_name: materialObj['process_category'].name,
 
+                         name: materialObj['name'],
                          dish_qty: d[2],
                          main_unit_bom_unit_ratio: materialObj['unitObj'].main_unit_bom_unit_ratio,
                          material_id: materialObj['unitObj'].material_id,
@@ -656,19 +661,6 @@ const onCellValueChanged = async (e,gridOptions) => {
                      }
                  }
             }
-            // const [,,costPrice] = countMaterialData({
-            //     material_items: e.data.dish_key_id.material_item,
-            //     dish_key_id: e.data.dish_key_id.id,
-            //     oldCopies: e.data.Copies,
-            //     newCopies: e.data.Copies,
-            //     update: e.data.update
-            // })
-            // e.data.costPrice = costPrice
-            // gridOptions.api.refreshCells({force:true})
-            
-            // console.log(e.data)
-            // 当配量汇总发生改变时，costPrice也需要刷新
-            // gridOptions.api.refreshCells({force:true})
         }
         const [,,costPrice] = countMaterialData({
             material_items: e.data.dish_key_id.material_item,
