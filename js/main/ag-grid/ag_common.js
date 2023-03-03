@@ -1,6 +1,6 @@
 /** @odoo-module **/
-import index from "../../../data";
-import {copiesNumber} from "../otherApi";
+import index from "../../../data/index.js";
+import {copiesNumber} from "../otherApi/index.js";
 
 
 // 餐配置信息的抽象方法
