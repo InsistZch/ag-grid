@@ -103,7 +103,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                 // console.log(v)
                 // 改变当前列所有符合条件的值
                 // 计算改变比率
-                v.data[`${e.colDef.field}`] = copiesNumber(Number(v.data[`${e.colDef.field}`] ))
+                v.data[`${e.colDef.field}`] = Number(v.data[`${e.colDef.field}`] )
                 if(e.data.type == "快餐"){
                     // 当specialMealID有值时，表示类型为特餐
                     if(v.data.specialMealID != null || v.data.specialMealColor != null || v.data.type == "快餐" || v.data.type == "特色") return
