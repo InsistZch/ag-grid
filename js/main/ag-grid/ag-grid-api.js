@@ -552,10 +552,12 @@ const onCellValueChanged = async (e,gridOptions) => {
                             //     return v.name.split('-')[0] == d[1]
                             // })
                             const id = add_material_item_bom_unit_ratio_id()
+                            let material_id = materialObj['material_item'].id
                             // 插入数据表内数据
                             const obj = {
                                 "id": id,
-                                "material_id": materialObj['material_item'].id, 
+                                "material_id": material_id,
+                                name: index.material_item.filter(e => e.id + '' === material_id + '')[0].name,
                                 "purchase_unit_id": unitName.getAttribute('unitID'), 
                                 "main_unit_bom_unit_ratio": Number(ratio.value)
                             }
