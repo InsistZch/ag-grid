@@ -139,12 +139,14 @@ class customCells {
 
         }
 
+        let is_use_owl = false
+
         input.onkeyup = async () => {
             let str = ''
             // input.value
             let arr = []
             let dish_key_list = []
-            if (params.context.owl_widget) {
+            if (is_use_owl && params.context.owl_widget) {
 
                 let dish_top_category_id = parseInt(params.data.dish_key_id.dish_top_category_id)
 
@@ -243,7 +245,7 @@ class customCells {
             // 创建表格
             const d = dishTable(params.data.dish_key_id.dish_top_category_id, doubleClickGetRowData, clickGetRowData);
 
-            if (params.context.owl_widget) {
+            if (is_use_owl && params.context.owl_widget) {
                 d.rowData = null
 
                 d.onGridReady = async () => {
