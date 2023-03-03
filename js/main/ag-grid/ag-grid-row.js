@@ -266,7 +266,7 @@ const init_dish_detailed = (manual_material_qty,count) => {
         // str += 0
         
         obj.main_price = Number(Number(obj.main_price).toFixed(2))
-        if((obj.main_price / main_unit_bom_unit_ratio) >= 5){
+        if((obj.main_price / main_unit_bom_unit_ratio) >= 5 && Number(json.dish_qty) < 10){
             json.dish_qty = Number(json.dish_qty.toFixed(1))
             obj['dish_qty'] =  Number(json.dish_qty.toFixed(1))
             str += Number(json.dish_qty.toFixed(1))
@@ -358,12 +358,13 @@ const dish_detailed = (dish_key,count) => {
                     // arr_data['main_unit_bom_unit_ratio'] = ratio.main_unit_bom_unit_ratio
                     
                     // console.log(arr_data, dish_bom)
-                    if(arr_data.main_price / ratio.main_unit_bom_unit_ratio >= 5){
-                        str += Math.ceil(((count * 0.01) * dish_bom.gbom_qty_high).toFixed(1))
-                        arr_data['dish_qty'] = ((count * 0.01) * dish_bom.gbom_qty_high).toFixed(1)
+                    const qty = (count * 0.01) * dish_bom.gbom_qty_high
+                    if(arr_data.main_price / ratio.main_unit_bom_unit_ratio >= 5 && qty < 10){
+                        str += Math.ceil(qty.toFixed(1))
+                        arr_data['dish_qty'] = qty.toFixed(1)
                     }else{
-                        str += Math.ceil((count * 0.01) * dish_bom.gbom_qty_high)
-                        arr_data['dish_qty'] = Math.ceil((count * 0.01) * dish_bom.gbom_qty_high)
+                        str += Math.ceil(qty)
+                        arr_data['dish_qty'] = Math.ceil(qty)
                     }
 
                     str += material_purchase_unit_category.name + ' '
@@ -519,7 +520,7 @@ const countMaterialData = ({
                     const scale = (newCopies - oldCopies) / old
                     // console.log(scale,item.dish_qty)
                     let dish = 0
-                    if(item.main_price / item.main_unit_bom_unit_ratio >= 5){
+                    if(item.main_price / item.main_unit_bom_unit_ratio >= 5 && Number(item.dish_qty) < 10){
                         dish = Number((Number(item.dish_qty) + (Number(item.dish_qty) * scale)).toFixed(1))
                     }else{
                         dish = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))
@@ -538,7 +539,7 @@ const countMaterialData = ({
                     const scale = (newCopies - oldCopies) / old
                     // console.log(scale, item.dish_qty)
                     let dish = 0
-                    if(item.main_price / item.main_unit_bom_unit_ratio >= 5){
+                    if(item.main_price / item.main_unit_bom_unit_ratio >= 5 && Number(item.dish_qty) < 10){
                         dish = Number((Number(item.dish_qty) + (Number(item.dish_qty) * scale)).toFixed(1))
                     }else{
                         dish = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))
@@ -561,7 +562,7 @@ const countMaterialData = ({
                 const scale = (newCopies - oldCopies) / old
                 // console.log(scale, item.dish_qty)
                 let dish = 0
-                if(item.main_price / item.main_unit_bom_unit_ratio >= 5){
+                if(item.main_price / item.main_unit_bom_unit_ratio >= 5 && Number(item.dish_qty) < 10){
                     dish = Number((Number(item.dish_qty) + (Number(item.dish_qty) * scale)).toFixed(1))
                 }else{
                     dish = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))

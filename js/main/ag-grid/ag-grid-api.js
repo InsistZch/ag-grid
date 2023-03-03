@@ -476,6 +476,10 @@ const onCellValueChanged = async (e,gridOptions) => {
                                     }
                                 }
 
+                                materialObj['process_category'] = {
+                                    name: section,
+                                    id: Number(dishes_section.value)
+                                }
                                 // 替换原数据
                                 let str = ""
                                 // console.log(e.data[`${e.colDef.field}`].split(' '))
@@ -483,10 +487,15 @@ const onCellValueChanged = async (e,gridOptions) => {
                                     if(item.trim() == "") continue
                                     const dish_str = dishes_name.value + section + number + compamy + " "
                                     // console.log(dish_str)
-                                    if(dish_str.includes(item.replace(/\d+(\.\d+)?/, number))){
+                                    
+                                    if(item.includes(materialObj['material_item'].name)){
                                         str += dish_str
                                         continue
                                     }
+                                    // if(dish_str.includes(item.replace(/\d+(\.\d+)?/, number))){
+                                    //     str += dish_str
+                                    //     continue
+                                    // }
                                     str += item + " "
                                 }
                                 d[2] = number
