@@ -1,5 +1,5 @@
 /** @odoo-module **/
-import { mealPrice } from "./ag-grid-row.js"
+import { mealPrice } from "./ag_common.js"
 
 let is_load = false
 let meal_price
