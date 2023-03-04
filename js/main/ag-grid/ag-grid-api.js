@@ -213,6 +213,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                 e.data[`${e.colDef.field}`] = e.oldValue
                 break
             }
+            
 
             // 如果当前单位不为material_purchase_unit_category中数据
             // 只有全部不等于才会返回true
@@ -271,6 +272,15 @@ const onCellValueChanged = async (e,gridOptions) => {
                 // 食材存在
                 if(mate.length > 0) {
                     isExistMaterial = true
+                    // 如果出现两个食材则返回原值
+                    for (const item of e.data.dish_key_id.material_item) {
+                        if(materialObj['material_item'].name == item.name.split('-')[0]){
+                            e.data[`${e.colDef.field}`] = e.oldValue
+                            const rowNode = gridOptions.api.getRowNode(e.data.id)
+                            rowNode.setDataValue(e.colDef.field, e.oldValue)
+                            return
+                        }
+                    }
                     resolve(materialObj)
                 }
     
