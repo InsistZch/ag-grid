@@ -3,6 +3,7 @@ import {cost_proportion} from "./ag-grid-row.js"
 // 获取快餐，特色初始化数据
 import init_mc from './special_fast_data.js'
 import init_mp from "./meal_price.js"
+import {costPlusOne} from './countID.js'
 class GroupRowInnerRenderer {
     // 初始化
     init(params){
@@ -124,7 +125,7 @@ class GroupRowInnerRenderer {
                 if(v.data.configure == true || v.data.edit == false) return
                 if(params.value == v.data.cl1){
                     arr.push(v.data)
-                    dinner_type = v.data.cl1
+                    dinner_type = v.data.dinner_type
                 }
                 // if(params.key == v.data.cl1){
                 //     arr.push(v)
@@ -151,10 +152,11 @@ class GroupRowInnerRenderer {
                     ...d[2],
                     cl1: params.value,
                     dinner_type,
+                    id: costPlusOne(dinner_type)
                 }
                 let addIndex = dataIndex(params)
-                
                 params.api.applyTransaction({add: [obj], addIndex})
+                // params.api.getRowId(params => params.data.id)
             }
         }
         // 插入内容

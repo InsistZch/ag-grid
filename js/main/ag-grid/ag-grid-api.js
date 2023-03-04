@@ -11,7 +11,7 @@ import { countMaterialData, cost_proportion } from './ag-grid-row.js'
 import mealcopies from './special_fast_data.js'
 import {dataIndex} from './GroupRowInnerRenderer.js'
 import init_mp from "./meal_price.js"
-import countID from './countID.js'
+import countID,{costPlusOne} from './countID.js'
 // import 
 
 
@@ -50,11 +50,12 @@ const calculateCopies = (data) => {
 }
 // cellRenderer > onCellValueChanged
 const onCellValueChanged = async (e,gridOptions) => {
+    // console.log(e)
     document.querySelector('#saveDataSpan').style.visibility = "visible"
-    
+    // let newDate = new Date() * 1
     // console.log(e)
     if(e.colDef.headerName != '菜品' && e.colDef.headerName != '配量汇总' && e.colDef.headerName != "成本价"){
-        id ++
+        
         if(e.newValue == undefined || e.newValue == null || String(e.newValue).trim() == "") {
             e.data[`${e.colDef.field}`] = 0
             e.newValue = 0
@@ -115,8 +116,6 @@ const onCellValueChanged = async (e,gridOptions) => {
                     v.data = {
                         ...calculateCopies(v.data)
                     }
-
-                    
                 }else{
                     
                     if(v.data.specialMealColor == null || v.data.type == "快餐") return
@@ -133,7 +132,7 @@ const onCellValueChanged = async (e,gridOptions) => {
             })
         }else{
             e.data[`${e.colDef.field}`] = copiesNumber(e.data[`${e.colDef.field}`])
-            console.log(e.data, Copies)
+            // console.log(e.data, Copies)
             const countMaterialData = agGridRow.countMaterialData({
                 material_items: e.data['dish_key_id']['material_item'],
                 dish_key_id: e.data['dish_key_id']['id'],
@@ -141,7 +140,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                 newCopies: Copies,
                 update: e.data.update
             })
-            console.log(countMaterialData, Copies)
+            // console.log(countMaterialData, Copies)
             e.data['Copies'] = Copies
             e.data['whole'] = countMaterialData[0]
             e.data['dish_key_id']['material_item'] = countMaterialData[1]
@@ -179,7 +178,7 @@ const onCellValueChanged = async (e,gridOptions) => {
             newCopies: e.data['Copies']
         })
         e.data['costPrice'] = d[2]
-        gridOptions.api.refreshCells({force:true})
+        // gridOptions.api.refreshCells({force:true})
     }else if(e.colDef.headerName == '配量汇总'){
         e.data.update = true
         let d1 = e.newValue
@@ -579,23 +578,6 @@ const onCellValueChanged = async (e,gridOptions) => {
                             // 插入存储表格
                             saveData.new_material_to_unit_ratio.push(obj)
                             // 插入展示表数据
-                            // for (const item of e.data.dish_key_id.material_item) {
-                            //     if(item.id == material_item.id){
-                            //         item['main_unit_bom_unit_ratio'] = Number(ratio.value)
-                            //         item['unit_id'] = unitName.value
-                            //         item['unit_name'] = unitNameValue.innerText
-                            //         item['bom_unit_ratio_ids'].push(id)
-                            //     }
-                            // }
-                            // const [,,costPrice] = countMaterialData({
-                            //     material_items: e.data.dish_key_id.material_item,
-                            //     dish_key_id: e.data.dish_key_id.id,
-                            //     oldCopies: e.data.Copies,
-                            //     newCopies: e.data.Copies,
-                            //     update: e.data.update
-                            // })
-                            // e.data.costPrice = costPrice
-                            // gridOptions.api.refreshCells({force:true})
                             resolve()
                             return true
                         },
@@ -675,7 +657,11 @@ const onCellValueChanged = async (e,gridOptions) => {
         e.data.costPrice = costPrice
     }else if(e.colDef.headerName == "成本价"){
     }
-    gridOptions.api.refreshCells({force:true})
+    // console.log(new Date() * 1 - newDate)
+    const rowNode = await gridOptions.api.getRowNode(e.data.id)
+    rowNode.setData(e.data)
+    // gridOptions.api.refreshCells({force:true})
+    // console.log(new Date() * 1 - newDate)
     // console.log(gridOptions)
     // 表头比例设置
     const arr = []
@@ -691,7 +677,7 @@ const onCellValueChanged = async (e,gridOptions) => {
     // console.log(gridOptions.rowData, mealcopies(), d)
     gridOptions.api.setPinnedTopRowData([d[2]])
     let cl1s = []
-    gridOptions.api.forEachNode(v => {
+    gridOptions.api.forEachNode(async v => {
         if(v.data == null) return
         if(v.data.type == "%"){
             cl1s.push(v.data.cl1)
@@ -706,7 +692,7 @@ const onCellValueChanged = async (e,gridOptions) => {
             if(v.data.configure == true || v.data.edit == false) return
             if(v.data.cl1 == c_item){
                 costs_data.push(v.data)
-                dinner_type = v.data.cl1
+                dinner_type = v.data.dinner_type
             }
         })
         const sales_data = []
@@ -717,21 +703,27 @@ const onCellValueChanged = async (e,gridOptions) => {
             }
         }
         const d = cost_proportion(costs_data, sales_data)
-        gridOptions.api.forEachNode(v => {
-            if(v.data == null) return
-            if(v.data.cl1 == c_item && v.data.type == "%"){
-                gridOptions.api.applyTransaction({remove: [v.data]})
-            }
-        })
+        // await gridOptions.api.forEachNode(async v => {
+        //     if(v.data == null) return
+        //     if(v.data.cl1 == c_item && v.data.type == "%"){
+        //         await gridOptions.api.applyTransactionAsync({remove: [v.data]})
+        //     }
+        // })
+        const costRow = gridOptions.api.getRowNode(`cost-${e.data.dinner_type}`)
+
+        if(costRow != undefined){
+            gridOptions.api.applyTransactionAsync({remove: [costRow]})
+        }
         const obj = {
             ...d[2],
             cl1: c_item,
             dinner_type,
+            id: costPlusOne(dinner_type)
         }
-        gridOptions.api.applyTransaction({add: [obj], addIndex: dataIndex(e)})
+        await gridOptions.api.applyTransactionAsync({add: [obj], addIndex: dataIndex(e)})
     }
-    
-    gridOptions.api.refreshCells({force:true})
+    // console.log(new Date() * 1 - newDate)
+    // gridOptions.api.refreshCells({force:true})
 
 }
 

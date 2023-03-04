@@ -56,8 +56,10 @@ const init_grid_options = () => {
             // gridOptions.api.setPinnedTopRowData([cost_proportion(d)[2]])
             
         },
+        asyncTransactionWaitMillis: 200,
         pinnedTopRowData: [cost_proportion(d, mealcopies())[2]],
         onCellValueChanged: (e) => agGridApi.onCellValueChanged(e,gridOptions),
+        // onRangeSelectionChanged: e => console.log(new Date()),
         getRowStyle: params => agGridApi.getRowStyle(params),
         onCellClicked: params => agGridApi.onCellClicked(params),
         // onPasteStart: params => agGridApi.onPasteStart(params),
