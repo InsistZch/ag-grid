@@ -19,7 +19,7 @@ class GroupRowInnerRenderer {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        height: 30px;
+        height: 20px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -27,8 +27,8 @@ class GroupRowInnerRenderer {
         border-radius: 5px;
         border: none;
         font-size: .8rem;
-        background-color: transparent;
-        color: #71639e;
+        background-color: #eeeeee90;
+        color: #666;
         `
         eGui.style.cssText = `
         display:flex;

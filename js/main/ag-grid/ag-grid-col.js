@@ -318,9 +318,9 @@ const col = () => {
             transform: translate(-50%, -50%);
             cursor: pointer;
             font-size: 8px;
-            color: #624aaf;
+            color: rgb(109 78 171);
             font-weight: 500;
-            border: 1px #000 solid;
+            border: 1px #ccc solid;
             border-radius: 50%;
             display: flex;
             justify-content: center;
