@@ -205,16 +205,15 @@ const onCellValueChanged = async (e,gridOptions) => {
             if (material.trim() == "") continue
             
             // 鸭肉片23.58斤 鸭肉片 23.58 斤
-            let d = material.match(/([\u4e00-\u9fa5a-zA-Z]+)?(\d*\.?\d+?)?([\u4e00-\u9fa5a-zA-Z]+)?/)
+            let d = material.match(/([\u4e00-\u9fa5]{0,6})?(\d*\.?\d+?)?([\u4e00-\u9fa5a-zA-Z]+)?/)
             // console.log(d)
              
             // 输入数据错误，则跳出循环
             if(d == null){
                 e.data[`${e.colDef.field}`] = e.oldValue
-                break
+                return
             }
             
-
             // 如果当前单位不为material_purchase_unit_category中数据
             // 只有全部不等于才会返回true
             // 当前单位在material_purchase_unit_category中找不到
