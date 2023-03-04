@@ -11,7 +11,9 @@ import { countMaterialData, cost_proportion } from './ag-grid-row.js'
 import mealcopies from './special_fast_data.js'
 import {dataIndex} from './GroupRowInnerRenderer.js'
 import init_mp from "./meal_price.js"
+import countID from './countID.js'
 // import 
+
 
 // 添加对应数据
 const addData = (e, i, el) => {
@@ -46,13 +48,13 @@ const calculateCopies = (data) => {
     data['costPrice'] = d[2]
     return data
 }
-
 // cellRenderer > onCellValueChanged
 const onCellValueChanged = async (e,gridOptions) => {
     document.querySelector('#saveDataSpan').style.visibility = "visible"
     
     // console.log(e)
     if(e.colDef.headerName != '菜品' && e.colDef.headerName != '配量汇总' && e.colDef.headerName != "成本价"){
+        id ++
         if(e.newValue == undefined || e.newValue == null || String(e.newValue).trim() == "") {
             e.data[`${e.colDef.field}`] = 0
             e.newValue = 0
@@ -60,9 +62,9 @@ const onCellValueChanged = async (e,gridOptions) => {
         // console.log(e.newValue)
         if(isNaN(e.newValue)) {
             e.data[`${e.colDef.field}`] = e.oldValue
-            gridOptions.api.refreshCells({force:true})
+            const rowNode = await gridOptions.api.getRowNode(e.data.id)
+            await rowNode.setDataValue(e.colDef.field, e.oldValue)
             return
-            // gridOptions.api.refreshCells({force:true})
         }
         const meal_price = init_mp().find(v => v.cl1 == e.data.cl1)
         if(meal_price[e.colDef.field] == 0 || meal_price[e.colDef.field] == null){
@@ -148,7 +150,6 @@ const onCellValueChanged = async (e,gridOptions) => {
         // console.log(e.data)
         // 当前数据 101
         
-        // gridOptions.api.refreshCells({force:true})
     }else if(e.colDef.headerName == '菜品'){
         if(e.newValue == null || e.newValue == undefined || e.newValue.trim() == ""){
             e.data[`${e.colDef.field}`] = e.oldValue
@@ -672,9 +673,6 @@ const onCellValueChanged = async (e,gridOptions) => {
         })
         // console.log(e.data)
         e.data.costPrice = costPrice
-        // e.data.dish_key_id.material_item = m_arr
-        // gridOptions.api.refreshCells({force:true})
-        // gridOptions.api.refreshCells({force:true})
     }else if(e.colDef.headerName == "成本价"){
     }
     gridOptions.api.refreshCells({force:true})
@@ -786,14 +784,8 @@ const getContextMenuItems = (params, gridOptions) => {
                         // console.log(params)
                         gridOptions.api.expandAll()
                         gridOptions.api.applyTransaction({ add: data, addIndex: params.node.rowIndex + 1})
-
+                        
                         return  true
-                        // gridOptions.api.forEachNode(node => {
-                        //     if(node.key != params.node.data.cl1){
-                        //         console.log(node, params)
-                        //         node.setExpanded(false)
-                        //     }
-                        // });
                     }
                 })
                 
@@ -910,6 +902,7 @@ const addRowPublicPart = (params) => {
     obj['fixed'] = true
     obj['costPrice'] = 0
     obj['update'] = false
+    obj['id'] = countID()
     return obj
 }
 

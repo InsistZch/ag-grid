@@ -1,6 +1,5 @@
 /** @odoo-module **/
 import {cost_proportion} from "./ag-grid-row.js"
-
 // 获取快餐，特色初始化数据
 import init_mc from './special_fast_data.js'
 import init_mp from "./meal_price.js"

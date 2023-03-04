@@ -1,6 +1,5 @@
 /** @odoo-module **/
 import { mealCopies } from "./ag-grid-row.js"
-
 let is_load = false
 let mealcopies
 const init_mc = () => {

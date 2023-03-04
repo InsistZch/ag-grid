@@ -1,6 +1,7 @@
 /** @odoo-module **/
 import index from "../../../data/index.js";
 import {copiesNumber} from "../otherApi/index.js";
+import countID from './countID.js'
 
 
 // 餐配置信息的抽象方法
@@ -35,6 +36,7 @@ const mealAbstract = ({
         obj['edit'] = edit
         obj['Copies'] = 0
         obj['whole'] = ""
+        obj['id'] = countID()
         obj['fixed'] = fixed
         obj['configure'] = configure
         obj['type'] = type

@@ -4,7 +4,7 @@ import specialMeal from './specialMeal.js'
 import {copiesNumber} from './../otherApi/index.js'
 import init_mp from './meal_price.js'
 import {mealAbstract, mealPrice} from './ag_common.js'
-
+import countID from './countID.js'
 
 
 // 拿到餐标 => 客户信息 菜品信息 
@@ -62,6 +62,7 @@ const data = () => {
                 }
                 // console.log(play_object.manual_material_qty)
                 const d_data = init_dish_detailed(play_object.manual_material_qty, count)
+                obj['id'] = countID()
                 obj['whole'] = d_data[0]
                 obj['edit'] = true
                 obj['configure'] = false

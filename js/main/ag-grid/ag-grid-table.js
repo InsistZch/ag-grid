@@ -63,7 +63,7 @@ const init_grid_options = () => {
         // onPasteStart: params => agGridApi.onPasteStart(params),
         // paginationAutoPageSize: true, //根据网页高度自动分页（前端分页）
 
-        context: {},
+        getRowId: (params) => params.data.id,
     };
 
     return gridOptions;
