@@ -95,11 +95,22 @@ const onCellValueChanged = async (e,gridOptions) => {
         // const scale = (parseInt(e.newValue) - parseInt(e.oldValue)) / e.data['Copies']
         // console.log(copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue))
         let Copies = 0
+        // console.log(e.newValue)
         if(e.newValue == 0){
-            Copies = e.data['Copies'] - e.data[`${e.colDef.field}`]
+            console.log(e.data.type, e.data[`${e.colDef.field}`], e.newValue, e.oldValue)
+            
+            if(e.data.configure && !e.data.fixed){
+                if(e.data.type == "快餐" || e.data.type == "特色"){
+                    Copies = e.data['Copies'] - e.oldValue
+                }
+            }else{
+                Copies = e.data['Copies'] - e.data[`${e.colDef.field}`]
+            }
+            
         }else{
             Copies =  e.data['Copies'] + (copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue))
         }
+        // console.log(Copies)
         // 进入该if只有两种可能
         // 第一，改变了快餐
         // 第二，改变了特色
@@ -108,6 +119,7 @@ const onCellValueChanged = async (e,gridOptions) => {
         // console.log(e.newValue, e.oldValue, ratio)
         // 是配置 并且不固定
         if(e.data.configure && !e.data.fixed){
+            // console.log(e.data.Copies, Copies)
             e.data['Copies'] = Copies
             await e.api.forEachNode(async v => {
                 // 如果没有数据或者餐品类别不同，直接return
