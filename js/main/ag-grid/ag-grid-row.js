@@ -458,11 +458,15 @@ const cost_proportion = (data, mealCopies) => {
         cost_totle_obj.sales_volume += sales_volume.get(loc_item).total
     }
     // console.log(cost_totle_obj) 
-    const sv = cost_totle_obj.sales_volume == 0 ? 1 : cost_totle_obj.sales_volume
-    costs['costPrice'] = ((cost_totle_obj.cost_price / sv) * 100).toFixed(1) + "%"
+    // const sv = cost_totle_obj.sales_volume == 0 ? 1 : cost_totle_obj.sales_volume
+    if(cost_totle_obj.sales_volume == 0){
+        costs['costPrice'] = '0.0' + "%"
+    }else{
+        costs['costPrice'] = ((cost_totle_obj.cost_price / cost_totle_obj.sales_volume) * 100).toFixed(1) + "%"
+    }
     costs['edit'] = false
     costs['configure'] = true
-    costs['fixed'] = true
+    costs['fixed'] = false
     costs['whole'] = ""
     costs['type'] = "%"
     // console.log(costs)

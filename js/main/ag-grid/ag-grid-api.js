@@ -29,7 +29,6 @@ const calculateCopies = (data) => {
     let Copies = 0
     // 找到所有客户
     const cus_locs = Object.keys(data).filter(v => !isNaN(v))
-
     for (const c_item of cus_locs) {
         Copies += Number(data[c_item])
     }
@@ -48,6 +47,38 @@ const calculateCopies = (data) => {
     data['costPrice'] = d[2]
     return data
 }
+// v => 循环数据
+// e => 本行数据
+// ratio => 比率
+const nodeRowData = async (v, e, ratio, type) => {
+    // 去除不同数据
+    if(v.data == undefined || v.data.cl1 != e.data.cl1) return
+    // 去除配置
+    if(v.data.configure) return
+    // 去除快餐或者特色餐
+    if(type == "快餐"){
+        if(v.data.specialMealID != undefined) return
+    }else{
+        if(v.data.specialMealID == undefined) return
+    }
+    // 去除当前值为0的数据
+    if(v.data[`${e.colDef.field}`] == 0) return
+    v.data[`${e.colDef.field}`] = Number(v.data[`${e.colDef.field}`] )
+    let value = 0
+    if(e.oldValue == 0){
+        value = v.data[`${e.colDef.field}`] + e.newValue
+    }else{
+        value = copiesNumber(Math.ceil(v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio)))
+    }
+    v.data[`${e.colDef.field}`] = value
+    v.data = {
+        ...calculateCopies(v.data)
+    }
+    const rowNode = await e.api.getRowNode(v.data.id)
+    await rowNode.setData(v.data)
+    // console.log(v.data)
+}
+
 // cellRenderer > onCellValueChanged
 const onCellValueChanged = async (e,gridOptions) => {
     // console.log(e.data.type)
@@ -94,22 +125,8 @@ const onCellValueChanged = async (e,gridOptions) => {
         // console.log(e.newValue)
         // const scale = (parseInt(e.newValue) - parseInt(e.oldValue)) / e.data['Copies']
         // console.log(copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue))
-        let Copies = 0
+        let Copies =  e.data['Copies'] + (copiesNumber(Math.ceil(e.newValue)) - parseInt(e.data[e.colDef.field]))
         // console.log(e.newValue)
-        if(e.newValue == 0){
-            console.log(e.data.type, e.data[`${e.colDef.field}`], e.newValue, e.oldValue)
-            
-            if(e.data.configure && !e.data.fixed){
-                if(e.data.type == "快餐" || e.data.type == "特色"){
-                    Copies = e.data['Copies'] - e.oldValue
-                }
-            }else{
-                Copies = e.data['Copies'] - e.data[`${e.colDef.field}`]
-            }
-            
-        }else{
-            Copies =  e.data['Copies'] + (copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue))
-        }
         // console.log(Copies)
         // 进入该if只有两种可能
         // 第一，改变了快餐
@@ -117,51 +134,18 @@ const onCellValueChanged = async (e,gridOptions) => {
         // 增加比例
         const ratio = ( ( copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue)) / parseInt(e.oldValue == 0 ? 1 : e.oldValue))
         // console.log(e.newValue, e.oldValue, ratio)
-        // 是配置 并且不固定
+        // 餐标 => 不可改变
+        // 成本 => 自动改变
+        // 份数 => 用户改变
         if(e.data.configure && !e.data.fixed){
-            // console.log(e.data.Copies, Copies)
-            e.data['Copies'] = Copies
-            await e.api.forEachNode(async v => {
-                // 如果没有数据或者餐品类别不同，直接return
-                if(v.data == undefined || v.data.cl1 != e.data.cl1) return
-                if(v.data.type == "%" || v.data.type == "餐标") return
-                // console.log(v)
-                // 改变当前列所有符合条件的值
-                // 计算改变比率
-                v.data[`${e.colDef.field}`] = Number(v.data[`${e.colDef.field}`] )
-                if(e.data.type == "快餐"){
-                    // 当specialMealID有值时，表示类型为特餐
-                    if(v.data.specialMealID != null || v.data.specialMealColor != null || v.data.type == "快餐" || v.data.type == "特色") return
-                    let value = copiesNumber(Math.ceil(v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio)))
-                    if(value < 0) value = 0
-                    v.data[`${e.colDef.field}`] = value
-                    
-                    v.data = {
-                        ...calculateCopies(v.data)
-                    }
-                    // const rowNode = await gridOptions.api.getRowNode(v.data.id)
-                    // await rowNode.setData(v.data)
-                }else{
-                    
-                    if(v.data.specialMealColor == null || v.data.type == "快餐") return
-                    if(v.data.specialMealColor == null && v.data.type == "特色") return
-                    // console.log(111)
-                    // console.log(Math.ceil( v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio) ))
-                    let value = copiesNumber(Math.ceil(v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio)))
-                    if(value < 0) value = 0
-                    v.data[`${e.colDef.field}`] = value
-                    v.data = {
-                        ...calculateCopies(v.data)
-                    }
-                    
-                }
-                const rowNode = await gridOptions.api.getRowNode(v.data.id)
-                await rowNode.setData(v.data)
-
-            })
+            if(e.data.type != "餐标" && e.data.type != "%"){
+                // 当份数改变时
+                e.data.Copies = e.data['Copies'] + Math.ceil(e.newValue) - parseInt(e.oldValue)
+                await e.api.forEachNode(async v => await nodeRowData(v, e, ratio, e.data.type))
+                // console.log(111)
+            }
         }else{
             e.data[`${e.colDef.field}`] = copiesNumber(e.data[`${e.colDef.field}`])
-            // console.log(e.data, Copies)
             const countMaterialData = agGridRow.countMaterialData({
                 material_items: e.data['dish_key_id']['material_item'],
                 dish_key_id: e.data['dish_key_id']['id'],
@@ -175,7 +159,6 @@ const onCellValueChanged = async (e,gridOptions) => {
             e.data['dish_key_id']['material_item'] = countMaterialData[1]
             e.data['costPrice'] = isNaN(countMaterialData[2]) ? 0 : countMaterialData[2] 
         }
-        // console.log(e.data)
         // 当前数据 101
         
     }else if(e.colDef.headerName == '菜品'){
@@ -708,6 +691,7 @@ const onCellValueChanged = async (e,gridOptions) => {
     // console.log(e.data)
     // console.log(new Date() * 1 - newDate)
     const rowNode = await gridOptions.api.getRowNode(e.data.id)
+    // console.log(e.data.type, e.data.Copies)    
     await rowNode.setData(e.data)
     // gridOptions.api.refreshCells({force:true})
     // console.log(new Date() * 1 - newDate)
