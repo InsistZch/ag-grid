@@ -93,7 +93,13 @@ const onCellValueChanged = async (e,gridOptions) => {
 
         // console.log(e.newValue)
         // const scale = (parseInt(e.newValue) - parseInt(e.oldValue)) / e.data['Copies']
-        const Copies =  e.data['Copies'] + (copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue))
+        // console.log(copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue))
+        let Copies = 0
+        if(e.newValue == 0){
+            Copies = e.data['Copies'] - e.data[`${e.colDef.field}`]
+        }else{
+            Copies =  e.data['Copies'] + (copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue))
+        }
         // 进入该if只有两种可能
         // 第一，改变了快餐
         // 第二，改变了特色
@@ -115,6 +121,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                     // 当specialMealID有值时，表示类型为特餐
                     if(v.data.specialMealID != null || v.data.specialMealColor != null || v.data.type == "快餐" || v.data.type == "特色") return
                     let value = copiesNumber(Math.ceil(v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio)))
+                    if(value < 0) value = 0
                     v.data[`${e.colDef.field}`] = value
                     
                     v.data = {
@@ -129,6 +136,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                     // console.log(111)
                     // console.log(Math.ceil( v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio) ))
                     let value = copiesNumber(Math.ceil(v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio)))
+                    if(value < 0) value = 0
                     v.data[`${e.colDef.field}`] = value
                     v.data = {
                         ...calculateCopies(v.data)
@@ -683,6 +691,7 @@ const onCellValueChanged = async (e,gridOptions) => {
         // console.log(e.data)
         e.data.costPrice = costPrice
     }else if(e.colDef.headerName == "成本价"){
+
     }
     // console.log(e.data)
     // console.log(new Date() * 1 - newDate)
@@ -699,6 +708,8 @@ const onCellValueChanged = async (e,gridOptions) => {
         if(v.data.configure == true || v.data.edit == false) return
         arr.push(v.data)
     })
+
+
 
     
     const d = cost_proportion(arr, mealcopies())

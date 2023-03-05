@@ -446,10 +446,14 @@ const cost_proportion = (data, mealCopies) => {
     for (const loc_item of cus_loc) {
 
         // 计算前初始化设置，确保分母不为零
-        const sales_volume_total = sales_volume.get(loc_item).total == 0 ? 1 : sales_volume.get(loc_item).total
+        // const sales_volume_total = sales_volume.get(loc_item).total == 0 ? 1 : sales_volume.get(loc_item).total
 
-
-        costs[loc_item] = ((costPrices.get(loc_item) / sales_volume_total) * 100).toFixed(1) + "%"
+        if(sales_volume.get(loc_item).total == 0){
+            costs[loc_item] = "0.0%"
+        }else{
+            costs[loc_item] = ((costPrices.get(loc_item) / sales_volume.get(loc_item).total) * 100).toFixed(1) + "%"
+        }
+        
         cost_totle_obj.cost_price += costPrices.get(loc_item)
         cost_totle_obj.sales_volume += sales_volume.get(loc_item).total
     }
