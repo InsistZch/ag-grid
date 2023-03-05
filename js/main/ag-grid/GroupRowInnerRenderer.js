@@ -3,7 +3,7 @@ import {cost_proportion} from "./ag-grid-row.js"
 // 获取快餐，特色初始化数据
 import init_mc from './special_fast_data.js'
 import init_mp from "./meal_price.js"
-import {costPlusOne} from './countID.js'
+import {costPlusOne, pricePlusOne} from './countID.js'
 class GroupRowInnerRenderer {
     // 初始化
     init(params){
@@ -68,7 +68,9 @@ class GroupRowInnerRenderer {
             if(data.length == 0){
                 const d2 = c.filter(v => v.cl1 == params.value)
                 let addIndex = dataIndex(params)
-               
+                for (const d_index in d2) {
+                    d2[d_index]['id'] = `copies-${d2[d_index].dinner_type}-${d_index}`
+                }
                 params.api.applyTransaction({add: [...d2], addIndex})
             }else{
                 const d = getRowData({
@@ -108,6 +110,7 @@ class GroupRowInnerRenderer {
                 for (const mealsPrice_item of mealsPrice) {
                     if(mealsPrice_item.cl1 == params.value){
                         mealsPrice_item['Copies'] = null
+                        mealsPrice_item['id'] = pricePlusOne(mealsPrice_item.dinner_type)
                         params.api.applyTransaction({add: [mealsPrice_item], addIndex: 0})
                     }
                 }

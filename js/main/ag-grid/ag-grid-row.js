@@ -4,7 +4,7 @@ import specialMeal from './specialMeal.js'
 import {copiesNumber} from './../otherApi/index.js'
 import init_mp from './meal_price.js'
 import {mealAbstract, mealPrice} from './ag_common.js'
-import countID from './countID.js'
+import countID, {copiesPlusOne} from './countID.js'
 
 
 // 拿到餐标 => 客户信息 菜品信息 
@@ -180,7 +180,7 @@ const mealCopies = (edit = false, fixed = true, types = {
     })
 
     fastConfiguration = setCopies(fastConfiguration)
-
+    // fastConfiguration['id'] = `copies-${fastConfiguration.dinner_mode}-1`
     let specialConfiguration = mealAbstract({
         name: 'dinner_qty_upper_limit_ts',
         type: types.t2,
@@ -190,7 +190,7 @@ const mealCopies = (edit = false, fixed = true, types = {
     })
 
     specialConfiguration = setCopies(specialConfiguration)
-
+    // specialConfiguration['id'] = `copies-${specialConfiguration.dinner_mode}-2`
     return [
         ...fastConfiguration,
         ...specialConfiguration,
