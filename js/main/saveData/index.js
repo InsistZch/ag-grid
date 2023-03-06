@@ -8,7 +8,7 @@ export default {
 
     // 日成本数据
     day_cost:{
-        init_cost: 0,
-        complete_cost: 0
+        init_cost: false,
+        complete_cost: false,
     }
 }

@@ -816,6 +816,7 @@ const getContextMenuItems = (params, gridOptions) => {
                         const MealCategory = _parent.querySelector('#MealCategory')
                         const value = MealCategory.querySelector(`option[value="${MealCategory.value}"]`).innerText
                         data[0]['type'] = value
+                        data[0]['sales_type'] = sales_type(value)
                         if(specialMeal.Catering[params.node.data.dinner_type] <= specialMeal.colors.length && value == "特色"){
                             data[0]['specialMealID'] = specialMeal.Catering[params.node.data.dinner_type]
                             data[0]['specialMealColor'] = specialMeal.colors[specialMeal.Catering[params.node.data.dinner_type] - 1]
@@ -857,6 +858,7 @@ const getContextMenuItems = (params, gridOptions) => {
                         material_item: []
                     }
                     data[0]['type'] = "特色"
+                    data[0]['sales_type'] = sales_type("特色")
                     data[0]['specialMealID'] = specialMeal.Catering[params.node.data.dinner_type]
                     data[0]['specialMealColor'] = specialMeal.colors[specialMeal.Catering[params.node.data.dinner_type] - 1]
                     specialMeal.Catering[params.node.data.dinner_type] += 1
@@ -868,7 +870,7 @@ const getContextMenuItems = (params, gridOptions) => {
         {
             name:'新增特色餐配菜',
             action:() => {
-                console.log(params)
+                // console.log(params)
                 if(specialMeal.Catering[params.node.data.dinner_type] == 1) return
                 const data = [{}]
                 for (const key in params.node.data) {
@@ -911,6 +913,7 @@ const getContextMenuItems = (params, gridOptions) => {
                             material_item:[]
                         }
                         data[0]['type'] = value.innerText
+                        data[0]['sales_type'] = sales_type(value.innerText)
                         data[0]['specialMealColor'] = specialMeal.colors[SpecialMealCategory.value - 1]
                         // console.log(data)
 
@@ -949,6 +952,32 @@ const addRowPublicPart = (params) => {
     obj['update'] = false
     obj['id'] = countID()
     return obj
+}
+
+// 添加sales_type信息
+const sales_type = (value) => {
+    switch (value) {
+        case "快餐":
+            return 'kuai';
+        case "特色":
+            return 'special';
+        case "绿豆汤":
+            return 'green_bean_soup';
+        case "简餐":
+            return 'mini_business_meal';
+        case "商务餐":
+            return 'business_meal';
+        case "泡面":
+            return 'instance_noodle';
+        case "香肠":
+            return 'sausage';
+        case "打包":
+            return 'packed';
+        case "其他":
+            return 'other_sales';
+        default:
+            return 'other_sales';
+    }
 }
 
 

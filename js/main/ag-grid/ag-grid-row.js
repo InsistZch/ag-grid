@@ -5,6 +5,7 @@ import {copiesNumber} from './../otherApi/index.js'
 import init_mp from './meal_price.js'
 import {mealAbstract, mealPrice} from './ag_common.js'
 import countID, {copiesPlusOne} from './countID.js'
+import saveData from '../saveData/index.js'
 
 
 // 拿到餐标 => 客户信息 菜品信息 
@@ -26,6 +27,7 @@ const data = () => {
         const obj = {}
         obj['cl1'] = play_object['dinner_type'] == 'dn2' ? '午餐' : play_object['dinner_type'] == 'dn3' ? '晚餐' : play_object['dinner_type'] == 'dn5' ? '夜餐' : '早餐'
         obj['dinner_type'] = play_object['dinner_type']
+        obj['sales_type'] = play_object.sales_type
         let count = 0;
         for (const play_object_item of Object.keys(json)) {
             const item2 = play_object_item.split('_')[1]
@@ -475,6 +477,9 @@ const cost_proportion = (data, mealCopies) => {
     costs['fixed'] = false
     costs['whole'] = ""
     costs['type'] = "%"
+    if(saveData.day_cost.init_cost == false){
+        saveData.day_cost.init_cost = Number(costs['costPrice'].split('%')[0])
+    }
     // console.log([costPrices, sales_volume, costs])
     // 成本数据 销售数据 总占比数据
     return [costPrices, sales_volume, costs]
