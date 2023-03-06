@@ -146,6 +146,7 @@ const onCellValueChanged = async (e,gridOptions) => {
         }else{
             let Copies =  e.data['Copies'] + copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue)
             e.data[`${e.colDef.field}`] = copiesNumber(e.data[`${e.colDef.field}`])
+            console.log(e.data.type)
             const countMaterialData = agGridRow.countMaterialData({
                 material_items: e.data['dish_key_id']['material_item'],
                 dish_key_id: e.data['dish_key_id']['id'],
@@ -713,17 +714,13 @@ const onCellValueChanged = async (e,gridOptions) => {
         if(v.data.configure == true || v.data.edit == false) return
         arr.push(v.data)
     })
-
-
-
-    
     const d = cost_proportion(arr, mealcopies())
     // console.log(gridOptions.rowData, arr, mealcopies(), d)
     gridOptions.api.setPinnedTopRowData([d[2]])
     let cl1s = []
     gridOptions.api.forEachNode(async v => {
         if(v.data == null) return
-        if(v.data.type == "%"){
+        if(v.data.type == "%" && v.data.cl1 == e.data.cl1){
             cl1s.push(v.data.cl1)
         }
     })
@@ -731,8 +728,10 @@ const onCellValueChanged = async (e,gridOptions) => {
         // 成本所需数据
         const costs_data = []
         let dinner_type = ""
-        gridOptions.api.forEachNode(v => {
+        let index = 0
+        gridOptions.api.forEachNode((v, i) => {
             if(v.data == null) return
+            if(v.data.configure && v.data.cl1 == c_item) index = i + 1
             if(v.data.configure == true || v.data.edit == false) return
             if(v.data.cl1 == c_item){
                 costs_data.push(v.data)
@@ -764,7 +763,7 @@ const onCellValueChanged = async (e,gridOptions) => {
             dinner_type,
             id: costPlusOne(dinner_type)
         }
-        await gridOptions.api.applyTransactionAsync({add: [obj], addIndex: dataIndex(e)})
+        await gridOptions.api.applyTransactionAsync({add: [obj], addIndex: index})
     }
     // await rowNode.setData(e.data)/
     // console.log(new Date() * 1 - newDate)

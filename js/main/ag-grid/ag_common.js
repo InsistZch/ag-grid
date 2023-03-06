@@ -56,7 +56,7 @@ const mealPrice = () => {
         type:"餐标",
         edit: false,
         fixed: false,
-        configure: false
+        configure: true
     })
 }
 

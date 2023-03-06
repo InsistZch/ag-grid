@@ -383,25 +383,15 @@ const dish_detailed = (dish_key,count) => {
 }
 
 // 成本占比
-// 
+// 没有考虑中餐和晚餐
+// 没有考虑不同的用户
 const cost_proportion = (data, mealCopies) => {
     // console.log(data)
     
     // 找到每个用户
     const cus_loc = Object.keys(data[0]).filter(v => !isNaN(v))
     // console.log(cus_loc)
-    // 算出每个用户的成本价
-    // new Map => (cus_loc_id, cost) => 用户id 成本价格
-    const costPrices = cus_loc.reduce((pre, v) => {
-        let costPrice = 0
-        // 循环每一行数据，找到每一行数据成本价
-        // 当前用户份数，乘以成本价 得出此用户当前菜品成本价
-        for (const data_item of data) {
-            costPrice += data_item[v] * data_item['costPrice']
-        }
-        pre.set(v, Number(costPrice.toFixed(2)))
-        return pre
-    }, new Map())
+    
     // // console.log(costPrices)
 
     // // 算出每个用户的销售额 份数x单价   份数 => 快餐、特色
@@ -437,6 +427,21 @@ const cost_proportion = (data, mealCopies) => {
         return pre
     }, new Map())
 
+
+    // 算出每个用户的成本价
+    // new Map => (cus_loc_id, cost) => 用户id 成本价格
+    const costPrices = cus_loc.reduce((pre, v) => {
+        let costPrice = 0
+        // 循环每一行数据，找到每一行数据成本价
+        // 当前用户份数，乘以成本价 得出此用户当前菜品成本价
+        for (const data_item of data) {
+            if(sales_volume.get(v)[data_item.dinner_type] == 0) continue
+            
+            costPrice += data_item[v] * data_item['costPrice']
+        }
+        pre.set(v, Number(costPrice.toFixed(2)))
+        return pre
+    }, new Map())
     // 计算出成本占比
     const costs = {}
     let cost_totle_obj = {
@@ -470,7 +475,7 @@ const cost_proportion = (data, mealCopies) => {
     costs['fixed'] = false
     costs['whole'] = ""
     costs['type'] = "%"
-    // console.log(costs)
+    // console.log([costPrices, sales_volume, costs])
     // 成本数据 销售数据 总占比数据
     return [costPrices, sales_volume, costs]
 }

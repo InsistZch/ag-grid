@@ -55,12 +55,12 @@ class GroupRowInnerRenderer {
             // edit fixed types
             // 查看当前餐类别份数是否存在
             params.api.forEachNode(v => {
-                if(v.data != undefined) {
-                    if(v.data.configure && v.data.cl1 == params.value){
-                        if(v.data.fixed) return
+                if(v.data == null || v.data.cl1 != params.value) return
+                if(v.data.configure){
+                    if(v.data.type == "快餐" || v.data.type == "特色"){
                         data.push(v.data)
                     }
-                    
+                    return
                 }
             })
             // console.log(data)
