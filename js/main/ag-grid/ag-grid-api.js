@@ -66,16 +66,14 @@ const nodeRowData = async (v, e, ratio, type) => {
     v.data[`${e.colDef.field}`] = Number(v.data[`${e.colDef.field}`] )
     let value = 0
     if(e.oldValue == 0){
-        value = v.data[`${e.colDef.field}`] + e.newValue
+        value = e.newValue
     }else{
         value = copiesNumber(Math.ceil(v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio)))
     }
-    v.data[`${e.colDef.field}`] = value
-    v.data = {
-        ...calculateCopies(v.data)
-    }
+    
     const rowNode = await e.api.getRowNode(v.data.id)
-    await rowNode.setData(v.data)
+    await rowNode.setDataValue(e.colDef.field, value)
+    // await rowNode.setData(calculateCopies(v.data))
     // console.log(v.data)
 }
 
@@ -85,7 +83,7 @@ const onCellValueChanged = async (e,gridOptions) => {
     document.querySelector('#saveDataSpan').style.visibility = "visible"
     // let newDate = new Date() * 1
     // console.log(e)
-    if(e.colDef.headerName != '菜品' && e.colDef.headerName != '配量汇总' && e.colDef.headerName != "成本价"){
+    if(e.colDef.headerName != '菜品' && e.colDef.headerName != '配量汇总' && e.colDef.headerName != "成本"){
         
         if(e.newValue == undefined || e.newValue == null || String(e.newValue).trim() == "") {
             e.data[`${e.colDef.field}`] = 0
@@ -99,8 +97,9 @@ const onCellValueChanged = async (e,gridOptions) => {
             return
         }
         const meal_price = init_mp().find(v => v.cl1 == e.data.cl1)
+        // console.log(meal_price)
         if(meal_price[e.colDef.field] == 0 || meal_price[e.colDef.field] == null){
-            if(e.newValue != 0){
+            if(e.newValue != 0 && e.newValue != null){
                 let price = prompt("请输入餐标：")
                 while(isNaN(price) || Number(price) <= 0){
                     if(price == null || price.trim() == ""){
@@ -121,11 +120,11 @@ const onCellValueChanged = async (e,gridOptions) => {
             e.newValue = 0
             e.data[`${e.colDef.field}`] = 0
         }
-
+        // console.log(e)
         // console.log(e.newValue)
         // const scale = (parseInt(e.newValue) - parseInt(e.oldValue)) / e.data['Copies']
         // console.log(copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue))
-        let Copies =  e.data['Copies'] + (copiesNumber(Math.ceil(e.newValue)) - parseInt(e.data[e.colDef.field]))
+        
         // console.log(e.newValue)
         // console.log(Copies)
         // 进入该if只有两种可能
@@ -145,6 +144,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                 // console.log(111)
             }
         }else{
+            let Copies =  e.data['Copies'] + copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue)
             e.data[`${e.colDef.field}`] = copiesNumber(e.data[`${e.colDef.field}`])
             const countMaterialData = agGridRow.countMaterialData({
                 material_items: e.data['dish_key_id']['material_item'],
@@ -153,11 +153,20 @@ const onCellValueChanged = async (e,gridOptions) => {
                 newCopies: Copies,
                 update: e.data.update
             })
-            // console.log(countMaterialData, Copies)
+            // console.log(Copies)
             e.data['Copies'] = Copies
             e.data['whole'] = countMaterialData[0]
             e.data['dish_key_id']['material_item'] = countMaterialData[1]
-            e.data['costPrice'] = isNaN(countMaterialData[2]) ? 0 : countMaterialData[2] 
+            e.data['costPrice'] = isNaN(countMaterialData[2]) ? 0 : countMaterialData[2]
+            // const rowNode = await e.api.getRowNode(e.data.id)
+            // await rowNode.setDataValue('Copies', Copies)
+            // await rowNode.setDataValue('whole', countMaterialData[0])
+            // await rowNode.setDataValue('dish_key_id', {
+            //     ...e.data['dish_key_id'],
+            //     material_item: countMaterialData[1]
+            // })
+            // e.data['dish_key_id']['material_item'] = countMaterialData[1]
+            // await rowNode.setDataValue('costPrice', isNaN(countMaterialData[2]) ? 0 : countMaterialData[2])
         }
         // 当前数据 101
         
