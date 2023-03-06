@@ -437,7 +437,7 @@ const cost_proportion = (data, mealCopies) => {
         // 循环每一行数据，找到每一行数据成本价
         // 当前用户份数，乘以成本价 得出此用户当前菜品成本价
         for (const data_item of data) {
-            if(sales_volume.get(v)[data_item.dinner_type] == 0) continue
+            // if(sales_volume.get(v)[data_item.dinner_type] == 0) continue
             
             costPrice += data_item[v] * data_item['costPrice']
         }
