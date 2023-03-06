@@ -534,11 +534,15 @@ const countMaterialData = ({
                     const old = oldCopies == 0 ? 1 : oldCopies
                     const scale = (newCopies - oldCopies) / old
                     // console.log(scale,item.dish_qty)
+                    
                     let dish = 0
                     if(item.main_price / item.main_unit_bom_unit_ratio >= 5 && Number(item.dish_qty) < 10){
                         dish = Number((Number(item.dish_qty) + (Number(item.dish_qty) * scale)).toFixed(1))
                     }else{
                         dish = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))
+                    }
+                    if(oldCopies == 0){
+                        dish = Number(newCopies)
                     }
                     item.dish_qty = dish < 0 ? 0 : dish
                     m_arr.push({...item})
@@ -558,6 +562,9 @@ const countMaterialData = ({
                         dish = Number((Number(item.dish_qty) + (Number(item.dish_qty) * scale)).toFixed(1))
                     }else{
                         dish = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))
+                    }
+                    if(oldCopies == 0){
+                        dish = Number(newCopies)
                     }
                     item.dish_qty = dish < 0 ? 0 : dish
                     m_arr.push({...item})
@@ -587,20 +594,24 @@ const countMaterialData = ({
             }
         }
     }
-    newCopies = newCopies == 0 ? 1 : newCopies
+    // newCopies = newCopies == 0 ? 1 : newCopies
     // console.log(m_arr)
-    for (const m_item of m_arr) {
-        // console.log(item, item.dish_qty, item.main_price)
-        m_item['main_price'] = Number(m_item['main_price'])
-        // console.log(m_item)
-        let main_unit_bom_unit_ratio = index.material_item_bom_unit_ratio.find(v => v.material_id == m_item.id && v.purchase_unit_id == m_item.unit_id)
-
-        main_unit_bom_unit_ratio = main_unit_bom_unit_ratio == undefined ? 1 : main_unit_bom_unit_ratio.main_unit_bom_unit_ratio
-        m_item['main_unit_bom_unit_ratio'] = main_unit_bom_unit_ratio
-        // console.log(m_item)
-        // console.log(m_item.main_price, m_item.dish_qty, newCopies, m_item.main_unit_bom_unit_ratio)
-        // console.log((m_item.main_price  * m_item.dish_qty) / (newCopies * m_item.main_unit_bom_unit_ratio))
-        costPrice += (m_item.main_price  * m_item.dish_qty) / (newCopies * m_item.main_unit_bom_unit_ratio)
+    if(newCopies == 0){
+        costPrice = 0
+    }else{
+        for (const m_item of m_arr) {
+            // console.log(item, item.dish_qty, item.main_price)
+            m_item['main_price'] = Number(m_item['main_price'])
+            // console.log(m_item)
+            let main_unit_bom_unit_ratio = index.material_item_bom_unit_ratio.find(v => v.material_id == m_item.id && v.purchase_unit_id == m_item.unit_id)
+    
+            main_unit_bom_unit_ratio = main_unit_bom_unit_ratio == undefined ? 1 : main_unit_bom_unit_ratio.main_unit_bom_unit_ratio
+            m_item['main_unit_bom_unit_ratio'] = main_unit_bom_unit_ratio
+            // console.log(m_item)
+            // console.log(m_item.main_price, m_item.dish_qty, newCopies, m_item.main_unit_bom_unit_ratio)
+            // console.log((m_item.main_price  * m_item.dish_qty) / (newCopies * m_item.main_unit_bom_unit_ratio))
+            costPrice += (m_item.main_price  * m_item.dish_qty) / (newCopies * m_item.main_unit_bom_unit_ratio)
+        }
     }
     // console.log(m_arr)
     costPrice = Number(costPrice.toFixed(2))

@@ -146,7 +146,7 @@ const onCellValueChanged = async (e,gridOptions) => {
         }else{
             let Copies =  e.data['Copies'] + copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue)
             e.data[`${e.colDef.field}`] = copiesNumber(e.data[`${e.colDef.field}`])
-            console.log(e.data.type)
+            // console.log(e.data.type)
             const countMaterialData = agGridRow.countMaterialData({
                 material_items: e.data['dish_key_id']['material_item'],
                 dish_key_id: e.data['dish_key_id']['id'],
@@ -261,7 +261,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                 const materials = index.material_item.filter(v => {
                     return d[1].includes(v.name.split('-')[0])
                 })
-                console.log(d[1], materials)
+                // console.log(d[1], materials)
                 
                 // 切配方式为可能存在
                 const mate = materials.filter(v => {
@@ -288,7 +288,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                     // return name == d[1]
                 })
                 
-                console.log(mate, materialObj)
+                // console.log(mate, materialObj)
                 
     
                 // 食材存在
@@ -540,7 +540,6 @@ const onCellValueChanged = async (e,gridOptions) => {
                     }
                 }
             })
-            console.log('111')
             await new Promise(resolve => {
                 // console.log(materialObj)
                 // 获取当前食材bom_unit_ratio_ids转换比数据
@@ -642,7 +641,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                 }
             })
 
-            console.log(materialObj, e.data.dish_key_id.material_item)
+            // console.log(materialObj, e.data.dish_key_id.material_item)
             // 添加数据
             if(isExistMaterial){
                  // 添加数据
@@ -695,6 +694,17 @@ const onCellValueChanged = async (e,gridOptions) => {
         })
         // console.log(e.data)
         e.data.costPrice = costPrice
+        gridOptions.api.refreshCells({force:true})
+        // for (const {data} of e.node.parent.allLeafChildren) {
+        //     const rowNode = gridOptions.api.getRowNode(data.id)
+        //     rowNode.setDataValue('whole', data.whole)
+        // }
+        // e.api.forEachNode(v => {
+        //     if(v.data == null || e.data.configure) return
+        //     if(v.data.cl1 != e.data.cl1) return
+        //     const rowNode = gridOptions.api.getRowNode(v.data.id)
+        //     rowNode.setDataValue('whole', v.data.whole)
+        // })
     }else if(e.colDef.headerName == "成本价"){
 
     }
