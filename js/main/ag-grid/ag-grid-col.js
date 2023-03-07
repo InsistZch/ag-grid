@@ -175,7 +175,10 @@ const col = () => {
         // autoHeight: true,
         // wrapText: true,
         cellRenderer:(params) => {
-            if(params.data.whole.trim() == "" || params.data.dish_key_id.material_item == []) return params.value
+            if(params.data.whole == null || params.data.whole.trim() == "" || params.data.dish_key_id.material_item == []){
+                params.data.whole = ""
+                return params.value
+            }
             // if(params.data.dish == "") return params.value
             if(Restrictions(params) || !params.data.fixed) return params.value
             //  主要功能为
@@ -283,14 +286,14 @@ const col = () => {
                     }
                 }
             }
-            // 确认数据一致
-            const mt = material_item.reduce((pre, v) => {
-                if(params.data.whole.includes(v.name.split('-')[0])){
-                    pre.push(v)
-                }
-                return pre
-            }, [])
-            params.data.dish_key_id.material_item = mt
+            // // 确认数据一致
+            // const mt = material_item.reduce((pre, v) => {
+            //     if(params.data.whole.includes(v.name.split('-')[0])){
+            //         pre.push(v)
+            //     }
+            //     return pre
+            // }, [])
+            // params.data.dish_key_id.material_item = mt
             // params.data.dish_key_id.material_item = arr
             // console.log(params)
             return value

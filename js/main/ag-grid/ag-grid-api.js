@@ -9,7 +9,7 @@ import {Restrictions} from './ag-grid-col.js'
 import { copiesNumber } from './../otherApi/index.js'
 import { countMaterialData, cost_proportion } from './ag-grid-row.js'
 import mealcopies from './special_fast_data.js'
-import {dataIndex} from './GroupRowInnerRenderer.js'
+// import {dataIndex} from './GroupRowInnerRenderer.js'
 import init_mp from "./meal_price.js"
 import countID,{costPlusOne} from './countID.js'
 // import 
@@ -206,8 +206,12 @@ const onCellValueChanged = async (e,gridOptions) => {
         let d1 = e.newValue
         // 清空配量汇总
         if(e.newValue == null || e.newValue.trim() == "" ){
-            e.data.whole = ""
+            // e.data.whole = ""
             e.data.dish_key_id.material_item = []
+            // e.data.costPrice = 0
+            const rowNode = e.api.getRowNode(e.data.id)
+            rowNode.setDataValue('whole', "")
+            rowNode.setDataValue('costPrice', 0)
             return
         }
         // 只添加空格
@@ -556,7 +560,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                     arr_item['unit_name'] = units.name
                 }
                 materialObj['unit_ratio_Arr'] = [...unit_ratio_Arr]
-                console.log(unit_ratio_Arr)
+                // console.log(unit_ratio_Arr)
     
                 // 对比当前食材单位是否为已存在单位
                 let isUnit = true
@@ -566,7 +570,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                         materialObj['unitObj'] = {...arr_item}
                     }
                 }
-                console.log(d)
+                // console.log(d)
                 // 如果当前单位不存在则创建转换比
                 if(isUnit){
                     // 添加食品单位
@@ -649,34 +653,51 @@ const onCellValueChanged = async (e,gridOptions) => {
                 
                  // console.log(material_itemIndex)
                  // -1为找不到当前数据则新增
+                //  console.log(d)
+                 const obj = {
+                    ...materialObj['material_item'],
+                    process_id: materialObj['process_category'].id,
+                    dish_process_category_name: materialObj['process_category'].name,
+
+                    name: materialObj['name'],
+                    dish_qty: Number(d[2]),
+                    main_unit_bom_unit_ratio: materialObj['unitObj'].main_unit_bom_unit_ratio,
+                    material_id: materialObj['unitObj'].material_id,
+                    purchase_unit_id: materialObj['unitObj'].purchase_unit_id,
+                    unit_id: materialObj['unitObj'].unit_id,
+                    unit_name: materialObj['unitObj'].unit_name,
+                 }
+                //  console.log(materialObj['material_item'], obj, d[2])
                  if(material_itemIndex == -1){
-                     e.data.dish_key_id.material_item.push({
-                         ...materialObj['material_item'],
-                         process_id: materialObj['process_category'].id,
-                         dish_process_category_name: materialObj['process_category'].name,
+                    // const obj = {
+                    //     ...materialObj['material_item'],
+                    //     process_id: materialObj['process_category'].id,
+                    //     dish_process_category_name: materialObj['process_category'].name,
 
-                         name: materialObj['name'],
-                         dish_qty: d[2],
-                         main_unit_bom_unit_ratio: materialObj['unitObj'].main_unit_bom_unit_ratio,
-                         material_id: materialObj['unitObj'].material_id,
-                         purchase_unit_id: materialObj['unitObj'].purchase_unit_id,
-                         unit_id: materialObj['unitObj'].unit_id,
-                         unit_name: materialObj['unitObj'].unit_name,
-                     })
+                    //     name: materialObj['name'],
+                    //     dish_qty: d[2],
+                    //     main_unit_bom_unit_ratio: materialObj['unitObj'].main_unit_bom_unit_ratio,
+                    //     material_id: materialObj['unitObj'].material_id,
+                    //     purchase_unit_id: materialObj['unitObj'].purchase_unit_id,
+                    //     unit_id: materialObj['unitObj'].unit_id,
+                    //     unit_name: materialObj['unitObj'].unit_name,
+                    // }
+                     e.data.dish_key_id.material_item.push({...obj})
                  }else{
-                     e.data.dish_key_id.material_item[material_itemIndex] = {
-                         ...materialObj['material_item'],
-                         process_id: materialObj['process_category'].id,
-                         dish_process_category_name: materialObj['process_category'].name,
+                    // let obj = {
+                    //     ...materialObj['material_item'],
+                    //     process_id: materialObj['process_category'].id,
+                    //     dish_process_category_name: materialObj['process_category'].name,
 
-                         name: materialObj['name'],
-                         dish_qty: d[2],
-                         main_unit_bom_unit_ratio: materialObj['unitObj'].main_unit_bom_unit_ratio,
-                         material_id: materialObj['unitObj'].material_id,
-                         purchase_unit_id: materialObj['unitObj'].purchase_unit_id,
-                         unit_id: materialObj['unitObj'].unit_id,
-                         unit_name: materialObj['unitObj'].unit_name,
-                     }
+                    //     name: materialObj['name'],
+                    //     dish_qty: d[2],
+                    //     main_unit_bom_unit_ratio: materialObj['unitObj'].main_unit_bom_unit_ratio,
+                    //     material_id: materialObj['unitObj'].material_id,
+                    //     purchase_unit_id: materialObj['unitObj'].purchase_unit_id,
+                    //     unit_id: materialObj['unitObj'].unit_id,
+                    //     unit_name: materialObj['unitObj'].unit_name,
+                    // }
+                     e.data.dish_key_id.material_item[material_itemIndex] = {...obj}
                  }
                  e.data.whole = ""
                  for (const item of e.data.dish_key_id.material_item) {
@@ -685,8 +706,9 @@ const onCellValueChanged = async (e,gridOptions) => {
                  }
             }
         }
+        // console.log(e.data.dish_key_id.material_item)
         const [,,costPrice] = countMaterialData({
-            material_items: e.data.dish_key_id.material_item,
+            material_items: [...e.data.dish_key_id.material_item],
             dish_key_id: e.data.dish_key_id.id,
             oldCopies: e.data.Copies,
             newCopies: e.data.Copies,
@@ -694,7 +716,10 @@ const onCellValueChanged = async (e,gridOptions) => {
         })
         // console.log(e.data)
         e.data.costPrice = costPrice
+        const rowNode = e.api.getRowNode(e.data.id)
+        rowNode.setDataValue('whole', e.data.whole)
         gridOptions.api.refreshCells({force:true})
+        // console.log(e.data)
         // for (const {data} of e.node.parent.allLeafChildren) {
         //     const rowNode = gridOptions.api.getRowNode(data.id)
         //     rowNode.setDataValue('whole', data.whole)

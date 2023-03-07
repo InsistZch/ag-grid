@@ -512,17 +512,30 @@ const countMaterialData = ({
     // console.log('111')
     // 选出食品原食材
     // console.log(newCopies, oldCopies)
-    
     const m_arr = []
     const [,arr] = dish_detailed({id:dish_key_id}, newCopies)
     // console.log(arr)
     let costPrice = 0;
     // console.log(update)
     // 如果用户没有修改则进入该方法计算
-    
+    if(newCopies == 0 && oldCopies == 0){
+        const str = materialToString(material_items)
+        return [str, material_items, costPrice]
+    }else if(newCopies == 0){
+        costPrice = 0
+        const str = materialToString(material_items,(item) => {
+            item.dish_qty = 0
+        })
+
+        return [str, material_items, costPrice]
+    }else if(oldCopies == 0){
+        const str = materialToString(material_items)
+        costPrice = countCostPrice(material_items, newCopies)
+        return [str, material_items, costPrice]
+    }
     if(update){
         // console.log(material_items, arr)
-        for (const item of material_items) {
+        for (const item of [...material_items]) {
             // 寻找该食材是否为食品原食材 
             const ingredients = arr.find(v => v.id == item.id)
             // console.log(ingredients)
@@ -577,8 +590,9 @@ const countMaterialData = ({
             }
             
         }
+        
     }else {
-        for (const item of material_items) {
+        for (const item of [...material_items]) {
             // 寻找该食材是否为食品原食材 
             const ingredients = arr.find(v => v.id == item.id)
             if(ingredients != null){
@@ -601,27 +615,24 @@ const countMaterialData = ({
     }
     // newCopies = newCopies == 0 ? 1 : newCopies
     // console.log(m_arr)
-    if(newCopies == 0){
+    // const materialQuantity = m_arr.every(v => Number(v.dish_qty) == 0)
+    if(newCopies == 0 ){
         costPrice = 0
     }else{
-        for (const m_item of m_arr) {
-            // console.log(item, item.dish_qty, item.main_price)
-            m_item['main_price'] = Number(m_item['main_price'])
-            // console.log(m_item)
-            let main_unit_bom_unit_ratio = index.material_item_bom_unit_ratio.find(v => v.material_id == m_item.id && v.purchase_unit_id == m_item.unit_id)
-    
-            main_unit_bom_unit_ratio = main_unit_bom_unit_ratio == undefined ? 1 : main_unit_bom_unit_ratio.main_unit_bom_unit_ratio
-            m_item['main_unit_bom_unit_ratio'] = main_unit_bom_unit_ratio
-            // console.log(m_item)
-            // console.log(m_item.main_price, m_item.dish_qty, newCopies, m_item.main_unit_bom_unit_ratio)
-            // console.log((m_item.main_price  * m_item.dish_qty) / (newCopies * m_item.main_unit_bom_unit_ratio))
-            costPrice += (m_item.main_price  * m_item.dish_qty) / (newCopies * m_item.main_unit_bom_unit_ratio)
-        }
+        costPrice = countCostPrice(m_arr, newCopies)
     }
     // console.log(m_arr)
-    costPrice = Number(costPrice.toFixed(2))
+    // costPrice = Number(costPrice.toFixed(2))
     // whole字段
-    const str = m_arr.map(v => {
+    const str = materialToString(m_arr)
+    // console.log(m_arr)
+    return [str, m_arr, costPrice]
+}
+
+// material_items => String
+const materialToString = (material_items, func = () => {}) => {
+    return material_items.map(v => {
+        func(v)
         const name = v.name.split('-')[0]
         if(name[name.length - 1] == v.dish_process_category_name){
             return v.name.split('-')[0] + v.dish_qty + v.unit_name
@@ -630,11 +641,25 @@ const countMaterialData = ({
         }
         
     }).join(' ')
-    return [str, m_arr, costPrice]
 }
+// 计算costPrice
+const countCostPrice = (m_arr, newCopies) => {
+    let costPrice = 0
+    for (const m_item of m_arr) {
+        // console.log(item, item.dish_qty, item.main_price)
+        m_item['main_price'] = Number(m_item['main_price'])
+        // console.log(m_item)
+        let main_unit_bom_unit_ratio = index.material_item_bom_unit_ratio.find(v => v.material_id == m_item.id && v.purchase_unit_id == m_item.unit_id)
 
-
-
+        main_unit_bom_unit_ratio = main_unit_bom_unit_ratio == undefined ? 1 : main_unit_bom_unit_ratio.main_unit_bom_unit_ratio
+        m_item['main_unit_bom_unit_ratio'] = main_unit_bom_unit_ratio
+        // console.log(m_item)
+        // console.log(m_item.main_price, m_item.dish_qty, newCopies, m_item.main_unit_bom_unit_ratio)
+        // console.log((m_item.main_price  * m_item.dish_qty) / (newCopies * m_item.main_unit_bom_unit_ratio))
+        costPrice += (m_item.main_price  * m_item.dish_qty) / (newCopies * m_item.main_unit_bom_unit_ratio)
+    }
+    return Number(costPrice.toFixed(2))
+}
 
 // 通过文字，获取菜品
 export {
