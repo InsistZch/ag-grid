@@ -707,7 +707,7 @@ const onCellValueChanged = async (e,gridOptions) => {
             }
         }
         // console.log(e.data.dish_key_id.material_item)
-        const [,,costPrice] = countMaterialData({
+        const [whole,material_items,costPrice] = countMaterialData({
             material_items: [...e.data.dish_key_id.material_item],
             dish_key_id: e.data.dish_key_id.id,
             oldCopies: e.data.Copies,
@@ -716,8 +716,10 @@ const onCellValueChanged = async (e,gridOptions) => {
         })
         // console.log(e.data)
         e.data.costPrice = costPrice
-        const rowNode = e.api.getRowNode(e.data.id)
-        rowNode.setDataValue('whole', e.data.whole)
+        e.data.whole = whole
+        e.data.dish_key_id.material_item = [...material_items]
+        const rowNode = await e.api.getRowNode(e.data.id)
+        await rowNode.setData(e.data)
         gridOptions.api.refreshCells({force:true})
         // console.log(e.data)
         // for (const {data} of e.node.parent.allLeafChildren) {

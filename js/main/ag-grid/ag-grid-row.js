@@ -518,19 +518,12 @@ const countMaterialData = ({
     let costPrice = 0;
     // console.log(update)
     // 如果用户没有修改则进入该方法计算
-    if(newCopies == 0 && oldCopies == 0){
-        const str = materialToString(material_items)
-        return [str, material_items, costPrice]
-    }else if(newCopies == 0){
+    if(newCopies == 0){
         costPrice = 0
         const str = materialToString(material_items,(item) => {
             item.dish_qty = 0
         })
 
-        return [str, material_items, costPrice]
-    }else if(oldCopies == 0){
-        const str = materialToString(material_items)
-        costPrice = countCostPrice(material_items, newCopies)
         return [str, material_items, costPrice]
     }
     if(update){
