@@ -20,23 +20,23 @@ class customCells {
         // 创建元素
         const dn = document.createElement('div')
 
-        dn.style.position = 'relative'
-        dn.style.backgroundColor = '#fff'
-        dn.style.width = '300px'
+        dn.classList.add('el_dish')
 
         const input = document.createElement('input')
 
 
-        input.type = 'search'
-        input.setAttribute('list', 'lesson')
+        input.type = 'text'
+        input.classList.add('el_dish_search')
+        // input.setAttribute('list', 'lesson')
 
 
-        const datalist = document.createElement('datalist')
-        datalist.id = 'lesson'
+        const datalist = document.createElement('div')
+        datalist.classList.add('el_dish_food')
+        // datalist.id = 'lesson'
 
         const createDish = document.createElement('div')
 
-        createDish.classList.add('createDish')
+        createDish.classList.add('el_dish_create')
         createDish.setAttribute('data-bs-toggle', 'modal')
         // 
         createDish.setAttribute('data-bs-target', '#staticBackdrop')
@@ -100,10 +100,11 @@ class customCells {
         for (const dish_key of index.dish_key) {
             if (dish_key.dish_top_category_id == params.data.dish_key_id.dish_top_category_id) {
                 if (count++ >= 7) break;
-                str += `<option value="${dish_key.name}"></option>`
+                str += `<div class="food_item">${dish_key.name}</div>`
                 this.dish_data.push(dish_key)
             }
         }
+        datalist.innerHTML = str
 
         let get_plan_day_data_list = () => {
 
@@ -173,7 +174,7 @@ class customCells {
                 for (const dish_key of dish_key_list) {
                     if (dish_key.dish_top_category_id == params.data.dish_key_id.dish_top_category_id) {
                         if (count++ >= 7) break;
-                        str += `<option value="${dish_key.name}"></option>`
+                        str += `<div class="food_item">${dish_key.name}</div>`
                         arr.push(dish_key)
                     }
                 }
@@ -181,14 +182,14 @@ class customCells {
                 for (const dish_key of dish_key_list) {
                     if (dish_key.dish_top_category_id == params.data.dish_key_id.dish_top_category_id) {
                         if (dish_key.name.includes(input.value)) {
-                            str += `<option value="${dish_key.name}"></option>`
+                            str += `<div class="food_item">${dish_key.name}</div>`
                             arr.push(dish_key)
                         }
                     }
                 }
             }
             // 判断是否需要创建菜品
-            createDish.innerText = input.value.trim() != "" ? `创建${input.value}...` : ""
+            createDish.innerText = input.value.trim() != "" ? `创建：${input.value}` : ""
 
             for (const dish_key of dish_key_list) {
                 if (dish_key.name == input.value) {
@@ -198,12 +199,14 @@ class customCells {
 
 
             this.dish_data = arr
+            console.log(datalist)
             datalist.innerHTML = str
         }
-        datalist.innerHTML = str
+        
         // console.log(this.dish_data)
         // 写入 查找更多 功能
         const queryDiv = document.createElement('div');
+        queryDiv.classList.add('el_dish_more')
         queryDiv.style.backgroundColor = '#fff'
         queryDiv.innerText = '查找更多...'
         queryDiv.setAttribute('data-bs-toggle', 'modal')
@@ -249,7 +252,6 @@ class customCells {
                 d.rowData = null
 
                 d.onGridReady = async () => {
-                    console.log('fsfsfsfsf')
                     let dish_top_category_id = parseInt(params.data.dish_key_id.dish_top_category_id)
 
 
@@ -275,11 +277,18 @@ class customCells {
 
 
         }
+        // content
+        const dish_content = document.createElement('div')
+        dish_content.classList.add('el_dish_content')
+
+        dish_content.appendChild(datalist)
+        dish_content.appendChild(createDish)
+        dish_content.appendChild(queryDiv)
         // 将元素插入到dn
         dn.appendChild(input)
-        dn.appendChild(datalist)
-        dn.appendChild(queryDiv)
-        dn.appendChild(createDish)
+        dn.appendChild(dish_content)
+        
+        
         // 存放元素
         this.ele = dn
         input.value = params.value
@@ -288,8 +297,8 @@ class customCells {
 
     // 插入elementNode
     getGui() {
-        let a = this.ele.querySelector('input')
-        a.focus()
+        let e = this.ele.querySelector('input')
+        e.focus()
         return this.ele
     }
 

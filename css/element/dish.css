@@ -1,0 +1,74 @@
+.el_dish{
+    height: max-content;
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #bbb;
+    box-shadow: 5px 5px 5px #aaaaaa90;
+    border-radius: 3px;
+    overflow: hidden;
+    background-color: #fff;
+
+    --padding-left: 1rem;
+}
+/* 查找框 */
+.el_dish input.el_dish_search{
+    border: 1px solid #bbb;
+    outline: none;
+    padding: .2rem 0 .2rem var(--padding-left);
+    height: 1.7rem;
+    width: 12rem;
+    font-size: 1.1rem;
+    transition-property: border;
+    transition-duration: .2s;
+}
+.el_dish input.el_dish_search:focus{
+    border: 1px solid #8313df;
+    
+}
+
+/* 内容 */
+.el_dish .el_dish_content{
+    /* padding-top: .5rem; */
+    font-size: .8rem;
+    border: 1px solid #cccccc40;
+    border-top: none;
+    border-bottom: none;
+}
+.el_dish .el_dish_content div{
+    cursor: pointer;
+    width: 100%;
+}
+/* 食物 */
+.el_dish_content .el_dish_food{
+    display: flex;
+    flex-direction: column;
+
+}
+.el_dish_content .el_dish_food .food_item{
+    padding: .2rem 0;
+    padding-left: var(--padding-left);
+    /* margin: .3rem 0; */
+    transition-property: all;
+    transition-duration: .2s;
+    border-bottom: #bbb solid 1px;
+    flex: 1;
+    /* margin-bottom: .2rem; */
+    
+}
+.el_dish_content .el_dish_food .food_item:last-of-type{
+    margin-bottom: 0;
+}
+.el_dish_content .el_dish_food .food_item:hover{
+    background-color: #eeeeee;
+    /* color: #fff; */
+}
+.el_dish .el_dish_content>div.el_dish_create{
+    border-bottom: #bbb solid 1px;
+    
+}
+.el_dish .el_dish_content>div:not(:first-of-type){
+    background-color: #cccccc40;
+    padding: .2rem 0;
+    padding-left: var(--padding-left);
+}

@@ -669,34 +669,8 @@ const onCellValueChanged = async (e,gridOptions) => {
                  }
                 //  console.log(materialObj['material_item'], obj, d[2])
                  if(material_itemIndex == -1){
-                    // const obj = {
-                    //     ...materialObj['material_item'],
-                    //     process_id: materialObj['process_category'].id,
-                    //     dish_process_category_name: materialObj['process_category'].name,
-
-                    //     name: materialObj['name'],
-                    //     dish_qty: d[2],
-                    //     main_unit_bom_unit_ratio: materialObj['unitObj'].main_unit_bom_unit_ratio,
-                    //     material_id: materialObj['unitObj'].material_id,
-                    //     purchase_unit_id: materialObj['unitObj'].purchase_unit_id,
-                    //     unit_id: materialObj['unitObj'].unit_id,
-                    //     unit_name: materialObj['unitObj'].unit_name,
-                    // }
                      e.data.dish_key_id.material_item.push({...obj})
                  }else{
-                    // let obj = {
-                    //     ...materialObj['material_item'],
-                    //     process_id: materialObj['process_category'].id,
-                    //     dish_process_category_name: materialObj['process_category'].name,
-
-                    //     name: materialObj['name'],
-                    //     dish_qty: d[2],
-                    //     main_unit_bom_unit_ratio: materialObj['unitObj'].main_unit_bom_unit_ratio,
-                    //     material_id: materialObj['unitObj'].material_id,
-                    //     purchase_unit_id: materialObj['unitObj'].purchase_unit_id,
-                    //     unit_id: materialObj['unitObj'].unit_id,
-                    //     unit_name: materialObj['unitObj'].unit_name,
-                    // }
                      e.data.dish_key_id.material_item[material_itemIndex] = {...obj}
                  }
                  e.data.whole = ""
