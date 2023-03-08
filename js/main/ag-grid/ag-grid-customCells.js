@@ -174,7 +174,7 @@ class customCells {
                 dish_key_list = [...index.dish_key]
 
             } 
-            console.log(params.data.dish_key_id, dish_key_list)
+            // console.log(params.data.dish_key_id, dish_key_list)
             if (input.value.trim() == "") {
                 count = 0
                 for (const dish_key of dish_key_list) {
@@ -196,7 +196,7 @@ class customCells {
                 }
             }
             
-            console.log(arr, str)
+            // console.log(arr, str)
             // 判断是否需要创建菜品
             createDish.style.display = 'block'
             createDish.innerText = input.value.trim() != "" ? `创建：${input.value}` : "创建："
