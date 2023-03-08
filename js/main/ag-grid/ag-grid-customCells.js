@@ -37,6 +37,7 @@ class customCells {
         const createDish = document.createElement('div')
 
         createDish.classList.add('el_dish_create')
+        createDish.style.display = 'none'
         createDish.setAttribute('data-bs-toggle', 'modal')
         // 
         createDish.setAttribute('data-bs-target', '#staticBackdrop')
@@ -104,8 +105,12 @@ class customCells {
                 this.dish_data.push(dish_key)
             }
         }
+        
         datalist.innerHTML = str
-
+        item_click(datalist, (v) => {
+            input.value = v
+            input.focus()
+        })
         let get_plan_day_data_list = () => {
 
             // let dish_top_category_id = parseInt(params.data.dish_key_id.dish_top_category_id)
@@ -166,11 +171,12 @@ class customCells {
                 dish_key_list = arr
 
             } else {
-                dish_key_list = index.dish_key
+                dish_key_list = [...index.dish_key]
 
-            }
-
+            } 
+            console.log(params.data.dish_key_id, dish_key_list)
             if (input.value.trim() == "") {
+                count = 0
                 for (const dish_key of dish_key_list) {
                     if (dish_key.dish_top_category_id == params.data.dish_key_id.dish_top_category_id) {
                         if (count++ >= 7) break;
@@ -178,6 +184,7 @@ class customCells {
                         arr.push(dish_key)
                     }
                 }
+               
             } else {
                 for (const dish_key of dish_key_list) {
                     if (dish_key.dish_top_category_id == params.data.dish_key_id.dish_top_category_id) {
@@ -188,19 +195,26 @@ class customCells {
                     }
                 }
             }
+            
+            console.log(arr, str)
             // 判断是否需要创建菜品
-            createDish.innerText = input.value.trim() != "" ? `创建：${input.value}` : ""
+            createDish.style.display = 'block'
+            createDish.innerText = input.value.trim() != "" ? `创建：${input.value}` : "创建："
 
             for (const dish_key of dish_key_list) {
                 if (dish_key.name == input.value) {
-                    createDish.innerText = ""
+                    createDish.style.display = "none"
                 }
             }
 
 
             this.dish_data = arr
-            console.log(datalist)
+            // console.log(datalist)
             datalist.innerHTML = str
+            item_click(datalist, (v) => {
+                input.value = v
+                input.focus()
+            })
         }
         
         // console.log(this.dish_data)
@@ -288,7 +302,6 @@ class customCells {
         dn.appendChild(input)
         dn.appendChild(dish_content)
         
-        
         // 存放元素
         this.ele = dn
         input.value = params.value
@@ -374,5 +387,12 @@ class customCells {
     // }
 
 }
-
+const item_click = (el, func) => {
+    const els = el.querySelectorAll('div')
+        for (const el of els) {
+            el.onclick = function(e) {
+                func(this.innerText)
+            }
+        }
+}
 export default customCells
