@@ -211,7 +211,7 @@ const dataIndex = (params) => {
 
 const sethorn = (el, isOpen) => {
     const span = el.querySelector('span')
-    console.log(span)
+    // console.log(span)
     if(isOpen) {
         span.style.cssText = "animation-name: translate1;"
     }else {

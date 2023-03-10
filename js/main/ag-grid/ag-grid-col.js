@@ -175,8 +175,25 @@ const col = () => {
         // autoHeight: true,
         // wrapText: true,
         cellRenderer:(params) => {
-            if(params.data.whole == null || params.data.whole.trim() == "" || params.data.dish_key_id.material_item == []){
-                params.data.whole = ""
+            if(params.data.configure && !params.data.edit){
+                if(params.data.type == "%"){
+                    if(params.data.cl1 != null) return ""
+                    const d = params.data.whole.match(/(\d*\.?\d+)/g)
+                    // console.log(d)
+                    if(d == null) return params.value
+                    let v = params.value
+                    for (const d_item of d) {
+                        if(Number(d_item) / 100 > index.org_config.material_cost_ratio_high_lmt){
+                            v = v.replace(d_item + '%', `<span style="color:red;">${d_item}%</span>`)
+                        }else if(Number(d_item) / 100 > index.org_config.material_cost_ratio_low_lmt){
+                            v = v.replace(d_item + '%', `<span style="color:green;">${d_item}%</span>`)
+                        }
+                    }
+                    return v
+                }
+                return params.value
+            }
+            if(params.data.whole.trim() == "" || params.data.dish_key_id.material_item == []){
                 return params.value
             }
             // if(params.data.dish == "") return params.value

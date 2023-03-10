@@ -16,6 +16,7 @@ import dish_sub_category from './dish_sub_category.js'
 import history_sales_cost from './history_sales_cost.js'
 import org_config from './org_config.js'
 import dish_bom_category from './dish_bom_category.js'
+import plan_day_summary_info from './plan_day_summary_info.js'
 
 export default {
     cus_loc,
@@ -34,5 +35,6 @@ export default {
     dish_sub_category,
     history_sales_cost,
     org_config,
-    dish_bom_category
+    dish_bom_category,
+    plan_day_summary_info
 }
