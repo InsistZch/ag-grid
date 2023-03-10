@@ -279,7 +279,7 @@ const col = () => {
                 // 特殊菜品展示
                 // let str = item.name.split('-')[0]
                 const {name} = index.material_purchase_unit_category.find(v => v.id == item.main_unit_id)
-                const w = `${str} ${item.form} ${Number(item.main_price).toFixed(2)}元/${item.unit_name}，标准价${Number(item.material_price_alert).toFixed(2)}元/${name}`
+                const w = `${str} ${item.form} ${Number(item.main_price / item.main_unit_bom_unit_ratio).toFixed(2)}元/${item.unit_name}，标准价${Number(item.material_price_alert).toFixed(2)}元/${name}`
                 let sty = ""
                 if(item.main_price > item.material_price_alert){
                     sty = "border-bottom: solid 1px red;"

@@ -149,6 +149,8 @@ h4.custom {
     justify-content: space-between;
     
     align-items: center;
+
+    padding-left: 1rem;
     
     }
     
@@ -232,21 +234,29 @@ h4.custom {
     
     border-radius: 5px;
     
-    background-color: cornflowerblue;
+    border: none;
+    cursor: pointer;
     
     }
     
+    .modal-footercustom>button:first-of-type{
+       background-color: #ccc;
+       color: #fff;
+    }
+    .modal-footercustom>button:last-of-type{
+       background-color: #71639e;
+       color: #fff;
+    }
     
+    /* .modal-footercustom button:hover,
     
-    .modal-footercustom button:hover,
-    
-           .modal-footercustom button:focus {
+    .modal-footercustom button:focus {
     
     background-color: #95b4ed;
     
     cursor: pointer;
     
-    }
+    } */
     
     
     
