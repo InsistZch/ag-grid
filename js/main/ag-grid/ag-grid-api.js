@@ -717,17 +717,9 @@ const onCellValueChanged = async (e,gridOptions) => {
     // gridOptions.api.refreshCells({force:true})
     // console.log(new Date() * 1 - newDate)
     // console.log(gridOptions)
-    // 表头比例设置
-    const arr = []
+    
+    anew_top_cost(gridOptions)
 
-    e.api.forEachNode(v => {
-        if(v.data == null) return
-        if(v.data.configure == true || v.data.edit == false) return
-        arr.push(v.data)
-    })
-    const d = cost_proportion(arr, mealcopies())
-    // console.log(gridOptions.rowData, arr, mealcopies(), d)
-    gridOptions.api.setPinnedTopRowData([d[2]])
     let cl1s = []
     gridOptions.api.forEachNode(async v => {
         if(v.data == null) return
@@ -742,13 +734,17 @@ const onCellValueChanged = async (e,gridOptions) => {
         let index = 0
         gridOptions.api.forEachNode((v, i) => {
             if(v.data == null) return
-            if(v.data.configure && v.data.cl1 == c_item) index = i + 1
+            if(v.data.configure && v.data.cl1 == c_item && v.data.type == "%") {
+                console.log(i)
+                index = i == 1 ? 0 : i
+            }
             if(v.data.configure == true || v.data.edit == false) return
             if(v.data.cl1 == c_item){
                 costs_data.push(v.data)
                 dinner_type = v.data.dinner_type
             }
         })
+        console.log(index)
         const sales_data = []
         // 销售额所需数据
         for (const meal_item of mealcopies()) {
@@ -929,9 +925,21 @@ const getContextMenuItems = (params, gridOptions) => {
         {
             name:'删除本行',
             action:() => {
-                const selRows = gridOptions.api.getSelectedRows();
-                if(selRows.length == 0) return alert("请选中本行")
-                gridOptions.api.applyTransaction({ remove: selRows });
+                console.log(params)
+                customFromDom({
+                    parent:'#isDeleteRow',
+                    cancel:['#isDeleteRow_cancel1', '#isDeleteRow_cancel2'],
+                    sure: "#isDeleteRow_sure",
+                    deleteData: [],
+                    sureFun: () => {
+                        const selRows = gridOptions.api.getRowNode(params.node.id)
+                        gridOptions.api.applyTransaction({ remove: [selRows] });
+                        // 重新计算成本比例
+                        anew_top_cost(params)
+                        return true
+                    }
+                })
+                
             }
         },
         // ...params.defaultItems
@@ -981,13 +989,28 @@ const sales_type = (value) => {
     }
 }
 
+const anew_top_cost = (e) => {
+    // 表头比例设置
+    const arr = []
+
+    e.api.forEachNode(v => {
+        if(v.data == null) return
+        if(v.data.configure == true || v.data.edit == false) return
+        arr.push(v.data)
+    })
+    const d = cost_proportion(arr, mealcopies())
+    // console.log(gridOptions.rowData, arr, mealcopies(), d)
+    e.api.setPinnedTopRowData([d[2]])
+}
+
 
 const getRowStyle = params => {
     if(params.data != undefined){
         if(params.data.specialMealColor != undefined){
             return {
                 // backgroundColor: params.data.specialMealColor,
-                borderBottom: `solid 2px ${params.data.specialMealColor}`
+                borderBottom: `solid 3px ${params.data.specialMealColor}`,
+                boxShadow: `2px 2px 2px ${params.data.specialMealColor}`
                 // textDecoration: "underline 2px #000"
                 // textDecoration: `underline 2px ${params.data.SpecialMealCategory} !important`,
                 // color: "#ddd",

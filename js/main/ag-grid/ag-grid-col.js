@@ -33,8 +33,8 @@ const col = () => {
             editable:false,
             pinned: 'left',
             filter:true,
-            checkboxSelection: true, //设置为true显示为复选框
-            headerCheckboxSelection: true, //表头是否也显示复选框，全选反选用
+            // checkboxSelection: true, //设置为true显示为复选框
+            // headerCheckboxSelection: true, //表头是否也显示复选框，全选反选用
             valueGetter: params => {
                 // console.log(params)
                 let specialMealID = params.data.specialMealID != undefined ? params.data.specialMealID : ""
@@ -278,7 +278,8 @@ const col = () => {
 
                 // 特殊菜品展示
                 // let str = item.name.split('-')[0]
-                const w = `${str} ${item.form} ${Number(item.main_price).toFixed(2)}元/${item.unit_name}，标准价${Number(item.material_price_alert).toFixed(2)}元`
+                const {name} = index.material_purchase_unit_category.find(v => v.id == item.main_unit_id)
+                const w = `${str} ${item.form} ${Number(item.main_price).toFixed(2)}元/${item.unit_name}，标准价${Number(item.material_price_alert).toFixed(2)}元/${name}`
                 let sty = ""
                 if(item.main_price > item.material_price_alert){
                     sty = "border-bottom: solid 1px red;"

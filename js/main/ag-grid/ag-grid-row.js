@@ -510,20 +510,18 @@ const day_cost_whole = (cost_totle) => {
     const week_sales = week.planed_sales + cost_totle.sales_volume
     const week_cost = week.planed_cost + cost_totle.cost_price
 
-    const week_cost_proportion = ((week_cost / week_sales) * 100).toFixed(2) + "%"
+    const week_cost_proportion = week_sales == 0 ? "0%" : ((week_cost / week_sales) * 100).toFixed(2) + "%"
+   
     // console.log(cost_totle, week, week_sales, week_cost)
     // 计算月成本
     // 获取销售额和成本
     const month_sales = index.plan_day_summary_info.month_summary.planed_sales + cost_totle.sales_volume
     const month_cost = index.plan_day_summary_info.month_summary.planed_cost + cost_totle.cost_price
     // 成本比例
-    const month_cost_proportion = ((month_cost / month_sales) * 100).toFixed(2) + "%"
+    const month_cost_proportion = month_sales == 0 ? "0%" : ((month_cost / month_sales) * 100).toFixed(2) + "%"
     return `周成本：${week_cost_proportion} | 月成本：${month_cost_proportion}`
 }
 
-const day_cost_Copies = () =>{
-
-}
 
 // 统计配量信息
 // 食品原食材如果有数量 则同比增加
