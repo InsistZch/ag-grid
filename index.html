@@ -461,6 +461,11 @@
                 if(v.data == null || v.data.configure) return
                 arr.push(v.data)
             })
+            // 这里只是demo写法
+            if (agOption.context && agOption.context.owl_widget) {
+                agOption.context.owl_widget.GMM_Button_Update_Plan_Day_Store(arr)
+            }
+
             console.log(arr)
         })
         // 图表
