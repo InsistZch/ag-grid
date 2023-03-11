@@ -957,6 +957,17 @@ const getContextMenuItems = (params, gridOptions) => {
             action:() => {
                 const selRows = gridOptions.api.getSelectedRows();
                 if(selRows.length == 0) return alert("请选中本行")
+                for (const data of selRows) {
+                    saveData.delete_dish_key_list.push({
+                        cl1: data.cl1,
+                        dinner_type: data.dinner_type,
+                        dish: data.dish,
+                        dish_key_id: {...data.dish_key_id},
+                        sales_type: data.sales_type,
+                        type: data.type
+                    })
+                }
+                
                 gridOptions.api.applyTransaction({ remove: selRows });
             }
         },
@@ -978,6 +989,7 @@ const addRowPublicPart = (params) => {
     obj['costPrice'] = 0
     obj['update'] = false
     obj['id'] = countID()
+    obj['isNewAdd'] = true
     return obj
 }
 

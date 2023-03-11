@@ -1,5 +1,6 @@
 /** @odoo-module **/
 import index from '../../../data/index.js'
+import saveData from '../saveData/index.js';
 import customCells from './ag-grid-customCells.js';
 import {duibi} from './ag-grid-row.js';
 import preserved_dishes from './preserved_dishes.js';
@@ -353,8 +354,19 @@ const col = () => {
                     whole: params.data.whole,
                     material_item: [...params.data.dish_key_id.material_item]
                 })
+                
                 console.log(params.data)
-
+                if(params.data.isNewAdd){
+                    const {data} = params.data
+                    saveData.add_dish_key_list.push({
+                        cl1: data.cl1,
+                        dinner_type: data.dinner_type,
+                        dish: data.dish,
+                        dish_key_id: {...data.dish_key_id},
+                        sales_type: data.sales_type,
+                        type: data.type
+                    })
+                }
                 if (params.context && params.context.owl_widget) {
                     params.context.owl_widget.Save_Row_Data(params.data)
                 }

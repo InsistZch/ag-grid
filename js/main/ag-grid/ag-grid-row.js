@@ -70,6 +70,7 @@ const data = () => {
                 obj['configure'] = false
                 obj['fixed'] = true
                 obj['update'] = false
+                obj['isNewAdd'] = false
                 obj['costPrice'] = d_data[2]
                 obj['dish_key_id'] = {
                     id: dish_key.id,
