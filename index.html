@@ -452,11 +452,16 @@
         new agGrid.Grid(eGridDiv, agOption);
         agOption.api.sizeColumnsToFit();
 
-        // console.log(agOption)
+        console.log(agOption)
         main_index.otherApi.saveData('.update', () => {
             saveData.day_cost.complete_cost = Number(agOption.pinnedTopRowData[0].costPrice.split('%')[0])
             console.log(saveData)
-            console.log(agOption['rowData'])
+            const arr = []
+            agOption.api.forEachNode(v => {
+                if(v.data == null || v.data.configure) return
+                arr.push(v.data)
+            })
+            console.log(arr)
         })
         // 图表
         // var chart = agCharts.AgChart.create(main_index.agChart);

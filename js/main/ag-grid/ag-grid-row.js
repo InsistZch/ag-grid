@@ -357,10 +357,9 @@ const dish_detailed = (dish_key,count) => {
                     
                     arr_data['unit_name'] = material_purchase_unit_category.name
                     arr_data['unit_id'] = material_purchase_unit_category.id
-
+                    // console.log(arr_data)
                     const ratio = index.material_item_bom_unit_ratio.find(v => v.material_id == arr_data.material_id && v.purchase_unit_id == arr_data.unit_id)
                     // arr_data['main_unit_bom_unit_ratio'] = ratio.main_unit_bom_unit_ratio
-                    
                     // console.log(arr_data, dish_bom)
                     const qty = (count * 0.01) * dish_bom.gbom_qty_high
                     if(arr_data.main_price / ratio.main_unit_bom_unit_ratio >= 5 && qty < 10){

@@ -18,6 +18,7 @@ const row = (dish_top_category_id) => {
             }else{
                 obj['spicy'] = '超辣'
             }
+            // console.log(dish_key)
             obj['foodFrom'] = dish_detailed(dish_key,100)[0]
             obj['id'] = dish_key.id
             obj['dish_top_category_id'] = dish_key.dish_top_category_id
