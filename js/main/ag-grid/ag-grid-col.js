@@ -357,7 +357,8 @@ const col = () => {
                 
                 console.log(params.data)
                 if(params.data.isNewAdd){
-                    const {data} = params.data
+                    const {data} = params
+                    console.log(data)
                     saveData.add_dish_key_list.push({
                         cl1: data.cl1,
                         dinner_type: data.dinner_type,
