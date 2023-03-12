@@ -479,6 +479,8 @@ const cost_proportion = (data, mealCopies) => {
     costs['type'] = "%"
     let mealCopiesCount = mealCopies.reduce((pre, v) => pre += Number(v.Copies), 0)
     costs['Copies'] = mealCopiesCount
+
+
     if(!saveData.day_cost_proportion.init_cost_proportion){
         saveData.day_cost_proportion.init_cost_proportion = Number(costs['costPrice'].split('%')[0])
     }
@@ -499,6 +501,7 @@ const cost_proportion = (data, mealCopies) => {
 
 const day_cost_whole = (cost_totle) => {
     // 计算周成本
+    console.log(cost_totle)
     const nowDate = new Date()
     const week  = index.plan_day_summary_info.week_summary.find(v => {
         const week_time = v.week.split('_')
@@ -515,11 +518,15 @@ const day_cost_whole = (cost_totle) => {
         }
         return false
     })
-    // 获取销售额和成本
-    const week_sales = week.planed_sales + cost_totle.sales_volume
-    const week_cost = week.planed_cost + cost_totle.cost_price
-
-    const week_cost_proportion = week_sales == 0 ? "0%" : ((week_cost / week_sales) * 100).toFixed(2) + "%"
+    console.log(week)
+    let week_sales = 0, week_cost = 0, week_cost_proportion = "0%";
+    if(week != undefined){
+        // 获取销售额和成本
+        week_sales = week.planed_sales + cost_totle.sales_volume
+        week_cost = week.planed_cost + cost_totle.cost_price
+        week_cost_proportion = week_sales == 0 ? "0%" : ((week_cost / week_sales) * 100).toFixed(2) + "%"
+    }
+    
    
     // console.log(cost_totle, week, week_sales, week_cost)
     // 计算月成本
