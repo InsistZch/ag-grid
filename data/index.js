@@ -2,7 +2,6 @@
 import cus_loc from './cus_loc.js'
 import dinner_mode from './dinner_mode.js'
 import dish_bom from './dish_bom.js'
-import dish_family from './dish_family.js'
 import dish_key from './dish_key.js'
 import dish_process_category from './dish_process_category.js'
 import dish_top_category from './dish_top_category.js'
@@ -22,7 +21,6 @@ export default {
     cus_loc,
     dinner_mode,
     dish_bom,
-    dish_family,
     dish_key,
     dish_process_category,
     dish_top_category,

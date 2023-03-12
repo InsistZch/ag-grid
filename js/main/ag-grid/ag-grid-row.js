@@ -479,9 +479,18 @@ const cost_proportion = (data, mealCopies) => {
     costs['type'] = "%"
     let mealCopiesCount = mealCopies.reduce((pre, v) => pre += Number(v.Copies), 0)
     costs['Copies'] = mealCopiesCount
-    if(saveData.day_cost.init_cost == false){
-        saveData.day_cost.init_cost = Number(costs['costPrice'].split('%')[0])
+    if(!saveData.day_cost_proportion.init_cost_proportion){
+        saveData.day_cost_proportion.init_cost_proportion = Number(costs['costPrice'].split('%')[0])
     }
+    if(!saveData.day_cost_proportion.init_sales){
+        saveData.day_cost_proportion.init_sales = Number(cost_totle_obj.sales_volume)
+    }
+    if(!saveData.day_cost_proportion.init_cost){
+        saveData.day_cost_proportion.init_cost = cost_totle_obj.cost_price
+    }
+
+    saveData.day_cost_proportion.complete_cost = cost_totle_obj.cost_price
+    saveData.day_cost_proportion.complete_sales = cost_totle_obj.sales_volume
     // console.log([costPrices, sales_volume, costs])
     // 成本数据 销售数据 总占比数据
     return [costPrices, sales_volume, costs]

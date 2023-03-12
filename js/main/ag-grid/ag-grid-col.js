@@ -251,8 +251,8 @@ const col = () => {
             material: for (const item of material_item) {
                 let str = item.name.split('-')[0]
                 // 前一天使用的食材
-                for (const dish_family of index.forbidden_material_ids) {
-                    if(item.id == dish_family){
+                for (const forbidden_material_id of index.forbidden_material_ids) {
+                    if(item.id == forbidden_material_id){
                         let str = item.name.split('-')[0]
                         value = value.replace(`${str}`, `<span style="color: red;" title="前一天使用食材">${str}</span>`)
                         continue material

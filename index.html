@@ -450,16 +450,16 @@
         </footer>
     </div>
 </div>
-<div id="purchase_price" class="modalcustom">
-    <div class="modal-contentcustom">
+<div id="purchase_price" class="modalcustom" >
+    <div class="modal-contentcustom" style="height: 80vh;">
 
         <header class="modal-headercustom">
             <h4 class="customcustom">提示</h4>
             <span class="closecustom" id="purchase_price_cancel1">×</span>
         </header>
 
-        <div class="modal-bodycustom modal-body">
-            <div class="ag-theme-alpine" id="purchase_price_table">
+        <div class="modal-bodycustom modal-body" >
+            <div class="ag-theme-alpine" id="purchase_price_table" style="height: 100%">
             </div>
         </div>
         <footer class="modal-footercustom">
@@ -494,9 +494,15 @@
 
         // console.log(agOption)
         main_index.otherApi.saveData('.update', () => {
-            saveData.day_cost.complete_cost = Number(agOption.pinnedTopRowData[0].costPrice.split('%')[0])
+            // console.log(agOption.api.getPinnedTopRow(0))
+            saveData.day_cost_proportion.complete_cost_proportion = Number(agOption.api.getPinnedTopRow(0).data.costPrice.split('%')[0])
             console.log(saveData)
-            console.log(agOption['rowData'])
+            const arr = []
+            agOption.api.forEachNode(v => {
+                if(v.data == null || v.data.configure) return
+                arr.push(v.data)
+            })
+            console.log(arr)
         })
         // 主单位是斤
         // 一个食材单位为两
@@ -506,16 +512,11 @@
             agOption.api.forEachNode(v => {
                 if(v.data == null || v.data.config) return
                 for (const item of v.data.dish_key_id.material_item) {
-                    if(material.has(item.id)){
-                        
-                        material.set(item.id, [...material.get(item.id), item])
-                        
-                    }else{
-                        material.set(item.id, [item])
-                    }
+                    material.set(item.id, item)
                 }
             })
-            console.log(material)
+            // console.log(material)
+            return [material, agOption]
         })
         // 图表
         // var chart = agCharts.AgChart.create(main_index.agChart);
