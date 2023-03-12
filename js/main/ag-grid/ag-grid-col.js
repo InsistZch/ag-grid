@@ -279,7 +279,12 @@ const col = () => {
                 // 特殊菜品展示
                 // let str = item.name.split('-')[0]
                 const {name} = index.material_purchase_unit_category.find(v => v.id == item.main_unit_id)
-                const w = `${str} ${item.form} ${Number(item.main_price / item.main_unit_bom_unit_ratio).toFixed(2)}元/${item.unit_name}，标准价${Number(item.material_price_alert).toFixed(2)}元/${name}`
+                let w = ""
+                if(item.main_unit_id == item.unit_id){
+                    w = `${str} ${item.form} ${Number(item.main_price / item.main_unit_bom_unit_ratio).toFixed(2)}元/${item.unit_name}，标准价${Number(item.material_price_alert / item.main_unit_bom_unit_ratio ).toFixed(2)}元/${name}`
+                }else{
+                    w = `${str} ${item.form} ${Number(item.main_price / item.main_unit_bom_unit_ratio).toFixed(2)}元/${item.unit_name}，标准价${Number(item.material_price_alert).toFixed(2)}元/${name}`
+                }
                 let sty = ""
                 if(item.main_price > item.material_price_alert){
                     sty = "border-bottom: solid 1px red;"
@@ -297,55 +302,6 @@ const col = () => {
                     value = value.replace(str, `<span style="${sty}" title="${w}">${str}</span>`)
                 }
             }
-            // for (const dish_family of index.forbidden_material_ids) {
-            //     for (const item of material_item) {
-            //         if(item.id == dish_family){
-            //             let str = item.name.split('-')[0]
-            //             value = value.replace(`${str}`, `<span style="color: red;" title="前一天使用食材">${str}</span>`)
-            //         }
-            //     }
-            // }
-             // 找到相同则标红
-            // for (const mt1 of material_item) {
-            //     for (const d1 of data) {
-            //         if(mt1.id == d1.id){
-            //             let str = ""
-            //             for (const material_item of index.material_item) {
-            //                 if(material_item.id == d1.id){
-            //                     // console.log(material_item, d1)
-            //                     str = material_item.name.split('-')[0]
-            //                     break
-            //                 }
-            //             }
-            //             // console.log(str, params.data)    
-            //             // console.log(mt1, d1)
-            //             value = value.replace(`${str}`,`<span style='color:red;' title='出现相同菜品'>${str}</span>`)
-            //         }
-            //     }
-            // }
-
-            // for (const mt of material_item) {
-            //     // console.log(mt)
-            //     let str = mt.name.split('-')[0]
-            //     const w = `${str} ${mt.form} ${mt.main_price}/${mt.unit_name}，标准价${Number(Number(mt.material_price_alert).toFixed(1))}元`
-                
-            //     if(mt.top_category_id == 1 || mt.top_category_id == 2){
-            //         if(mt.form == "鲜品"){
-            //             value = value.replace(`${str}`, `<span style="color: green;"  title="${w}">${str}</span>`)
-            //         }else if(mt.form == "冻品"){
-            //             // console.log("冻品")
-            //             value = value.replace(`${str}`, `<span style="color: #af7700;" title="${w}">${str}</span>`)
-            //         }else if(mt.form == "半成品"){
-            //             value = value.replace(`${str}`, `<span style="color: #7a3e09;" title="${w}">${str}</span>`)
-            //         }
-            //     }else{
-            //         // value = value.replace(`${str}`, `<span style="color: #7a3e09;" title="${w}">${str}</span>`)
-            //         // console.log(w, 111, str)
-            //         value = value.replace(str, `<span title="${w}">${str}</span>`)
-            //     }
-            // }
-            
-            // console.log(material_item, data)
            
             return value
         },

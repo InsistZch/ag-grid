@@ -1,7 +1,7 @@
 /** @odoo-module **/
 import agGridRow from "./ag-grid-row.js"
 import index from '../../../data/index.js'
-import customFromDom from './customFrom.js'
+import customFromDom from '../otherApi/customFrom.js'
 import saveData from "../saveData/index.js"
 import { add_dish_bom_id, add_material_id, add_material_item_bom_unit_ratio_id } from "../tool.js"
 import specialMeal from "./specialMeal.js"

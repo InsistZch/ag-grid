@@ -113,6 +113,7 @@
         <div class="function">
             <button class="purchase">采购</button>
             <button class="plan_sheet">计划单</button>
+            <button class="purchase_price" id="purchase_price_btn">采购单价</button>
             <button class="picking">领料</button>
             <button class="update">更新</button>
         </div>
@@ -449,6 +450,24 @@
         </footer>
     </div>
 </div>
+<div id="purchase_price" class="modalcustom">
+    <div class="modal-contentcustom">
+
+        <header class="modal-headercustom">
+            <h4 class="customcustom">提示</h4>
+            <span class="closecustom" id="purchase_price_cancel1">×</span>
+        </header>
+
+        <div class="modal-bodycustom modal-body">
+            <div class="ag-theme-alpine" id="purchase_price_table">
+            </div>
+        </div>
+        <footer class="modal-footercustom">
+            <button id="purchase_price_cancel2">取消</button>
+            <button id="purchase_price_sure">确定</button>
+        </footer>
+    </div>
+</div>
 <!-- <div id="myChart" style="height: 600px;margin-top: 50px;">
 
 </div> -->
@@ -478,6 +497,25 @@
             saveData.day_cost.complete_cost = Number(agOption.pinnedTopRowData[0].costPrice.split('%')[0])
             console.log(saveData)
             console.log(agOption['rowData'])
+        })
+        // 主单位是斤
+        // 一个食材单位为两
+        // 一个单位食材为斤
+        main_index.otherApi.purchasePrice('#purchase_price_btn',() => {
+            const material = new Map()
+            agOption.api.forEachNode(v => {
+                if(v.data == null || v.data.config) return
+                for (const item of v.data.dish_key_id.material_item) {
+                    if(material.has(item.id)){
+                        
+                        material.set(item.id, [...material.get(item.id), item])
+                        
+                    }else{
+                        material.set(item.id, [item])
+                    }
+                }
+            })
+            console.log(material)
         })
         // 图表
         // var chart = agCharts.AgChart.create(main_index.agChart);
