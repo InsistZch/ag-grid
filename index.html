@@ -507,17 +507,17 @@
         // 主单位是斤
         // 一个食材单位为两
         // 一个单位食材为斤
-        main_index.otherApi.purchasePrice('#purchase_price_btn',() => {
-            const material = new Map()
-            agOption.api.forEachNode(v => {
-                if(v.data == null || v.data.config) return
-                for (const item of v.data.dish_key_id.material_item) {
-                    material.set(item.id, item)
-                }
-            })
-            // console.log(material)
-            return [material, agOption]
-        })
+        // main_index.otherApi.purchasePrice('#purchase_price_btn',() => {
+        //     const material = new Map()
+        //     agOption.api.forEachNode(v => {
+        //         if(v.data == null || v.data.config) return
+        //         for (const item of v.data.dish_key_id.material_item) {
+        //             material.set(item.id, item)
+        //         }
+        //     })
+        //     // console.log(material)
+        //     return [material, agOption]
+        // })
         // 图表
         // var chart = agCharts.AgChart.create(main_index.agChart);
     });
