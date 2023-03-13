@@ -524,8 +524,12 @@ const day_cost_whole = (cost_totle) => {
         // 获取销售额和成本
         week_sales = week.planed_sales + cost_totle.sales_volume
         week_cost = week.planed_cost + cost_totle.cost_price
-        week_cost_proportion = week_sales == 0 ? "0%" : ((week_cost / week_sales) * 100).toFixed(2) + "%"
+        
+    }else{
+        week_sales = cost_totle.sales_volume
+        week_cost = cost_totle.cost_price
     }
+    week_cost_proportion = week_sales == 0 ? "0%" : ((week_cost / week_sales) * 100).toFixed(2) + "%"
     
    
     // console.log(cost_totle, week, week_sales, week_cost)
