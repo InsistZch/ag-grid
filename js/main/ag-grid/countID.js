@@ -1,3 +1,4 @@
+/** @odoo-module **/
 let id = 0
 
 const idPlusOne = () => id ++
