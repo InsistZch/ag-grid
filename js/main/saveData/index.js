@@ -9,12 +9,11 @@ export default {
     // 日成本比例数据
     day_cost_proportion:{
         init_sales: false,
-        complete_sales: false,
-
         init_cost: false,
-        complete_cost: false,
-        
         init_cost_proportion: false,
+
+        complete_sales: false,
+        complete_cost: false,
         complete_cost_proportion: false,
     }
 }
