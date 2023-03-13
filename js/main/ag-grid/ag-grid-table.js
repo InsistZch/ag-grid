@@ -38,6 +38,7 @@ const init_grid_options = () => {
         undoRedoCellEditing: true,
         enterMovesDown:true,
         suppressCopyRowsToClipboard: true,
+        rowSelection: 'multiple',
         rowMultiSelectWithClick: true,
         // suppressCellSelection: true,
         groupDisplayType: 'groupRows',

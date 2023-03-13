@@ -388,7 +388,7 @@ const dish_detailed = (dish_key,count) => {
 // 没有考虑中餐和晚餐
 // 没有考虑不同的用户
 const cost_proportion = (data, mealCopies) => {
-    // console.log(data)
+    // console.log(data, mealCopies)
     
     // 找到每个用户
     const cus_loc = Object.keys(data[0]).filter(v => !isNaN(v))
@@ -400,7 +400,7 @@ const cost_proportion = (data, mealCopies) => {
     //     // 餐标 => 单价
     // []
     const mealPrices = init_mp()
-
+    
     // new Map => (cus_loc_id, {})
     const sales_volume = cus_loc.reduce((pre, v) => {
         // 找出当前用户的快餐与特色份数
@@ -475,15 +475,73 @@ const cost_proportion = (data, mealCopies) => {
     costs['edit'] = false
     costs['configure'] = true
     costs['fixed'] = false
-    costs['whole'] = ""
+    costs['whole'] = day_cost_whole(cost_totle_obj);
     costs['type'] = "%"
-    if(saveData.day_cost.init_cost == false){
-        saveData.day_cost.init_cost = Number(costs['costPrice'].split('%')[0])
+    let mealCopiesCount = mealCopies.reduce((pre, v) => pre += Number(v.Copies), 0)
+    costs['Copies'] = mealCopiesCount
+
+
+    if(!saveData.day_cost_proportion.init_cost_proportion){
+        saveData.day_cost_proportion.init_cost_proportion = Number(costs['costPrice'].split('%')[0])
     }
+    if(!saveData.day_cost_proportion.init_sales){
+        saveData.day_cost_proportion.init_sales = Number(cost_totle_obj.sales_volume)
+    }
+    if(!saveData.day_cost_proportion.init_cost){
+        saveData.day_cost_proportion.init_cost = cost_totle_obj.cost_price
+    }
+
+    saveData.day_cost_proportion.complete_cost = cost_totle_obj.cost_price
+    saveData.day_cost_proportion.complete_sales = cost_totle_obj.sales_volume
     // console.log([costPrices, sales_volume, costs])
     // 成本数据 销售数据 总占比数据
     return [costPrices, sales_volume, costs]
 }
+// 周成本和月成本  => 日成本的whole字段
+
+const day_cost_whole = (cost_totle) => {
+    // 计算周成本
+    console.log(cost_totle)
+    const nowDate = new Date()
+    const week  = index.plan_day_summary_info.week_summary.find(v => {
+        const week_time = v.week.split('_')
+        const week_start = new Date(week_time[0])
+        const week_end = new Date(week_time[1])
+        if(nowDate.getFullYear() == week_start.getFullYear() || nowDate.getFullYear() == week_end.getFullYear()){
+            if(nowDate.getMonth() == week_start.getMonth() || nowDate.getMonth() == week_end.getMonth()){
+                if(nowDate.getDate() >= week_start.getDate() && nowDate.getDate() <= week_end.getDate()){
+                    return true
+                }
+                return false
+            }
+            return false
+        }
+        return false
+    })
+    console.log(week)
+    let week_sales = 0, week_cost = 0, week_cost_proportion = "0%";
+    if(week != undefined){
+        // 获取销售额和成本
+        week_sales = week.planed_sales + cost_totle.sales_volume
+        week_cost = week.planed_cost + cost_totle.cost_price
+        
+    }else{
+        week_sales = cost_totle.sales_volume
+        week_cost = cost_totle.cost_price
+    }
+    week_cost_proportion = week_sales == 0 ? "0%" : ((week_cost / week_sales) * 100).toFixed(2) + "%"
+    
+   
+    // console.log(cost_totle, week, week_sales, week_cost)
+    // 计算月成本
+    // 获取销售额和成本
+    const month_sales = index.plan_day_summary_info.month_summary.planed_sales + cost_totle.sales_volume
+    const month_cost = index.plan_day_summary_info.month_summary.planed_cost + cost_totle.cost_price
+    // 成本比例
+    const month_cost_proportion = month_sales == 0 ? "0%" : ((month_cost / month_sales) * 100).toFixed(2) + "%"
+    return `周成本：${week_cost_proportion} | 月成本：${month_cost_proportion}`
+}
+
 
 // 统计配量信息
 // 食品原食材如果有数量 则同比增加

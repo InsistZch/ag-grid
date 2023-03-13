@@ -15,36 +15,39 @@ class GroupRowInnerRenderer {
         const btn2 = document.createElement('button')
         const costbtn = document.createElement('button')
         // 设置样式
-        const cssText = `
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        height: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: .2rem .6rem;
-        border-radius: 5px;
-        border: none;
-        font-size: .8rem;
-        background-color: #eeeeee90;
-        color: #666;
-        `
+        // const cssText = `
+        // position: absolute;
+        // top: 50%;
+        // transform: translateY(-50%);
+        // height: 20px;
+        // display: flex;
+        // justify-content: center;
+        // align-items: center;
+        // padding: .2rem .6rem;
+        // border-radius: 5px;
+        // border: none;
+        // font-size: .8rem;
+        // background-color: #eeeeee90;
+        // color: #666;
+        // `
         eGui.style.cssText = `
         display:flex;
         `
+        btn.classList.add('el_btn')
         btn.style.cssText =  `
-        ${cssText}
         margin-left: 10rem;`
 
+        btn2.classList.add('el_btn')
         btn2.style.cssText = `
-        ${cssText}
         margin-left: 5rem;
         `
+        costbtn.classList.add('el_btn')
         costbtn.style.cssText = `
-        ${cssText}
         margin-left: 15rem;`
 
+        const a = window.getComputedStyle(btn, '::before');
+        // a.setProperty('transform', "rotate(90deg)")
+        // a.transform.rotate = "90deg"
         let c = init_mc()
         // 设置监听事件
         // 份数
@@ -71,6 +74,7 @@ class GroupRowInnerRenderer {
                 for (const d_index in d2) {
                     d2[d_index]['id'] = `copies-${d2[d_index].dinner_type}-${d_index}`
                 }
+                sethorn(btn, true)
                 params.api.applyTransaction({add: [...d2], addIndex})
             }else{
                 const d = getRowData({
@@ -78,6 +82,7 @@ class GroupRowInnerRenderer {
                     rowTypes: ['快餐', '特色'],
                     categoryName: params.value
                 })
+                sethorn(btn, false)
                 params.api.applyTransaction({remove: d})
                 
             }
@@ -111,10 +116,12 @@ class GroupRowInnerRenderer {
                     if(mealsPrice_item.cl1 == params.value){
                         mealsPrice_item['Copies'] = null
                         mealsPrice_item['id'] = pricePlusOne(mealsPrice_item.dinner_type)
+                        sethorn(btn2, true)
                         params.api.applyTransaction({add: [mealsPrice_item], addIndex: 0})
                     }
                 }
             }else {
+                sethorn(btn2, false)
                 params.api.setRowData(data)
             }
         }
@@ -149,6 +156,7 @@ class GroupRowInnerRenderer {
             })
 
             if(judeg){
+                sethorn(costbtn, false)
                 params.api.setRowData(arr2)
             }else{
                 const obj = {
@@ -158,15 +166,16 @@ class GroupRowInnerRenderer {
                     id: costPlusOne(dinner_type)
                 }
                 let addIndex = dataIndex(params)
+                sethorn(costbtn, true)
                 params.api.applyTransaction({add: [obj], addIndex})
                 // params.api.getRowId(params => params.data.id)
             }
         }
         // 插入内容
         span.innerHTML = `<span style="font-weight: 600;">${params.value}</span>`
-        btn.innerText = "份数"
-        btn2.innerText = "餐标"
-        costbtn.innerText = "成本"
+        btn.innerHTML = "<span class='el_btn_span'>&#8250;</span>份数"
+        btn2.innerHTML = "<span class='el_btn_span'>&#8250;</span>餐标"
+        costbtn.innerHTML = "<span class='el_btn_span'>&#8250;</span>成本"
         eGui.appendChild(span)
         eGui.appendChild(btn)
         eGui.appendChild(btn2)
@@ -198,6 +207,17 @@ const dataIndex = (params) => {
         }
     })
     return index
+}
+
+const sethorn = (el, isOpen) => {
+    const span = el.querySelector('span')
+    // console.log(span)
+    if(isOpen) {
+        span.style.cssText = "animation-name: translate1;"
+    }else {
+        span.style.cssText = ""
+    }
+    
 }
 
 // rowTypes => [type, type] => 行数据type字段

@@ -2,7 +2,6 @@
 import cus_loc from './cus_loc.js'
 import dinner_mode from './dinner_mode.js'
 import dish_bom from './dish_bom.js'
-import dish_family from './dish_family.js'
 import dish_key from './dish_key.js'
 import dish_process_category from './dish_process_category.js'
 import dish_top_category from './dish_top_category.js'
@@ -15,12 +14,13 @@ import material_top_category from './material_top_category.js'
 import dish_sub_category from './dish_sub_category.js'
 import history_sales_cost from './history_sales_cost.js'
 import org_config from './org_config.js'
+import dish_bom_category from './dish_bom_category.js'
+import plan_day_summary_info from './plan_day_summary_info.js'
 
 export default {
     cus_loc,
     dinner_mode,
     dish_bom,
-    dish_family,
     dish_key,
     dish_process_category,
     dish_top_category,
@@ -32,5 +32,7 @@ export default {
     material_top_category,
     dish_sub_category,
     history_sales_cost,
-    org_config
+    org_config,
+    dish_bom_category,
+    plan_day_summary_info
 }

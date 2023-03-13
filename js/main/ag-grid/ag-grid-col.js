@@ -34,8 +34,8 @@ const col = () => {
             editable:false,
             pinned: 'left',
             filter:true,
-            checkboxSelection: true, //设置为true显示为复选框
-            headerCheckboxSelection: true, //表头是否也显示复选框，全选反选用
+            // checkboxSelection: true, //设置为true显示为复选框
+            // headerCheckboxSelection: true, //表头是否也显示复选框，全选反选用
             valueGetter: params => {
                 // console.log(params)
                 let specialMealID = params.data.specialMealID != undefined ? params.data.specialMealID : ""
@@ -176,8 +176,25 @@ const col = () => {
         // autoHeight: true,
         // wrapText: true,
         cellRenderer:(params) => {
-            if(params.data.whole == null || params.data.whole.trim() == "" || params.data.dish_key_id.material_item == []){
-                params.data.whole = ""
+            if(params.data.configure && !params.data.edit){
+                if(params.data.type == "%"){
+                    if(params.data.cl1 != null) return ""
+                    const d = params.data.whole.match(/(\d*\.?\d+)/g)
+                    // console.log(d)
+                    if(d == null) return params.value
+                    let v = params.value
+                    for (const d_item of d) {
+                        if(Number(d_item) / 100 > index.org_config.material_cost_ratio_high_lmt){
+                            v = v.replace(d_item + '%', `<span style="color:red;">${d_item}%</span>`)
+                        }else if(Number(d_item) / 100 > index.org_config.material_cost_ratio_low_lmt){
+                            v = v.replace(d_item + '%', `<span style="color:green;">${d_item}%</span>`)
+                        }
+                    }
+                    return v
+                }
+                return params.value
+            }
+            if(params.data.whole.trim() == "" || params.data.dish_key_id.material_item == []){
                 return params.value
             }
             // if(params.data.dish == "") return params.value
@@ -193,8 +210,6 @@ const col = () => {
             // console.log(105, params)
             if(value == '' || value == null) return value
             // console.log(typeof value, value)
-            // value = value.replace(`/<span style="color:red;">/g`,'')
-            // value = value.replace('/</span>/g','')
             
             if(value[value.length - 1] != " ") value += ' '
             // console.log(108, material_item)
@@ -229,51 +244,25 @@ const col = () => {
                 // console.log(params, e)
                 if(e.data.dinner_type == params.data.dinner_type && params.node.id != e.id ){
                     // data.push(e.data['dish_key_id']['material_item'])
-                    // console.log(e.data.whole, value)
-                    // console.log(e.data.whole.length, value.length)
                     // console.log(e.data)
                     if(e.data.dish == "" || Restrictions(e) || !e.data.fixed) return
                     data.push(...e.data['dish_key_id']['material_item'])
                 }
             })
-            // console.log(data)
-            // for (const v of value.trim().split(" ")) {
-            //     let v1 = v.match(/([\u4e00-\u9fa5a-zA-Z]+)/)
-            //     if(v1 == null) continue;
-            //     for (const material_item of material_item) {
-            //         // if(material_item)
-            //     }
-            // }
-            // console.log(1, data)
-            // console.log(2, material_item)
-            for (const mt of material_item) {
-                // console.log(mt)
-                let str = mt.name.split('-')[0]
-                if(mt.top_category_id == 1 || mt.top_category_id == 2){
-                    if(mt.form == "鲜品"){
-                        value = value.replace(`${str}`, `<span style="color: green;" title="鲜品">${str}</span>`)
-                    }else if(mt.form == "冻品"){
-                        // console.log("冻品")
-                        value = value.replace(`${str}`, `<span style="color: #af7700;" title="冻品">${str}</span>`)
-                    }else if(mt.form == "半成品"){
-                        value = value.replace(`${str}`, `<span style="color: #7a3e09;" title="半成品">${str}</span>`)
-                    }
-                }
-            }
-            for (const dish_family of index.forbidden_material_ids) {
-                for (const item of material_item) {
-                    if(item.id == dish_family){
+            material: for (const item of material_item) {
+                let str = item.name.split('-')[0]
+                // 前一天使用的食材
+                for (const forbidden_material_id of index.forbidden_material_ids) {
+                    if(item.id == forbidden_material_id){
                         let str = item.name.split('-')[0]
-                        value = value.replace(str, `<span style="color: red;" title="前一天使用食材">${str}</span>`)
+                        value = value.replace(`${str}`, `<span style="color: red;" title="前一天使用食材">${str}</span>`)
+                        continue material
                     }
                 }
-            }
-            // console.log(material_item, data)
-            // 找到相同则标红
-            for (const mt1 of material_item) {
+                // 找到相同则标红
                 for (const d1 of data) {
-                    if(mt1.id == d1.id){
-                        let str = ""
+                    if(item.id == d1.id){
+                        // let str = ""
                         for (const material_item of index.material_item) {
                             if(material_item.id == d1.id){
                                 // console.log(material_item, d1)
@@ -282,21 +271,39 @@ const col = () => {
                             }
                         }
                         // console.log(str, params.data)    
-                        // console.log(mt1, d1)
+                        // console.log(item, d1)
                         value = value.replace(`${str}`,`<span style="color:red;" title="出现相同菜品">${str}</span>`)
+                        continue material
                     }
                 }
+
+                // 特殊菜品展示
+                // let str = item.name.split('-')[0]
+                const {name} = index.material_purchase_unit_category.find(v => v.id == item.main_unit_id)
+                let w = ""
+                if(item.main_unit_id == item.unit_id){
+                    w = `${str} ${item.form} ${Number(item.main_price / item.main_unit_bom_unit_ratio).toFixed(2)}元/${item.unit_name}，标准价${Number(item.material_price_alert / item.main_unit_bom_unit_ratio ).toFixed(2)}元/${name}`
+                }else{
+                    w = `${str} ${item.form} ${Number(item.main_price / item.main_unit_bom_unit_ratio).toFixed(2)}元/${item.unit_name}，标准价${Number(item.material_price_alert).toFixed(2)}元/${name}`
+                }
+                let sty = ""
+                if(item.main_price > item.material_price_alert){
+                    sty = "border-bottom: solid 1px red;"
+                }
+                if(item.top_category_id == 1 || item.top_category_id == 2){
+                    if(item.form == "鲜品"){
+                        value = value.replace(`${str}`, `<span style="color: green;${sty}"  title="${w}">${str}</span>`)
+                    }else if(item.form == "冻品"){
+                        // console.log("冻品")
+                        value = value.replace(`${str}`, `<span style="color: #af7700;${sty}" title="${w}">${str}</span>`)
+                    }else if(item.form == "半成品"){
+                        value = value.replace(`${str}`, `<span style="color: #7a3e09;${sty}" title="${w}">${str}</span>`)
+                    }
+                }else{
+                    value = value.replace(str, `<span style="${sty}" title="${w}">${str}</span>`)
+                }
             }
-            // // 确认数据一致
-            // const mt = material_item.reduce((pre, v) => {
-            //     if(params.data.whole.includes(v.name.split('-')[0])){
-            //         pre.push(v)
-            //     }
-            //     return pre
-            // }, [])
-            // params.data.dish_key_id.material_item = mt
-            // params.data.dish_key_id.material_item = arr
-            // console.log(params)
+           
             return value
         },
     })
@@ -313,24 +320,7 @@ const col = () => {
             const createspan = document.createElement('span')
             createspan.title = '保存本列餐品'
             createspan.innerText = "存"
-            createspan.style.cssText = `
-            height:20px;
-            width:20px;
-            position: absolute;
-            left:50%;
-            top:50%;
-            transform: translate(-50%, -50%);
-            cursor: pointer;
-            font-size: 8px;
-            color: rgb(109 78 171);
-            font-weight: 500;
-            border: 1px #ccc solid;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            // text-decoration: underline 1px #000;
-            `
+            createspan.classList.add('el_save')
             createspan.onclick = () => {
                 if (!params.data.dish_key_id.id) {
                     alert('菜品不存在!!!')

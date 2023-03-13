@@ -1,7 +1,7 @@
 /** @odoo-module **/
 import agGridRow from "./ag-grid-row.js"
 import index from '../../../data/index.js'
-import customFromDom from './customFrom.js'
+import customFromDom from '../otherApi/customFrom.js'
 import saveData from "../saveData/index.js"
 import { add_dish_bom_id, add_material_id, add_material_item_bom_unit_ratio_id } from "../tool.js"
 import specialMeal from "./specialMeal.js"
@@ -669,34 +669,8 @@ const onCellValueChanged = async (e,gridOptions) => {
                  }
                 //  console.log(materialObj['material_item'], obj, d[2])
                  if(material_itemIndex == -1){
-                    // const obj = {
-                    //     ...materialObj['material_item'],
-                    //     process_id: materialObj['process_category'].id,
-                    //     dish_process_category_name: materialObj['process_category'].name,
-
-                    //     name: materialObj['name'],
-                    //     dish_qty: d[2],
-                    //     main_unit_bom_unit_ratio: materialObj['unitObj'].main_unit_bom_unit_ratio,
-                    //     material_id: materialObj['unitObj'].material_id,
-                    //     purchase_unit_id: materialObj['unitObj'].purchase_unit_id,
-                    //     unit_id: materialObj['unitObj'].unit_id,
-                    //     unit_name: materialObj['unitObj'].unit_name,
-                    // }
                      e.data.dish_key_id.material_item.push({...obj})
                  }else{
-                    // let obj = {
-                    //     ...materialObj['material_item'],
-                    //     process_id: materialObj['process_category'].id,
-                    //     dish_process_category_name: materialObj['process_category'].name,
-
-                    //     name: materialObj['name'],
-                    //     dish_qty: d[2],
-                    //     main_unit_bom_unit_ratio: materialObj['unitObj'].main_unit_bom_unit_ratio,
-                    //     material_id: materialObj['unitObj'].material_id,
-                    //     purchase_unit_id: materialObj['unitObj'].purchase_unit_id,
-                    //     unit_id: materialObj['unitObj'].unit_id,
-                    //     unit_name: materialObj['unitObj'].unit_name,
-                    // }
                      e.data.dish_key_id.material_item[material_itemIndex] = {...obj}
                  }
                  e.data.whole = ""
@@ -743,17 +717,9 @@ const onCellValueChanged = async (e,gridOptions) => {
     // gridOptions.api.refreshCells({force:true})
     // console.log(new Date() * 1 - newDate)
     // console.log(gridOptions)
-    // 表头比例设置
-    const arr = []
+    
+    anew_top_cost(gridOptions)
 
-    e.api.forEachNode(v => {
-        if(v.data == null) return
-        if(v.data.configure == true || v.data.edit == false) return
-        arr.push(v.data)
-    })
-    const d = cost_proportion(arr, mealcopies())
-    // console.log(gridOptions.rowData, arr, mealcopies(), d)
-    gridOptions.api.setPinnedTopRowData([d[2]])
     let cl1s = []
     gridOptions.api.forEachNode(async v => {
         if(v.data == null) return
@@ -768,13 +734,17 @@ const onCellValueChanged = async (e,gridOptions) => {
         let index = 0
         gridOptions.api.forEachNode((v, i) => {
             if(v.data == null) return
-            if(v.data.configure && v.data.cl1 == c_item) index = i + 1
+            if(v.data.configure && v.data.cl1 == c_item && v.data.type == "%") {
+                console.log(i)
+                index = i == 1 ? 0 : i
+            }
             if(v.data.configure == true || v.data.edit == false) return
             if(v.data.cl1 == c_item){
                 costs_data.push(v.data)
                 dinner_type = v.data.dinner_type
             }
         })
+        console.log(index)
         const sales_data = []
         // 销售额所需数据
         for (const meal_item of mealcopies()) {
@@ -955,20 +925,21 @@ const getContextMenuItems = (params, gridOptions) => {
         {
             name:'删除本行',
             action:() => {
-                const selRows = gridOptions.api.getSelectedRows();
-                if(selRows.length == 0) return alert("请选中本行")
-                for (const data of selRows) {
-                    saveData.delete_dish_key_list.push({
-                        cl1: data.cl1,
-                        dinner_type: data.dinner_type,
-                        dish: data.dish,
-                        dish_key_id: {...data.dish_key_id},
-                        sales_type: data.sales_type,
-                        type: data.type
-                    })
-                }
+                console.log(params)
+                customFromDom({
+                    parent:'#isDeleteRow',
+                    cancel:['#isDeleteRow_cancel1', '#isDeleteRow_cancel2'],
+                    sure: "#isDeleteRow_sure",
+                    deleteData: [],
+                    sureFun: () => {
+                        const selRows = gridOptions.api.getRowNode(params.node.id)
+                        gridOptions.api.applyTransaction({ remove: [selRows] });
+                        // 重新计算成本比例
+                        anew_top_cost(params)
+                        return true
+                    }
+                })
                 
-                gridOptions.api.applyTransaction({ remove: selRows });
             }
         },
         // ...params.defaultItems
@@ -1019,13 +990,28 @@ const sales_type = (value) => {
     }
 }
 
+const anew_top_cost = (e) => {
+    // 表头比例设置
+    const arr = []
+
+    e.api.forEachNode(v => {
+        if(v.data == null) return
+        if(v.data.configure == true || v.data.edit == false) return
+        arr.push(v.data)
+    })
+    const d = cost_proportion(arr, mealcopies())
+    // console.log(gridOptions.rowData, arr, mealcopies(), d)
+    e.api.setPinnedTopRowData([d[2]])
+}
+
 
 const getRowStyle = params => {
     if(params.data != undefined){
         if(params.data.specialMealColor != undefined){
             return {
                 // backgroundColor: params.data.specialMealColor,
-                borderBottom: `solid 2px ${params.data.specialMealColor}`
+                borderBottom: `solid 3px ${params.data.specialMealColor}`,
+                boxShadow: `2px 2px 2px ${params.data.specialMealColor}`
                 // textDecoration: "underline 2px #000"
                 // textDecoration: `underline 2px ${params.data.SpecialMealCategory} !important`,
                 // color: "#ddd",
@@ -1043,14 +1029,14 @@ const getRowStyle = params => {
 }
 
 const onCellClicked = params => {
-    if(params.colDef.field == "dish"){
-        // console.log(params)
-        if(Restrictions(params)) return;
-        if(params.data.configure || params.data.dish == "" || params.data.dish == undefined) return
-        const { dish_family_id } = index.dish_key.find(v => v.id == params.data.dish_key_id.id)
-        const arr = index.dish_family.filter(v => v.id == dish_family_id)
-        console.log(arr)
-    }
+    // if(params.colDef.field == "dish"){
+    //     // console.log(params)
+    //     if(Restrictions(params)) return;
+    //     if(params.data.configure || params.data.dish == "" || params.data.dish == undefined) return
+    //     const { dish_family_id } = index.dish_key.find(v => v.id == params.data.dish_key_id.id)
+    //     const arr = index.dish_family.filter(v => v.id == dish_family_id)
+    //     console.log(arr)
+    // }
     
 }
 // const onPasteStart = params => {

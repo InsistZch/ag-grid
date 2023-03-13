@@ -113,6 +113,7 @@
         <div class="function">
             <button class="purchase">采购</button>
             <button class="plan_sheet">计划单</button>
+            <button class="purchase_price" id="purchase_price_btn">采购单价</button>
             <button class="picking">领料</button>
             <button class="update">更新</button>
         </div>
@@ -428,6 +429,45 @@
         </footer>
     </div>
 </div>
+<div id="isDeleteRow" class="modalcustom">
+    <div class="modal-contentcustom">
+
+        <header class="modal-headercustom">
+            <h4 class="customcustom">提示</h4>
+            <span class="closecustom" id="isDeleteRow_cancel1">×</span>
+        </header>
+
+        <div class="modal-bodycustom modal-body">
+            <div style="height: 100%; width: 100%; overflow: hidden;">
+                <h3 style="margin: 3rem 0rem 0rem 2rem;">
+                    删除后将无法恢复数据，确认删除？
+                </h3>
+            </div>
+        </div>
+        <footer class="modal-footercustom">
+            <button id="isDeleteRow_cancel2">取消</button>
+            <button id="isDeleteRow_sure">确定</button>
+        </footer>
+    </div>
+</div>
+<div id="purchase_price" class="modalcustom" >
+    <div class="modal-contentcustom" style="height: 80vh;">
+
+        <header class="modal-headercustom">
+            <h4 class="customcustom">提示</h4>
+            <span class="closecustom" id="purchase_price_cancel1">×</span>
+        </header>
+
+        <div class="modal-bodycustom modal-body" >
+            <div class="ag-theme-alpine" id="purchase_price_table" style="height: 100%">
+            </div>
+        </div>
+        <footer class="modal-footercustom">
+            <button id="purchase_price_cancel2">取消</button>
+            <button id="purchase_price_sure">确定</button>
+        </footer>
+    </div>
+</div>
 <!-- <div id="myChart" style="height: 600px;margin-top: 50px;">
 
 </div> -->
@@ -454,20 +494,30 @@
 
         console.log(agOption)
         main_index.otherApi.saveData('.update', () => {
-            saveData.day_cost.complete_cost = Number(agOption.pinnedTopRowData[0].costPrice.split('%')[0])
+            // console.log(agOption.api.getPinnedTopRow(0))
+            saveData.day_cost_proportion.complete_cost_proportion = Number(agOption.api.getPinnedTopRow(0).data.costPrice.split('%')[0])
             console.log(saveData)
             const arr = []
             agOption.api.forEachNode(v => {
                 if(v.data == null || v.data.configure) return
                 arr.push(v.data)
             })
-            // 这里只是demo写法
-            if (agOption.context && agOption.context.owl_widget) {
-                agOption.context.owl_widget.GMM_Button_Update_Plan_Day_Store(arr)
-            }
-
             console.log(arr)
         })
+        // 主单位是斤
+        // 一个食材单位为两
+        // 一个单位食材为斤
+        // main_index.otherApi.purchasePrice('#purchase_price_btn',() => {
+        //     const material = new Map()
+        //     agOption.api.forEachNode(v => {
+        //         if(v.data == null || v.data.config) return
+        //         for (const item of v.data.dish_key_id.material_item) {
+        //             material.set(item.id, item)
+        //         }
+        //     })
+        //     // console.log(material)
+        //     return [material, agOption]
+        // })
         // 图表
         // var chart = agCharts.AgChart.create(main_index.agChart);
     });

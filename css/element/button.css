@@ -1,0 +1,49 @@
+.el_btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .2rem .6rem;
+    border-radius: 5px;
+    border: none;
+    font-size: .8rem;
+    background-color: #eeeeee90;
+    color: #666;
+}
+.el_btn .el_btn_span{
+    font-size: 1.2rem;
+    margin-right: .5rem;
+    animation-duration: .1s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    animation-name: translate2;
+}
+.el_btn:hover .el_btn_span{
+    animation-name: translate1;
+}
+
+@keyframes translate1 {
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(90deg);
+    }
+}
+@keyframes translate2 {
+    0%{
+        transform: rotate(90deg);
+    }
+    100%{
+        transform: rotate(0deg);
+    }
+}
+/* .el_btn:focus.el_btn::before{
+    transform: rotate(90deg);
+} */
+/* .el_btn::before {
+    content: ">";
+} */
