@@ -1,15 +1,10 @@
 /** @odoo-module **/
 import { mealPrice } from "./ag_common.js"
 
-let is_load = false
-let meal_price
-const init_mp = () => {
 
-    if (!is_load) {
-        meal_price = mealPrice()
-        is_load = true
-    }
-    return meal_price
+const init_mp = () => {
+    return mealPrice()
+
 }
 
 export default init_mp
