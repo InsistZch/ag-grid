@@ -1,3 +1,4 @@
+/** @odoo-module **/
 import customFrom from './customFrom.js'
 // import priceRow from '../purchase_price_grid/price-row.js'
 import priceTable from './../purchase_price_grid/price-table.js'

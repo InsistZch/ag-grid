@@ -1,3 +1,4 @@
+/** @odoo-module **/
 const onCellValueChanged = (params, agOption) => {
     if(params.colDef.field == "price"){
         if(isNaN(params.newValue) || Number(params.newValue) <= 0){

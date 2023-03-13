@@ -1,3 +1,4 @@
+/** @odoo-module **/
 import data from "../../../data/index.js"
 /*
 {
