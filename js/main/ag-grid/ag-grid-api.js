@@ -1043,14 +1043,6 @@ const getRowStyle = params => {
 }
 
 const onCellClicked = params => {
-    if(params.colDef.field == "dish"){
-        // console.log(params)
-        if(Restrictions(params)) return;
-        if(params.data.configure || params.data.dish == "" || params.data.dish == undefined) return
-        const { dish_family_id } = index.dish_key.find(v => v.id == params.data.dish_key_id.id)
-        const arr = index.dish_family.filter(v => v.id == dish_family_id)
-        console.log(arr)
-    }
     
 }
 // const onPasteStart = params => {
