@@ -129,7 +129,20 @@ const col = () => {
         obj['valueParser'] = params => Number(params.newValue)
         obj['cellRenderer'] = (params) => {
             // console.log(Restrictions(params))
-            if(Restrictions(params)) return params.value
+            if(params.data.configure) {
+                if(params.data.type == "%"){
+                    const v = Number(params.value.split('%')[0]) / 100
+                    const high = index.org_config.cus_los_ratio_high_lmt;
+                    let style = ""
+                    if(v >= high){
+                        style = "red"
+                    }else{
+                        style = "black"
+                    }
+                    return `<span style="font-weight: 600;color: ${style};">${params.value}</span>`
+                }
+                return params.value
+            }
             if(isNaN(params.value) || params.value == null){
                 return 0
             }

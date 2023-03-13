@@ -271,6 +271,7 @@ const init_dish_detailed = (manual_material_qty,count) => {
         
         obj.main_price = Number(Number(obj.main_price).toFixed(2))
         if((obj.main_price / main_unit_bom_unit_ratio) >= 5 && Number(json.dish_qty) < 10){
+           
             json.dish_qty = Number(json.dish_qty.toFixed(1))
             obj['dish_qty'] =  Number(json.dish_qty.toFixed(1))
             str += Number(json.dish_qty.toFixed(1))
@@ -279,7 +280,7 @@ const init_dish_detailed = (manual_material_qty,count) => {
             obj['dish_qty'] = Math.ceil(json.dish_qty)
             str += Math.ceil(json.dish_qty)
         }
-        
+        // console.log(json)
         // obj['dish_qty'] = 0
         // console.log(obj, json)
         
@@ -298,7 +299,7 @@ const init_dish_detailed = (manual_material_qty,count) => {
         arr.push(obj)
     }
     costPrice = Number(Number(costPrice).toFixed(2))
-    // console.log(costPrice)
+    // console.log(arr)
     return [str, arr, costPrice]
 }
 // 
@@ -481,8 +482,8 @@ const cost_proportion = (data, mealCopies) => {
     costs['Copies'] = mealCopiesCount
 
 
-    if(!saveData.day_cost_proportion.init_cost_proportion){
-        saveData.day_cost_proportion.init_cost_proportion = Number(costs['costPrice'].split('%')[0])
+    if(!saveData.day_cost_proportion.init_cost_ratio){
+        saveData.day_cost_proportion.init_cost_ratio = Number(costs['costPrice'].split('%')[0])
     }
     if(!saveData.day_cost_proportion.init_sales){
         saveData.day_cost_proportion.init_sales = Number(cost_totle_obj.sales_volume)
@@ -501,7 +502,7 @@ const cost_proportion = (data, mealCopies) => {
 
 const day_cost_whole = (cost_totle) => {
     // 计算周成本
-    console.log(cost_totle)
+    // console.log(cost_totle)    
     const nowDate = new Date()
     const week  = index.plan_day_summary_info.week_summary.find(v => {
         const week_time = v.week.split('_')
@@ -518,7 +519,7 @@ const day_cost_whole = (cost_totle) => {
         }
         return false
     })
-    console.log(week)
+    // console.log(week)
     let week_sales = 0, week_cost = 0, week_cost_proportion = "0%";
     if(week != undefined){
         // 获取销售额和成本

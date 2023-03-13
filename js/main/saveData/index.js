@@ -10,10 +10,10 @@ export default {
     day_cost_proportion:{
         init_sales: false,
         init_cost: false,
-        init_cost_proportion: false,
+        init_cost_ratio: false,
 
         complete_sales: false,
         complete_cost: false,
-        complete_cost_proportion: false,
+        complete_cost_ratio: false,
     }
 }

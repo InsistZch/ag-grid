@@ -481,6 +481,13 @@
     import saveData from './js/main/saveData/index.js'
 
     console.log(data_index)
+
+    // for (const item of data_index.material_item) {
+    //     // 360190
+    //     if(item.id == 360190){
+    //         console.log(item)
+    //     }
+    // }
     document.addEventListener("DOMContentLoaded", function () {
 
         // 添加window对象
@@ -492,10 +499,10 @@
         new agGrid.Grid(eGridDiv, agOption);
         agOption.api.sizeColumnsToFit();
 
-        console.log(agOption)
+        // console.log(agOption)
         main_index.otherApi.saveData('.update', () => {
             // console.log(agOption.api.getPinnedTopRow(0))
-            saveData.day_cost_proportion.complete_cost_proportion = Number(agOption.api.getPinnedTopRow(0).data.costPrice.split('%')[0])
+            saveData.day_cost_proportion.complete_cost_ratio = Number(agOption.api.getPinnedTopRow(0).data.costPrice.split('%')[0])
             console.log(saveData)
             const arr = []
             agOption.api.forEachNode(v => {
