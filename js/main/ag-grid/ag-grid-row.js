@@ -386,8 +386,7 @@ const dish_detailed = (dish_key,count) => {
 }
 
 // 成本占比
-// 没有考虑中餐和晚餐
-// 没有考虑不同的用户
+
 const cost_proportion = (data, mealCopies) => {
     // console.log(data, mealCopies)
     
@@ -715,9 +714,9 @@ const countCostPrice = (m_arr, newCopies) => {
 
 // 通过文字，获取菜品
 export {
-    data,dish_detailed,duibi,headHookLimit,countMaterialData,mealPrice, mealCopies, cost_proportion,
+    data,dish_detailed,duibi,headHookLimit,countMaterialData,mealPrice, mealCopies, cost_proportion,countCostPrice
 }
 
 export default {
-    data,dish_detailed,duibi,headHookLimit,countMaterialData,mealPrice, mealCopies, cost_proportion,
+    data,dish_detailed,duibi,headHookLimit,countMaterialData,mealPrice, mealCopies, cost_proportion,countCostPrice
 }
