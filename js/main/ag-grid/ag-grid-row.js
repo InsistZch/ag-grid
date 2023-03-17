@@ -1,11 +1,12 @@
 /** @odoo-module **/
 import index from '../../../data/index.js'
 import specialMeal from './specialMeal.js'
-import {copiesNumber} from './../otherApi/index.js'
+
 import init_mp from './meal_price.js'
 import {mealAbstract, mealPrice} from './ag_common.js'
 import countID, {copiesPlusOne} from './countID.js'
 import saveData from '../saveData/index.js'
+import copiesNumber from "../ag_common/CopiesNumber.js";
 
 
 // 拿到餐标 => 客户信息 菜品信息 

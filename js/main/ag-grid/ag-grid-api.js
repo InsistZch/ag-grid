@@ -6,7 +6,7 @@ import saveData from "../saveData/index.js"
 import { add_dish_bom_id, add_material_id, add_material_item_bom_unit_ratio_id } from "../tool.js"
 import specialMeal from "./specialMeal.js"
 // import {Restrictions} from './ag-grid-col.js'
-import { copiesNumber } from './../otherApi/index.js'
+import copiesNumber  from '../ag_common/CopiesNumber.js'
 import { countMaterialData, cost_proportion } from './ag-grid-row.js'
 import mealcopies from './special_fast_data.js'
 // import {dataIndex} from './GroupRowInnerRenderer.js'
@@ -17,9 +17,9 @@ import countID,{costPlusOne} from './countID.js'
 
 // 添加对应数据
 const addData = (e, i, el) => {
-    el.innerHTML += 
-    i == 0 ? `<option value="${e.id}" selected>${e.name}</option>`:
-    `<option value="${e.id}">${e.name}</option>`
+    el.innerHTML +=
+        i == 0 ? `<option value="${e.id}" selected>${e.name}</option>`:
+            `<option value="${e.id}">${e.name}</option>`
 }
 // 添加material_item中的数据
 // 计算表单中份数，成本
@@ -70,7 +70,7 @@ const nodeRowData = async (v, e, ratio, type) => {
     }else{
         value = copiesNumber(Math.ceil(v.data[`${e.colDef.field}`] + (v.data[`${e.colDef.field}`] * ratio)))
     }
-    
+
     const rowNode = await e.api.getRowNode(v.data.id)
     await rowNode.setDataValue(e.colDef.field, value)
     // await rowNode.setData(calculateCopies(v.data))
@@ -84,7 +84,7 @@ const onCellValueChanged = async (e,gridOptions) => {
     // let newDate = new Date() * 1
     // console.log(e)
     if(e.colDef.headerName != '菜品' && e.colDef.headerName != '配量汇总' && e.colDef.headerName != "成本"){
-        
+
         if(e.newValue == undefined || e.newValue == null || String(e.newValue).trim() == "") {
             e.data[`${e.colDef.field}`] = 0
             e.newValue = 0
@@ -124,7 +124,7 @@ const onCellValueChanged = async (e,gridOptions) => {
         // console.log(e.newValue)
         // const scale = (parseInt(e.newValue) - parseInt(e.oldValue)) / e.data['Copies']
         // console.log(copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue))
-        
+
         // console.log(e.newValue)
         // console.log(Copies)
         // 进入该if只有两种可能
@@ -170,7 +170,7 @@ const onCellValueChanged = async (e,gridOptions) => {
             // await rowNode.setDataValue('costPrice', isNaN(countMaterialData[2]) ? 0 : countMaterialData[2])
         }
         // 当前数据 101
-        
+
     }else if(e.colDef.headerName == '菜品'){
         if(e.newValue == null || e.newValue == undefined || e.newValue.trim() == ""){
             e.data[`${e.colDef.field}`] = e.oldValue
@@ -215,31 +215,31 @@ const onCellValueChanged = async (e,gridOptions) => {
             return
         }
         // 只添加空格
-        if(e.newValue.trim() == e.oldValue.trim()) return 
+        if(e.newValue.trim() == e.oldValue.trim()) return
         if(d1[d1.length - 1] != " ") d1 += ' '
         // console.log(e)
         // 可能为单位，也可能为新增数据
         // 数据可能存在，也可能不存在
 
         // 可能修改多个地方        
-        
+
         // 分割 配量汇总 字符串
         // console.log(d1)
         let material_data = d1.split(' ')
         for (const material of material_data) {
             // let isTrue = true
             if (material.trim() == "") continue
-            
+
             // 鸭肉片23.58斤 鸭肉片 23.58 斤
             let d = material.match(/([\u4e00-\u9fa5]{0,6})?(\d*\.?\d+?)?([\u4e00-\u9fa5a-zA-Z]+)?/)
             // console.log(d)
-             
+
             // 输入数据错误，则跳出循环
             if(d == null){
                 e.data[`${e.colDef.field}`] = e.oldValue
                 return
             }
-            
+
             // 如果当前单位不为material_purchase_unit_category中数据
             // 只有全部不等于才会返回true
             // 当前单位在material_purchase_unit_category中找不到
@@ -260,13 +260,13 @@ const onCellValueChanged = async (e,gridOptions) => {
                 // 分两种情况
                 // 小米 颗粒 辣 小米
                 // 猪肉片 猪肉片片
-                
+
                 // 查看食材是否存在
                 const materials = index.material_item.filter(v => {
                     return d[1].includes(v.name.split('-')[0])
                 })
                 // console.log(d[1], materials)
-                
+
                 // 切配方式为可能存在
                 const mate = materials.filter(v => {
                     const name = v.name.split('-')[0]
@@ -291,10 +291,10 @@ const onCellValueChanged = async (e,gridOptions) => {
                     }
                     // return name == d[1]
                 })
-                
+
                 // console.log(mate, materialObj)
-                
-    
+
+
                 // 食材存在
                 if(mate.length > 0) {
                     isExistMaterial = true
@@ -312,26 +312,26 @@ const onCellValueChanged = async (e,gridOptions) => {
                     }
                     resolve(materialObj)
                 }
-    
+
                 // 食材不存在
                 // 创建食材
                 if(mate == undefined || mate.length == 0){
                     let isCreate = confirm(`尚无${d[1]}食品，是否创建？`)
                     if(isCreate){
                         const customName = document.querySelector('#customName')
-    
+
                         // 添加可选数据
                         let customFrom = document.querySelector('#customFrom')
                         let customPhase = document.querySelector('#customPhase')
-                        
-                        
+
+
                         let customSection = document.querySelector('#customSection')
                         index.dish_process_category.forEach((e,i) => addData(e, i, customSection));
-    
+
                         let customCompany = document.querySelector('#customCompany')
                         index.material_purchase_unit_category.forEach((e,i) => addData(e, i, customCompany))
-    
-                        
+
+
                         customName.value = d[1]
                         // 创建食品
                         customFromDom({
@@ -396,7 +396,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                                     id: customCompany.value,
                                     name: dish_process_category_name,
                                 }
-    
+
                                 e.data.dish_key_id.material_item.push({
                                     ...obj1,
                                     dish_process_category_name: customSectionValue,
@@ -405,7 +405,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                                     main_unit_bom_unit_ratio: 1,
                                     dish_qty: 0,
                                 })
-                                
+
                                 const str = customName.value + customSectionValue + 0 + dish_process_category_name
                                 // e.data[`${e.colDef.field}`] = e.data[`${e.colDef.field}`].replace(data_name, str)
                                 // e.data
@@ -432,11 +432,11 @@ const onCellValueChanged = async (e,gridOptions) => {
                                 customPrice.onwheel = () => limitNumber()
                             }
                         })
-                        
+
                     }
                 }
             })
-            
+
             await new Promise(resolve => {
                 // 判断是否有数量以及单位
                 if(isExistMaterial){
@@ -462,9 +462,9 @@ const onCellValueChanged = async (e,gridOptions) => {
                                 // 插入对应数据
                                 dishes_name.value = materialObj.material_item.name
                                 process_category.forEach(v => {
-                                    dishes_section.innerHTML += v.name == section_str ? 
-                                    `<option value="${v.id}" selected>${v.name}</option>`:
-                                    `<option value="${v.id}">${v.name}</option>`
+                                    dishes_section.innerHTML += v.name == section_str ?
+                                        `<option value="${v.id}" selected>${v.name}</option>`:
+                                        `<option value="${v.id}">${v.name}</option>`
                                 })
 
                                 index.material_purchase_unit_category.forEach((v ,i) => addData(v, i, dishes_company))
@@ -486,7 +486,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                             sureFun:() => {
                                 let section = dishes_section.querySelector(`option[value="${dishes_section.value}"]`)
                                 section = section.innerText == "无" ? "" : section.innerText
-                                
+
                                 let number = dishes_quantity.value.trim() == "" ? 0 : dishes_quantity.value
 
                                 let compamy = dishes_company.querySelector(`option[value="${dishes_company.value}"]`).innerText
@@ -518,7 +518,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                                     if(item.trim() == "") continue
                                     const dish_str = dishes_name.value + section + number + compamy + " "
                                     // console.log(dish_str)
-                                    
+
                                     if(item.includes(materialObj['material_item'].name)){
                                         str += dish_str
                                         continue
@@ -561,7 +561,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                 }
                 materialObj['unit_ratio_Arr'] = [...unit_ratio_Arr]
                 // console.log(unit_ratio_Arr)
-    
+
                 // 对比当前食材单位是否为已存在单位
                 let isUnit = true
                 for (const arr_item of unit_ratio_Arr) {
@@ -599,17 +599,17 @@ const onCellValueChanged = async (e,gridOptions) => {
                                 "id": id,
                                 "material_id": material_id,
                                 name: index.material_item.filter(e => e.id + '' === material_id + '')[0].name,
-                                "purchase_unit_id": unitName.getAttribute('unitID'), 
+                                "purchase_unit_id": unitName.getAttribute('unitID'),
                                 "main_unit_bom_unit_ratio": Number(ratio.value)
                             }
                             // console.log(material_item, d[1])
                             materialObj['unitObj'] = {
-                                "material_id": materialObj['material_item'].id, 
-                                "purchase_unit_id": unitName.getAttribute('unitID'), 
+                                "material_id": materialObj['material_item'].id,
+                                "purchase_unit_id": unitName.getAttribute('unitID'),
                                 "main_unit_bom_unit_ratio": Number(ratio.value),
                                 unit_id: unitName.getAttribute('unitID'),
                                 unit_name: unitName.value
-    
+
                             }
                             materialObj['material_item']['bom_unit_ratio_ids'].push(id)
                             index.material_item_bom_unit_ratio.push(obj)
@@ -648,13 +648,13 @@ const onCellValueChanged = async (e,gridOptions) => {
             // console.log(materialObj, e.data.dish_key_id.material_item)
             // 添加数据
             if(isExistMaterial){
-                 // 添加数据
-                 const material_itemIndex = e.data.dish_key_id.material_item.findIndex(v => v.id == materialObj['material_item'].id)
-                
-                 // console.log(material_itemIndex)
-                 // -1为找不到当前数据则新增
+                // 添加数据
+                const material_itemIndex = e.data.dish_key_id.material_item.findIndex(v => v.id == materialObj['material_item'].id)
+
+                // console.log(material_itemIndex)
+                // -1为找不到当前数据则新增
                 //  console.log(d)
-                 const obj = {
+                const obj = {
                     ...materialObj['material_item'],
                     process_id: materialObj['process_category'].id,
                     dish_process_category_name: materialObj['process_category'].name,
@@ -666,18 +666,18 @@ const onCellValueChanged = async (e,gridOptions) => {
                     purchase_unit_id: materialObj['unitObj'].purchase_unit_id,
                     unit_id: materialObj['unitObj'].unit_id,
                     unit_name: materialObj['unitObj'].unit_name,
-                 }
+                }
                 //  console.log(materialObj['material_item'], obj, d[2])
-                 if(material_itemIndex == -1){
-                     e.data.dish_key_id.material_item.push({...obj})
-                 }else{
-                     e.data.dish_key_id.material_item[material_itemIndex] = {...obj}
-                 }
-                 e.data.whole = ""
-                 for (const item of e.data.dish_key_id.material_item) {
+                if(material_itemIndex == -1){
+                    e.data.dish_key_id.material_item.push({...obj})
+                }else{
+                    e.data.dish_key_id.material_item[material_itemIndex] = {...obj}
+                }
+                e.data.whole = ""
+                for (const item of e.data.dish_key_id.material_item) {
                     const str = item.name.split('-')[0] + item.dish_process_category_name + item.dish_qty + item.unit_name
                     e.data.whole += str + " "
-                 }
+                }
             }
         }
         // console.log(e.data.dish_key_id.material_item)
@@ -724,7 +724,7 @@ const getContextMenuItems = (params, gridOptions) => {
         {
             name:'向下新增一行',
             action:() => {
-                
+
                 const data = [{}]
                 for (const key in params.node.data) {
                     if(!isNaN(key)){
@@ -744,9 +744,9 @@ const getContextMenuItems = (params, gridOptions) => {
                     initFun(_parent){
                         let MealCategory= _parent.querySelector('#MealCategory')
                         index.dish_top_category.forEach(v => {
-                            MealCategory.innerHTML += v.name_cn == params.node.data['type'] ? 
-                            `<option value="${v.id}" selected>${v.name_cn}</option>` :
-                            `<option value="${v.id}">${v.name_cn}</option>`
+                            MealCategory.innerHTML += v.name_cn == params.node.data['type'] ?
+                                `<option value="${v.id}" selected>${v.name_cn}</option>` :
+                                `<option value="${v.id}">${v.name_cn}</option>`
                         })
                     },
                     sureFun(_parent){
@@ -767,11 +767,11 @@ const getContextMenuItems = (params, gridOptions) => {
                         // console.log(params)
                         gridOptions.api.expandAll()
                         gridOptions.api.applyTransaction({ add: data, addIndex: params.node.rowIndex + 1})
-                        
+
                         return  true
                     }
                 })
-                
+
             }
         },
         {
@@ -801,7 +801,7 @@ const getContextMenuItems = (params, gridOptions) => {
                     specialMeal.Catering[params.node.data.dinner_type] += 1
                     gridOptions.api.applyTransaction({ add: data})
                 }
-                
+
             }
         },
         {
@@ -835,9 +835,9 @@ const getContextMenuItems = (params, gridOptions) => {
                         // console.log(_parent, MealCategory)
                         index.dish_top_category.forEach(v => {
                             if(v.name_cn == "特色") return
-                            MealCategory.innerHTML += v.name_cn == params.node.data['type'] ? 
-                            `<option value="${v.id}" selected>${v.name_cn}</option>` :
-                            `<option value="${v.id}">${v.name_cn}</option>`
+                            MealCategory.innerHTML += v.name_cn == params.node.data['type'] ?
+                                `<option value="${v.id}" selected>${v.name_cn}</option>` :
+                                `<option value="${v.id}">${v.name_cn}</option>`
                         })
                     },
                     sureFun(_parent){
@@ -879,7 +879,7 @@ const getContextMenuItems = (params, gridOptions) => {
                         return true
                     }
                 })
-                
+
             }
         },
         // ...params.defaultItems
@@ -977,7 +977,7 @@ const onCellClicked = params => {
     //     const arr = index.dish_family.filter(v => v.id == dish_family_id)
     //     console.log(arr)
     // }
-    
+
 }
 
 // 处理数据改变后 份数，成本，头部成本比例
@@ -988,7 +988,7 @@ const changedValuetoData = async (e, gridOptions) => {
     // gridOptions.api.refreshCells({force:true})
     // console.log(new Date() * 1 - newDate)
     // console.log(gridOptions)
-    
+
     anew_top_cost(gridOptions)
 
     let cl1s = []
@@ -1043,7 +1043,7 @@ const changedValuetoData = async (e, gridOptions) => {
         }
         await gridOptions.api.applyTransactionAsync({add: [obj], addIndex: index})
     }
-} 
+}
 // const onPasteStart = params => {
 //     console.log(params)
 // }

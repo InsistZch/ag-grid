@@ -1,6 +1,6 @@
 /** @odoo-module **/
 import index from "../../../data/index.js";
-import {copiesNumber} from "../otherApi/index.js";
+import copiesNumber from "../ag_common/CopiesNumber.js";
 import countID from './countID.js'
 
 
