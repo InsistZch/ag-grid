@@ -2,13 +2,11 @@
 
 let data = {}
 
-
-reset_savedData()
-
+resetSavedData()
 export default data
 
 
-export function reset_savedData() {
+export function resetSavedData() {
 
     Object.assign(data,
         {

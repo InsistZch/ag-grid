@@ -15,3 +15,9 @@ const init_mc = () => {
 }
 
 export default init_mc
+
+
+export function resetMCData() {
+
+    is_load = false
+}

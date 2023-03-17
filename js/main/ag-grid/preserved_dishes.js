@@ -9,4 +9,12 @@ dish_key_id: {
     ]
 }
 */
-export default new Map()  
+
+let map = new Map()
+
+export default map
+
+export function resetPreServerdData() {
+
+    map = new Map()
+}

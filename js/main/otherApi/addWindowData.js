@@ -9,3 +9,8 @@ const addWindowData = () => {
     }, new Set())]
 }
 export default addWindowData
+
+export function resetWindowData() {
+    window.cus_loc_ids = []
+    window.dinner_types = []
+}

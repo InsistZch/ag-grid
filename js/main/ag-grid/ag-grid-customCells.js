@@ -2,7 +2,7 @@
 import index from '../../../data/index.js'
 import {dish_detailed} from './ag-grid-row.js'
 import dishTable from '../dish-data-gird/dish-table.js'
-import {add_dish_key_id,} from "./../tool.js";
+import {add_dish_key_id,} from "../tool.js";
 import saveData from '../saveData/index.js';
 import preserved_dishes from './preserved_dishes.js';
 
