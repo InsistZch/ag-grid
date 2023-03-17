@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@odoo/owl": "^2.0.9",
     "ag-charts-community": "^7.0.0",
     "ag-grid-community": "^29.0.0",
     "ag-grid-enterprise": "^29.0.0",
