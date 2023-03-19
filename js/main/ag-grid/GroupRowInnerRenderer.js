@@ -15,21 +15,6 @@ class GroupRowInnerRenderer {
         const btn2 = document.createElement('button')
         const costbtn = document.createElement('button')
         // 设置样式
-        // const cssText = `
-        // position: absolute;
-        // top: 50%;
-        // transform: translateY(-50%);
-        // height: 20px;
-        // display: flex;
-        // justify-content: center;
-        // align-items: center;
-        // padding: .2rem .6rem;
-        // border-radius: 5px;
-        // border: none;
-        // font-size: .8rem;
-        // background-color: #eeeeee90;
-        // color: #666;
-        // `
         eGui.style.cssText = `
         display:flex;
         `
