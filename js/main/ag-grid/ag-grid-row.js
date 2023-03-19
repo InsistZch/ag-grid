@@ -480,7 +480,7 @@ const cost_proportion = (data, mealCopies) => {
     costs['type'] = "%"
     let mealCopiesCount = mealCopies.reduce((pre, v) => pre += Number(v.Copies), 0)
     costs['Copies'] = mealCopiesCount
-
+    costs['dish'] = (index.planed_cost_ratio_dict.average * 100).toFixed(1) + "%"
 
     if(!saveData.day_cost_proportion.init_cost_ratio){
         saveData.day_cost_proportion.init_cost_ratio = Number(costs['costPrice'].split('%')[0])
@@ -491,7 +491,6 @@ const cost_proportion = (data, mealCopies) => {
     if(!saveData.day_cost_proportion.init_cost){
         saveData.day_cost_proportion.init_cost = cost_totle_obj.cost_price
     }
-
     saveData.day_cost_proportion.complete_cost = cost_totle_obj.cost_price
     saveData.day_cost_proportion.complete_sales = cost_totle_obj.sales_volume
     // console.log([costPrices, sales_volume, costs])

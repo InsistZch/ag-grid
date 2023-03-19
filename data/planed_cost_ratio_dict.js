@@ -1,5 +1,5 @@
 export default{
-    "max": 0.29,
-    "min": 0.29,
+    "max": 0.30,
+    "min": 0.26,
     "average": 0.29
 }

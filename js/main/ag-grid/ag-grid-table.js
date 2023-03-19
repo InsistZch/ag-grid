@@ -40,6 +40,8 @@ const init_grid_options = () => {
         suppressCopyRowsToClipboard: true,
         rowSelection: 'multiple',
         rowMultiSelectWithClick: true,
+        tooltipShowDelay: 0,
+        // tooltipHideDelay: 5000,
         // suppressCellSelection: true,
         groupDisplayType: 'groupRows',
         groupRowRendererParams: {

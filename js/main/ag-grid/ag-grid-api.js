@@ -11,6 +11,7 @@ import { countMaterialData, cost_proportion } from './ag-grid-row.js'
 import mealcopies from './special_fast_data.js'
 // import {dataIndex} from './GroupRowInnerRenderer.js'
 import init_mp from "./meal_price.js"
+import init_mc from "./special_fast_data.js"
 import countID,{costPlusOne} from './countID.js'
 // import 
 
@@ -61,6 +62,16 @@ const nodeRowData = async (v, e, ratio, type) => {
     }else{
         if(v.data.specialMealID == undefined) return
     }
+    if(v.data.type == "汤粥"){
+        let count = 0
+        for (const item of init_mc()) {
+            if(v.data.cl1 == item.cl1){
+                count += Number(item[e.colDef.field])
+            }
+        }
+        const rowNode = e.api.getRowNode(v.data.id)
+        rowNode.setDataValue(e.colDef.field, count)
+    }
     // 去除当前值为0的数据
     if(v.data[`${e.colDef.field}`] == 0) return
     v.data[`${e.colDef.field}`] = Number(v.data[`${e.colDef.field}`] )
@@ -76,7 +87,8 @@ const nodeRowData = async (v, e, ratio, type) => {
     // await rowNode.setData(calculateCopies(v.data))
     // console.log(v.data)
 }
-
+// 修改特色餐 上面的份数也需要变动 总份数不变
+// 汤面总数为 特色餐 + 普通餐
 // cellRenderer > onCellValueChanged
 const onCellValueChanged = async (e,gridOptions) => {
     // console.log(e.data.type)
@@ -134,7 +146,7 @@ const onCellValueChanged = async (e,gridOptions) => {
         const ratio = ( ( copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue)) / parseInt(e.oldValue == 0 ? 1 : e.oldValue))
         // console.log(e.newValue, e.oldValue, ratio)
         // 餐标 => 不可改变
-        // 成本 => 自动改变
+        // 成本 => 自动改变 
         // 份数 => 用户改变
         if(e.data.configure && !e.data.fixed){
             if(e.data.type != "餐标" && e.data.type != "%"){
@@ -144,6 +156,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                 // console.log(111)
             }
         }else{
+            // console.log(e.data)
             let Copies =  e.data['Copies'] + copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue)
             e.data[`${e.colDef.field}`] = copiesNumber(e.data[`${e.colDef.field}`])
             // console.log(e.data.type)
@@ -159,15 +172,33 @@ const onCellValueChanged = async (e,gridOptions) => {
             e.data['whole'] = countMaterialData[0]
             e.data['dish_key_id']['material_item'] = countMaterialData[1]
             e.data['costPrice'] = isNaN(countMaterialData[2]) ? 0 : countMaterialData[2]
-            // const rowNode = await e.api.getRowNode(e.data.id)
-            // await rowNode.setDataValue('Copies', Copies)
-            // await rowNode.setDataValue('whole', countMaterialData[0])
-            // await rowNode.setDataValue('dish_key_id', {
-            //     ...e.data['dish_key_id'],
-            //     material_item: countMaterialData[1]
-            // })
-            // e.data['dish_key_id']['material_item'] = countMaterialData[1]
-            // await rowNode.setDataValue('costPrice', isNaN(countMaterialData[2]) ? 0 : countMaterialData[2])
+        }
+        if(e.data.type == "特色" && !e.data.configure){
+            let count = 0
+            e.api.forEachNode(v => {
+                if(v.data == null || v.data.cl1 != e.data.cl1 || v.data.configure) return
+                if(v.data.type == "特色"){
+                    count += Number(v.data[e.colDef.field])
+                }
+            })
+            for (const item of init_mc()) {
+                if(item.cl1 == e.data.cl1){
+                    if(item.type == "特色"){
+                        const rowNode = e.api.getRowNode(`copies-${e.data.dinner_type}-1`)
+                        item[e.colDef.field] = count
+                        rowNode.setDataValue(e.colDef.field, count)
+                    }else{
+                        const rowNode = e.api.getRowNode(`copies-${e.data.dinner_type}-0`)
+                        if(count > item[e.colDef.field]){
+                            item[e.colDef.field] = 0
+                        }else{
+                            item[e.colDef.field] = item[e.colDef.field] - count
+                        }
+                        rowNode.setDataValue(e.colDef.field, item[e.colDef.field])
+                    }
+                    
+                }
+            }
         }
         // 当前数据 101
 
@@ -1009,7 +1040,7 @@ const changedValuetoData = async (e, gridOptions) => {
                 console.log(i)
                 index = i == 1 ? 0 : i
             }
-            if(v.data.configure == true || v.data.edit == false) return
+            if(v.data.configure || !v.data.edit) return
             if(v.data.cl1 == c_item){
                 costs_data.push(v.data)
                 dinner_type = v.data.dinner_type

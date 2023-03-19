@@ -5,6 +5,7 @@ import customCells from './ag-grid-customCells.js';
 import {duibi} from './ag-grid-row.js';
 import preserved_dishes from './preserved_dishes.js';
 import init_mc from './special_fast_data.js';
+import dish_tooltipField from './dish_tooltipField.js'
 // 定义列
 const col = () => {
     const col = [
@@ -50,10 +51,16 @@ const col = () => {
             // cellEditorParams:{values:dish_dropdown()},
             cellEditor: customCells,
             pinned: 'left',
-            filter:true, 
+            filter:true,
+            tooltipField: 'dish',
+            tooltipComponent: dish_tooltipField,
             cellRenderer: params => {
-            //    console.log(params)
-               if(params.value == "" || params.value == undefined) return ""
+                if(params.value == "" || params.value == undefined) return ""
+                if(params.data.configure){
+                    
+                    return `<span title="业内平均成本比例">${params.value}</span>`
+                }
+                
                 // 其他 冻品 鲜肉 半成品
                 let color = "",title = ""
                 for (const dish_key of index.dish_key) {
