@@ -173,6 +173,7 @@ const col = () => {
             // user_id,dish_id
             
             let value = ""
+            
             if(params.value > hook){
                 value = `<span style="color:red;" title="超出厨师长限制 限制为：${hook}">${params.value}</span>`
             }else{
@@ -182,6 +183,19 @@ const col = () => {
                 let d = duibi(params.colDef.field, params.data.dish_key_id.id, params.data.dinner_type, params.data.dish_key_id.material_item)
                 if(!d[1]){
                     value =  `<span style="color:red;" title="客户禁忌,客户不吃${d[0]}">${params.value}</span>`
+                }
+            }
+            if(params.data.type == "汤粥"){
+                let count = 0
+                for (const item of init_mc()) {
+                    if(item.cl1 == params.data.cl1){
+                        count += item[params.colDef.field]
+                    }
+                }
+                if(count < params.value){
+                    value = `<span style="color:red;" title="超出厨师长限制 限制为：${count}">${params.value}</span>`
+                }else{
+                    value = params.value
                 }
             }
             return value
