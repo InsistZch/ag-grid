@@ -202,7 +202,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                             // 快餐
                             const rowNode = e.api.getRowNode(`copies-${e.data.dinner_type}-0`)
                             kuaiOldCount = item[e.colDef.field] == 0 ? 1 : item[e.colDef.field]
-                            if(count > item[e.colDef.field]){
+                            if(item[e.colDef.field] - (e.newValue - e.oldValue) < 0){
                                 item[e.colDef.field] = 0
                             }else{
                                 item[e.colDef.field] = item[e.colDef.field] - (e.newValue - e.oldValue)
