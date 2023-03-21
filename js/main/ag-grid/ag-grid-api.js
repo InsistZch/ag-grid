@@ -64,9 +64,9 @@ const nodeRowData = (v, e, ratio, type) => {
     if(v.data.configure) return
     // 去除快餐或者特色餐
     if(type == "快餐"){
-        if(v.data.specialMealID != undefined) return
+        if(v.data.specialMealColor != undefined) return
     }else{
-        if(v.data.specialMealID == undefined) return
+        if(v.data.specialMealColor == undefined) return
     }
     
     // 去除当前值为0的数据

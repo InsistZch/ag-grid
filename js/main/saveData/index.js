@@ -16,6 +16,7 @@ export function resetSavedData() {
 
             new_material_to_unit_ratio: [],
 
+            add_dish_key_list: [],
             // 日成本比例数据
             day_cost_proportion: {
                 init_sales: false,
