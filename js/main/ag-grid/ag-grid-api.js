@@ -182,12 +182,17 @@ const onCellValueChanged = async (e,gridOptions) => {
             // 先改变份数 再改变菜品份数
             // console.log(copiesChangedjudeg)
             if(e.data.type == "特色" && !e.data.configure){
-                console.log(e.data)
+                let ratio = ( ( copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue)) / parseInt(e.oldValue == 0 ? 1 : e.oldValue))
                 let count = 0
                 e.api.forEachNode(v => {
                     if(v.data == null || v.data.cl1 != e.data.cl1 || v.data.configure) return
                     if(v.data.type == "特色"){
                         count += Number(v.data[e.colDef.field])
+                    }
+                    if(v.data.specialMealColor == e.data.specialMealColor && v.data.type != "特色"){
+                        if(v.data[e.colDef.field] > 0){
+                            v.data[e.colDef.field] = copiesNumber(v.data[e.colDef.field] + (v.data[e.colDef.field] * ratio))
+                        }
                     }
                 })
                 let CopiesCount = 0
@@ -198,6 +203,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                             const rowNode = e.api.getRowNode(`copies-${e.data.dinner_type}-1`)
                             item[e.colDef.field] = count
                             rowNode && await rowNode.setDataValue(e.colDef.field, count)
+                            
                         }else{
                             // 快餐
                             const rowNode = e.api.getRowNode(`copies-${e.data.dinner_type}-0`)
@@ -215,8 +221,8 @@ const onCellValueChanged = async (e,gridOptions) => {
                     }
                 }
                 // new - old / old
-                const ratio = (kuaiNewCount - kuaiOldCount) / kuaiOldCount 
-                console.log(kuaiNewCount, kuaiOldCount)
+                ratio = (kuaiNewCount - kuaiOldCount) / kuaiOldCount 
+                // console.log(kuaiNewCount, kuaiOldCount)
                 e.api.forEachNode(async v => {
                     if(v.data == null || v.data.cl1 != e.data.cl1 || v.data.configure) return
                     if(v.data.specialMealID != undefined || v.data.specialMealColor != undefined) return
@@ -230,6 +236,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                     // console.log(value)
                     const rowNode = await e.api.getRowNode(v.data.id)
                     await rowNode.setDataValue(e.colDef.field, value)
+                    // v.data[e.colDef.field] = value
                 })
             }
 
