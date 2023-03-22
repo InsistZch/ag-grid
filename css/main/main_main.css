@@ -19,6 +19,10 @@ main.main div.content{
     --ag-cell-horizontal-padding: 2px;
 }
 
+.w30{
+    width: 30%;
+}
+
 .createDish{
     position: absolute;
     right: 0;

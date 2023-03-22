@@ -18,11 +18,6 @@
     <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- <link href="https://www.itxst.com/package/ag-grid/styles/ag-grid.css" rel="stylesheet"/> -->
     <!-- jQuery and JavaScript Bundle with Popper -->
-    <style>
-        .a{
-            justify-content: center;
-        }
-    </style>
 </head>
 <body>
 <header class="header box-border">
@@ -111,7 +106,7 @@
 <main class="main">
     <div class="header">
         <div class="function">
-            <button class="purchase">采购</button>
+            <button class="purchase" id="purchase">采购</button>
             <button class="plan_sheet">计划单</button>
             <button class="purchase_price" id="purchase_price_btn">采购单价</button>
             <button class="picking">领料</button>
@@ -481,6 +476,7 @@
     import main_index from './js/main/index.js'
     import saveData from './js/main/saveData/index.js'
     import init_mc from './js/main/ag-grid/special_fast_data.js'
+    import getMaterial from './js/main/otherApi/getMaterial.js'
     console.log(data_index)
 
     // for (const item of data_index.material_item) {
@@ -517,16 +513,24 @@
         // 主单位是斤
         // 一个食材单位为两
         // 一个单位食材为斤
-        main_index.otherApi.purchasePrice('#purchase_price_btn',() => {
-            const material = new Map()
-            agOption.api.forEachNode(v => {
-                if(v.data == null || v.data.config) return
-                for (const item of v.data.dish_key_id.material_item) {
-                    material.set(item.id, item)
+        main_index.otherApi.purchasePrice('#purchase_price_btn',getMaterial(agOption))
+
+        main_index.otherApi.purchase("#purchase", (isShow) => {
+            const col_cus = agOption.columnDefs.reduce((pre,v) => {
+                if(!isNaN(v.field)){
+                    pre.push({
+                        colId: v.field,
+                        hide: isShow,
+                    })
                 }
+                return pre
+            }, [])
+            document.querySelector('#myGrid').classList.toggle("w30")
+            // console.log(agOption)
+            agOption.columnApi.applyColumnState({
+                state: [...col_cus]
             })
-            // console.log(material)
-            return [material, agOption]
+            agOption.api.sizeColumnsToFit();
         })
         // 图表
         // var chart = agCharts.AgChart.create(main_index.agChart);
