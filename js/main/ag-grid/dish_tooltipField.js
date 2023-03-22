@@ -1,3 +1,4 @@
+/** @odoo-module **/
 import index from '../../../data/index.js'
 
 class dish_tooltipField {
