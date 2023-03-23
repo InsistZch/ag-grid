@@ -1,7 +1,7 @@
 /** @odoo-module **/
 import agGridRow from "./ag-grid-row.js"
 import index from '../../../data/index.js'
-import customFromDom from '../otherApi/customFrom.js'
+// import customFromDom from '../otherApi/customFrom.js'
 import saveData from "../saveData/index.js"
 import { add_dish_bom_id, add_material_id, add_material_item_bom_unit_ratio_id } from "../tool.js"
 import specialMeal from "./specialMeal.js"
@@ -13,6 +13,7 @@ import mealcopies from './special_fast_data.js'
 import init_mp from "./meal_price.js"
 import init_mc from "./special_fast_data.js"
 import countID,{costPlusOne} from './countID.js'
+import {customFrom as customFromDom, resetPurchaseData} from './../otherApi/index.js'
 // import 
 
 // 添加对应数据
@@ -781,6 +782,8 @@ const onCellValueChanged = async (e,gridOptions) => {
         e.data.dish_key_id.material_item = [...material_items]
         const rowNode = await e.api.getRowNode(e.data.id)
         await rowNode.setData(e.data)
+
+        resetPurchaseData.Change(gridOptions)
         gridOptions.api.refreshCells({force:true})
         // console.log(e.data)
         // for (const {data} of e.node.parent.allLeafChildren) {
@@ -799,6 +802,7 @@ const onCellValueChanged = async (e,gridOptions) => {
     // console.log(e.data)
     // console.log(new Date() * 1 - newDate)
     changedValuetoData(e, gridOptions)
+    
     // await rowNode.setData(e.data)/
     // console.log(new Date() * 1 - newDate)
     // gridOptions.api.refreshCells({force:true})

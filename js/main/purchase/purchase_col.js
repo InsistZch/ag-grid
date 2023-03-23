@@ -9,19 +9,24 @@ export default [
     },
     {
         headerName: "需量",
-        field: "quantity"
+        field: "quantity",
+        editable: true,
+        hide: true
     },
     {
         headerName: "库存",
         field: "stock",
+        hide: true,
     },
     {
-        headerName: "标准价格",
-        field: "standardPrice"
+        headerName: "标准单价",
+        field: "standardPrice",
+        hide: true
     },
     {
-        headerName: "市场价格",
-        field: "marketPrice"
+        headerName: "市场价",
+        field: "marketPrice",
+        hide: true
     },
     {
         headerName: "应下单",
@@ -37,7 +42,8 @@ export default [
     },
     {
         headerName: "送货日期",
-        field: "deliveryDate"
+        field: "deliveryDate",
+        hide: true
     },
     {
         headerName: "明天",
@@ -57,6 +63,7 @@ export default [
     },
     {
         headerName: "备注",
-        field: "remarks"
+        field: "remarks",
+        minWidth: 300,
     }
 ]

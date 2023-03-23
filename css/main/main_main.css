@@ -19,6 +19,13 @@ main.main div.content{
     --ag-cell-horizontal-padding: 2px;
 }
 
+.myGrid{
+    width: 100%;
+}
+.myGrid2{
+    width: 0%;
+}
+
 .w30{
     width: 30%;
 }

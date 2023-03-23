@@ -4,12 +4,16 @@ import copiesNumber from "../ag_common/CopiesNumber.js"
 import addWindowData from './addWindowData.js'
 import purchasePrice from "./purchasePrice.js";
 import purchase from "./purchase.js";
+import resetPurchaseData from "./resetPurchaseData.js";
+import customFrom from './customFrom.js'
 export {
     saveData,
     copiesNumber,
     addWindowData,
     purchasePrice,
-    purchase
+    purchase,
+    resetPurchaseData,
+    customFrom
 }
 
 export default {
@@ -17,5 +21,7 @@ export default {
     copiesNumber,
     addWindowData,
     purchasePrice,
-    purchase
+    purchase,
+    resetPurchaseData,
+    customFrom
 }
