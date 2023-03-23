@@ -1,5 +1,11 @@
 export default [
     {
+        headerName: "",
+        field: "category_name",
+        hide: true,
+        rowGroup: true
+    },
+    {
         headerName: "菜品",
         field: "material"
     },

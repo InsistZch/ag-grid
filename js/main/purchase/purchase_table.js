@@ -41,6 +41,7 @@ const gridOptions = (agOption) => {
             ],
             defaultToolPanel: 'columns',
         },
+        groupDisplayType: 'groupRows',
         // // suppressColumnMoveAnimation:false,
         // onCellValueChanged: (params) => onCellValueChanged(params, agOption),
         // onCellClicked,

@@ -1,10 +1,13 @@
 import getMaterial from "../otherApi/getMaterial.js"
+import index from './../../../data/index.js'
 
 
 const row = (agOption) => {
     const rowData = []
     const [d,] = getMaterial(agOption)
+    
     d.forEach((v, i) => {
+        const {name} = index.material_top_category.find(e => e.id == v.top_category_id)
         let obj = {
             material: v.name.split('-')[0],
             demandDate: "3-23",
@@ -22,7 +25,9 @@ const row = (agOption) => {
             supplier: "",
             remarks: "",
             id: i,
+            category_name: name
         }
+        console.log(name)
         rowData.push(obj)
     })
     return rowData
