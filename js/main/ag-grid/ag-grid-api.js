@@ -1,18 +1,15 @@
 /** @odoo-module **/
 import agGridRow from "./ag-grid-row.js"
 import index from '../../../data/index.js'
-// import customFromDom from '../otherApi/customFrom.js'
 import saveData from "../saveData/index.js"
 import { add_dish_bom_id, add_material_id, add_material_item_bom_unit_ratio_id } from "../tool.js"
 import specialMeal from "./specialMeal.js"
-// import {Restrictions} from './ag-grid-col.js'
 import copiesNumber  from '../ag_common/CopiesNumber.js'
 import { countMaterialData, cost_proportion } from './ag-grid-row.js'
 import mealcopies from './special_fast_data.js'
-// import {dataIndex} from './GroupRowInnerRenderer.js'
 import init_mp from "./meal_price.js"
 import init_mc from "./special_fast_data.js"
-import countID,{costPlusOne} from './countID.js'
+import countID, { costPlusOne } from './countID.js'
 import {customFrom as customFromDom, resetPurchaseData} from './../otherApi/index.js'
 // import 
 

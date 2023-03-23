@@ -13,14 +13,18 @@ const gridOptions = (agOption) => {
             editable: false,//单元表格是否可编辑
             // enableRowGroup: true,
             // sortable: true, //开启排序
-            resizable: true,//是否可以调整列大小，就是拖动改变列大小
+            // resizable: true,//是否可以调整列大小，就是拖动改变列大小
             // filter: true,  //开启刷选
             minWidth: 50,
             flex: 1,
             // floatingFilter: true,
             suppressSizeToFit: true,
+            pinned: true,
+            lockPosition: true,
+            lockPinned: true,
             menuTabs: []
         },
+        suppressDragLeaveHidesColumns: true,
         sideBar: {
             toolPanels: [
                 {
