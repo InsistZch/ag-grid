@@ -4,6 +4,7 @@ import col from "./purchase_col.js";
 import row from "./purchase_row.js";
 import { getRowId } from './purchase_api.js';
 import GroupRowInnerRenderer from './GroupRowInnerRenderer.js'
+import CustomStatsToolPanel from './CustomStatsToolPanel.js'
 
 const gridOptions = (agOption) => {  
     return {
@@ -15,21 +16,23 @@ const gridOptions = (agOption) => {
             // sortable: true, //开启排序
             // resizable: true,//是否可以调整列大小，就是拖动改变列大小
             // filter: true,  //开启刷选
-            minWidth: 50,
+            minWidth: 60,
+            width: 60,
+            // maxWidth: 60,
             flex: 1,
             // floatingFilter: true,
             suppressSizeToFit: true,
-            pinned: true,
+            // pinned: "left",
             lockPosition: true,
             lockPinned: true,
             menuTabs: []
         },
-        suppressDragLeaveHidesColumns: true,
+        // suppressDragLeaveHidesColumns: true,
         sideBar: {
             toolPanels: [
                 {
                   id: 'columns',
-                  labelDefault: 'Columns',
+                  labelDefault: '列显示与隐藏',
                   labelKey: 'columns',
                   iconKey: 'columns',
                   toolPanel: 'agColumnsToolPanel',
@@ -43,10 +46,19 @@ const gridOptions = (agOption) => {
                     suppressColumnExpandAll: true,
                   },
                 },
+                {
+                    id: 'customStats',
+                    labelDefault: '保存订单',
+                    labelKey: 'customStats',
+                    iconKey: 'columns',
+                    toolPanel: CustomStatsToolPanel,
+                },
             ],
             defaultToolPanel: 'columns',
         },
+        getContextMenuItems: [],
         groupDisplayType: 'groupRows',
+        groupDefaultExpanded: -1,
         groupRowRendererParams: {
             suppressCount: true,
             innerRenderer: GroupRowInnerRenderer,

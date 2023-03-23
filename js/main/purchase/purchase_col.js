@@ -17,7 +17,7 @@ export default [
     {
         headerName: "需量",
         field: "quantity",
-        editable: true,
+        // editable: true,
         hide: true
     },
     {
@@ -45,7 +45,8 @@ export default [
     },
     {
         headerName: "下单",
-        field: "Order"
+        field: "Order",
+        editable: true,
     },
     {
         headerName: "送货日期",

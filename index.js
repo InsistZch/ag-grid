@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
             state: [...col_cus]
         })
         agOption.api.sizeColumnsToFit();
+        purchaseOption.api.sizeColumnsToFit();
     })
     // 图表
     // var chart = agCharts.AgChart.create(main_index.agChart);
