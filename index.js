@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // 主单位是斤
     // 一个食材单位为两
     // 一个单位食材为斤
-    main_index.otherApi.purchasePrice('#purchase_price_btn', getMaterial(agOption))
+    main_index.otherApi.purchasePrice('#purchase_price_btn', () =>  getMaterial(agOption))
 
     main_index.otherApi.purchase("#purchase", (isShow) => {
         const col_cus = agOption.columnDefs.reduce((pre,v) => {

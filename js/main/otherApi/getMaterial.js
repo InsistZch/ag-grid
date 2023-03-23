@@ -1,3 +1,4 @@
+/** @odoo-module **/
 export default (agOption) => {
     const material = new Map()
     agOption.api.forEachNode(v => {

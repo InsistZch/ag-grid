@@ -1,3 +1,4 @@
+/** @odoo-module **/
 import purchase_row from "../purchase/purchase_row.js"
 
 class resetPurchaseData{

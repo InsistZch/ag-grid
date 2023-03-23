@@ -1,3 +1,4 @@
+/** @odoo-module **/
 import getMaterial from "../otherApi/getMaterial.js"
 import index from './../../../data/index.js'
 

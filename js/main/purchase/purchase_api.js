@@ -1,3 +1,4 @@
+/** @odoo-module **/
 const getRowId = (params) => params.data.id;
 
 export {

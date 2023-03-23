@@ -1,3 +1,4 @@
+/** @odoo-module **/
 export default [
     {
         headerName: "",
