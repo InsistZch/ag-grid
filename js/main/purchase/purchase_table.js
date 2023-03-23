@@ -2,7 +2,8 @@
 
 import col from "./purchase_col.js";
 import row from "./purchase_row.js";
-import { getRowId } from './purchase_api.js'
+import { getRowId } from './purchase_api.js';
+import GroupRowInnerRenderer from './GroupRowInnerRenderer.js'
 
 const gridOptions = (agOption) => {  
     return {
@@ -42,6 +43,11 @@ const gridOptions = (agOption) => {
             defaultToolPanel: 'columns',
         },
         groupDisplayType: 'groupRows',
+        groupRowRendererParams: {
+            suppressCount: true,
+            innerRenderer: GroupRowInnerRenderer,
+            editable:false
+        },
         // // suppressColumnMoveAnimation:false,
         // onCellValueChanged: (params) => onCellValueChanged(params, agOption),
         // onCellClicked,

@@ -30,7 +30,7 @@ class GroupRowInnerRenderer {
         costbtn.style.cssText = `
         margin-left: 15rem;`
 
-        const a = window.getComputedStyle(btn, '::before');
+        // const a = window.getComputedStyle(btn, '::before');
         // a.setProperty('transform', "rotate(90deg)")
         // a.transform.rotate = "90deg"
         let c = init_mc()
