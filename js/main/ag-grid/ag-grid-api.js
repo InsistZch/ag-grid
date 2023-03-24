@@ -182,7 +182,7 @@ const onCellValueChanged = async (e,gridOptions) => {
             // 先改变份数 再改变菜品份数
             // console.log(copiesChangedjudeg)
             if(e.data.type == "特色" && !e.data.configure){
-                console.log(e.data)
+                // console.log(e.data)
                 let count = 0
                 e.api.forEachNode(v => {
                     if(v.data == null || v.data.cl1 != e.data.cl1 || v.data.configure) return
@@ -194,6 +194,7 @@ const onCellValueChanged = async (e,gridOptions) => {
                 let kuaiNewCount = 0, kuaiOldCount = 0
                 for (const item of init_mc()) {
                     if(item.cl1 == e.data.cl1){
+                        // console.log(1, `type: ${item.type},item: ${item[e.colDef.field]}, newValue: ${e.newValue}, oldValue: ${e.oldValue}`)
                         if(item.type == "特色"){
                             const rowNode = e.api.getRowNode(`copies-${e.data.dinner_type}-1`)
                             item[e.colDef.field] = count
@@ -201,22 +202,26 @@ const onCellValueChanged = async (e,gridOptions) => {
                         }else{
                             // 快餐
                             const rowNode = e.api.getRowNode(`copies-${e.data.dinner_type}-0`)
-                            kuaiOldCount = item[e.colDef.field] == 0 ? 1 : item[e.colDef.field]
-                            if(item[e.colDef.field] - (e.newValue - e.oldValue) < 0){
+                            kuaiOldCount = item[e.colDef.field]
+                            
+                            if(item[e.colDef.field] - (e.newValue - e.oldValue) <= 0){
                                 item[e.colDef.field] = 0
                             }else{
+                                if(e.newValue == 0 && e.oldValue == 0) item[e.colDef.field] = 0
                                 item[e.colDef.field] = item[e.colDef.field] - (e.newValue - e.oldValue)
                             }
                             kuaiNewCount = item[e.colDef.field]
                             
                             rowNode && await rowNode.setDataValue(e.colDef.field, item[e.colDef.field])
                         }
+                        // console.log(2, `type: ${item.type},item: ${item[e.colDef.field]}, newValue: ${e.newValue}, oldValue: ${e.oldValue}`)
+                        // console.log(item.type, item[e.colDef.field], e.newValue, e.oldValue)
                         CopiesCount += item[e.colDef.field]
                     }
                 }
                 // new - old / old
-                const ratio = (kuaiNewCount - kuaiOldCount) / kuaiOldCount 
-                console.log(kuaiNewCount, kuaiOldCount)
+                const ratio = (kuaiNewCount - kuaiOldCount) / (kuaiOldCount == 0 ? 1 : kuaiOldCount) 
+                // console.log(kuaiNewCount, kuaiOldCount)
                 e.api.forEachNode(async v => {
                     if(v.data == null || v.data.cl1 != e.data.cl1 || v.data.configure) return
                     if(v.data.specialMealID != undefined || v.data.specialMealColor != undefined) return
