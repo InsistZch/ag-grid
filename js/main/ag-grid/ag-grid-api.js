@@ -207,8 +207,8 @@ const onCellValueChanged = async (e,gridOptions) => {
                             if(item[e.colDef.field] - (e.newValue - e.oldValue) <= 0){
                                 item[e.colDef.field] = 0
                             }else{
-                                if(e.newValue == 0 && e.oldValue == 0) item[e.colDef.field] = 0
-                                item[e.colDef.field] = item[e.colDef.field] - (e.newValue - e.oldValue)
+                                if(e.newValue == 0) item[e.colDef.field] = 0;
+                                else item[e.colDef.field] = item[e.colDef.field] - (e.newValue - e.oldValue);
                             }
                             kuaiNewCount = item[e.colDef.field]
                             
