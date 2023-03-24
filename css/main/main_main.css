@@ -26,11 +26,11 @@ main.main div.content{
     width: 0%;
 }
 
-.w30{
-    width: 30%;
+.agGridLeft{
+    width: 35%;
 }
-.w70{
-    width: 70%;
+.agGridRight{
+    width: 65%;
 }
 
 .createDish{

@@ -1,5 +1,5 @@
 /** @odoo-module **/
-import { changedValuetoData } from './../ag-grid/ag-grid-api.js'
+import { changedValuetoData } from './../ag-grid/ag_common.js'
 import mealcopies from './../ag-grid/special_fast_data.js'
 import {cost_proportion, countCostPrice} from './../ag-grid/ag-grid-row.js'
 

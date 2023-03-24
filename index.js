@@ -53,8 +53,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             return pre
         }, [])
-        document.querySelector('#myGrid').classList.toggle("w30")
-        document.querySelector('#myGrid2').classList.toggle("w70")
+        document.querySelector('#myGrid').classList.toggle("agGridLeft")
+        document.querySelector('#myGrid2').classList.toggle("agGridRight")
         const purchaseOption = purchase_table(agOption)
         const eDiv = document.querySelector('#myGrid2');
         eDiv.innerHTML = ""
