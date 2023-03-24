@@ -8,7 +8,6 @@ import copiesNumber  from '../ag_common/CopiesNumber.js'
 import { countMaterialData, cost_proportion } from './ag-grid-row.js'
 import mealcopies from './special_fast_data.js'
 import init_mp from "./meal_price.js"
-// import init_mc from "./special_fast_data.js"
 import countID, { costPlusOne } from './countID.js'
 import {customFrom as customFromDom, resetPurchaseData} from './../otherApi/index.js'
 import {changedValuetoData} from './ag_common.js'
