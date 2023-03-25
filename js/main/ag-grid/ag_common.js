@@ -110,6 +110,20 @@ const changedValuetoData = async (e, gridOptions) => {
         await gridOptions.api.applyTransactionAsync({add: [obj], addIndex: index})
     }
 }
+
+const anew_top_cost = (e) => {
+    // 表头比例设置
+    const arr = []
+
+    e.api.forEachNode(v => {
+        if(v.data == null) return
+        if(v.data.configure == true || v.data.edit == false) return
+        arr.push(v.data)
+    })
+    const d = cost_proportion(arr, mealcopies())
+    // console.log(gridOptions.rowData, arr, mealcopies(), d)
+    e.api.setPinnedTopRowData([d[2]])
+}
 // configure => 是否为配置信息
 // edit  => 可否输入
 // 加入餐标
@@ -126,5 +140,6 @@ const mealPrice = () => {
 export {
     mealPrice,
     mealAbstract,
-    changedValuetoData
+    changedValuetoData,
+    anew_top_cost   
 }

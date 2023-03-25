@@ -10,7 +10,7 @@ import mealcopies from './special_fast_data.js'
 import init_mp from "./meal_price.js"
 import countID, { costPlusOne } from './countID.js'
 import {customFrom as customFromDom, resetPurchaseData} from './../otherApi/index.js'
-import {changedValuetoData} from './ag_common.js'
+import {changedValuetoData, anew_top_cost} from './ag_common.js'
 // import 
 
 // 添加对应数据
@@ -69,19 +69,6 @@ const nodeRowData = (v, e, ratio, type) => {
     
     // 去除当前值为0的数据
     if(v.data[`${e.colDef.field}`] == 0) return
-
-
-    // if(v.data.type == "汤粥"){
-    //     let count = 0
-    //     for (const item of init_mc()) {
-    //         if(v.data.cl1 == item.cl1){
-    //             count += Number(item[e.colDef.field])
-    //         }
-    //     }
-    //     const rowNode = e.api.getRowNode(v.data.id)
-    //     rowNode.setDataValue(e.colDef.field, count)
-    //     return
-    // }
 
     v.data[`${e.colDef.field}`] = Number(v.data[`${e.colDef.field}`] )
     let value = 0
@@ -1018,19 +1005,7 @@ const sales_type = (value) => {
     }
 }
 
-const anew_top_cost = (e) => {
-    // 表头比例设置
-    const arr = []
 
-    e.api.forEachNode(v => {
-        if(v.data == null) return
-        if(v.data.configure == true || v.data.edit == false) return
-        arr.push(v.data)
-    })
-    const d = cost_proportion(arr, mealcopies())
-    // console.log(gridOptions.rowData, arr, mealcopies(), d)
-    e.api.setPinnedTopRowData([d[2]])
-}
 
 
 const getRowStyle = params => {

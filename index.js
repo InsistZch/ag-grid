@@ -2,7 +2,7 @@ import data_index from './data/index.js'
 import main_index from './js/main/index.js'
 import saveData from './js/main/saveData/index.js'
 import init_mc from './js/main/ag-grid/special_fast_data.js'
-import getMaterial from './js/main/otherApi/getMaterial.js'
+import { getMaterial } from './js/main/otherApi/getMaterial.js'
 import purchase_table from './js/main/purchase/purchase_table.js'
 import {resetPurchaseData} from './js/main/otherApi/index.js'
 console.log(data_index)
@@ -43,7 +43,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // 一个单位食材为斤
     main_index.otherApi.purchasePrice('#purchase_price_btn', () =>  getMaterial(agOption))
 
-    main_index.otherApi.purchase("#purchase", (isShow) => {
+    main_index.otherApi.purchase("#purchase", () => {
+        document.querySelector('#myGrid').classList.toggle("agGridLeft")
+        const eDiv = document.querySelector('#myGrid2');
+        const isShow = eDiv.classList.toggle("agGridRight")
+        // console.log(isShow)  
         const col_cus = agOption.columnDefs.reduce((pre,v) => {
             if(!isNaN(v.field)){
                 pre.push({
@@ -53,20 +57,21 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             return pre
         }, [])
-        document.querySelector('#myGrid').classList.toggle("agGridLeft")
-        document.querySelector('#myGrid2').classList.toggle("agGridRight")
-        const purchaseOption = purchase_table(agOption)
-        const eDiv = document.querySelector('#myGrid2');
-        eDiv.innerHTML = ""
-        resetPurchaseData.purchase_init(purchaseOption)
-        new agGrid.Grid(eDiv, purchaseOption);
-        // purchaseOption.api.sizeColumnsToFit();
-        // console.log(agOption)
         agOption.columnApi.applyColumnState({
             state: [...col_cus]
         })
         agOption.api.sizeColumnsToFit();
-        purchaseOption.api.sizeColumnsToFit();
+
+        if(isShow){
+            const purchaseOption = purchase_table(agOption)
+            eDiv.innerHTML = ""
+            resetPurchaseData.purchase_init(purchaseOption)
+            new agGrid.Grid(eDiv, purchaseOption);
+            // purchaseOption.api.sizeColumnsToFit();
+            // console.log(agOption)
+            
+            purchaseOption.api.sizeColumnsToFit();
+        }
     })
     // 图表
     // var chart = agCharts.AgChart.create(main_index.agChart);
