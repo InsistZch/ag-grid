@@ -194,8 +194,8 @@ const onCellValueChanged = async (e,gridOptions) => {
                 let kuaiNewCount = 0, kuaiOldCount = 0
                 for (const item of init_mc()) {
                     if(item.cl1 == e.data.cl1){
-                        console.log(item.cl1)
-                        console.log(1, `type: ${item.type},item: ${item[e.colDef.field]}, newValue: ${e.newValue}, oldValue: ${e.oldValue}`)
+                        // console.log(item.cl1)
+                        // console.log(1, `type: ${item.type},item: ${item[e.colDef.field]}, newValue: ${e.newValue}, oldValue: ${e.oldValue}`)
                         if(item.type == "特色"){
                             const rowNode = e.api.getRowNode(`copies-${e.data.dinner_type}-1`)
                             item[e.colDef.field] = count
