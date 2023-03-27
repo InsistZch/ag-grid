@@ -39,20 +39,4 @@ class dish_tooltipField {
     }
     
 }
-
-// const minStyle = `
-// `
-// const str = `
-// <div class="el_sales_show" title="业内平均成本比例">28%</div>
-// <div class="el_sales_main">
-//     <div class="el_sales_left"></div>
-//     <div class="center_sales el_sales_minRomax" data-center="${index.planed_cost_ratio_dict.average}" title="业内平均成本比例"></div>
-//     <div class="el_sales_right"></div>
-//     <div class="min_sales el_sales_minRomax" data-min="${index.planed_cost_ratio_dict.min}" title="业内最小成本比例"></div>
-//     <div class="max_sales el_sales_minRomax" data-max="${index.planed_cost_ratio_dict.max}" title="业内最大成本比例"></div>
-//     <div class="now_sales" data-now="${params.data.costPrice}" title="本公司当前成本比例"></div>
-// </div>`
-// const div = document.createElement('div')
-// div.innerHTML = str
-// this.eGui = div
 export default dish_tooltipField

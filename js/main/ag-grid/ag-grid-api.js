@@ -194,7 +194,8 @@ const onCellValueChanged = async (e,gridOptions) => {
                 let kuaiNewCount = 0, kuaiOldCount = 0
                 for (const item of init_mc()) {
                     if(item.cl1 == e.data.cl1){
-                        // console.log(1, `type: ${item.type},item: ${item[e.colDef.field]}, newValue: ${e.newValue}, oldValue: ${e.oldValue}`)
+                        console.log(item.cl1)
+                        console.log(1, `type: ${item.type},item: ${item[e.colDef.field]}, newValue: ${e.newValue}, oldValue: ${e.oldValue}`)
                         if(item.type == "特色"){
                             const rowNode = e.api.getRowNode(`copies-${e.data.dinner_type}-1`)
                             item[e.colDef.field] = count
@@ -203,12 +204,13 @@ const onCellValueChanged = async (e,gridOptions) => {
                             // 快餐
                             const rowNode = e.api.getRowNode(`copies-${e.data.dinner_type}-0`)
                             kuaiOldCount = item[e.colDef.field]
-                            
+                            // 快餐减去
                             if(item[e.colDef.field] - (e.newValue - e.oldValue) <= 0){
                                 item[e.colDef.field] = 0
                             }else{
-                                if(e.newValue == 0) item[e.colDef.field] = 0;
-                                else item[e.colDef.field] = item[e.colDef.field] - (e.newValue - e.oldValue);
+                                item[e.colDef.field] = item[e.colDef.field] - (e.newValue - e.oldValue);
+                                // if(e.newValue == 0) item[e.colDef.field] = 0;
+                                // else
                             }
                             kuaiNewCount = item[e.colDef.field]
                             
