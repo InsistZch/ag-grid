@@ -8,7 +8,7 @@ const row = (agOption) => {
     const d = getCountMaterial(agOption)
     
     d.forEach((v, i) => {
-        console.log(v)
+        // console.log(v)
         const {name} = index.material_top_category.find(e => e.id == v.top_category_id)
         const unitName = index.material_purchase_unit_category.find(e => e.id == v.main_unit_id)
         let obj = {

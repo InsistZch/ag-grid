@@ -4,6 +4,7 @@ import col from "./purchase_col.js";
 import row from "./purchase_row.js";
 import { getRowId } from './purchase_api.js';
 import GroupRowInnerRenderer from './GroupRowInnerRenderer.js'
+import CustomColumnsToolPanel from "./CustomColumnsToolPanel.js";
 import CustomStatsToolPanel from './CustomStatsToolPanel.js'
 
 const gridOptions = (agOption) => {  
@@ -35,7 +36,7 @@ const gridOptions = (agOption) => {
                   labelDefault: '列显示与隐藏',
                   labelKey: 'columns',
                   iconKey: 'columns',
-                  toolPanel: 'agColumnsToolPanel',
+                  toolPanel: CustomColumnsToolPanel,
                   toolPanelParams: {
                     suppressRowGroups: true,
                     suppressValues: true,
@@ -56,7 +57,7 @@ const gridOptions = (agOption) => {
             ],
             defaultToolPanel: 'columns',
         },
-        getContextMenuItems: [],
+        getContextMenuItems: () => [],
         groupDisplayType: 'groupRows',
         groupDefaultExpanded: -1,
         groupRowRendererParams: {
