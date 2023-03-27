@@ -5,6 +5,7 @@ import init_mc from './js/main/ag-grid/special_fast_data.js'
 import { getMaterial } from './js/main/otherApi/getMaterial.js'
 import purchase_table from './js/main/purchase/purchase_table.js'
 import {resetPurchaseData} from './js/main/otherApi/index.js'
+import refreshWholeCol from './js/main/otherApi/refreshWholeCol.js'
 console.log(data_index)
 
 // for (const item of data_index.material_item) {
@@ -16,7 +17,7 @@ console.log(data_index)
 document.addEventListener("DOMContentLoaded", function () {
 
     // 添加window对象
-
+    
     main_index.otherApi.addWindowData()
     // console.log(window)
     let agOption = main_index.init_grid_options();
@@ -69,8 +70,10 @@ document.addEventListener("DOMContentLoaded", function () {
             new agGrid.Grid(eDiv, purchaseOption);
             // purchaseOption.api.sizeColumnsToFit();
             // console.log(agOption)
-            
+            agOption.api.setColumnDefs(refreshWholeCol.refreshWhole());
             purchaseOption.api.sizeColumnsToFit();
+        }else{
+            agOption.api.setColumnDefs(refreshWholeCol.original());
         }
     })
     // 图表

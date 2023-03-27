@@ -88,7 +88,7 @@ export default[
 		"id": 375008, 
 		"material_id": 360190, 
 		"purchase_unit_id": 9, 
-		"main_unit_bom_unit_ratio": 1.0
+		"main_unit_bom_unit_ratio": 0.2
 	}, 
 	{
 		"id": 374928, 
@@ -1684,7 +1684,7 @@ export default[
 		"id": 396357, 
 		"material_id": 360190, 
 		"purchase_unit_id": 805, 
-		"main_unit_bom_unit_ratio": 0.2
+		"main_unit_bom_unit_ratio": 1.0
 	}, 
 	{
 		"id": 396387, 
