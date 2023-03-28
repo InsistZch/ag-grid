@@ -520,6 +520,9 @@ const onCellValueChanged = async (e,gridOptions) => {
                             }
                         })
 
+                    }else{
+                        e.data[`${e.colDef.field}`] = e.oldValue
+                        gridOptions.api.refreshCells({force:true}) 
                     }
                 }
             })
@@ -794,8 +797,8 @@ const onCellValueChanged = async (e,gridOptions) => {
     // gridOptions.api.refreshCells({force:true})
 }
 
-const getContextMenuItems = async (params, gridOptions) => {
-    let specialMeal = await m()
+const getContextMenuItems = (params, gridOptions) => {
+    let specialMeal = m()
     if(params.node.data == undefined) return
     
     // console.log(params)
