@@ -1,10 +1,19 @@
 /** @odoo-module **/
-export default{
-    Catering:{
-        dn1: 1,
-        dn2: 1,
-        dn3: 1,
-        dn5: 1
-    },
-    colors:['#2a598a66', '#a7773066', '#3e6b2766', '#6b6d7166', '#b2525266']
+let isfetch = false;
+
+let m = {}
+
+const specialMeal = async () => {
+    if(!isfetch){
+
+        isfetch = !isfetch
+        const meal = await fetch('./js/main/ag-grid/specialMeal.json').then(v => v.text())
+        m = {...JSON.parse(meal)}
+        return m
+
+    }
+    
+    return m
 }
+
+export default specialMeal

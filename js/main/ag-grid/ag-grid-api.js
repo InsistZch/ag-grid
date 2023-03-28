@@ -4,7 +4,7 @@ import index from '../../../data/index.js'
 import customFromDom from '../otherApi/customFrom.js'
 import saveData from "../saveData/index.js"
 import { add_dish_bom_id, add_material_id, add_material_item_bom_unit_ratio_id } from "../tool.js"
-import specialMeal from "./specialMeal.js"
+import m from "./specialMeal.js"
 // import {Restrictions} from './ag-grid-col.js'
 import copiesNumber  from '../ag_common/CopiesNumber.js'
 import { countMaterialData, cost_proportion } from './ag-grid-row.js'
@@ -782,17 +782,7 @@ const onCellValueChanged = async (e,gridOptions) => {
         const rowNode = await e.api.getRowNode(e.data.id)
         await rowNode.setData(e.data)
         gridOptions.api.refreshCells({force:true})
-        // console.log(e.data)
-        // for (const {data} of e.node.parent.allLeafChildren) {
-        //     const rowNode = gridOptions.api.getRowNode(data.id)
-        //     rowNode.setDataValue('whole', data.whole)
-        // }
-        // e.api.forEachNode(v => {
-        //     if(v.data == null || e.data.configure) return
-        //     if(v.data.cl1 != e.data.cl1) return
-        //     const rowNode = gridOptions.api.getRowNode(v.data.id)
-        //     rowNode.setDataValue('whole', v.data.whole)
-        // })
+
     }else if(e.colDef.headerName == "成本价"){
 
     }
@@ -804,8 +794,10 @@ const onCellValueChanged = async (e,gridOptions) => {
     // gridOptions.api.refreshCells({force:true})
 }
 
-const getContextMenuItems = (params, gridOptions) => {
+const getContextMenuItems = async (params, gridOptions) => {
+    let specialMeal = await m()
     if(params.node.data == undefined) return
+    
     // console.log(params)
     const result = [
         {

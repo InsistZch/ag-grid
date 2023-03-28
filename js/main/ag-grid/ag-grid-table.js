@@ -6,8 +6,9 @@ import GroupRowInnerRenderer from './GroupRowInnerRenderer.js'
 import mealcopies from './special_fast_data.js'
 
 
-const init_grid_options = () => {
-    const d = data()
+const init_grid_options = async () => {
+    const d = await data()
+    console.log(d)
     const gridOptions = {
         columnDefs: col(),
         rowData: d,
@@ -69,7 +70,7 @@ const init_grid_options = () => {
         // paginationAutoPageSize: true, //根据网页高度自动分页（前端分页）
         getRowId: (params) => params.data.id,
     };
-
+    // gridOptions.api.setRowData(d)
     return gridOptions;
 
 

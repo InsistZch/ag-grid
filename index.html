@@ -199,17 +199,6 @@
                         <option value="半成品">半成品</option>
                     </select>
                 </div>
-                <!-- <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon3">辣度</span>
-                    </div>
-                    <select class="form-control" id="dishSpicy" aria-describedby="basic-addon3">
-                        <option value="spicy1" selected="1">不辣</option>
-                        <option value="spicy2">微辣</option>
-                        <option value="spicy3">中辣</option>
-                        <option value="spicy4">特辣</option>
-                    </select>
-                </div> -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
@@ -489,13 +478,13 @@
     //         console.log(item)
     //     }
     // }
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", async function () {
 
         // 添加window对象
 
         main_index.otherApi.addWindowData()
         // console.log(window)
-        let agOption = main_index.init_grid_options();
+        let agOption = await main_index.init_grid_options();
         const eGridDiv = document.querySelector('#myGrid');
         new agGrid.Grid(eGridDiv, agOption);
         agOption.api.sizeColumnsToFit();
