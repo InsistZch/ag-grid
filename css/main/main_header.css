@@ -10,17 +10,22 @@ div.header div.function{
     justify-content: center;
     align-items: center;
 }
-div.header button{
-    outline: none;
-    border: none;
-    background-color: #71639e;
-    color: #fff;
-    border-radius: 5px;
-    padding: .2rem .5rem;
-}
+/* 71639e */
 div.header div.function button{
-    margin: 0 .5rem;
+    /* margin: 0 .5rem; */
 }
+
+div.function .btn-group button{  
+    width: 80px;
+    border-color: #71639e;
+    color: #71639e;
+}
+div.function .btn-group button:hover{
+    color: #f8f9fa;
+    background-color: #71639e;
+}
+
+
 div.header span.date{
     display: flex;
     justify-content: center;
