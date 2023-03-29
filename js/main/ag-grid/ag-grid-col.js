@@ -123,7 +123,7 @@ const col = () => {
             // minWidth:10,
             minWidth: 48,
             editable: false,
-            pinned: 'left',
+            pinned: 'right',
         },
     ]
     // 确定列数
@@ -205,8 +205,8 @@ const col = () => {
     col.push({
         headerName: '配量汇总',
         field: "whole",
-        pinned: 'right',
         minWidth: 250,
+
         // autoHeight: true,
         // wrapText: true,
         cellRenderer: (params) => {
