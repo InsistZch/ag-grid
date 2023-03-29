@@ -2,9 +2,12 @@
 class CustomColumnsToolPanel {
     init(params){
         const eDiv = document.createElement('div')
-        console.log(params)
-        eDiv.classList.add('el_columns')
-        console.log(params.api.getColumns)
+        // params.api.forEachNode(v => {
+        //     console.log(v)
+        // })
+        // console.log(params.columnApi.getAllDisplayedVirtualColumns())
+        // eDiv.classList.add('el_columns')
+        // console.log(params.api.getColumns)
         eDiv.innerHTML = `
         <label class="el_columns_item">
             <input type="checkbox"/>
@@ -38,8 +41,6 @@ class CustomColumnsToolPanel {
             <input type="checkbox"/>
             <span>需求日期</span>
         </label>`
-        
-        
         this.eDiv = eDiv
     }
 

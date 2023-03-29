@@ -1,6 +1,8 @@
 /** @odoo-module **/
 import index from "../../../data/index.js";
 import copiesNumber from "../ag_common/CopiesNumber.js";
+import { cost_proportion } from './ag-grid-row.js'
+import mealcopies from './special_fast_data.js'
 import countID from './countID.js'
 
 
