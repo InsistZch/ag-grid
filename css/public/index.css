@@ -1,6 +1,7 @@
-body,html{
+body{
     margin: 0;
     /* overflow: hidden; */
+    width:100vw;
 }
 html{
     -webkit-text-size-adjust:none;

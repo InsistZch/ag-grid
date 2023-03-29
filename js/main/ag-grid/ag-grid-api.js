@@ -836,10 +836,12 @@ const getContextMenuItems = (params, gridOptions) => {
                         const value = MealCategory.querySelector(`option[value="${MealCategory.value}"]`).innerText
                         data[0]['type'] = value
                         data[0]['sales_type'] = sales_type(value)
+                        console.log(specialMeal)
                         if(specialMeal.Catering[params.node.data.dinner_type] <= specialMeal.colors.length && value == "特色"){
                             data[0]['specialMealID'] = specialMeal.Catering[params.node.data.dinner_type]
                             data[0]['specialMealColor'] = specialMeal.colors[specialMeal.Catering[params.node.data.dinner_type] - 1]
                             specialMeal.Catering[params.node.data.dinner_type] ++
+                            
                         }
                         data[0]['dish_key_id'] = {
                             dish_top_category_id: MealCategory.value,

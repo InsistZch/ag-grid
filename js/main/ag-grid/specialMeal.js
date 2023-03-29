@@ -15,7 +15,7 @@ let init_specialMeal = () => {
     }
 }
 
-const specialMeal = async () => {
+const specialMeal = () => {
     if(!isfetch) {
         isfetch = !isfetch
         m = init_specialMeal()
