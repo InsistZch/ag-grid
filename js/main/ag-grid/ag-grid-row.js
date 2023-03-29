@@ -1,17 +1,16 @@
 /** @odoo-module **/
 import index from '../../../data/index.js'
 import m from './specialMeal.js'
-
 import init_mp from './meal_price.js'
 import {mealAbstract, mealPrice} from './ag_common.js'
-import countID, {copiesPlusOne} from './countID.js'
+import countID from './countID.js'
 import saveData from '../saveData/index.js'
 import copiesNumber from "../ag_common/CopiesNumber.js";
 
 
 // 拿到餐标 => 客户信息 菜品信息 
-const data = async () => {
-    let specialMeal = await m()
+const data = () => {
+    let specialMeal = m()
     console.log(specialMeal)
     let data = []
     // 设置用户id与当前餐类别
@@ -44,13 +43,16 @@ const data = async () => {
         // obj['Copies'] = 0
         
         // 生成data
+        
         for (const dish_key of index.dish_key) {
             // 获取菜品数据
             // 能拿到dish_key play_object
             // 其他 冻品 鲜肉 半成品
             // console.log(dish_key.material_tag)
+            
             if(play_object.dish_key_id == dish_key.id){
                 obj['dish'] = dish_key.name
+                
                 
                 // 获取类别
                 for (const dish_top_category of index.dish_top_category) {

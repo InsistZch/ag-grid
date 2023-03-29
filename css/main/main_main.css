@@ -45,3 +45,7 @@ main.main div.content {
     margin-right: 1rem;
     cursor: pointer;
 }
+
+.show-cell{
+    background-color: #abcdef;
+}

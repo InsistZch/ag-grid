@@ -37,10 +37,10 @@ export default {
         }
     },
     change_select(agOption){
-        console.log(nodes)
+        // console.log(nodes)
         for (const item of nodes) {
             item[1].node.onclick = () => {
-                console.log( item)
+                // console.log( item)
                 agOption.columnApi.applyColumnState({
                     state: [
                         {

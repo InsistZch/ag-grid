@@ -6,8 +6,10 @@ import { duibi } from './ag-grid-row.js';
 import preserved_dishes from './preserved_dishes.js';
 import init_mc from './special_fast_data.js';
 import dish_tooltipField from './dish_tooltipField.js'
+import ShowCellRenderer from './ShowCellRenderer.js'
 // 定义列
 const col = () => {
+
     const col = [
         // {
         //     headerName: '',//选择列头部显示的文字，可以为空
@@ -41,7 +43,34 @@ const col = () => {
                 // console.log(params)
                 let specialMealID = params.data.specialMealID != undefined ? params.data.specialMealID : ""
                 return params.data.type + specialMealID
-            }
+            },
+            cellClassRules: {
+                'show-cell': 'value !== undefined',
+            },
+            rowSpan: params => {
+                // configure 
+                // cl1
+                // console.log(params)
+                if(params.data.configure) return 1
+                let count = 0
+
+                // 
+                let fristTypeID = 0, isfrist = true
+                params.api.forEachNode(v => {
+                    if(v.data == undefined || v.data.configure) return
+                    if(v.data.cl1 == params.data.cl1 && v.data.type == params.data.type){
+                        count++
+                        if(isfrist){
+                            isfrist = !isfrist
+                            fristTypeID = v.data.id
+                            return
+                        }
+                    }
+                })
+                // console.log(fristTypeID, params.data.id, count)
+                return fristTypeID === params.data.id ? count : 0
+            },
+            cellRenderer: ShowCellRenderer
         },
         {
             headerName: '菜品',
