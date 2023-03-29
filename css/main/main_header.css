@@ -10,10 +10,6 @@ div.header div.function{
     justify-content: center;
     align-items: center;
 }
-/* 71639e */
-div.header div.function button{
-    /* margin: 0 .5rem; */
-}
 
 div.function .btn-group button{  
     width: 80px;

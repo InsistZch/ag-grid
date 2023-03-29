@@ -46,7 +46,6 @@ export default {
                         {
                             colId: item[0],
                             hide: !item[1].hide,
-                            width: 10,
                         }
                     ]
                 });
