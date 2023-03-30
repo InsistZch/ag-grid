@@ -1,3 +1,4 @@
+/** @odoo-module **/
 class ShowCellRenderer {
     init(params) {
 

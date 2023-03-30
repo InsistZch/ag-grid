@@ -1,3 +1,4 @@
+/** @odoo-module **/
 const cost = document.querySelector('#ag-button-cost')
 const remarks = document.querySelector('#ag-button-remarks')
 const save = document.querySelector('#ag-button-save')
