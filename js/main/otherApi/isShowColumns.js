@@ -18,6 +18,9 @@ class isShowColumns {
             this.whole = document.querySelector('#ag-button-whole')
             this.menu = document.querySelector('#ag-button-menu')
             this.Nomenu = document.querySelector('#ag-button-Nomenu')
+            this.ismenu = this.menu.checked
+            this.isNomenu = this.Nomenu.checked
+
             this.is_init = true
 
         }
