@@ -1,10 +1,20 @@
 /** @odoo-module **/
-const cost = document.querySelector('#ag-button-cost')
-const remarks = document.querySelector('#ag-button-remarks')
-const save = document.querySelector('#ag-button-save')
-const whole = document.querySelector('#ag-button-whole')
+let cost = document.querySelector('#ag-button-cost')
+let remarks = document.querySelector('#ag-button-remarks')
+let save = document.querySelector('#ag-button-save')
+let whole = document.querySelector('#ag-button-whole')
 
 const nodes = new Map()
+
+let init_query_element = () => {
+
+    cost = document.querySelector('#ag-button-cost')
+    remarks = document.querySelector('#ag-button-remarks')
+    save = document.querySelector('#ag-button-save')
+    whole = document.querySelector('#ag-button-whole')
+
+}
+
 
 // 优化建议：
 // 1.改成class
@@ -61,5 +71,6 @@ export default {
                 item[1].hide = !item[1].hide
             }
         }
-    }
+    },
+    init_query_element,
 }
