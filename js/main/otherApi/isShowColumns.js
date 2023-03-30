@@ -1,42 +1,60 @@
 /** @odoo-module **/
 import index from './../../../data/index.js'
 
-class isShowColumns{
-     cost = document.querySelector('#ag-button-cost')
-     remarks = document.querySelector('#ag-button-remarks')
-     save = document.querySelector('#ag-button-save')
-     whole = document.querySelector('#ag-button-whole')
-     menu = document.querySelector('#ag-button-menu')
-     Nomenu = document.querySelector('#ag-button-Nomenu')
-    
-     nodes = new Map()
-     ismenu = this.menu.checked
-     isNomenu = this.Nomenu.checked
+class isShowColumns {
+    cost = document.querySelector('#ag-button-cost')
+    remarks = document.querySelector('#ag-button-remarks')
+    save = document.querySelector('#ag-button-save')
+    whole = document.querySelector('#ag-button-whole')
+    menu = document.querySelector('#ag-button-menu')
+    Nomenu = document.querySelector('#ag-button-Nomenu')
+
+    init() {
+        this.is_init = !!this.is_init
+        if (!this.is_init) {
+            this.cost = document.querySelector('#ag-button-cost')
+            this.remarks = document.querySelector('#ag-button-remarks')
+            this.save = document.querySelector('#ag-button-save')
+            this.whole = document.querySelector('#ag-button-whole')
+            this.menu = document.querySelector('#ag-button-menu')
+            this.Nomenu = document.querySelector('#ag-button-Nomenu')
+            this.is_init = true
+
+        }
+    }
+
+    nodes = new Map()
+    ismenu = this.menu.checked
+    isNomenu = this.Nomenu.checked
+
     init_select(agOption) {
+
+        this.init()
+
         const cols = agOption.columnApi.getColumnState()
         // console.log(cols)
 
         for (const col_item of cols) {
             // hide => 显示为false   不显示为true
-            if(col_item['colId'] == "costPrice"){
+            if (col_item['colId'] == "costPrice") {
                 this.cost.checked = !col_item['hide']
                 this.nodes.set('costPrice', {
                     node: this.cost,
                     hide: col_item['hide'],
                 })
-            }else if(col_item['colId'] == "remarks"){
+            } else if (col_item['colId'] == "remarks") {
                 this.remarks.checked = !col_item['hide']
                 this.nodes.set('remarks', {
                     node: this.remarks,
                     hide: col_item['hide']
                 })
-            }else if(col_item['colId'] == "save"){
+            } else if (col_item['colId'] == "save") {
                 this.save.checked = !col_item['hide']
                 this.nodes.set('save', {
                     node: this.save,
                     hide: col_item['hide']
                 })
-            }else if(col_item['colId'] == "whole"){
+            } else if (col_item['colId'] == "whole") {
                 this.whole.checked = !col_item['hide']
                 this.nodes.set('whole', {
                     node: this.whole,
@@ -45,7 +63,9 @@ class isShowColumns{
             }
         }
     }
-    change_select(agOption){
+
+    change_select(agOption) {
+        this.init()
         // console.log(nodes)
         for (const item of this.nodes) {
             item[1].node.onclick = () => {
@@ -63,7 +83,9 @@ class isShowColumns{
             }
         }
     }
-    menu_select(agOption){
+
+    menu_select(agOption) {
+        this.init()
         this.menu.onclick = () => {
             // console.log(menu.checked)
             this.ismenu = this.menu.checked
@@ -82,7 +104,7 @@ class isShowColumns{
             let col = []
             let arr = []
             for (const item of agOption.columnApi.getColumnState()) {
-                if(!isNaN(item.colId)){
+                if (!isNaN(item.colId)) {
                     arr.push({
                         colId: item.colId,
                         hide: false
@@ -92,20 +114,20 @@ class isShowColumns{
             agOption.columnApi.applyColumnState({
                 state: [...arr]
             })
-            
-            if(this.ismenu && !this.isNomenu){
+
+            if (this.ismenu && !this.isNomenu) {
                 const colfilter = index.cus_loc.filter(v => v.org_group_category == "无菜单")
                 for (const item of colfilter) {
                     col.push(String(item.id))
                 }
-            }else if(!this.ismenu && this.isNomenu){
+            } else if (!this.ismenu && this.isNomenu) {
                 const colfilter = index.cus_loc.filter(v => v.org_group_category == "有菜单")
                 for (const item of colfilter) {
                     col.push(String(item.id))
                 }
-            }else if(!this.ismenu && !this.isNomenu){
+            } else if (!this.ismenu && !this.isNomenu) {
                 for (const item of agOption.columnApi.getColumnState()) {
-                    if(!isNaN(item)){
+                    if (!isNaN(item)) {
                         col.push(String(item.colId))
                     }
                 }
