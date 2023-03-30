@@ -108,7 +108,10 @@ const nodeRowData = (v, e, ratio, type) => {
 const onCellValueChanged = async (e, gridOptions) => {
 
     // console.log(e.data.type)
-    document.querySelector('#saveDataSpan').style.visibility = "visible"
+    const saveDataBtn = document.querySelector('#saveDataBtn')
+    saveDataBtn.classList.remove('btn-outline-primary')
+    saveDataBtn.classList.add('btn-outline-danger')
+    saveDataBtn.innerText = "数据已经变化，如退出请按“更新”按钮"
     // let newDate = new Date() * 1
     // console.log(e)
     if (e.colDef.headerName != '菜品' && e.colDef.headerName != '配量汇总' && e.colDef.headerName != "成本" && e.colDef.headerName != "备注") {

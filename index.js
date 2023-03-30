@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
     agOption.api.sizeColumnsToFit();
 
     // console.log(agOption)
-    main_index.otherApi.saveData('.update', () => {
+    main_index.otherApi.saveData('.update', (el) => {
         // console.log(agOption.api.getPinnedTopRow(0))
         saveData.day_cost_proportion.complete_cost_ratio = Number(agOption.api.getPinnedTopRow(0).data.costPrice.split('%')[0])
         console.log(saveData)
@@ -44,6 +44,9 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(colArr)
         // 餐标
         console.log(init_mc())
+        el.classList.remove('btn-outline-danger')
+        el.classList.add('btn-outline-primary')
+        el.innerText = "更新"
     })
     // 主单位是斤
     // 一个食材单位为两

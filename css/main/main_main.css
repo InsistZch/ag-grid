@@ -15,6 +15,14 @@ main.main div.content {
     position: relative;
 }
 
+div.ag_main span.date{
+    font-size: 1.3rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .ag_all_button{
     display: flex;
     justify-content: space-between;
@@ -22,6 +30,7 @@ main.main div.content {
     background-color: #ddd;
     box-sizing: border-box;
     padding: 0 1rem;
+    position: relative;
 }
 
 .ag-button{
@@ -36,13 +45,13 @@ div.function{
     align-items: center;
 }
 
-div.function .btn-group button{  
+div.function .btn-group button:not(:last-of-type){  
     width: max-content;
     height: max-content;
     border-color: #71639e;
     color: #71639e;
 }
-div.function .btn-group button:hover{
+div.function .btn-group button:not(:last-of-type):hover{
     color: #f8f9fa;
     background-color: #71639e;
 }
