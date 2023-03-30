@@ -804,7 +804,7 @@ const getContextMenuItems = (params, gridOptions) => {
     let specialMeal = m()
     if (params.node.data == undefined) return
 
-    console.log(params.column.colId)
+    // console.log(params.column.colId)
     const result = [
         {
             name: '向下新增一行',
@@ -984,17 +984,31 @@ const getContextMenuItems = (params, gridOptions) => {
                     sure: "#add_remarks_sure",
                     deleteData: ["#add_remarks_category"],
                     initFun(_parent) {
+                        console.log(params)
                         const addRemarksCategory = _parent.querySelector('#add_remarks_category')
                         const addRemarksButton = _parent.querySelector('#add_remarks_button')
-                        addRemarksCategory.innerHTML += `
-                        <li class="list-group-item">
-                            <div class="input-group flex-nowrap">
-                                <input type="text" class="form-control">
-                                <span class="input-group-text"><button type="button" class="btn-close"></button></span>
-                                
-                            </div>
-                        </li>`
-
+                        const remarks = params.node.data.remarks.split(' ')
+                        console.log(remarks)
+                        if(remarks.length == 1 && remarks[0].trim() == ""){
+                            addRemarksCategory.innerHTML += `
+                            <li class="list-group-item">
+                                <div class="input-group flex-nowrap">
+                                    <input type="text" class="form-control">
+                                    <span class="input-group-text"><button type="button" class="btn-close"></button></span>
+                                </div>
+                            </li>`
+                        }else{
+                            for (const item of remarks) {
+                                if(item.trim() == "") continue
+                                addRemarksCategory.innerHTML += `
+                                <li class="list-group-item">
+                                    <div class="input-group flex-nowrap">
+                                        <input type="text" class="form-control" value="${item}">
+                                        <span class="input-group-text"><button type="button" class="btn-close"></button></span>
+                                    </div>
+                                </li>`
+                            }
+                        }
                         let addRemarkCloseButtons = _parent.querySelectorAll('.btn-close')
 
                         let delLI = (item) => {
@@ -1030,8 +1044,10 @@ const getContextMenuItems = (params, gridOptions) => {
                         for (const item of formControlAll) {
                             remarks += item.value + ' '
                         }
-                        params.node.data.remarks = remarks
-                        gridOptions.api.refreshCells({ force: true })
+                        const rowNode = params.api.getRowNode(params.node.data.id)
+                        rowNode.setDataValue('remarks', remarks)
+                        // params.node.data.remarks = remarks
+                        // gridOptions.api.refreshCells({ force: true })
                         return true
                     },
                 })
