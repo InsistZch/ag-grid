@@ -59,9 +59,10 @@ document.addEventListener("DOMContentLoaded", function () {
         // console.log(material)
         return [material, agOption]
     })
-    // 图表
-    // var chart = agCharts.AgChart.create(main_index.agChart);
-    main_index.otherApi.isShowColumns.init_select(agOption)
-    main_index.otherApi.isShowColumns.change_select(agOption)
-    main_index.otherApi.isShowColumns.menu_select(agOption)
+
+    //控制列显示与隐藏
+    const isShowColumns = new main_index.otherApi.isShowColumns()
+    isShowColumns.init_select(agOption)
+    isShowColumns.change_select(agOption)
+    isShowColumns.menu_select(agOption)
 });
