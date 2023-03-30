@@ -154,6 +154,7 @@ const col = () => {
         obj['headerName'] = item['name']
         obj['field'] = `${item['id']}`
         obj['minWidth'] = 42
+        // obj['pinned'] = 'right'
         obj['valueParser'] = params => Number(params.newValue)
         obj['cellRenderer'] = (params) => {
             // console.log(Restrictions(params))
@@ -232,12 +233,13 @@ const col = () => {
         // minWidth:10,
         minWidth: 48,
         editable: false,
+        pinned: 'right',
     })
     col.push({
         headerName: '配量汇总',
         field: "whole",
         minWidth: 250,
-
+        pinned: 'right',
         // autoHeight: true,
         // wrapText: true,
         cellRenderer: (params) => {

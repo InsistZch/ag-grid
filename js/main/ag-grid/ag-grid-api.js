@@ -1009,7 +1009,7 @@ const getContextMenuItems = (params, gridOptions) => {
                             addRemarksLi.innerHTML = `
                                 <div class="input-group flex-nowrap">
                                     <input type="text" class="form-control">
-                                    <span class="input-group-text"><button type="button" class="btn-close"></button></span>
+                                    <span class="input-group-text"><button type="button" class="btn-close btn-outline-primary"></button></span>
                                 </div>`
 
                             addRemarkCloseButtons = _parent.querySelectorAll('.btn-close')

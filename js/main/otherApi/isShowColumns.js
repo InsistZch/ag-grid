@@ -130,12 +130,13 @@
                     }
                 } else if (!this.ismenu && !this.isNomenu) {
                     for (const item of agOption.columnApi.getColumnState()) {
-                        if (!isNaN(item)) {
+                        // console.log(item)
+                        if (!isNaN(item.colId)) {
                             col.push(String(item.colId))
                         }
                     }
                 }
-
+                // console.log(col)
                 arr = []
                 for (const item of col) {
                     arr.push({

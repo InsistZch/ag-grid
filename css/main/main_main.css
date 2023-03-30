@@ -45,14 +45,16 @@ div.function{
     display: flex;
     align-items: center;
 }
-
-div.function .btn-group button:not(:last-of-type){  
+div.function .btn-group{
+    margin-right: 1rem;
+}
+div.function .btn-group button:not([saveData]){  
     width: max-content;
     height: max-content;
     border-color: #71639e;
     color: #71639e;
 }
-div.function .btn-group button:not(:last-of-type):hover{
+div.function .btn-group button:not([saveData]):hover{
     color: #f8f9fa;
     background-color: #71639e;
 }
@@ -82,10 +84,7 @@ div.function .btn-group button:not(:last-of-type):hover{
 
 .show-cell{
     background-color: #fff;
-    border: 1px solid #71639e !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border: 1px solid #eee;
 }
 
 #add_remarks .list-group-item .input-group>.form-control, .input-group>.form-floating, .input-group>.form-select {
@@ -109,7 +108,10 @@ div.function .btn-group button:not(:last-of-type):hover{
     width: 70%;
     margin: 0 auto;
     margin-top: 10px;
-    background-color: #71639e;
-    color: white;
+    border-color: #71639e;
+    color: #71639e;
 }
-
+#add_remarks #add_remarks_button:hover{
+    background-color: #71639e;
+    color: #fff;
+}
