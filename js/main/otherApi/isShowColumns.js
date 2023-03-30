@@ -1,5 +1,4 @@
-// import {data} from './../ag-grid/ag-grid-row.js'
-import index from './../../../data/index.js'
+/** @odoo-module **/
 const cost = document.querySelector('#ag-button-cost')
 const remarks = document.querySelector('#ag-button-remarks')
 const save = document.querySelector('#ag-button-save')
