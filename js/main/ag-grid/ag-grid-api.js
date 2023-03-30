@@ -111,7 +111,7 @@ const onCellValueChanged = async (e, gridOptions) => {
     document.querySelector('#saveDataSpan').style.visibility = "visible"
     // let newDate = new Date() * 1
     // console.log(e)
-    if (e.colDef.headerName != '菜品' && e.colDef.headerName != '配量汇总' && e.colDef.headerName != "成本") {
+    if (e.colDef.headerName != '菜品' && e.colDef.headerName != '配量汇总' && e.colDef.headerName != "成本" && e.colDef.headerName != "备注") {
 
         if (e.newValue == undefined || e.newValue == null || String(e.newValue).trim() == "") {
             e.data[`${e.colDef.field}`] = 0
@@ -977,7 +977,6 @@ const getContextMenuItems = (params, gridOptions) => {
             action: () => {
                 customFromDom({
                     parent: "#add_remarks",
-                    deleteData: [],
                     cancel: ["#add_remarks_cancel1", "#add_remarks_cancel2"],
                     sure: "#add_remarks_sure",
                     deleteData: ["#add_remarks_category"],
@@ -993,6 +992,13 @@ const getContextMenuItems = (params, gridOptions) => {
                             </div>
                         </li>`
 
+                        let addRemarkCloseButtons = _parent.querySelectorAll('.btn-close')
+
+                        let delLI = (item) => {
+                            let delLi = item.parentNode.parentNode.parentNode
+                            delLi.parentNode.removeChild(delLi)
+                        }
+
                         addRemarksButton.onclick = () => {
                             const li = document.createElement("li")
                             li.className = 'list-group-item'
@@ -1002,7 +1008,18 @@ const getContextMenuItems = (params, gridOptions) => {
                                     <input type="text" class="form-control">
                                     <span class="input-group-text"><button type="button" class="btn-close"></button></span>
                                 </div>`
+
+                            addRemarkCloseButtons = _parent.querySelectorAll('.btn-close')
+                            for (const item of addRemarkCloseButtons) {
+                                item.onclick = () => { delLI(item) }
+                            }
                         }
+
+                        for (const item of addRemarkCloseButtons) {
+                            item.onclick = () => { delLI(item) }
+                        }
+
+
                     },
                     sureFun(_parent) {
                         const formControlAll = _parent.querySelectorAll('.form-control')
@@ -1010,12 +1027,8 @@ const getContextMenuItems = (params, gridOptions) => {
                         for (const item of formControlAll) {
                             remarks += item.value + ' '
                         }
-                        console.log(remarks)
                         params.node.data.remarks = remarks
                         gridOptions.api.refreshCells({ force: true })
-                        // const node = params.api.getRowNode(params.node.data.id)
-                        // console.log(node)
-                        // node.setDataValue('remarks', remarks)
                         return true
                     },
                 })

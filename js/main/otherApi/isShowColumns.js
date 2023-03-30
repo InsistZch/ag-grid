@@ -1,6 +1,7 @@
 const cost = document.querySelector('#ag-button-cost')
 const remarks = document.querySelector('#ag-button-remarks')
 const save = document.querySelector('#ag-button-save')
+const whole = document.querySelector('#ag-button-whole')
 
 const nodes = new Map()
 
@@ -33,6 +34,12 @@ export default {
                     node: save,
                     hide: col_item['hide']
                 })
+            }else if(col_item['colId'] == "whole"){
+                whole.checked = !col_item['hide']
+                nodes.set('whole', {
+                    node: whole,
+                    hide: col_item['hide']
+                })
             }
         }
     },
@@ -49,6 +56,7 @@ export default {
                         }
                     ]
                 });
+                agOption.api.sizeColumnsToFit();
                 item[1].hide = !item[1].hide
             }
         }

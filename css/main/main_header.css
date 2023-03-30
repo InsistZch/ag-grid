@@ -2,34 +2,22 @@ main.main div.header{
     padding: 0 3rem;
     color: rgb(73, 80, 87);
     display: flex;
-    justify-content: space-around;
-    margin: 1rem 0;
-}
-div.header div.function{
-    display: flex;
     justify-content: center;
     align-items: center;
+    margin: 1rem 0;
+    position: relative;
 }
-
-div.function .btn-group button{  
-    width: 80px;
-    border-color: #71639e;
-    color: #71639e;
-}
-div.function .btn-group button:hover{
-    color: #f8f9fa;
-    background-color: #71639e;
-}
-
 
 div.header span.date{
-    display: flex;
-    justify-content: center;
-    align-items: center;
     font-size: 1.3rem;
+    
 }
 div.header .saveDataSpan {
     color: rgb(247, 51, 51);
     font-weight: 600;
     visibility: hidden;
+    position: absolute;
+    right: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
 }

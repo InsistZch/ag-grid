@@ -33,6 +33,16 @@ document.addEventListener("DOMContentLoaded", async function () {
         })
         console.log(arr)
         console.log("------------餐份数------------")
+        const colArr = []
+        for (const item of agOption.columnApi.getColumnState()) {
+            if(!isNaN(item['colId'])){
+                colArr.push(item['colId'])
+            }
+        }
+        // 
+        console.log("------------列------------")
+        console.log(colArr)
+        // 餐标
         console.log(init_mc())
     })
     // 主单位是斤

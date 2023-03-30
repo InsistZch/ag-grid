@@ -11,16 +11,37 @@ main.main div.content {
 }
 
 .ag_main {
-    width: 100vw;
+    width: 100%;
+    position: relative;
+}
+
+.ag_all_button{
+    display: flex;
+    flex-direction: row;
+    background-color: #ddd;
 }
 
 .ag-button{
-    width: 100%;
     height: 4rem;
-    background-color: #ddd;
     display: flex;
     align-items: center;
     padding-left: 40px;
+}
+
+div.function{
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+div.function .btn-group button{  
+    width: 80px;
+    border-color: #71639e;
+    color: #71639e;
+}
+div.function .btn-group button:hover{
+    color: #f8f9fa;
+    background-color: #71639e;
 }
 
 .ag-button .form-check .form-check-input:checked{
