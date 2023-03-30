@@ -10,13 +10,13 @@ console.log(data_index)
 //         console.log(item)
 //     }
 // }
-document.addEventListener("DOMContentLoaded", async function () {
+document.addEventListener("DOMContentLoaded", function () {
 
     // 添加window对象
 
     main_index.otherApi.addWindowData()
     // console.log(window)
-    let agOption = await main_index.init_grid_options();
+    let agOption =  main_index.init_grid_options();
     const eGridDiv = document.querySelector('#myGrid');
     new agGrid.Grid(eGridDiv, agOption);
     agOption.api.sizeColumnsToFit();
@@ -63,4 +63,5 @@ document.addEventListener("DOMContentLoaded", async function () {
     // var chart = agCharts.AgChart.create(main_index.agChart);
     main_index.otherApi.isShowColumns.init_select(agOption)
     main_index.otherApi.isShowColumns.change_select(agOption)
+    main_index.otherApi.isShowColumns.menu_select(agOption)
 });
