@@ -34,9 +34,10 @@ div.ag_main span.date{
 }
 
 .ag-button{
-    height: 4rem;
+    height: max-content;
     display: flex;
     align-items: center;
+    padding: 1rem 0;
 }
 
 div.function{
