@@ -9,16 +9,20 @@ import copiesNumber from "../ag_common/CopiesNumber.js";
 
 
 // 拿到餐标 => 客户信息 菜品信息 
+
+/*
+dislodge => String[]
+*/
 const data = () => {
     let specialMeal = m()
-    console.log(specialMeal)
+    // console.log(specialMeal)
     let data = []
     // 设置用户id与当前餐类别
-    cus_loc_ids = Object.keys(index.plan_day_record_show[0]['cus_loc_info']).map(v => v.split('_')[1])
-    dinner_types = [...index.plan_day_record_show.reduce((pre, v) => {
-        pre.add(v.dinner_type)
-        return pre
-    }, new Set())]
+    // cus_loc_ids = Object.keys(index.plan_day_record_show[0]['cus_loc_info']).map(v => v.split('_')[1])
+    // dinner_types = [...index.plan_day_record_show.reduce((pre, v) => {
+    //     pre.add(v.dinner_type)
+    //     return pre
+    // }, new Set())]
 
 
     // data.push(...mealCopies())
@@ -33,11 +37,11 @@ const data = () => {
         let count = 0;
         for (const play_object_item of Object.keys(json)) {
             const item2 = play_object_item.split('_')[1]
-            // console.log(item2, json[play_object_item])
-            json[play_object_item] = copiesNumber(json[play_object_item])
-            obj[`${item2}`] = json[play_object_item]
-            // obj[`${item2}`] = 0  
-            count += json[play_object_item]
+             // console.log(item2, json[play_object_item])
+             json[play_object_item] = copiesNumber(json[play_object_item])
+             obj[`${item2}`] = json[play_object_item]
+             // obj[`${item2}`] = 0  
+             count += json[play_object_item]
         }
         obj['Copies'] = count
         // obj['Copies'] = 0
