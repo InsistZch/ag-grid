@@ -146,14 +146,6 @@ const col = () => {
                 return params.value
             }
         },
-        {
-            headerName: '份数',
-            field: 'Copies',
-            // minWidth:10,
-            minWidth: 48,
-            editable: false,
-            pinned: 'right',
-        },
     ]
     // 确定列数
     const newCus_loc = index.cus_loc.sort((a, b) => a.no - b.no)
@@ -234,6 +226,13 @@ const col = () => {
         }
         col.push(obj)
     }
+    col.push({
+        headerName: '份数',
+        field: 'Copies',
+        // minWidth:10,
+        minWidth: 48,
+        editable: false,
+    })
     col.push({
         headerName: '配量汇总',
         field: "whole",
