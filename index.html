@@ -164,324 +164,346 @@
     </div>
     <!-- Modal -->
     <div>
-    <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">创建菜品</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">创建菜品</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">菜品名称</span>
+                            </div>
+                            <input type="text" id="dishInput" class="form-control" placeholder="菜品名称"
+                                aria-describedby="basic-addon1" />
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon22">菜品种类</span>
+                            </div>
+                            <select class="form-control" id="dishCategory" aria-describedby="basic-addon22">
+                                <option value="1" selected="1">大荤</option>
+                                <option value="2">小荤</option>
+                                <option value="3">素菜</option>
+                                <option value="4">特色</option>
+                                <option value="5">汤粥</option>
+                                <option value="344">主食</option>
+                                <option value="8">点心</option>
+                                <option value="14">小菜</option>
+                                <option value="342">果饮</option>
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon225">菜品子类</span>
+                            </div>
+                            <select class="form-control" id="dishSubCategory" aria-describedby="basic-addon225">
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon223">菜品族</span>
+                            </div>
+                            <select class="form-control" id="dishFamily" aria-describedby="basic-addon223">
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon224">颜色</span>
+                            </div>
+                            <select class="form-control" id="dishColors" aria-describedby="basic-addon224">
+                                <option value="其他" selected="1">其他</option>
+                                <option value="冻品">冻品</option>
+                                <option value="鲜肉">鲜肉</option>
+                                <option value="半成品">半成品</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                            id="successCreateDish">确定创建
+                        </button>
+                    </div>
                 </div>
-                <div class="modal-body">
+            </div>
+        </div>
+        <div id="material_modal" class="modalcustom">
+
+            <div class="modal-contentcustom">
+
+                <header class="modal-headercustom">
+
+                    <h4 class="customcustom">创建菜品所需食材</h4>
+                    <span class="closecustom" id="material_modal_cancel1">×</span>
+
+                </header>
+
+                <div class="modal-bodycustom modal-body">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">菜品名称</span>
+                            <span class="input-group-text" id="basic-addon2">食材名称</span>
                         </div>
-                        <input type="text" id="dishInput" class="form-control" placeholder="菜品名称"
-                            aria-describedby="basic-addon1" />
+                        <input type="text" id="customName" class="form-control" placeholder="材料名称"
+                            aria-describedby="basic-addon2" />
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon22">菜品种类</span>
+                            <span class="input-group-text" id="modal-bodycustom-addon3">形态类别</span>
                         </div>
-                        <select class="form-control" id="dishCategory" aria-describedby="basic-addon22">
-                            <option value="1" selected="1">大荤</option>
-                            <option value="2">小荤</option>
-                            <option value="3">素菜</option>
-                            <option value="4">特色</option>
-                            <option value="5">汤粥</option>
-                            <option value="344">主食</option>
-                            <option value="8">点心</option>
-                            <option value="14">小菜</option>
-                            <option value="342">果饮</option>
+                        <select class="form-control" id="customFrom" aria-describedby="modal-bodycustom-addon3">
+                            <option value="冻品" selected="1">冻品</option>
+                            <option value="鲜品">鲜品</option>
+                            <option value="干货">干货</option>
+                            <option value="其他">其他</option>
+                            <option value="常温">常温</option>
+                            <option value="腌制">腌制</option>
+                            <option value="水发">水发</option>
+                            <option value="其他">其他</option>
                         </select>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon225">菜品子类</span>
+                            <span class="input-group-text" id="modal-bodycustom-addon33">食材类别</span>
                         </div>
-                        <select class="form-control" id="dishSubCategory" aria-describedby="basic-addon225">
+                        <select class="form-control" id="customPhase" aria-describedby="modal-bodycustom-addon33">
+                            <option value="p1_material" selected="1">食材</option>
+                            <option value="p2_semi_dish">半成品</option>
+                            <option value="p3_dish">成品</option>
+                            <option value="p4_non_mm">非食材</option>
+                            <option value="p5_package">套餐</option>
                         </select>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon223">菜品族</span>
+                            <span class="input-group-text" id="modal-bodycustom-addon44">切片类型</span>
                         </div>
-                        <select class="form-control" id="dishFamily" aria-describedby="basic-addon223">
+                        <select class="form-control" id="customSection" aria-describedby="modal-bodycustom-addon44">
                         </select>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon224">颜色</span>
+                            <span class="input-group-text" id="modal-bodycustom-addon4441">价格</span>
                         </div>
-                        <select class="form-control" id="dishColors" aria-describedby="basic-addon224">
-                            <option value="其他" selected="1">其他</option>
-                            <option value="冻品">冻品</option>
-                            <option value="鲜肉">鲜肉</option>
-                            <option value="半成品">半成品</option>
+                        <input type="number" class="form-control" value="0" id="customPrice"
+                            aria-describedby="modal-bodycustom-addon4441" />
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="modal-bodycustom-addon444">单位</span>
+                        </div>
+                        <select class="form-control" id="customCompany" aria-describedby="modal-bodycustom-addon444">
                         </select>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="successCreateDish">确定创建
-                    </button>
-                </div>
+
+                <footer class="modal-footercustom">
+                    <button id="material_modal_cancel2">取消</button>
+                    <button id="material_modal_sure">确定</button>
+                </footer>
             </div>
         </div>
-    </div>
-    <div id="material_modal" class="modalcustom">
+        <div id="write_Side_dishes" class="modalcustom">
 
-        <div class="modal-contentcustom">
+            <div class="modal-contentcustom">
 
-            <header class="modal-headercustom">
+                <header class="modal-headercustom">
+                    <h4 class="customcustom">写入配菜</h4>
+                    <span class="closecustom" id="write_Side_dishes_cancel1">×</span>
+                </header>
 
-                <h4 class="customcustom">创建菜品所需食材</h4>
-                <span class="closecustom" id="material_modal_cancel1">×</span>
+                <div class="modal-bodycustom modal-body">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon43">食材名称</span>
+                        </div>
+                        <input type="text" id="write_Side_dishes_name" class="form-control" placeholder="食材名称"
+                            aria-describedby="basic-addon43" />
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="modal-bodycustom-addon43">食材类型</span>
+                        </div>
+                        <select class="form-control" id="write_Side_dishes_category"
+                            aria-describedby="modal-bodycustom-addon43">
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="modal-bodycustom-addon4">切片方式</span>
+                        </div>
+                        <select class="form-control" id="write_Side_dishes_section"
+                            aria-describedby="modal-bodycustom-addon4">
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="modal-bodycustom-addon2">数量</span>
+                        </div>
+                        <input type="number" class="form-control" value="0" id="write_Side_dishes_quantity"
+                            aria-describedby="modal-bodycustom-addon2" />
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="modal-bodycustom-addon333">单位</span>
+                        </div>
+                        <select class="form-control" id="write_Side_dishes_company"
+                            aria-describedby="modal-bodycustom-addon333">
+                        </select>
+                    </div>
+                </div>
 
-            </header>
-
-            <div class="modal-bodycustom modal-body">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon2">食材名称</span>
-                    </div>
-                    <input type="text" id="customName" class="form-control" placeholder="材料名称"
-                        aria-describedby="basic-addon2" />
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="modal-bodycustom-addon3">形态类别</span>
-                    </div>
-                    <select class="form-control" id="customFrom" aria-describedby="modal-bodycustom-addon3">
-                        <option value="冻品" selected="1">冻品</option>
-                        <option value="鲜品">鲜品</option>
-                        <option value="干货">干货</option>
-                        <option value="其他">其他</option>
-                        <option value="常温">常温</option>
-                        <option value="腌制">腌制</option>
-                        <option value="水发">水发</option>
-                        <option value="其他">其他</option>
-                    </select>
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="modal-bodycustom-addon33">食材类别</span>
-                    </div>
-                    <select class="form-control" id="customPhase" aria-describedby="modal-bodycustom-addon33">
-                        <option value="p1_material" selected="1">食材</option>
-                        <option value="p2_semi_dish">半成品</option>
-                        <option value="p3_dish">成品</option>
-                        <option value="p4_non_mm">非食材</option>
-                        <option value="p5_package">套餐</option>
-                    </select>
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="modal-bodycustom-addon44">切片类型</span>
-                    </div>
-                    <select class="form-control" id="customSection" aria-describedby="modal-bodycustom-addon44">
-                    </select>
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="modal-bodycustom-addon4441">价格</span>
-                    </div>
-                    <input type="number" class="form-control" value="0" id="customPrice"
-                        aria-describedby="modal-bodycustom-addon4441" />
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="modal-bodycustom-addon444">单位</span>
-                    </div>
-                    <select class="form-control" id="customCompany" aria-describedby="modal-bodycustom-addon444">
-                    </select>
-                </div>
+                <footer class="modal-footercustom">
+                    <button id="write_Side_dishes_cancel2">取消</button>
+                    <button id="write_Side_dishes_sure">确定</button>
+                </footer>
             </div>
-
-            <footer class="modal-footercustom">
-                <button id="material_modal_cancel2">取消</button>
-                <button id="material_modal_sure">确定</button>
-            </footer>
         </div>
-    </div>
-    <div id="write_Side_dishes" class="modalcustom">
+        <div id="Meal" class="modalcustom">
+            <div class="modal-contentcustom">
 
-        <div class="modal-contentcustom">
+                <header class="modal-headercustom">
+                    <h4 class="customcustom">写入餐品类别</h4>
+                    <span class="closecustom" id="Meal_cancel1">×</span>
+                </header>
 
-            <header class="modal-headercustom">
-                <h4 class="customcustom">写入配菜</h4>
-                <span class="closecustom" id="write_Side_dishes_cancel1">×</span>
-            </header>
-
-            <div class="modal-bodycustom modal-body">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon43">食材名称</span>
+                <div class="modal-bodycustom modal-body">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon4">请选择餐品类别</span>
+                        </div>
+                        <select class="form-control" id="MealCategory" aria-describedby="modal-bodycustom-addon4">
+                        </select>
                     </div>
-                    <input type="text" id="write_Side_dishes_name" class="form-control" placeholder="食材名称"
-                        aria-describedby="basic-addon43" />
                 </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="modal-bodycustom-addon43">食材类型</span>
-                    </div>
-                    <select class="form-control" id="write_Side_dishes_category"
-                        aria-describedby="modal-bodycustom-addon43">
-                    </select>
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="modal-bodycustom-addon4">切片方式</span>
-                    </div>
-                    <select class="form-control" id="write_Side_dishes_section"
-                        aria-describedby="modal-bodycustom-addon4">
-                    </select>
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="modal-bodycustom-addon2">数量</span>
-                    </div>
-                    <input type="number" class="form-control" value="0" id="write_Side_dishes_quantity"
-                        aria-describedby="modal-bodycustom-addon2" />
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="modal-bodycustom-addon333">单位</span>
-                    </div>
-                    <select class="form-control" id="write_Side_dishes_company"
-                        aria-describedby="modal-bodycustom-addon333">
-                    </select>
-                </div>
+                <footer class="modal-footercustom">
+                    <button id="Meal_cancel2">取消</button>
+                    <button id="Meal_sure">确定</button>
+                </footer>
             </div>
-
-            <footer class="modal-footercustom">
-                <button id="write_Side_dishes_cancel2">取消</button>
-                <button id="write_Side_dishes_sure">确定</button>
-            </footer>
         </div>
-    </div>
-    <div id="Meal" class="modalcustom">
-        <div class="modal-contentcustom">
+        <div id="SpecialMeal" class="modalcustom">
+            <div class="modal-contentcustom">
 
-            <header class="modal-headercustom">
-                <h4 class="customcustom">写入餐品类别</h4>
-                <span class="closecustom" id="Meal_cancel1">×</span>
-            </header>
+                <header class="modal-headercustom">
+                    <h4 class="customcustom">写入特色配菜</h4>
+                    <span class="closecustom" id="SpecialMealCategory_cancel1">×</span>
+                </header>
 
-            <div class="modal-bodycustom modal-body">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon4">请选择餐品类别</span>
+                <div class="modal-bodycustom modal-body">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon444">请选择特色类别</span>
+                        </div>
+                        <select class="form-control" id="SpecialMealCategory"
+                            aria-describedby="modal-bodycustom-addon4">
+                        </select>
                     </div>
-                    <select class="form-control" id="MealCategory" aria-describedby="modal-bodycustom-addon4">
-                    </select>
-                </div>
-            </div>
-            <footer class="modal-footercustom">
-                <button id="Meal_cancel2">取消</button>
-                <button id="Meal_sure">确定</button>
-            </footer>
-        </div>
-    </div>
-    <div id="SpecialMeal" class="modalcustom">
-        <div class="modal-contentcustom">
-
-            <header class="modal-headercustom">
-                <h4 class="customcustom">写入特色配菜</h4>
-                <span class="closecustom" id="SpecialMealCategory_cancel1">×</span>
-            </header>
-
-            <div class="modal-bodycustom modal-body">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon444">请选择特色类别</span>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon4333">请选择餐品类别</span>
+                        </div>
+                        <select class="form-control" id="MealCategory22" aria-describedby="modal-bodycustom-addon4">
+                        </select>
                     </div>
-                    <select class="form-control" id="SpecialMealCategory" aria-describedby="modal-bodycustom-addon4">
-                    </select>
                 </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon4333">请选择餐品类别</span>
+                <footer class="modal-footercustom">
+                    <button id="SpecialMealCategory_cancel2">取消</button>
+                    <button id="SpecialMealCategorys_sure">确定</button>
+                </footer>
+            </div>
+        </div>
+        <div id="foodUnit" class="modalcustom">
+            <div class="modal-contentcustom">
+
+                <header class="modal-headercustom">
+                    <h4 class="customcustom">添加食材单位</h4>
+                    <span class="closecustom" id="foodUnit_cancel1">×</span>
+                </header>
+
+                <div class="modal-bodycustom modal-body">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="unit_nameSpan">单位名称</span>
+                        </div>
+                        <input class="form-control" id="foodUnit_unitName" aria-describedby="modal-bodycustom-addon4"
+                            readonly="1" />
                     </div>
-                    <select class="form-control" id="MealCategory22" aria-describedby="modal-bodycustom-addon4">
-                    </select>
-                </div>
-            </div>
-            <footer class="modal-footercustom">
-                <button id="SpecialMealCategory_cancel2">取消</button>
-                <button id="SpecialMealCategorys_sure">确定</button>
-            </footer>
-        </div>
-    </div>
-    <div id="foodUnit" class="modalcustom">
-        <div class="modal-contentcustom">
-
-            <header class="modal-headercustom">
-                <h4 class="customcustom">添加食材单位</h4>
-                <span class="closecustom" id="foodUnit_cancel1">×</span>
-            </header>
-
-            <div class="modal-bodycustom modal-body">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="unit_nameSpan">单位名称</span>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="ratioSpan">与主单位转化比</span>
+                        </div>
+                        <input type="number" class="form-control" id="foodUnit_ratio"
+                            aria-describedby="modal-bodycustom-addon4" />
                     </div>
-                    <input class="form-control" id="foodUnit_unitName" aria-describedby="modal-bodycustom-addon4"
-                        readonly="1" />
                 </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="ratioSpan">与主单位转化比</span>
+                <footer class="modal-footercustom">
+                    <button id="foodUnit_cancel2">取消</button>
+                    <button id="foodUnit_sure">确定</button>
+                </footer>
+            </div>
+        </div>
+        <div id="isDeleteRow" class="modalcustom">
+            <div class="modal-contentcustom">
+
+                <header class="modal-headercustom">
+                    <h4 class="customcustom">提示</h4>
+                    <span class="closecustom" id="isDeleteRow_cancel1">×</span>
+                </header>
+
+                <div class="modal-bodycustom modal-body">
+                    <div style="height: 100%; width: 100%; overflow: hidden;">
+                        <h3 style="margin: 3rem 0rem 0rem 2rem;">
+                            删除后将无法恢复数据，确认删除？
+                        </h3>
                     </div>
-                    <input type="number" class="form-control" id="foodUnit_ratio"
-                        aria-describedby="modal-bodycustom-addon4" />
                 </div>
+                <footer class="modal-footercustom">
+                    <button id="isDeleteRow_cancel2">取消</button>
+                    <button id="isDeleteRow_sure">确定</button>
+                </footer>
             </div>
-            <footer class="modal-footercustom">
-                <button id="foodUnit_cancel2">取消</button>
-                <button id="foodUnit_sure">确定</button>
-            </footer>
         </div>
-    </div>
-    <div id="isDeleteRow" class="modalcustom">
-        <div class="modal-contentcustom">
+        <div id="purchase_price" class="modalcustom">
+            <div class="modal-contentcustom" style="height: 80vh;">
 
-            <header class="modal-headercustom">
-                <h4 class="customcustom">提示</h4>
-                <span class="closecustom" id="isDeleteRow_cancel1">×</span>
-            </header>
+                <header class="modal-headercustom">
+                    <h4 class="customcustom">提示</h4>
+                    <span class="closecustom" id="purchase_price_cancel1">×</span>
+                </header>
 
-            <div class="modal-bodycustom modal-body">
-                <div style="height: 100%; width: 100%; overflow: hidden;">
-                    <h3 style="margin: 3rem 0rem 0rem 2rem;">
-                        删除后将无法恢复数据，确认删除？
-                    </h3>
+                <div class="modal-bodycustom modal-body">
+                    <div class="ag-theme-alpine" id="purchase_price_table" style="height: 100%">
+                    </div>
                 </div>
+                <footer class="modal-footercustom">
+                    <button id="purchase_price_cancel2">取消</button>
+                    <button id="purchase_price_sure">确定</button>
+                </footer>
             </div>
-            <footer class="modal-footercustom">
-                <button id="isDeleteRow_cancel2">取消</button>
-                <button id="isDeleteRow_sure">确定</button>
-            </footer>
         </div>
-    </div>
-    <div id="purchase_price" class="modalcustom">
-        <div class="modal-contentcustom" style="height: 80vh;">
+        <div id="add_remarks" class="modalcustom">
+            <div class="modal-contentcustom" style="height: 80vh;">
 
-            <header class="modal-headercustom">
-                <h4 class="customcustom">提示</h4>
-                <span class="closecustom" id="purchase_price_cancel1">×</span>
-            </header>
+                <header class="modal-headercustom">
+                    <h4 class="customcustom">提示</h4>
+                    <span class="closecustom" id="add_remarks_cancel1">×</span>
+                </header>
 
-            <div class="modal-bodycustom modal-body">
-                <div class="ag-theme-alpine" id="purchase_price_table" style="height: 100%">
+                <div class="modal-bodycustom modal-body">
+                    <ol class="list-group list-group-numbered" id="add_remarks_category">
+                    </ol>
+                    <button type="button" id="add_remarks_button" class="btn ">添加备注</button>
                 </div>
+                <footer class="modal-footercustom">
+                    <button id="add_remarks_cancel2">取消</button>
+                    <button id="add_remarks_sure">确定</button>
+                </footer>
             </div>
-            <footer class="modal-footercustom">
-                <button id="purchase_price_cancel2">取消</button>
-                <button id="purchase_price_sure">确定</button>
-            </footer>
         </div>
-    </div>
     </div>
 </body>
 <script src="./js/header/catalogue.js"></script>

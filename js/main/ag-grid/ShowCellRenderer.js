@@ -1,6 +1,5 @@
 class ShowCellRenderer {
     init(params) {
-      console.log(params.value)
 
       const ui = document.createElement('div')
 
