@@ -153,4 +153,4 @@ class isShowColumns {
 // 优化建议：
 // 1.改成class
 // 2.节点改成非固定
-export default new isShowColumns()
+export default isShowColumns

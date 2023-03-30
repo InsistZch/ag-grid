@@ -61,8 +61,6 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     // 图表
     // var chart = agCharts.AgChart.create(main_index.agChart);
-
-
     main_index.otherApi.isShowColumns.init_select(agOption)
     main_index.otherApi.isShowColumns.change_select(agOption)
     main_index.otherApi.isShowColumns.menu_select(agOption)

@@ -17,15 +17,17 @@ main.main div.content {
 
 .ag_all_button{
     display: flex;
-    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     background-color: #ddd;
+    box-sizing: border-box;
+    padding: 0 1rem;
 }
 
 .ag-button{
     height: 4rem;
     display: flex;
     align-items: center;
-    padding-left: 40px;
 }
 
 div.function{
@@ -35,7 +37,8 @@ div.function{
 }
 
 div.function .btn-group button{  
-    width: 80px;
+    width: max-content;
+    height: max-content;
     border-color: #71639e;
     color: #71639e;
 }
