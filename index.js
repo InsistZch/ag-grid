@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(init_mc())
         el.classList.remove('btn-outline-danger')
         el.classList.add('btn-outline-primary')
-        // el.innerText = "更新"
+        el.innerText = "更新"
     })
     // 主单位是斤
     // 一个食材单位为两
