@@ -45,32 +45,32 @@ const col = () => {
                 let specialMealID = params.data.specialMealID != undefined ? params.data.specialMealID : ""
                 return params.data.type + specialMealID
             },
-            // cellClassRules: {
-            //     'show-cell': 'value !== undefined',
-            // },
-            // rowSpan: params => {
-            //     // configure 
-            //     // cl1
-            //     // console.log(params)
-            //     if(params.data.configure) return 1
-            //     let count = 0
+            cellClassRules: {
+                'show-cell': 'value !== undefined',
+            },
+            rowSpan: params => {
+                // configure 
+                // cl1
+                // console.log(params)
+                if(params.data.configure) return 1
+                let count = 0
 
-            //     // 
-            //     let fristTypeID = 0, isfrist = true
-            //     params.api.forEachNode(v => {
-            //         if(v.data == undefined || v.data.configure) return
-            //         if(v.data.cl1 == params.data.cl1 && v.data.type == params.data.type){
-            //             count++
-            //             if(isfrist){
-            //                 isfrist = !isfrist
-            //                 fristTypeID = v.data.id
-            //                 return
-            //             }
-            //         }
-            //     })
-            //     // console.log(fristTypeID, params.data.id, count)
-            //     return fristTypeID === params.data.id ? count : 0
-            // },
+                // 
+                let fristTypeID = 0, isfrist = true
+                params.api.forEachNode(v => {
+                    if(v.data == undefined || v.data.configure) return
+                    if(v.data.cl1 == params.data.cl1 && v.data.type == params.data.type){
+                        count++
+                        if(isfrist){
+                            isfrist = !isfrist
+                            fristTypeID = v.data.id
+                            return
+                        }
+                    }
+                })
+                // console.log(fristTypeID, params.data.id, count)
+                return fristTypeID === params.data.id ? count : 0
+            },
             // cellRenderer: ShowCellRenderer
         },
         {
