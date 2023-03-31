@@ -3,7 +3,7 @@
 
     class isShowColumns {
         cost = document.querySelector('#ag-button-cost')
-        remarks = document.querySelector('#ag-button-remarks')
+        note = document.querySelector('#ag-button-note')
         save = document.querySelector('#ag-button-save')
         whole = document.querySelector('#ag-button-whole')
         menu = document.querySelector('#ag-button-menu')
@@ -13,7 +13,7 @@
             this.is_init = !!this.is_init
             if (!this.is_init) {
                 this.cost = document.querySelector('#ag-button-cost')
-                this.remarks = document.querySelector('#ag-button-remarks')
+                this.note = document.querySelector('#ag-button-note')
                 this.save = document.querySelector('#ag-button-save')
                 this.whole = document.querySelector('#ag-button-whole')
                 this.menu = document.querySelector('#ag-button-menu')
@@ -45,10 +45,10 @@
                         node: this.cost,
                         hide: col_item['hide'],
                     })
-                } else if (col_item['colId'] == "remarks") {
-                    this.remarks.checked = !col_item['hide']
-                    this.nodes.set('remarks', {
-                        node: this.remarks,
+                } else if (col_item['colId'] == "note") {
+                    this.note.checked = !col_item['hide']
+                    this.nodes.set('note', {
+                        node: this.note,
                         hide: col_item['hide']
                     })
                 } else if (col_item['colId'] == "save") {

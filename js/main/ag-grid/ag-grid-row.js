@@ -86,7 +86,7 @@ const data = () => {
                     dish_top_category_id: dish_key.dish_top_category_id,
                     material_item: d_data[1]
                 }
-                obj['remarks'] = ""
+                obj['note'] = ""
 
             }
         }

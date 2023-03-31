@@ -381,7 +381,7 @@ const col = () => {
 
     col.push({
         headerName: '备注',
-        field: 'remarks',
+        field: 'note',
         pinned: 'right',
         minWidth:100,
         hide: true
