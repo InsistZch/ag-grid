@@ -115,7 +115,7 @@ const onCellValueChanged = async (e, gridOptions) => {
     saveDataBtn.innerText = "请保存"
     // let newDate = new Date() * 1
     // console.log(e)
-    if (e.colDef.headerName != '菜品' && e.colDef.headerName != '配量汇总' && e.colDef.headerName != "成本" && e.colDef.headerName != "备注") {
+    if (!isNaN(e.colDef.field)) {
 
         if (e.newValue == undefined || e.newValue == null || String(e.newValue).trim() == "") {
             e.data[`${e.colDef.field}`] = 0

@@ -161,7 +161,7 @@ const col = () => {
         obj['valueParser'] = params => Number(params.newValue)
         obj['cellRenderer'] = (params) => {
             // console.log(Restrictions(params))
-            if(params.value == undefined){
+            if(params.value == undefined || params.value == "NaN%"){
                 // const rowNode = params.api.getRowNode(params.data.id)
                 // console.log(rowNode, params)
                 // rowNode.setDataValue(params.colDef.field, 0)
@@ -170,7 +170,7 @@ const col = () => {
             if (params.data.configure) {
                 if (params.data.type == "%") {
                     // console.log(params.value)
-                    if(params.value == undefined) return "0%"
+                    if(params.value == undefined || params.value == "NaN%") return "0%"
                     const v = Number(params.value.split('%')[0]) / 100
                     const high = index.org_config.cus_los_ratio_high_lmt;
                     let style = ""

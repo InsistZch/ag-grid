@@ -12,6 +12,7 @@ main.main div.content {
 
 .ag_main {
     width: 100%;
+    min-width: 1080px;
     position: relative;
 }
 
@@ -54,7 +55,6 @@ div.function .btn-group button{
     padding: .1rem .3rem;
 }
 div.function .btn-group button:not([saveData]){  
-
     border-color: #71639e;
     color: #71639e;
 }
