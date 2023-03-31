@@ -161,7 +161,12 @@ const col = () => {
         obj['valueParser'] = params => Number(params.newValue)
         obj['cellRenderer'] = (params) => {
             // console.log(Restrictions(params))
-            
+            if(params.value == undefined){
+                // const rowNode = params.api.getRowNode(params.data.id)
+                // console.log(rowNode, params)
+                // rowNode.setDataValue(params.colDef.field, 0)
+                params.data[params.colDef.field] = params.data.type == "%" ? "0%" : 0
+            }
             if (params.data.configure) {
                 if (params.data.type == "%") {
                     // console.log(params.value)

@@ -63,7 +63,6 @@ const data = () => {
                     if (dish_key.dish_top_category_id == dish_top_category.id) {
                         obj['type'] = dish_top_category.name_cn
 
-                        
                         if (dish_top_category.name_cn == "特色" && specialMeal.Catering[obj['dinner_type']] <= specialMeal.colors.length) {
                             obj['specialMealID'] = specialMeal.Catering[obj['dinner_type']]
                             obj['specialMealColor'] = specialMeal.colors[specialMeal.Catering[obj['dinner_type']] - 1]
@@ -75,21 +74,22 @@ const data = () => {
                 const d_data = init_dish_detailed(play_object.manual_material_qty, count)
                 obj['id'] = countID()
                 obj['whole'] = d_data[0]
-                obj['edit'] = true
-                obj['configure'] = false
-                obj['fixed'] = true
-                obj['update'] = false
-                obj['isNewAdd'] = false
                 obj['costPrice'] = d_data[2]
                 obj['dish_key_id'] = {
                     id: dish_key.id,
                     dish_top_category_id: dish_key.dish_top_category_id,
                     material_item: d_data[1]
                 }
-                obj['note'] = ""
+                
 
             }
         }
+        obj['edit'] = true
+        obj['configure'] = false
+        obj['fixed'] = true
+        obj['update'] = false
+        obj['isNewAdd'] = false
+        obj['note'] = play_object['note'] == undefined ? "" : play_object['note']
 
         data.push(obj)
     }
@@ -137,7 +137,7 @@ const duibi = (cus_loc_id, dish_id, dinner_type, material_item) => {
         return ['虾', false]
     } else if (obj1['is_color_additive'] == true && obj2['is_color_additive'] == false) {
         return ['色素', false]
-    } else if (obj2['dislike_material_ids'].length > 0) {
+    } else if (obj2['dislike_material_ids'] != undefined && obj2['dislike_material_ids'].length > 0) {
         // console.log(obj2)
         // 找到当前食材
         const items = index.material_item.filter(v => {
