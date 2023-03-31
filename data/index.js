@@ -17,6 +17,7 @@ import org_config from './org_config.js'
 import dish_bom_category from './dish_bom_category.js'
 import plan_day_summary_info from './plan_day_summary_info.js'
 import planed_cost_ratio_dict from './planed_cost_ratio_dict.js'
+import user_settings from './user_settings.js'
 
 export default {
     cus_loc,
@@ -36,5 +37,6 @@ export default {
     org_config,
     dish_bom_category,
     plan_day_summary_info,
-    planed_cost_ratio_dict
+    planed_cost_ratio_dict,
+    user_settings
 }
