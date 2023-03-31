@@ -157,6 +157,7 @@ const col = () => {
         obj['headerName'] = item['name']
         obj['field'] = `${item['id']}`
         obj['minWidth'] = 42
+        obj['maxWidth'] = 70
         // obj['pinned'] = 'left'
         obj['valueParser'] = params => Number(params.newValue)
         obj['cellRenderer'] = (params) => {
