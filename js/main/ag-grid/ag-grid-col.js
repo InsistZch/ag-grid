@@ -6,10 +6,10 @@ import { duibi } from './ag-grid-row.js';
 import preserved_dishes from './preserved_dishes.js';
 import init_mc from './special_fast_data.js';
 import dish_tooltipField from './dish_tooltipField.js'
-import ShowCellRenderer from './ShowCellRenderer.js'
+// import ShowCellRenderer from './ShowCellRenderer.js'
 // 定义列
 const col = () => {
-
+    const user_setting = index.user_settings[0]
     const col = [
         // {
         //     headerName: '',//选择列头部显示的文字，可以为空
@@ -130,6 +130,7 @@ const col = () => {
             minWidth: 50,
             maxWidth: 110,
             pinned: 'left',
+            hide: !user_setting.is_plan_day_show_dish_cost,
             editable: false,
             cellRenderer: params => {
                 if (params.data.type == "%") {
@@ -250,6 +251,7 @@ const col = () => {
         field: "whole",
         minWidth: 250,
         pinned: 'right',
+        hide: !user_setting.is_plan_day_show_dish_bom_str,
         // autoHeight: true,
         // wrapText: true,
         cellRenderer: (params) => {
@@ -390,13 +392,13 @@ const col = () => {
         field: 'note',
         pinned: 'right',
         minWidth:100,
-        hide: true
+        hide: !user_setting.is_plan_day_show_note
     })
     col.push({
         headerName: '',
         field: 'save',
         pinned: 'right',
-        hide: true,
+        hide: !user_setting.is_plan_day_show_save_bom_btn,
         editable: false,
         minWidth: 25,
         width: 10,

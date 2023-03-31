@@ -18,10 +18,22 @@
                 this.whole = document.querySelector('#ag-button-whole')
                 this.menu = document.querySelector('#ag-button-menu')
                 this.Nomenu = document.querySelector('#ag-button-Nomenu')
+                
+
+                const user_setting = index.user_settings[0]
+                this.cost.checked = user_setting.is_plan_day_show_dish_cost
+                this.note.checked = user_setting.is_plan_day_show_note
+                this.save.checked = user_setting.is_plan_day_show_save_bom_btn
+                this.whole.checked = user_setting.is_plan_day_show_dish_bom_str
+                this.menu.checked = user_setting.is_plan_day_show_cus_with_menu
+                this.Nomenu.checked = user_setting.is_plan_day_show_cus_no_menu
+
                 this.ismenu = this.menu.checked
                 this.isNomenu = this.Nomenu.checked
 
                 this.is_init = true
+
+                
 
             }
         }
@@ -65,6 +77,8 @@
                     })
                 }
             }
+
+            this.ChangeCol(agOption)
         }
 
         change_select(agOption) {
@@ -92,65 +106,66 @@
             this.menu.onclick = () => {
                 // console.log(menu.checked)
                 this.ismenu = this.menu.checked
-                ChangeCol()
+                this.ChangeCol(agOption)
             }
             this.Nomenu.onclick = () => {
                 // console.log(menu.checked)
                 this.isNomenu = this.Nomenu.checked
-                ChangeCol()
+                this.ChangeCol(agOption)
             }
-            const ChangeCol = () => {
-                // 两个都选中 默认显示
-                // 只选中 menu 只显示有菜单
-                // 只选中 isNomenu 只显示无菜单
-                // 都不选中 不显示用户
-                let col = []
-                let arr = []
-                for (const item of agOption.columnApi.getColumnState()) {
-                    if (!isNaN(item.colId)) {
-                        arr.push({
-                            colId: item.colId,
-                            hide: false
-                        })
-                    }
-                }
-                agOption.columnApi.applyColumnState({
-                    state: [...arr]
-                })
-
-                if (this.ismenu && !this.isNomenu) {
-                    const colfilter = index.cus_loc.filter(v => v.org_group_category == "无菜单")
-                    for (const item of colfilter) {
-                        col.push(String(item.id))
-                    }
-                } else if (!this.ismenu && this.isNomenu) {
-                    const colfilter = index.cus_loc.filter(v => v.org_group_category == "有菜单")
-                    for (const item of colfilter) {
-                        col.push(String(item.id))
-                    }
-                } else if (!this.ismenu && !this.isNomenu) {
-                    for (const item of agOption.columnApi.getColumnState()) {
-                        // console.log(item)
-                        if (!isNaN(item.colId)) {
-                            col.push(String(item.colId))
-                        }
-                    }
-                }
-                // console.log(col)
-                arr = []
-                for (const item of col) {
+            
+        }
+        ChangeCol(agOption) {
+            // 两个都选中 默认显示
+            // 只选中 menu 只显示有菜单
+            // 只选中 isNomenu 只显示无菜单
+            // 都不选中 不显示用户
+            let col = []
+            let arr = []
+            for (const item of agOption.columnApi.getColumnState()) {
+                if (!isNaN(item.colId)) {
                     arr.push({
-                        colId: item,
-                        hide: true,
+                        colId: item.colId,
+                        hide: false
                     })
                 }
-                // console.log(arr)
-                agOption.columnApi.applyColumnState({
-                    state: [...arr]
-                })
-
-                agOption.api.sizeColumnsToFit();
             }
+            agOption.columnApi.applyColumnState({
+                state: [...arr]
+            })
+
+            if (this.ismenu && !this.isNomenu) {
+                const colfilter = index.cus_loc.filter(v => v.org_group_category == "无菜单")
+                for (const item of colfilter) {
+                    col.push(String(item.id))
+                }
+            } else if (!this.ismenu && this.isNomenu) {
+                const colfilter = index.cus_loc.filter(v => v.org_group_category == "有菜单")
+                for (const item of colfilter) {
+                    col.push(String(item.id))
+                }
+            } else if (!this.ismenu && !this.isNomenu) {
+                for (const item of agOption.columnApi.getColumnState()) {
+                    // console.log(item)
+                    if (!isNaN(item.colId)) {
+                        col.push(String(item.colId))
+                    }
+                }
+            }
+            // console.log(col)
+            arr = []
+            for (const item of col) {
+                arr.push({
+                    colId: item,
+                    hide: true,
+                })
+            }
+            // console.log(arr)
+            agOption.columnApi.applyColumnState({
+                state: [...arr]
+            })
+
+            agOption.api.sizeColumnsToFit();
         }
     }
 
