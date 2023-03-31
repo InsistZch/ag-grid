@@ -1101,6 +1101,14 @@ const sales_type = (value) => {
             return 'kuai';
         case "特色":
             return 'special';
+        case "大荤":
+            return 'special';
+        case "小荤":
+            return 'special';
+        case "素菜":
+            return 'special';
+        case "汤粥":
+            return 'special'; 
         case "绿豆汤":
             return 'green_bean_soup';
         case "简餐":
