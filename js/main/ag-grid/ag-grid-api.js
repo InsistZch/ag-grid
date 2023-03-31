@@ -111,7 +111,7 @@ const onCellValueChanged = async (e, gridOptions) => {
     const saveDataBtn = document.querySelector('#saveDataBtn')
     saveDataBtn.classList.remove('btn-outline-primary')
     saveDataBtn.classList.add('btn-outline-danger')
-    saveDataBtn.innerText = "数据已经变化，如退出请按“更新”按钮"
+    // saveDataBtn.innerText = "数据已经变化，如退出请按“更新”按钮"
     // let newDate = new Date() * 1
     // console.log(e)
     if (e.colDef.headerName != '菜品' && e.colDef.headerName != '配量汇总' && e.colDef.headerName != "成本" && e.colDef.headerName != "备注") {
@@ -974,86 +974,86 @@ const getContextMenuItems = (params, gridOptions) => {
     ]
     // 点击添加备注  => 弹窗
     // 确认修改后 => 添加至当前备注行 => 每添加一次备注 需要添加@符号
-    if (params.column.colId === "whole") {
-        result.push({
-            name: '修改备注',
-            action: () => {
-                customFromDom({
-                    parent: "#add_remarks",
-                    cancel: ["#add_remarks_cancel1", "#add_remarks_cancel2"],
-                    sure: "#add_remarks_sure",
-                    deleteData: ["#add_remarks_category"],
-                    initFun(_parent) {
-                        console.log(params)
-                        const addRemarksCategory = _parent.querySelector('#add_remarks_category')
-                        const addRemarksButton = _parent.querySelector('#add_remarks_button')
-                        const remarks = params.node.data.remarks.split(' ')
-                        console.log(remarks)
-                        if(remarks.length == 1 && remarks[0].trim() == ""){
-                            addRemarksCategory.innerHTML += `
-                            <li class="list-group-item">
-                                <div class="input-group flex-nowrap">
-                                    <input type="text" class="form-control">
-                                    <span class="input-group-text"><button type="button" class="btn-close"></button></span>
-                                </div>
-                            </li>`
-                        }else{
-                            for (const item of remarks) {
-                                if(item.trim() == "") continue
-                                addRemarksCategory.innerHTML += `
-                                <li class="list-group-item">
-                                    <div class="input-group flex-nowrap">
-                                        <input type="text" class="form-control" value="${item}">
-                                        <span class="input-group-text"><button type="button" class="btn-close"></button></span>
-                                    </div>
-                                </li>`
-                            }
-                        }
-                        let addRemarkCloseButtons = _parent.querySelectorAll('.btn-close')
+    // if (params.column.colId === "whole") {
+    //     result.push({
+    //         name: '修改备注',
+    //         action: () => {
+    //             customFromDom({
+    //                 parent: "#add_remarks",
+    //                 cancel: ["#add_remarks_cancel1", "#add_remarks_cancel2"],
+    //                 sure: "#add_remarks_sure",
+    //                 deleteData: ["#add_remarks_category"],
+    //                 initFun(_parent) {
+    //                     console.log(params)
+    //                     const addRemarksCategory = _parent.querySelector('#add_remarks_category')
+    //                     const addRemarksButton = _parent.querySelector('#add_remarks_button')
+    //                     const remarks = params.node.data.remarks.split(' ')
+    //                     console.log(remarks)
+    //                     if(remarks.length == 1 && remarks[0].trim() == ""){
+    //                         addRemarksCategory.innerHTML += `
+    //                         <li class="list-group-item">
+    //                             <div class="input-group flex-nowrap">
+    //                                 <input type="text" class="form-control">
+    //                                 <span class="input-group-text"><button type="button" class="btn-close"></button></span>
+    //                             </div>
+    //                         </li>`
+    //                     }else{
+    //                         for (const item of remarks) {
+    //                             if(item.trim() == "") continue
+    //                             addRemarksCategory.innerHTML += `
+    //                             <li class="list-group-item">
+    //                                 <div class="input-group flex-nowrap">
+    //                                     <input type="text" class="form-control" value="${item}">
+    //                                     <span class="input-group-text"><button type="button" class="btn-close"></button></span>
+    //                                 </div>
+    //                             </li>`
+    //                         }
+    //                     }
+    //                     let addRemarkCloseButtons = _parent.querySelectorAll('.btn-close')
 
-                        let delLI = (item) => {
-                            let delLi = item.parentNode.parentNode.parentNode
-                            delLi.parentNode.removeChild(delLi)
-                        }
+    //                     let delLI = (item) => {
+    //                         let delLi = item.parentNode.parentNode.parentNode
+    //                         delLi.parentNode.removeChild(delLi)
+    //                     }
 
-                        addRemarksButton.onclick = () => {
-                            const li = document.createElement("li")
-                            li.className = 'list-group-item'
-                            const addRemarksLi = addRemarksCategory.appendChild(li)
-                            addRemarksLi.innerHTML = `
-                                <div class="input-group flex-nowrap">
-                                    <input type="text" class="form-control">
-                                    <span class="input-group-text"><button type="button" class="btn-close btn-outline-primary"></button></span>
-                                </div>`
+    //                     addRemarksButton.onclick = () => {
+    //                         const li = document.createElement("li")
+    //                         li.className = 'list-group-item'
+    //                         const addRemarksLi = addRemarksCategory.appendChild(li)
+    //                         addRemarksLi.innerHTML = `
+    //                             <div class="input-group flex-nowrap">
+    //                                 <input type="text" class="form-control">
+    //                                 <span class="input-group-text"><button type="button" class="btn-close btn-outline-primary"></button></span>
+    //                             </div>`
 
-                            addRemarkCloseButtons = _parent.querySelectorAll('.btn-close')
-                            for (const item of addRemarkCloseButtons) {
-                                item.onclick = () => { delLI(item) }
-                            }
-                        }
+    //                         addRemarkCloseButtons = _parent.querySelectorAll('.btn-close')
+    //                         for (const item of addRemarkCloseButtons) {
+    //                             item.onclick = () => { delLI(item) }
+    //                         }
+    //                     }
 
-                        for (const item of addRemarkCloseButtons) {
-                            item.onclick = () => { delLI(item) }
-                        }
+    //                     for (const item of addRemarkCloseButtons) {
+    //                         item.onclick = () => { delLI(item) }
+    //                     }
 
 
-                    },
-                    sureFun(_parent) {
-                        const formControlAll = _parent.querySelectorAll('.form-control')
-                        let remarks = '';
-                        for (const item of formControlAll) {
-                            remarks += item.value + ' '
-                        }
-                        const rowNode = params.api.getRowNode(params.node.data.id)
-                        rowNode.setDataValue('remarks', remarks)
-                        // params.node.data.remarks = remarks
-                        // gridOptions.api.refreshCells({ force: true })
-                        return true
-                    },
-                })
-            }
-        })
-    }
+    //                 },
+    //                 sureFun(_parent) {
+    //                     const formControlAll = _parent.querySelectorAll('.form-control')
+    //                     let remarks = '';
+    //                     for (const item of formControlAll) {
+    //                         remarks += item.value + ' '
+    //                     }
+    //                     const rowNode = params.api.getRowNode(params.node.data.id)
+    //                     rowNode.setDataValue('remarks', remarks)
+    //                     // params.node.data.remarks = remarks
+    //                     // gridOptions.api.refreshCells({ force: true })
+    //                     return true
+    //                 },
+    //             })
+    //         }
+    //     })
+    // }
     return result
 }
 // 添加行信息的公共添加部分
@@ -1120,8 +1120,8 @@ const getRowStyle = params => {
         if (params.data.specialMealColor != undefined) {
             return {
                 // backgroundColor: params.data.specialMealColor,
-                borderBottom: `solid 3px ${params.data.specialMealColor}`,
-                boxShadow: `2px 2px 2px ${params.data.specialMealColor}`
+                borderBottom: `solid 2px ${params.data.specialMealColor}`,
+                // boxShadow: `2px 2px 2px ${params.data.specialMealColor}`
                 // textDecoration: "underline 2px #000"
                 // textDecoration: `underline 2px ${params.data.SpecialMealCategory} !important`,
                 // color: "#ddd",
@@ -1133,6 +1133,12 @@ const getRowStyle = params => {
                 fontStyle: "italic",
                 fontWeight: "600",
                 // display: params.data.show ? "flex" : "none"
+            }
+        }else if(params.data.configure){
+            if(params.data.type == "快餐" || params.data.type == "特色"){
+                return {
+                    fontWeight: "600",
+                }
             }
         }
     }

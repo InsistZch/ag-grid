@@ -17,7 +17,7 @@ const init_grid_options = () => {
                     if(Restrictions(params)){
                         return false
                     }
-                    if(params.data.configure == true && isNaN(params.colDef.field)){
+                    if(params.data.configure && isNaN(params.colDef.field)){
                         return false
                     }
                 // console.log(params)

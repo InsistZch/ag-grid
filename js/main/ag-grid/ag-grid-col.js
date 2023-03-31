@@ -34,6 +34,7 @@ const col = () => {
             headerName: '类别',
             field: 'type',
             minWidth: 55,
+            maxWidth: 100,
             editable: false,
             pinned: 'left',
             filter: true,
@@ -44,38 +45,39 @@ const col = () => {
                 let specialMealID = params.data.specialMealID != undefined ? params.data.specialMealID : ""
                 return params.data.type + specialMealID
             },
-            cellClassRules: {
-                'show-cell': 'value !== undefined',
-            },
-            rowSpan: params => {
-                // configure 
-                // cl1
-                // console.log(params)
-                if(params.data.configure) return 1
-                let count = 0
+            // cellClassRules: {
+            //     'show-cell': 'value !== undefined',
+            // },
+            // rowSpan: params => {
+            //     // configure 
+            //     // cl1
+            //     // console.log(params)
+            //     if(params.data.configure) return 1
+            //     let count = 0
 
-                // 
-                let fristTypeID = 0, isfrist = true
-                params.api.forEachNode(v => {
-                    if(v.data == undefined || v.data.configure) return
-                    if(v.data.cl1 == params.data.cl1 && v.data.type == params.data.type){
-                        count++
-                        if(isfrist){
-                            isfrist = !isfrist
-                            fristTypeID = v.data.id
-                            return
-                        }
-                    }
-                })
-                // console.log(fristTypeID, params.data.id, count)
-                return fristTypeID === params.data.id ? count : 0
-            },
-            cellRenderer: ShowCellRenderer
+            //     // 
+            //     let fristTypeID = 0, isfrist = true
+            //     params.api.forEachNode(v => {
+            //         if(v.data == undefined || v.data.configure) return
+            //         if(v.data.cl1 == params.data.cl1 && v.data.type == params.data.type){
+            //             count++
+            //             if(isfrist){
+            //                 isfrist = !isfrist
+            //                 fristTypeID = v.data.id
+            //                 return
+            //             }
+            //         }
+            //     })
+            //     // console.log(fristTypeID, params.data.id, count)
+            //     return fristTypeID === params.data.id ? count : 0
+            // },
+            // cellRenderer: ShowCellRenderer
         },
         {
             headerName: '菜品',
             field: 'dish',
             minWidth: 82,
+            maxWidth: 110,
             // cellEditor: "agSelectCellEditor",
             // cellEditorParams:{values:dish_dropdown()},
             cellEditor: customCells,
@@ -126,6 +128,7 @@ const col = () => {
             headerName: '成本',
             field: 'costPrice',
             minWidth: 50,
+            maxWidth: 110,
             pinned: 'left',
             editable: false,
             cellRenderer: params => {
@@ -232,6 +235,7 @@ const col = () => {
         field: 'Copies',
         // minWidth:10,
         minWidth: 48,
+        maxWidth: 100,
         editable: false,
         pinned: 'right',
     })

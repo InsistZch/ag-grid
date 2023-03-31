@@ -27,9 +27,8 @@ div.ag_main span.date{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #ddd;
+    background-color: #eeeeee66;
     box-sizing: border-box;
-    padding: 0 1rem;
     position: relative;
 }
 
@@ -37,7 +36,7 @@ div.ag_main span.date{
     height: max-content;
     display: flex;
     align-items: center;
-    padding: 1rem 0;
+    padding: .5rem 0;
 }
 
 div.function{
@@ -47,10 +46,15 @@ div.function{
 }
 div.function .btn-group{
     margin-right: 1rem;
+    font-size: .7rem;
 }
-div.function .btn-group button:not([saveData]){  
+div.function .btn-group button{
     width: max-content;
     height: max-content;
+    padding: .1rem .3rem;
+}
+div.function .btn-group button:not([saveData]){  
+
     border-color: #71639e;
     color: #71639e;
 }
