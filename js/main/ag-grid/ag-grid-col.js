@@ -176,7 +176,7 @@ const col = () => {
                     }
                     return `<span style="font-weight: 600;color: ${style};">${params.value}</span>`
                 }
-                return params.value
+                return params.value == undefined ? 0 : params.value
             }
             if (isNaN(params.value) || params.value == null) {
                 return 0
