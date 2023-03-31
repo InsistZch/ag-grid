@@ -425,7 +425,7 @@ const col = () => {
                     material_item: [...params.data.dish_key_id.material_item]
                 })
 
-                console.log(params.data)
+                console.log(params, params.data)
                 if (params.data.isNewAdd) {
                     const { data } = params
                     console.log(data)

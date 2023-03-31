@@ -962,8 +962,27 @@ const getContextMenuItems = (params, gridOptions) => {
                     sureFun: () => {
                         const selRows = gridOptions.api.getRowNode(params.node.id)
                         gridOptions.api.applyTransaction({ remove: [selRows] });
+                        console.log(params)
                         // 重新计算成本比例
                         anew_top_cost(params)
+                        const arr = []
+                        let category = null
+                        // gridOptions.api.forEachNode(v => {
+                        //     if(v.data == undefined) return
+                        //     if(v.data.id == params.node.data.id) return
+                        //     arr.push(v.data)
+                        // })
+                        // console.log(arr)
+                        for (const item of gridOptions.api.getColumnDefs()) {
+                            if(item.headerName == "类别"){
+                                category = {...item}
+                            }
+                            arr.push(item)
+                        }
+                        gridOptions.api.setColumnDefs([category])
+                        gridOptions.api.setColumnDefs(arr)
+                        // await gridOptions.api.setRowData(arr)
+                        // gridOptions.api.setServerSideDatasource(arr)
                         return true
                     }
                 })
