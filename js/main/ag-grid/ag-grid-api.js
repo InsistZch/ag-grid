@@ -1091,6 +1091,7 @@ const addRowPublicPart = (params) => {
     obj['update'] = false
     obj['id'] = countID()
     obj['isNewAdd'] = true
+    obj['note'] = ""
     return obj
 }
 

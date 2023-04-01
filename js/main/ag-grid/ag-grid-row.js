@@ -89,7 +89,7 @@ const data = () => {
         obj['fixed'] = true
         obj['update'] = false
         obj['isNewAdd'] = false
-        obj['note'] = play_object['note'] == undefined ? "" : play_object['note']
+        obj['note'] = play_object['note'] == false ? "" : play_object['note']
 
         data.push(obj)
     }
