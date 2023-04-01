@@ -8,7 +8,7 @@ import mealcopies from './special_fast_data.js'
 
 const init_grid_options = () => {
     const d = data()
-    console.log(d)
+    // console.log(d)
     const gridOptions = {
         columnDefs: col(),
         rowData: d,

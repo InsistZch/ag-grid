@@ -115,6 +115,7 @@ const onCellValueChanged = async (e, gridOptions) => {
     saveDataBtn.innerText = "请保存"
     // let newDate = new Date() * 1
     // console.log(e)
+    // dish _ type
     if (!isNaN(e.colDef.field)) {
 
         if (e.newValue == undefined || e.newValue == null || String(e.newValue).trim() == "") {
@@ -291,6 +292,7 @@ const onCellValueChanged = async (e, gridOptions) => {
             newCopies: e.data['Copies']
         })
         e.data['costPrice'] = d[2]
+        e.data['dname'] = `${e.newValue}_${e.dish}`
         // gridOptions.api.refreshCells({force:true})
     } else if (e.colDef.headerName == '配量汇总') {
         e.data.update = true
@@ -507,7 +509,9 @@ const onCellValueChanged = async (e, gridOptions) => {
                                     }
                                 }
                                 e.data[`${e.colDef.field}`] = strs.join(' ')
-                                gridOptions.api.refreshCells({ force: true })
+                                d[2] = 0
+                                d[3] = customSectionValue
+                                // gridOptions.api.refreshCells({ force: true })
                                 isExistMaterial = false
                                 resolve()
                                 return true
@@ -636,6 +640,9 @@ const onCellValueChanged = async (e, gridOptions) => {
                     } else {
                         resolve()
                     }
+                }else{
+                    console.log(materialObj)
+                    resolve()
                 }
             })
             await new Promise(resolve => {
@@ -725,11 +732,12 @@ const onCellValueChanged = async (e, gridOptions) => {
                                     ratio.focus()
                                 }
                             }
+                            console.log(d)
                             const unit_category = index.material_purchase_unit_category.find(v => v.name == d[3])
                             unitName.onkeyup = (e) => {
                                 console.log(e)
                             }
-                            // console.log(unit_category)
+                            console.log(unit_category)
                             unitName.value = unit_category.name
                             unitName.setAttribute('unitID', unit_category.id)
                         },
@@ -769,12 +777,13 @@ const onCellValueChanged = async (e, gridOptions) => {
                 }
                 e.data.whole = ""
                 for (const item of e.data.dish_key_id.material_item) {
+                    // console.log(item)
                     const str = item.name.split('-')[0] + item.dish_process_category_name + item.dish_qty + item.unit_name
                     e.data.whole += str + " "
                 }
             }
         }
-        // console.log(e.data.dish_key_id.material_item)
+        console.log(e.data.dish_key_id.material_item)
         const [whole, material_items, costPrice] = countMaterialData({
             material_items: [...e.data.dish_key_id.material_item],
             dish_key_id: e.data.dish_key_id.id,

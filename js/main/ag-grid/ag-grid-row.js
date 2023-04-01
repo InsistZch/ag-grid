@@ -106,7 +106,7 @@ const data = () => {
         const order = ['汤粥','素菜','小荤','大荤']
         return order.indexOf(b.type) - order.indexOf(a.type)
     })
-    console.log(data)
+    // console.log(data)
     return data
 }
 
@@ -449,7 +449,6 @@ const cost_proportion = (data, mealCopies) => {
         pre.set(v, obj)
         return pre
     }, new Map())
-    console.log(sales_volume)
 
     // 算出每个用户的成本价
     // new Map => (cus_loc_id, cost) => 用户id 成本价格

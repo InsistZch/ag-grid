@@ -6,7 +6,6 @@ import {add_dish_key_id,} from "../tool.js";
 import saveData from '../saveData/index.js';
 import preserved_dishes from './preserved_dishes.js';
 
-// let create_dish_key = 5000000
 
 
 class customCells {

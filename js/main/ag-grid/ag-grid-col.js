@@ -273,7 +273,8 @@ const col = () => {
                 }
                 return params.value
             }
-            if (params.data.whole.trim() == "" || params.data.dish_key_id.material_item == []) {
+            if (params.value == undefined || params.data.whole.trim() == "" || params.data.dish_key_id.material_item == []) {
+                params.data['whole'] = ""
                 return params.value
             }
             // if(params.data.dish == "") return params.value
@@ -433,7 +434,7 @@ const col = () => {
                     material_item: [...params.data.dish_key_id.material_item]
                 })
 
-                console.log(params, params.data)
+                console.log(params.data)
                 if (params.data.isNewAdd) {
                     const { data } = params
                     console.log(data)
