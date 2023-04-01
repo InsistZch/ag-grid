@@ -25,6 +25,7 @@ const data = () => {
     // }, new Set())]
 
 
+
     // data.push(...mealCopies())
     // data.push(...mealPrice())
     for (const play_object of index.plan_day_record_show) {
@@ -37,11 +38,11 @@ const data = () => {
         let count = 0;
         for (const play_object_item of Object.keys(json)) {
             const item2 = play_object_item.split('_')[1]
-             // console.log(item2, json[play_object_item])
-             json[play_object_item] = copiesNumber(json[play_object_item])
-             obj[`${item2}`] = json[play_object_item]
-             // obj[`${item2}`] = 0  
-             count += json[play_object_item]
+            // console.log(item2, json[play_object_item])
+            json[play_object_item] = copiesNumber(json[play_object_item])
+            obj[`${item2}`] = json[play_object_item]
+            // obj[`${item2}`] = 0  
+            count += json[play_object_item]
         }
         obj['Copies'] = count
         // obj['Copies'] = 0
@@ -61,8 +62,9 @@ const data = () => {
                 // 获取类别
                 for (const dish_top_category of index.dish_top_category) {
                     if (dish_key.dish_top_category_id == dish_top_category.id) {
+                        // console.log(dish_key)
                         obj['type'] = dish_top_category.name_cn
-
+                        // console.log(dish_top_category)
                         if (dish_top_category.name_cn == "特色" && specialMeal.Catering[obj['dinner_type']] <= specialMeal.colors.length) {
                             obj['specialMealID'] = specialMeal.Catering[obj['dinner_type']]
                             obj['specialMealColor'] = specialMeal.colors[specialMeal.Catering[obj['dinner_type']] - 1]
@@ -80,10 +82,11 @@ const data = () => {
                     dish_top_category_id: dish_key.dish_top_category_id,
                     material_item: d_data[1]
                 }
-                
+
 
             }
         }
+        obj['dname'] = obj['dish'] + "_" + obj['type']
         obj['edit'] = true
         obj['configure'] = false
         obj['fixed'] = true
@@ -96,6 +99,14 @@ const data = () => {
     // data.unshift(cost_proportion(data)[2])
 
     // console.log(data)
+
+    
+
+    data.sort((a,b) => { 
+        const order = ['汤粥','素菜','小荤','大荤']
+        return order.indexOf(b.type) - order.indexOf(a.type)
+    })
+    console.log(data)
     return data
 }
 

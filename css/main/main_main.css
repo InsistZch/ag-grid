@@ -88,7 +88,7 @@ div.function .btn-group button:not([saveData]):hover{
 
 .show-cell{
     background-color: #fff;
-    border: 1px solid #eee;
+    border: 1px solid #eee !important;
 }
 
 #add_remarks .list-group-item .input-group>.form-control, .input-group>.form-floating, .input-group>.form-select {
