@@ -732,12 +732,10 @@ const onCellValueChanged = async (e, gridOptions) => {
                                     ratio.focus()
                                 }
                             }
-                            console.log(d)
                             const unit_category = index.material_purchase_unit_category.find(v => v.name == d[3])
                             unitName.onkeyup = (e) => {
                                 console.log(e)
                             }
-                            console.log(unit_category)
                             unitName.value = unit_category.name
                             unitName.setAttribute('unitID', unit_category.id)
                         },
@@ -783,7 +781,6 @@ const onCellValueChanged = async (e, gridOptions) => {
                 }
             }
         }
-        console.log(e.data.dish_key_id.material_item)
         const [whole, material_items, costPrice] = countMaterialData({
             material_items: [...e.data.dish_key_id.material_item],
             dish_key_id: e.data.dish_key_id.id,
