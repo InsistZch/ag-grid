@@ -1,15 +1,16 @@
 /** @odoo-module **/
 // {
-// parent => str
-// cancel => array[string]
-// sure => string
-// deleteData => array[string]
-// cancelFun => function
-// sureFun => function  => return Boolean
-// initFun => function
+// parent => str  => 父元素
+// cancel => array[string]  => 取消按钮
+// sure => string  => 确认按钮
+// deleteData => array[string] => 关闭后需要删除的数据
+// cancelFun => function  => 取消后的执行的方法
+// sureFun => function  => return Boolean  => 确认后的执行的方法
+// initFun => function => 初始化
 // }
+// sureFun => return true => 确认成功 false => 确认失败
 
-const dom = async ({parent,cancel,sure,deleteData,cancelFun = () => {},sureFun = () => {},initFun = () => {}}) => {
+const dom = async ({parent,cancel,sure,deleteData,cancelFun = () => {},sureFun = () => true,initFun = () => {}}) => {
     const _parent = document.querySelector(parent)
 
     const _sure = document.querySelector(sure)

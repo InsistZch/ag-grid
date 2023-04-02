@@ -30,9 +30,6 @@ class GroupRowInnerRenderer {
         costbtn.style.cssText = `
         margin-left: 15rem;`
 
-        // const a = window.getComputedStyle(btn, '::before');
-        // a.setProperty('transform', "rotate(90deg)")
-        // a.transform.rotate = "90deg"
         let c = init_mc()
         // 设置监听事件
         // 份数
@@ -71,6 +68,7 @@ class GroupRowInnerRenderer {
                 params.api.applyTransaction({remove: d})
                 
             }
+            params.api.refreshCells({force:true})
         }
         // 餐标
         btn2.onclick = () => {
@@ -84,7 +82,6 @@ class GroupRowInnerRenderer {
                     data.push(v.data)
                 }
             })
-
             // console.log(data)
             // params.api.setRowData(data)
             const mealsPrice = init_mp()
@@ -109,6 +106,7 @@ class GroupRowInnerRenderer {
                 sethorn(btn2, false)
                 params.api.setRowData(data)
             }
+            params.api.refreshCells({force:true})
         }
 
         // 成本
@@ -155,6 +153,7 @@ class GroupRowInnerRenderer {
                 params.api.applyTransaction({add: [obj], addIndex})
                 // params.api.getRowId(params => params.data.id)
             }
+            params.api.refreshCells({force:true})
         }
         // 插入内容
         span.innerHTML = `<span style="font-weight: 600;">${params.value}</span>`

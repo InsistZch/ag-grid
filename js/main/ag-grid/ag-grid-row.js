@@ -1,25 +1,31 @@
 /** @odoo-module **/
 import index from '../../../data/index.js'
-import specialMeal from './specialMeal.js'
-
+import m from './specialMeal.js'
 import init_mp from './meal_price.js'
-import {mealAbstract, mealPrice} from './ag_common.js'
-import countID, {copiesPlusOne} from './countID.js'
+import { mealAbstract, mealPrice } from './ag_common.js'
+import countID from './countID.js'
 import saveData from '../saveData/index.js'
 import copiesNumber from "../ag_common/CopiesNumber.js";
 
 
 // 拿到餐标 => 客户信息 菜品信息 
+
+/*
+dislodge => String[]
+*/
 const data = () => {
+    let specialMeal = m()
+    // console.log(specialMeal)
     let data = []
     // 设置用户id与当前餐类别
-    cus_loc_ids = Object.keys(index.plan_day_record_show[0]['cus_loc_info']).map(v => v.split('_')[1])
-    dinner_types = [...index.plan_day_record_show.reduce((pre, v) => {
-        pre.add(v.dinner_type)
-        return pre
-    }, new Set())]
-    
-    
+    // cus_loc_ids = Object.keys(index.plan_day_record_show[0]['cus_loc_info']).map(v => v.split('_')[1])
+    // dinner_types = [...index.plan_day_record_show.reduce((pre, v) => {
+    //     pre.add(v.dinner_type)
+    //     return pre
+    // }, new Set())]
+
+
+
     // data.push(...mealCopies())
     // data.push(...mealPrice())
     for (const play_object of index.plan_day_record_show) {
@@ -40,26 +46,29 @@ const data = () => {
         }
         obj['Copies'] = count
         // obj['Copies'] = 0
-        
+
         // 生成data
+
         for (const dish_key of index.dish_key) {
             // 获取菜品数据
             // 能拿到dish_key play_object
             // 其他 冻品 鲜肉 半成品
             // console.log(dish_key.material_tag)
-            if(play_object.dish_key_id == dish_key.id){
+
+            if (play_object.dish_key_id == dish_key.id) {
                 obj['dish'] = dish_key.name
-                
+
+
                 // 获取类别
                 for (const dish_top_category of index.dish_top_category) {
-                    if(dish_key.dish_top_category_id == dish_top_category.id){
+                    if (dish_key.dish_top_category_id == dish_top_category.id) {
+                        // console.log(dish_key)
                         obj['type'] = dish_top_category.name_cn
-                        
-
-                        if(dish_top_category.name_cn == "特色" && specialMeal.Catering[obj['dinner_type']] <= specialMeal.colors.length){
+                        // console.log(dish_top_category)
+                        if (dish_top_category.name_cn == "特色" && specialMeal.Catering[obj['dinner_type']] <= specialMeal.colors.length) {
                             obj['specialMealID'] = specialMeal.Catering[obj['dinner_type']]
                             obj['specialMealColor'] = specialMeal.colors[specialMeal.Catering[obj['dinner_type']] - 1]
-                            specialMeal.Catering[obj['dinner_type']] ++
+                            specialMeal.Catering[obj['dinner_type']]++
                         }
                     }
                 }
@@ -67,25 +76,36 @@ const data = () => {
                 const d_data = init_dish_detailed(play_object.manual_material_qty, count)
                 obj['id'] = countID()
                 obj['whole'] = d_data[0]
-                obj['edit'] = true
-                obj['configure'] = false
-                obj['fixed'] = true
-                obj['update'] = false
-                obj['isNewAdd'] = false
                 obj['costPrice'] = d_data[2]
                 obj['dish_key_id'] = {
                     id: dish_key.id,
                     dish_top_category_id: dish_key.dish_top_category_id,
                     material_item: d_data[1]
                 }
-                
+
+
             }
         }
-        
+        obj['dname'] = obj['dish'] + "_" + obj['type']
+        obj['edit'] = true
+        obj['configure'] = false
+        obj['fixed'] = true
+        obj['update'] = false
+        obj['isNewAdd'] = false
+        obj['note'] = play_object['note'] == false ? "" : play_object['note']
+
         data.push(obj)
     }
     // data.unshift(cost_proportion(data)[2])
+
+    // console.log(data)
+
     
+
+    data.sort((a,b) => { 
+        const order = ['汤粥','素菜','小荤','大荤']
+        return order.indexOf(b.type) - order.indexOf(a.type)
+    })
     // console.log(data)
     return data
 }
@@ -95,17 +115,17 @@ const data = () => {
 const duibi = (cus_loc_id, dish_id, dinner_type, material_item) => {
     let obj1 = {}
     let obj2 = {}
-    
+
     // 用户喜好表
     for (const dinner_mode of index.dinner_mode) {
-        if(dinner_mode.cus_loc_id == cus_loc_id && dinner_mode.dinner_type == dinner_type){
-            obj2 = {...dinner_mode}
+        if (dinner_mode.cus_loc_id == cus_loc_id && dinner_mode.dinner_type == dinner_type) {
+            obj2 = { ...dinner_mode }
         }
     }
     // 菜品表格
     for (const dish_key of index.dish_key) {
-        if(dish_key.id == dish_id){
-            obj1 = {...dish_key}
+        if (dish_key.id == dish_id) {
+            obj1 = { ...dish_key }
         }
     }
     // console.log(obj1, obj2)
@@ -116,19 +136,19 @@ const duibi = (cus_loc_id, dish_id, dinner_type, material_item) => {
     // is_fried 油炸
     // is_shrimp 虾
     // is_color_additive 颜色添加剂
-    if(obj1['is_fish'] == true && obj2['is_fish'] == false){
-        return ['鱼',false]
-    }else if(obj1['is_organ'] == true && obj2['is_organ'] == false){
-        return ['内脏',false]
-    }else if(obj1['is_semi_finished'] == true && obj2['is_semi_finished'] == false){
-        return ['半成品',false]
-    }else if(obj1['is_fried'] == true && obj2['is_fried'] == false){
-        return ['油炸',false]
-    }else if(obj1['is_shrimp'] == true && obj2['is_shrimp'] == false){
-        return ['虾',false]
-    }else if(obj1['is_color_additive'] == true && obj2['is_color_additive'] == false){
-        return ['色素',false]
-    }else if(obj2['dislike_material_ids'].length > 0){
+    if (obj1['is_fish'] == true && obj2['is_fish'] == false) {
+        return ['鱼', false]
+    } else if (obj1['is_organ'] == true && obj2['is_organ'] == false) {
+        return ['内脏', false]
+    } else if (obj1['is_semi_finished'] == true && obj2['is_semi_finished'] == false) {
+        return ['半成品', false]
+    } else if (obj1['is_fried'] == true && obj2['is_fried'] == false) {
+        return ['油炸', false]
+    } else if (obj1['is_shrimp'] == true && obj2['is_shrimp'] == false) {
+        return ['虾', false]
+    } else if (obj1['is_color_additive'] == true && obj2['is_color_additive'] == false) {
+        return ['色素', false]
+    } else if (obj2['dislike_material_ids'] != undefined && obj2['dislike_material_ids'].length > 0) {
         // console.log(obj2)
         // 找到当前食材
         const items = index.material_item.filter(v => {
@@ -138,14 +158,14 @@ const duibi = (cus_loc_id, dish_id, dinner_type, material_item) => {
         })
         for (const ts of items) {
             for (const item of material_item) {
-                if(ts.id == item.id){
+                if (ts.id == item.id) {
                     return [ts.name.split('-')[0], false]
                 }
             }
         }
         return ['', true]
-    }else{
-        return ['',true]
+    } else {
+        return ['', true]
     }
 
 }
@@ -155,12 +175,12 @@ const headHookLimit = (userId, dinner_type, type) => {
     // console.log(type)
     let limit = 0
     for (const dinner_mode of index.dinner_mode) {
-        if(userId == dinner_mode.cus_loc_id && dinner_type == dinner_mode.dinner_type){
-            if(type == "特色" || type.includes("特色")){
-                limit =  dinner_mode.dinner_qty_upper_limit_ts
-            }else if(type == "汤粥"){
+        if (userId == dinner_mode.cus_loc_id && dinner_type == dinner_mode.dinner_type) {
+            if (type == "特色" || type.includes("特色")) {
+                limit = dinner_mode.dinner_qty_upper_limit_ts
+            } else if (type == "汤粥") {
                 limit = dinner_mode.dinner_qty_upper_limit_kc + dinner_mode.dinner_qty_upper_limit_ts
-            }else{
+            } else {
                 limit = dinner_mode.dinner_qty_upper_limit_kc
             }
         }
@@ -203,11 +223,11 @@ const mealCopies = (edit = false, fixed = true, types = {
 
 // 设置份数
 const setCopies = (objs) => {
-    
+
     for (const obj of objs) {
         obj['Copies'] = 0
         for (const key of Object.keys(obj)) {
-            if(!isNaN(key)){
+            if (!isNaN(key)) {
                 // obj[key] = 0
                 obj['Copies'] += obj[key]
             }
@@ -227,7 +247,7 @@ dish_qty    => 每100份 所需总量
 */
 // count => 总量
 // 初始化获取菜品详细信息
-const init_dish_detailed = (manual_material_qty,count) => {
+const init_dish_detailed = (manual_material_qty, count) => {
     // console.log(manual_material_qty)
     // console.log(manual_material_qty_json, count)
     count = count == 0 ? 1 : count
@@ -239,10 +259,10 @@ const init_dish_detailed = (manual_material_qty,count) => {
         // 查找材料名称
         let obj = {}
         for (const material_item of index.material_item) {
-            
-            if(material_item.id == json.material_id){
+
+            if (material_item.id == json.material_id) {
                 // console.log(material_item)
-                obj = {...material_item}
+                obj = { ...material_item }
                 obj['material_id'] = material_item.id
                 str += material_item.name.split('-')[0]
                 break
@@ -250,33 +270,33 @@ const init_dish_detailed = (manual_material_qty,count) => {
         }
         // 查找切配方式
         for (const dish_process_category of index.dish_process_category) {
-            if(dish_process_category.id == json.process_id){
+            if (dish_process_category.id == json.process_id) {
                 obj['process_id'] = dish_process_category.id
-                if(dish_process_category.name != '无'){
-                    if(str[str.length - 1] != dish_process_category.name){
+                if (dish_process_category.name != '无') {
+                    if (str[str.length - 1] != dish_process_category.name) {
                         str += dish_process_category.name
                     }
                     obj['dish_process_category_name'] = dish_process_category.name
-                }else{
+                } else {
                     obj['dish_process_category_name'] = ''
                 }
-                break   
+                break
             }
         }
-        
-        const [{main_unit_bom_unit_ratio}] = index.material_item_bom_unit_ratio.filter(v => v.material_id == obj.id && v.purchase_unit_id == json.unit_id)
+
+        const [{ main_unit_bom_unit_ratio }] = index.material_item_bom_unit_ratio.filter(v => v.material_id == obj.id && v.purchase_unit_id == json.unit_id)
         // console.log(ratio)
         // console.log(obj.name, obj.main_price, main_unit_bom_unit_ratio)
         obj['main_unit_bom_unit_ratio'] = main_unit_bom_unit_ratio == 0 ? 1 : main_unit_bom_unit_ratio
         // str += 0
-        
+
         obj.main_price = Number(Number(obj.main_price).toFixed(2))
-        if((obj.main_price / main_unit_bom_unit_ratio) >= 5 && Number(json.dish_qty) < 10){
-           
+        if ((obj.main_price / main_unit_bom_unit_ratio) >= 5 && Number(json.dish_qty) < 10) {
+
             json.dish_qty = Number(json.dish_qty.toFixed(1))
-            obj['dish_qty'] =  Number(json.dish_qty.toFixed(1))
+            obj['dish_qty'] = Number(json.dish_qty.toFixed(1))
             str += Number(json.dish_qty.toFixed(1))
-        }else{
+        } else {
             json.dish_qty = Math.ceil(json.dish_qty)
             obj['dish_qty'] = Math.ceil(json.dish_qty)
             str += Math.ceil(json.dish_qty)
@@ -284,12 +304,12 @@ const init_dish_detailed = (manual_material_qty,count) => {
         // console.log(json)
         // obj['dish_qty'] = 0
         // console.log(obj, json)
-        
+
         costPrice += (obj.main_price * obj['dish_qty']) / (count * main_unit_bom_unit_ratio)
-        
+
         // 查找单位
         for (const material_purchase_unit_category of index.material_purchase_unit_category) {
-            if(material_purchase_unit_category.id == json.unit_id){
+            if (material_purchase_unit_category.id == json.unit_id) {
                 obj['unit_name'] = material_purchase_unit_category.name
                 obj['unit_id'] = material_purchase_unit_category.id
                 str += material_purchase_unit_category.name + ' '
@@ -305,21 +325,21 @@ const init_dish_detailed = (manual_material_qty,count) => {
 }
 // 
 // 获取菜品详细信息
-const dish_detailed = (dish_key,count) => {
+const dish_detailed = (dish_key, count) => {
     // 获取当前菜品详细配料
     let str = ""
     let arr = []
     for (const dish_bom of index.dish_bom) {
-        if(dish_key.id == dish_bom.dish_key_id){
+        if (dish_key.id == dish_bom.dish_key_id) {
             // console.log(dish_bom)
             // 获取到当前菜品的原材料数据
             let arr_data = {}
             for (const material_item of index.material_item) {
-                if(dish_bom.material_id == material_item.id){
+                if (dish_bom.material_id == material_item.id) {
                     // 获取原材料详细信息
                     // console.log(3, material_item)
                     const value = material_item.name.split('-')[0]
-                    arr_data = {...material_item}
+                    arr_data = { ...material_item }
                     arr_data['material_id'] = material_item.id
                     // arr.push(material_item)
                     str += value
@@ -327,36 +347,36 @@ const dish_detailed = (dish_key,count) => {
                 }
             }
             for (const dish_process_category of index.dish_process_category) {
-                if(dish_process_category.id == dish_bom.process_id){
+                if (dish_process_category.id == dish_bom.process_id) {
                     // console.log(123, dish_process_category)
                     arr_data['process_id'] = dish_process_category.id
-                    if(dish_process_category.name == "无"){
+                    if (dish_process_category.name == "无") {
                         arr_data.dish_process_category_name = "";
                         break;
                     }
                     arr_data.dish_process_category_name = dish_process_category.name
-                    
-                    if(str[str.length - 1] != dish_process_category.name){
+
+                    if (str[str.length - 1] != dish_process_category.name) {
                         str += dish_process_category.name
                     }
                     break;
                 }
             }
             // 添加当前菜品转换比等信息
-            
+
 
             // console.log(arr_data)
-            
+
             // console.log(arr_data['dish_qty'], arr_data.main_price)
             // costPrice += json.dish_qty * obj.main_price
 
             // console.log(arr_data)
 
             for (const material_purchase_unit_category of index.material_purchase_unit_category) {
-                if(material_purchase_unit_category.id == dish_bom.unit_id){
+                if (material_purchase_unit_category.id == dish_bom.unit_id) {
                     // console.log(5, material_purchase_unit_category)
-                    
-                    
+
+
                     arr_data['unit_name'] = material_purchase_unit_category.name
                     arr_data['unit_id'] = material_purchase_unit_category.id
                     // console.log(arr_data)
@@ -364,10 +384,10 @@ const dish_detailed = (dish_key,count) => {
                     // arr_data['main_unit_bom_unit_ratio'] = ratio.main_unit_bom_unit_ratio
                     // console.log(arr_data, dish_bom)
                     const qty = (count * 0.01) * dish_bom.gbom_qty_high
-                    if(arr_data.main_price / ratio.main_unit_bom_unit_ratio >= 5 && qty < 10){
+                    if (arr_data.main_price / ratio.main_unit_bom_unit_ratio >= 5 && qty < 10) {
                         str += Math.ceil(qty.toFixed(1))
                         arr_data['dish_qty'] = qty.toFixed(1)
-                    }else{
+                    } else {
                         str += Math.ceil(qty)
                         arr_data['dish_qty'] = Math.ceil(qty)
                     }
@@ -379,29 +399,29 @@ const dish_detailed = (dish_key,count) => {
                 }
             }
 
-            
+
             arr.push(arr_data)
         }
     }
-    return [str,arr]
+    return [str, arr]
 }
 
 // 成本占比
 
 const cost_proportion = (data, mealCopies) => {
     // console.log(data, mealCopies)
-    
+
     // 找到每个用户
     const cus_loc = Object.keys(data[0]).filter(v => !isNaN(v))
     // console.log(cus_loc)
-    
+
     // // console.log(costPrices)
 
     // // 算出每个用户的销售额 份数x单价   份数 => 快餐、特色
     //     // 餐标 => 单价
     // []
     const mealPrices = init_mp()
-    
+
     // new Map => (cus_loc_id, {})
     const sales_volume = cus_loc.reduce((pre, v) => {
         // 找出当前用户的快餐与特色份数
@@ -412,7 +432,7 @@ const cost_proportion = (data, mealCopies) => {
         for (const p_item of mealPrices) {
             let category_total = 0
             for (const c_item of mealCopies) {
-                if(p_item.dinner_type == c_item.dinner_type){
+                if (p_item.dinner_type == c_item.dinner_type) {
                     category_total += p_item[v] * c_item[v]
                 }
             }
@@ -430,7 +450,6 @@ const cost_proportion = (data, mealCopies) => {
         return pre
     }, new Map())
 
-
     // 算出每个用户的成本价
     // new Map => (cus_loc_id, cost) => 用户id 成本价格
     const costPrices = cus_loc.reduce((pre, v) => {
@@ -439,7 +458,7 @@ const cost_proportion = (data, mealCopies) => {
         // 当前用户份数，乘以成本价 得出此用户当前菜品成本价
         for (const data_item of data) {
             // if(sales_volume.get(v)[data_item.dinner_type] == 0) continue
-            
+
             costPrice += data_item[v] * data_item['costPrice']
         }
         pre.set(v, Number(costPrice.toFixed(2)))
@@ -451,26 +470,26 @@ const cost_proportion = (data, mealCopies) => {
         cost_price: 0,
         sales_volume: 0,
     }
-    
+
     for (const loc_item of cus_loc) {
 
         // 计算前初始化设置，确保分母不为零
         // const sales_volume_total = sales_volume.get(loc_item).total == 0 ? 1 : sales_volume.get(loc_item).total
 
-        if(sales_volume.get(loc_item).total == 0){
+        if (sales_volume.get(loc_item).total == 0) {
             costs[loc_item] = "0.0%"
-        }else{
+        } else {
             costs[loc_item] = ((costPrices.get(loc_item) / sales_volume.get(loc_item).total) * 100).toFixed(1) + "%"
         }
-        
+
         cost_totle_obj.cost_price += costPrices.get(loc_item)
         cost_totle_obj.sales_volume += sales_volume.get(loc_item).total
     }
     // console.log(cost_totle_obj) 
     // const sv = cost_totle_obj.sales_volume == 0 ? 1 : cost_totle_obj.sales_volume
-    if(cost_totle_obj.sales_volume == 0){
+    if (cost_totle_obj.sales_volume == 0) {
         costs['costPrice'] = '0.0' + "%"
-    }else{
+    } else {
         costs['costPrice'] = ((cost_totle_obj.cost_price / cost_totle_obj.sales_volume) * 100).toFixed(1) + "%"
     }
     costs['edit'] = false
@@ -482,13 +501,13 @@ const cost_proportion = (data, mealCopies) => {
     costs['Copies'] = mealCopiesCount
     costs['dish'] = (index.planed_cost_ratio_dict.average * 100).toFixed(1) + "%"
 
-    if(!saveData.day_cost_proportion.init_cost_ratio){
+    if (!saveData.day_cost_proportion.init_cost_ratio) {
         saveData.day_cost_proportion.init_cost_ratio = Number(costs['costPrice'].split('%')[0])
     }
-    if(!saveData.day_cost_proportion.init_sales){
+    if (!saveData.day_cost_proportion.init_sales) {
         saveData.day_cost_proportion.init_sales = Number(cost_totle_obj.sales_volume)
     }
-    if(!saveData.day_cost_proportion.init_cost){
+    if (!saveData.day_cost_proportion.init_cost) {
         saveData.day_cost_proportion.init_cost = cost_totle_obj.cost_price
     }
     saveData.day_cost_proportion.complete_cost = cost_totle_obj.cost_price
@@ -503,13 +522,13 @@ const day_cost_whole = (cost_totle) => {
     // 计算周成本
     // console.log(cost_totle)    
     const nowDate = new Date()
-    const week  = index.plan_day_summary_info.week_summary.find(v => {
+    const week = index.plan_day_summary_info.week_summary.find(v => {
         const week_time = v.week.split('_')
         const week_start = new Date(week_time[0])
         const week_end = new Date(week_time[1])
-        if(nowDate.getFullYear() == week_start.getFullYear() || nowDate.getFullYear() == week_end.getFullYear()){
-            if(nowDate.getMonth() == week_start.getMonth() || nowDate.getMonth() == week_end.getMonth()){
-                if(nowDate.getDate() >= week_start.getDate() && nowDate.getDate() <= week_end.getDate()){
+        if (nowDate.getFullYear() == week_start.getFullYear() || nowDate.getFullYear() == week_end.getFullYear()) {
+            if (nowDate.getMonth() == week_start.getMonth() || nowDate.getMonth() == week_end.getMonth()) {
+                if (nowDate.getDate() >= week_start.getDate() && nowDate.getDate() <= week_end.getDate()) {
                     return true
                 }
                 return false
@@ -520,18 +539,18 @@ const day_cost_whole = (cost_totle) => {
     })
     // console.log(week)
     let week_sales = 0, week_cost = 0, week_cost_proportion = "0%";
-    if(week != undefined){
+    if (week != undefined) {
         // 获取销售额和成本
         week_sales = week.planed_sales + cost_totle.sales_volume
         week_cost = week.planed_cost + cost_totle.cost_price
-        
-    }else{
+
+    } else {
         week_sales = cost_totle.sales_volume
         week_cost = cost_totle.cost_price
     }
     week_cost_proportion = week_sales == 0 ? "0%" : ((week_cost / week_sales) * 100).toFixed(2) + "%"
-    
-   
+
+
     // console.log(cost_totle, week, week_sales, week_cost)
     // 计算月成本
     // 获取销售额和成本
@@ -559,117 +578,131 @@ const day_cost_whole = (cost_totle) => {
     newCopies:      string|number   => 新份数
 }
 */
+// 食材小于10斤 并且大于等于5元 则保留一位小数点
+// 食材小于1斤 保留一位小数点
 const countMaterialData = ({
     material_items,
     dish_key_id,
     oldCopies,
     newCopies,
-    update=false
+    update = false
 }) => {
     // console.log(dish_key_id)
     // console.log('111')
     // 选出食品原食材
     // console.log(newCopies, oldCopies)
     const m_arr = []
-    const [,arr] = dish_detailed({id:dish_key_id}, newCopies)
+    const [, arr] = dish_detailed({ id: dish_key_id }, newCopies)
     // console.log(arr)
     let costPrice = 0;
     // console.log(update)
     // 如果用户没有修改则进入该方法计算
-    if(newCopies == 0){
+    if (newCopies == 0) {
         costPrice = 0
-        const str = materialToString(material_items,(item) => {
+        const str = materialToString(material_items, (item) => {
             item.dish_qty = 0
         })
 
         return [str, material_items, costPrice]
     }
-    if(update){
+    if (update) {
         // console.log(material_items, arr)
         for (const item of [...material_items]) {
             // 寻找该食材是否为食品原食材 
             const ingredients = arr.find(v => v.id == item.id)
             // console.log(ingredients)
             // 是原食材进入if 不是原食材进入else
-            if(ingredients != undefined){
+            if (ingredients != undefined) {
                 // 如果原食材没有数量则进入if 有数量则进入else
                 // console.log(ingredients) 
                 // console.log(item)
-                if(isNaN(item.dish_qty) || parseInt(item.dish_qty) == 0){
+                if (isNaN(item.dish_qty) || parseInt(item.dish_qty) == 0) {
                     // console.log(519, ingredients)
-                    m_arr.push({...ingredients})
-                }else{
+                    m_arr.push({ ...ingredients })
+                } else {
                     // 增加比例
                     const old = oldCopies == 0 ? 1 : oldCopies
                     const scale = (newCopies - oldCopies) / old
                     // console.log(scale,item.dish_qty)
-                    
+
                     let dish = 0
-                    if(item.main_price / item.main_unit_bom_unit_ratio >= 5 && Number(item.dish_qty) < 10){
+                    if (item.main_price / item.main_unit_bom_unit_ratio >= 5 && Number(item.dish_qty) < 10) {
                         dish = Number((Number(item.dish_qty) + (Number(item.dish_qty) * scale)).toFixed(1))
-                    }else{
+                    }
+                    else if (Number(item.dish_qty) < 1) {
+                        dish = (Number(item.dish_qty) + (Number(item.dish_qty) * scale)).toFixed(1)
+                    }
+                    else {
                         dish = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))
                     }
-                    if(oldCopies == 0){
+                    if (oldCopies == 0) {
                         dish = Number(newCopies)
                     }
                     item.dish_qty = dish < 0 ? 0 : dish
-                    m_arr.push({...item})
+                    m_arr.push({ ...item })
                 }
-            }else{
+            } else {
                 // 如果自定义食材没有数量则进入if 否则进入else
-                if(isNaN(item.dish_qty) || parseInt(item.dish_qty) == 0){
+                if (isNaN(item.dish_qty) || parseInt(item.dish_qty) == 0) {
                     item.dish_qty = 0
-                    m_arr.push({...item})
-                }else{
+                    m_arr.push({ ...item })
+                } else {
                     // 增加比例
                     const old = oldCopies == 0 ? 1 : oldCopies
                     const scale = (newCopies - oldCopies) / old
                     // console.log(scale, item.dish_qty)
                     let dish = 0
-                    if(item.main_price / item.main_unit_bom_unit_ratio >= 5 && Number(item.dish_qty) < 10){
+                    if (item.main_price / item.main_unit_bom_unit_ratio >= 5 && Number(item.dish_qty) < 10) {
                         dish = Number((Number(item.dish_qty) + (Number(item.dish_qty) * scale)).toFixed(1))
-                    }else{
+                    }
+                    else if (Number(item.dish_qty) < 1) {
+                        dish = (Number(item.dish_qty) + (Number(item.dish_qty) * scale)).toFixed(1)
+                    }
+                    else {
                         dish = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))
                     }
-                    if(oldCopies == 0){
+                    if (oldCopies == 0) {
                         dish = Number(newCopies)
                     }
                     item.dish_qty = dish < 0 ? 0 : dish
-                    m_arr.push({...item})
+                    m_arr.push({ ...item })
                 }
             }
-            
+
         }
-        
-    }else {
+
+    } else {
         for (const item of [...material_items]) {
             // 寻找该食材是否为食品原食材 
             const ingredients = arr.find(v => v.id == item.id)
-            if(ingredients != null){
+            if (ingredients != null) {
                 m_arr.push(ingredients)
-            }else{
+            } else {
                 // 增加比例
                 const old = oldCopies == 0 ? 1 : oldCopies
                 const scale = (newCopies - oldCopies) / old
                 // console.log(scale, item.dish_qty)
                 let dish = 0
-                if(item.main_price / item.main_unit_bom_unit_ratio >= 5 && Number(item.dish_qty) < 10){
+                if (item.main_price / item.main_unit_bom_unit_ratio >= 5 && Number(item.dish_qty) < 10) {
                     dish = Number((Number(item.dish_qty) + (Number(item.dish_qty) * scale)).toFixed(1))
-                }else{
+                }
+                else if (Number(item.dish_qty) < 1) {
+                    dish = (Number(item.dish_qty) + (Number(item.dish_qty) * scale)).toFixed(1)
+                }
+                else {
                     dish = Math.ceil(Number(item.dish_qty) + (Number(item.dish_qty) * scale))
                 }
                 item.dish_qty = dish < 0 ? 0 : dish
-                m_arr.push({...item})
+                m_arr.push({ ...item })
             }
         }
     }
     // newCopies = newCopies == 0 ? 1 : newCopies
     // console.log(m_arr)
     // const materialQuantity = m_arr.every(v => Number(v.dish_qty) == 0)
-    if(newCopies == 0 ){
+    if (newCopies == 0) {
         costPrice = 0
-    }else{
+    } else {
         costPrice = countCostPrice(m_arr, newCopies)
     }
     // console.log(m_arr)
@@ -681,16 +714,16 @@ const countMaterialData = ({
 }
 
 // material_items => String
-const materialToString = (material_items, func = () => {}) => {
+const materialToString = (material_items, func = () => { }) => {
     return material_items.map(v => {
         func(v)
         const name = v.name.split('-')[0]
-        if(name[name.length - 1] == v.dish_process_category_name){
+        if (name[name.length - 1] == v.dish_process_category_name) {
             return v.name.split('-')[0] + v.dish_qty + v.unit_name
-        }else{
+        } else {
             return v.name.split('-')[0] + v.dish_process_category_name + v.dish_qty + v.unit_name
         }
-        
+
     }).join(' ')
 }
 // 计算costPrice
@@ -707,16 +740,16 @@ const countCostPrice = (m_arr, newCopies) => {
         // console.log(m_item)
         // console.log(m_item.main_price, m_item.dish_qty, newCopies, m_item.main_unit_bom_unit_ratio)
         // console.log((m_item.main_price  * m_item.dish_qty) / (newCopies * m_item.main_unit_bom_unit_ratio))
-        costPrice += (m_item.main_price  * m_item.dish_qty) / (newCopies * m_item.main_unit_bom_unit_ratio)
+        costPrice += (m_item.main_price * m_item.dish_qty) / (newCopies * m_item.main_unit_bom_unit_ratio)
     }
     return Number(costPrice.toFixed(2))
 }
 
 // 通过文字，获取菜品
 export {
-    data,dish_detailed,duibi,headHookLimit,countMaterialData,mealPrice, mealCopies, cost_proportion,countCostPrice
+    data, dish_detailed, duibi, headHookLimit, countMaterialData, mealPrice, mealCopies, cost_proportion, countCostPrice
 }
 
 export default {
-    data,dish_detailed,duibi,headHookLimit,countMaterialData,mealPrice, mealCopies, cost_proportion,countCostPrice
+    data, dish_detailed, duibi, headHookLimit, countMaterialData, mealPrice, mealCopies, cost_proportion, countCostPrice
 }

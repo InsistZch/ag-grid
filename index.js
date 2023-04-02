@@ -76,6 +76,9 @@ document.addEventListener("DOMContentLoaded", function () {
             agOption.api.setColumnDefs(refreshWholeCol.original());
         }
     })
-    // 图表
-    // var chart = agCharts.AgChart.create(main_index.agChart);
+    //控制列显示与隐藏
+    const isShowColumns = new main_index.otherApi.isShowColumns()
+    isShowColumns.init_select(agOption)
+    isShowColumns.change_select(agOption)
+    isShowColumns.menu_select(agOption)
 });

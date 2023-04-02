@@ -1,15 +1,76 @@
-main.main{
+main.main {
     width: 100%;
     height: max-content;
     background-color: #f8f9fa;
 }
-main.main div.content{
+
+main.main div.content {
     height: 600px;
     width: 100%;
     /* overflow-x: scroll; */
 }
 
-.ag-theme-balham[class^=ag-]{
+.ag_main {
+    width: 100%;
+    min-width: 1080px;
+    position: relative;
+}
+
+div.ag_main span.date{
+    font-size: 1.3rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.ag_all_button{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #eeeeee66;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.ag-button{
+    height: max-content;
+    display: flex;
+    align-items: center;
+    padding: .5rem 0;
+    padding-left: 10px;
+    
+}
+
+div.function{
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+}
+div.function .btn-group{
+    margin-right: 1rem;
+    font-size: .7rem;
+}
+div.function .btn-group button{
+    width: max-content;
+    height: max-content;
+    padding: .1rem .3rem;
+}
+div.function .btn-group button:not([saveData]){  
+    border-color: #71639e;
+    color: #71639e;
+}
+div.function .btn-group button:not([saveData]):hover{
+    color: #f8f9fa;
+    background-color: #71639e;
+}
+
+.ag-button .form-check .form-check-input:checked{
+    background-color: #71639e;
+    border-color: #71639e;
+}
+
+.ag-theme-balham[class^=ag-] {
     --ag-font-size: 8px;
     --ag-grid-size: 5px;
     --ag-list-item-height: 25px;
@@ -33,10 +94,44 @@ main.main div.content{
     width: 65%;
 }
 
-.createDish{
+.createDish {
     position: absolute;
     right: 0;
     top: 0;
     margin-right: 1rem;
     cursor: pointer;
+}
+
+.show-cell{
+    background-color: #fff;
+    border: 1px solid #eee !important;
+}
+
+#add_remarks .list-group-item .input-group>.form-control, .input-group>.form-floating, .input-group>.form-select {
+    flex: none !important;
+    width: 90%;
+    margin-left: 10px;
+}
+
+#add_remarks #add_remarks_category .list-group-item{
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+#add_remarks #add_remarks_category .list-group-item .input-group{
+    width: 85% !important;
+}
+
+#add_remarks #add_remarks_button{
+    display: block;
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 10px;
+    border-color: #71639e;
+    color: #71639e;
+}
+#add_remarks #add_remarks_button:hover{
+    background-color: #71639e;
+    color: #fff;
 }

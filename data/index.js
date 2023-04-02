@@ -19,6 +19,7 @@ import plan_day_summary_info from './plan_day_summary_info.js'
 import planed_cost_ratio_dict from './planed_cost_ratio_dict.js'
 import dish_family from './dish_family.js'
 import purchase_category from './purchase_category.js'
+import user_settings from './user_settings.js'
 
 export default {
     cus_loc,
@@ -40,5 +41,6 @@ export default {
     plan_day_summary_info,
     planed_cost_ratio_dict,
     dish_family,
-    purchase_category
+    purchase_category,
+    user_settings
 }

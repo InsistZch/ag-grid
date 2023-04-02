@@ -6,6 +6,9 @@ import purchasePrice from "./purchasePrice.js";
 import purchase from "./purchase.js";
 import resetPurchaseData from "./resetPurchaseData.js";
 import customFrom from './customFrom.js'
+import isShowColumns from "./isShowColumns.js";
+
+
 export {
     saveData,
     copiesNumber,
@@ -13,7 +16,8 @@ export {
     purchasePrice,
     purchase,
     resetPurchaseData,
-    customFrom
+    customFrom,
+    isShowColumns
 }
 
 export default {
@@ -23,5 +27,6 @@ export default {
     purchasePrice,
     purchase,
     resetPurchaseData,
-    customFrom
+    customFrom,
+    isShowColumns
 }

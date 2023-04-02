@@ -4,6 +4,7 @@ body{
     box-sizing: border-box;
     /* overflow-x: hidden; */
     /* overflow: hidden; */
+    width:100%;
 }
 html{
     -webkit-text-size-adjust:none;

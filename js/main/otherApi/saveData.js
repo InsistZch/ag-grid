@@ -1,7 +1,8 @@
 /** @odoo-module **/
 const saveCurrentRowData = (elStr, func) =>{
-    document.querySelector(elStr).onclick = async e => {
-        await func()
+    const el = document.querySelector(elStr)
+    el.onclick = async e => {
+        await func(el)
 
     }
 }

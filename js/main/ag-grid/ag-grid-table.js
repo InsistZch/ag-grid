@@ -8,6 +8,7 @@ import mealcopies from './special_fast_data.js'
 
 const init_grid_options = () => {
     const d = data()
+    // console.log(d)
     const gridOptions = {
         columnDefs: col(),
         rowData: d,
@@ -16,7 +17,7 @@ const init_grid_options = () => {
                     if(Restrictions(params)){
                         return false
                     }
-                    if(params.data.configure == true && isNaN(params.colDef.field)){
+                    if(params.data.configure && isNaN(params.colDef.field)){
                         return false
                     }
                 // console.log(params)
@@ -29,6 +30,7 @@ const init_grid_options = () => {
             // flex:1,
             menuTabs:[],
         },
+        suppressRowTransform: true,
         // rowSelection: 'multiple', // 开启多行选择
         // groupSelectsChildren: true,
         suppressRowClickSelection: true,
@@ -43,13 +45,14 @@ const init_grid_options = () => {
         tooltipShowDelay: 0,
         // tooltipHideDelay: 5000,
         // suppressCellSelection: true,
+        groupDefaultExpanded: -1,
         groupDisplayType: 'groupRows',
         groupRowRendererParams: {
             suppressCount: true,
             innerRenderer: GroupRowInnerRenderer,
             editable:false
         },
-        groupDefaultExpanded: -1,
+        
         getContextMenuItems:(e) => agGridApi.getContextMenuItems(e,gridOptions),
         // editType: 'fullRow',
         onGridReady: function (params) {
@@ -69,7 +72,7 @@ const init_grid_options = () => {
         // paginationAutoPageSize: true, //根据网页高度自动分页（前端分页）
         getRowId: (params) => params.data.id,
     };
-
+    // gridOptions.api.setRowData(d)
     return gridOptions;
 
 
