@@ -40,7 +40,17 @@ const gridOptions = (agOption) => {
                   minWidth: 100,
                   width: 120,
                   maxWidth: 150,
+                  toolPanelParams: {
+                    suppressRowGroups: true,
+                    suppressValues: true,
+                    suppressPivots: true,
+                    suppressPivotMode: true,
+                    suppressColumnFilter: true,
+                    suppressColumnSelectAll: true,
+                    suppressColumnExpandAll: true,
+                  },
                 },
+              
                 {
                     id: 'customStats',
                     labelDefault: '保存订单',
@@ -72,6 +82,7 @@ const gridOptions = (agOption) => {
         getRowId,
         // localeText:locale,
         // context: {},
+       
     }
 };
 export default gridOptions

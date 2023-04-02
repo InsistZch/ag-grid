@@ -59,7 +59,7 @@ const col = () => {
                 let fristTypeID = 0, isfrist = true
                 params.api.forEachNode(v => {
                     if(v.data == undefined || v.data.configure) return
-                    if(v.data.cl1 == params.data.cl1 && v.data.type == params.data.type && v.data.type != "特色"){
+                    if(v.data.cl1 == params.data.cl1 && v.data.type == params.data.type && v.data.type != "特色" && v.data.teseMatchRowId == -1 ){
                         count++
                         if(isfrist){
                             isfrist = !isfrist

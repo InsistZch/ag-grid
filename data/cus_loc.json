@@ -1,0 +1,98 @@
+[
+    {
+        "id": 1613,
+        "name": "\u4f0a\u987f",
+        "manual_level": "high",
+        "no": 1,
+        "org_group_category": "\u6709\u83dc\u5355",
+        "dinner_mode_category_name": "\u9910\u6807\u7ec41"
+    },
+    {
+        "id": 3538,
+        "name": "\u4f0a\u4ed3",
+        "manual_level": "high",
+        "no": 2,
+        "org_group_category": "VIP\u5ba2\u6237",
+        "dinner_mode_category_name": "\u9910\u6807\u7ec41"
+    },
+    {
+        "id": 2924,
+        "name": "\u52b2\u7fd4",
+        "manual_level": "high",
+        "no": 3,
+        "org_group_category": "\u65e0\u83dc\u5355",
+        "dinner_mode_category_name": "\u9910\u6807\u7ec41"
+    },
+    {
+        "id": 1617,
+        "name": "\u7f8e\u6cb3",
+        "manual_level": "high",
+        "no": 4,
+        "org_group_category": "\u6709\u83dc\u5355",
+        "dinner_mode_category_name": "\u65e0\u83dc\u5355"
+    },
+    {
+        "id": 3526,
+        "name": "\u82f1\u7279",
+        "manual_level": "high",
+        "no": 5,
+        "org_group_category": "VIP\u5ba2\u6237",
+        "dinner_mode_category_name": "\u9910\u6807\u7ec41"
+    },
+    {
+        "id": 3527,
+        "name": "\u5f69\u8fea",
+        "manual_level": "high",
+        "no": 6,
+        "org_group_category": "VIP\u5ba2\u6237",
+        "dinner_mode_category_name": "\u9910\u6807\u7ec41"
+    },
+    {
+        "id": 1614,
+        "name": "\u5965\u5229",
+        "manual_level": "high",
+        "no": 7,
+        "org_group_category": "\u6709\u83dc\u5355",
+        "dinner_mode_category_name": "\u5965\u5fb7\u8f69"
+    },
+    {
+        "id": 3532,
+        "name": "\u5965\u5916",
+        "manual_level": "high",
+        "no": 8,
+        "org_group_category": "VIP\u5ba2\u6237",
+        "dinner_mode_category_name": "\u9910\u6807\u7ec41"
+    },
+    {
+        "id": 1616,
+        "name": "\u6bc5\u767b",
+        "manual_level": "high",
+        "no": 9,
+        "org_group_category": "\u6709\u83dc\u5355",
+        "dinner_mode_category_name": "\u6bc5\u767b"
+    },
+    {
+        "id": 3539,
+        "name": "\u5300\u6676",
+        "manual_level": "high",
+        "no": 10,
+        "org_group_category": "VIP\u5ba2\u6237",
+        "dinner_mode_category_name": "\u9910\u6807\u7ec41"
+    },
+    {
+        "id": 1610,
+        "name": "\u534a\u5c9b",
+        "manual_level": "high",
+        "no": 11,
+        "org_group_category": "\u6709\u83dc\u5355",
+        "dinner_mode_category_name": "\u65e0\u83dc\u5355"
+    },
+    {
+        "id": 1748,
+        "name": "\u6cf0\u5947",
+        "manual_level": "high",
+        "no": 12,
+        "org_group_category": "\u6709\u83dc\u5355",
+        "dinner_mode_category_name": "\u827e\u4e1c"
+    }
+]

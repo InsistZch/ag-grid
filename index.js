@@ -6,6 +6,8 @@ import { getMaterial } from './js/main/otherApi/getMaterial.js'
 import purchase_table from './js/main/purchase/purchase_table.js'
 import {resetPurchaseData} from './js/main/otherApi/index.js'
 import refreshWholeCol from './js/main/otherApi/refreshWholeCol.js'
+import isPuraseShowColumns from './js/main/purchase/isShowPurchaseColumns.js'
+import isShowPurchaseColumns from './js/main/purchase/isShowPurchaseColumns.js'
 console.log(data_index)
 
 // for (const item of data_index.material_item) {
@@ -14,6 +16,7 @@ console.log(data_index)
 //         console.log(item)
 //     }
 // }
+
 document.addEventListener("DOMContentLoaded", function () {
 
     // 添加window对象
@@ -68,6 +71,8 @@ document.addEventListener("DOMContentLoaded", function () {
             eDiv.innerHTML = ""
             resetPurchaseData.purchase_init(purchaseOption)
             new agGrid.Grid(eDiv, purchaseOption);
+            isShowPurchaseColumns(purchaseOption)
+
             // purchaseOption.api.sizeColumnsToFit();
             // console.log(agOption)
             agOption.api.setColumnDefs(refreshWholeCol.refreshWhole());

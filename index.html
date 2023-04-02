@@ -109,27 +109,28 @@
             <div class="ag_all_button">
                 <div class="ag-button">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" role="switch" id="ag-button-cost"/>
+                        <input class="form-check-input" type="checkbox" role="switch" id="ag-button-cost" />
                         <label class="form-check-label" for="ag-button-cost">成本</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" role="switch" id="ag-button-note"/>
+                        <input class="form-check-input" type="checkbox" role="switch" id="ag-button-note" />
                         <label class="form-check-label" for="ag-button-note">备注</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" role="switch" id="ag-button-save"/>
+                        <input class="form-check-input" type="checkbox" role="switch" id="ag-button-save" />
                         <label class="form-check-label" for="ag-button-save">保存</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" role="switch" checked="1" id="ag-button-menu"/>
+                        <input class="form-check-input" type="checkbox" role="switch" checked="1" id="ag-button-menu" />
                         <label class="form-check-label" for="ag-button-menu">有菜单</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" role="switch" checked="1" id="ag-button-Nomenu"/>
+                        <input class="form-check-input" type="checkbox" role="switch" checked="1"
+                            id="ag-button-Nomenu" />
                         <label class="form-check-label" for="ag-button-Nomenu">无菜单</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" role="switch" id="ag-button-whole"/>
+                        <input class="form-check-input" type="checkbox" role="switch" id="ag-button-whole" />
                         <label class="form-check-label" for="ag-button-whole">配量汇总</label>
                     </div>
                 </div>
@@ -139,22 +140,29 @@
                     <div class="btn-group" role="group" aria-label="Basic outlined example">
                         <button type="button" class="btn btn-outline-primary">菜品榜</button>
                         <button type="button" class="btn btn-outline-primary">食材榜</button>
-                        <button type="button" class="btn btn-outline-primary purchase_price" id="purchase_price_btn">采购单价</button>
+                        <button type="button" class="btn btn-outline-primary purchase_price"
+                            id="purchase_price_btn">采购单价</button>
                     </div>
                     <div class="btn-group" role="group" aria-label="Basic outlined example">
                         <button type="button" class="btn btn-outline-primary">份数复制</button>
-                        <button type="button" class="btn btn-outline-primary update" id="saveDataBtn" saveData>更新</button>
+                        <button type="button" class="btn btn-outline-primary update" id="saveDataBtn"
+                            saveData>更新</button>
                     </div>
                     <div class="btn-group" role="group" aria-label="Basic outlined example">
                         <button type="button" class="btn btn-outline-primary">计划单</button>
-                        <button type="button" class="btn btn-outline-primary purchase">采购</button>
+                        <button type="button" class="btn btn-outline-primary purchase" id="purchase">采购</button>
                         <button type="button" class="btn btn-outline-primary">领料</button>
                     </div>
                 </div>
             </div>
 
-            <div class="ag-theme-balham" id="myGrid" style="height: 700px;">
+            <div style="display: flex; height: 100%; width: 100%;">
+                <div class="ag-theme-balham myGrid" id="myGrid" style="height: 700px;">
+                </div>
+                <div class="ag-theme-balham myGrid2" id="myGrid2" style="height: 700px;">
+                </div>
             </div>
+
         </div>
     </main>
 

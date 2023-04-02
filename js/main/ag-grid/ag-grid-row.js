@@ -28,7 +28,16 @@ const data = () => {
 
     // data.push(...mealCopies())
     // data.push(...mealPrice())
-    for (const play_object of index.plan_day_record_show) {
+
+
+    let plan = index.plan_day_record_show
+
+    // 按照表里的id排序
+    plan.sort((a, b) => {
+        return a.id - b.id
+    })
+
+    for (const play_object of plan) {
         const json = play_object['cus_loc_info']
         // 计算总份数
         const obj = {}
@@ -48,6 +57,7 @@ const data = () => {
         // obj['Copies'] = 0
 
         // 生成data
+        // let isShow = true;
 
         for (const dish_key of index.dish_key) {
             // 获取菜品数据
@@ -58,6 +68,11 @@ const data = () => {
             if (play_object.dish_key_id == dish_key.id) {
                 obj['dish'] = dish_key.name
 
+                // data.forEach((d) => {
+                //     if (dish_key.name === d.dish && d.teseMatchRowId == -1 && play_object.dinner_type == data.dinner_type) {
+                //         isShow = false
+                //     }
+                // })
 
                 // 获取类别
                 for (const dish_top_category of index.dish_top_category) {
@@ -93,20 +108,36 @@ const data = () => {
         obj['update'] = false
         obj['isNewAdd'] = false
         obj['note'] = play_object['note'] == false ? "" : play_object['note']
-
+        obj['teseMatchRowId'] = play_object['tese_match_row_id']
+        
+        if(obj['teseMatchRowId'] != -1){
+            console.log(obj)
+            index.plan_day_record_show.forEach(v => {
+                if(obj['teseMatchRowId'] == v.id){
+                    console.log(v)
+                    obj['specialMealColor'] = specialMeal.colors[specialMeal.Catering[obj['dinner_type']] - 2]
+                }
+            })
+        }
         data.push(obj)
+        // if (isShow) {
+        
+        // }
     }
     // data.unshift(cost_proportion(data)[2])
 
-    // console.log(data)
-
-    
-
-    data.sort((a,b) => { 
-        const order = ['汤粥','素菜','小荤','大荤']
-        return order.indexOf(b.type) - order.indexOf(a.type)
-    })
-    // console.log(data)
+    // data.forEach((d) => {
+    //     if(d.teseMatchRowId != -1){
+    //         // d.specialMealColor = "#2a598a66"
+    //         data.forEach((a)=>{
+    //             console.log(a.id)
+    //             console.log(d.teseMatchRowId)
+    //             if (a.id === d.teseMatchRowId){
+    //             }
+    //         })
+    //     }
+    //  })
+    console.log(data)
     return data
 }
 

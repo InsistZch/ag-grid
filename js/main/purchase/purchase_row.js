@@ -30,7 +30,6 @@ const row = (agOption) => {
             id: i,
             category_name: name
         }
-        // console.log(name)
         rowData.push(obj)
     })
     return rowData

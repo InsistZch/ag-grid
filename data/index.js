@@ -1,25 +1,26 @@
 /** @odoo-module **/
-import cus_loc from './cus_loc.js'
-import dinner_mode from './dinner_mode.js'
-import dish_bom from './dish_bom.js'
-import dish_key from './dish_key.js'
-import dish_process_category from './dish_process_category.js'
-import dish_top_category from './dish_top_category.js'
-import forbidden_material_ids from './forbidden_material_ids.js'
-import material_item_bom_unit_ratio from './material_item_bom_unit_ratio.js'
-import material_item from './material_item.js'
-import material_purchase_unit_category from './material_purchase_unit_category.js'
-import plan_day_record_show from './plan_day_record_show.js'
-import material_top_category from './material_top_category.js'
-import dish_sub_category from './dish_sub_category.js'
-import history_sales_cost from './history_sales_cost.js'
-import org_config from './org_config.js'
-import dish_bom_category from './dish_bom_category.js'
-import plan_day_summary_info from './plan_day_summary_info.js'
-import planed_cost_ratio_dict from './planed_cost_ratio_dict.js'
-import dish_family from './dish_family.js'
-import purchase_category from './purchase_category.js'
-import user_settings from './user_settings.js'
+import cus_loc from './cus_loc.json' assert { type: 'json' };
+import dinner_mode from './dinner_mode.json' assert { type: 'json' };
+import dish_bom from './dish_bom.json' assert { type: 'json' };
+import dish_key from './dish_key.json' assert { type: 'json' };
+import dish_process_category from './dish_process_category.json' assert { type: 'json' };
+import dish_top_category from './dish_top_category.json' assert { type: 'json' };
+import forbidden_material_ids from './forbidden_material_ids.json' assert { type: 'json' };
+import material_item_bom_unit_ratio from './material_item_bom_unit_ratio.json' assert { type: 'json' };
+import material_item from './material_item.json' assert { type: 'json' };
+import material_purchase_unit_category from './material_purchase_unit_category.json' assert { type: 'json' };
+import plan_day_record_show from './plan_day_record_show.json' assert { type: 'json' };
+import material_top_category from './material_top_category.json' assert { type: 'json' };
+import dish_sub_category from './dish_sub_category.json' assert { type: 'json' };
+import history_sales_cost from './history_sales_cost.json' assert { type: 'json' };
+import org_config from './org_config.json' assert { type: 'json' };
+import dish_bom_category from './dish_bom_category.json' assert { type: 'json' };
+import plan_day_summary_info from './plan_day_summary_info.json' assert { type: 'json' };
+import planed_cost_ratio_dict from './planed_cost_ratio_dict.json' assert { type: 'json' };
+import dish_family from './dish_family.json' assert { type: 'json' };
+import purchase_category from './purchase_category.json' assert { type: 'json' };
+import user_settings from './user_settings.json' assert { type: 'json' };
+
 
 export default {
     cus_loc,

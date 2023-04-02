@@ -80,6 +80,15 @@ div.function .btn-group button:not([saveData]):hover{
     --ag-cell-horizontal-padding: 2px;
 }
 
+.el_columns_item{
+    display: block;
+    margin-left: 0.5rem;
+}
+
+.el_columns_item:first-child{
+    margin-top: 0.5rem;
+}
+
 .myGrid{
     width: 100%;
 }
