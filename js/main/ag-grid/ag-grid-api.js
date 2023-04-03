@@ -7,7 +7,7 @@ import m from "./specialMeal.js"
 import copiesNumber from '../ag_common/CopiesNumber.js'
 import { countMaterialData} from './ag-grid-row.js'
 import mealcopies from './special_fast_data.js'
-import init_mp from "./meal_price.js"
+import init_mp from "./ag-grid-row.js"
 import countID from './countID.js'
 import { customFrom as customFromDom, resetPurchaseData } from './../otherApi/index.js'
 import { changedValuetoData, anew_top_cost } from './ag_common.js'

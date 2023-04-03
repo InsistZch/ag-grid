@@ -33,7 +33,7 @@ class CustomColumnsToolPanel {
                 id: "shouldOrder",
                 name: "应下单"
             },{
-                id: "shouldOrder",
+                id: "Order",
                 name: "下单"
             }
             

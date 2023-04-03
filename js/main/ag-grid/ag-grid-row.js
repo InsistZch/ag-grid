@@ -828,9 +828,9 @@ const countCostPrice = (m_arr, newCopies) => {
 
 // 通过文字，获取菜品
 export {
-    data, dish_detailed, duibi, headHookLimit, countMaterialData, mealPrice, mealCopies, cost_proportion, countCostPrice
+    data, dish_detailed, duibi, headHookLimit, countMaterialData, mealPrice, mealCopies, cost_proportion, countCostPrice,init_mp
 }
 
 export default {
-    data, dish_detailed, duibi, headHookLimit, countMaterialData, mealPrice, mealCopies, cost_proportion, countCostPrice, mealPrice, mealAbstract
+    data, dish_detailed, duibi, headHookLimit, countMaterialData, mealPrice, mealCopies, cost_proportion, countCostPrice, mealPrice, mealAbstract,init_mp
 }

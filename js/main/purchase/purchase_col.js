@@ -7,12 +7,13 @@ export default [
         rowGroup: true
     },
     {
-        headerName: "菜品",
+        headerName: "食材",
         field: "material"
     },
     {
         headerName: "需求日期",
-        field: "demandDate"
+        field: "demandDate",
+        hide:true
     },
     {
         headerName: "需量",
@@ -37,11 +38,13 @@ export default [
     },
     {
         headerName: "应下单",
-        field: "shouldOrder"
+        field: "shouldOrder",
+        hide:true
     },
     {
         headerName: "今天",
-        field: "today"
+        field: "today",
+        hide:true
     },
     {
         headerName: "下单",
@@ -55,15 +58,18 @@ export default [
     },
     {
         headerName: "明天",
-        field: "tomorrow"
+        field: "tomorrow",
+        hide:true
     },
     {
         headerName: "后天",
-        field: "thirdDay"
+        field: "thirdDay",
+        hide:true
     },
     {
         headerName: "单位",
-        field: "unit"
+        field: "unit",
+        hide:false
     },
     {
         headerName: "供应商",
@@ -73,5 +79,6 @@ export default [
         headerName: "备注",
         field: "remarks",
         minWidth: 300,
+        hide:true
     }
 ]
