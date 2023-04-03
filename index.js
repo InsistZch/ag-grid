@@ -6,7 +6,6 @@ import { getMaterial } from './js/main/otherApi/getMaterial.js'
 import purchase_table from './js/main/purchase/purchase_table.js'
 import {resetPurchaseData} from './js/main/otherApi/index.js'
 import refreshWholeCol from './js/main/otherApi/refreshWholeCol.js'
-import isPuraseShowColumns from './js/main/purchase/isShowPurchaseColumns.js'
 import isShowPurchaseColumns from './js/main/purchase/isShowPurchaseColumns.js'
 console.log(data_index)
 

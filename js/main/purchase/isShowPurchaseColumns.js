@@ -1,3 +1,4 @@
+/** @odoo-module **/
 const isShowPurchaseColumns = (gridOptions) => {
 // 显示和隐藏
 
