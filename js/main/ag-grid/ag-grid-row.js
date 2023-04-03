@@ -2,11 +2,57 @@
 import index from '../../../data/index.js'
 import m from './specialMeal.js'
 import init_mp from './meal_price.js'
-import { mealAbstract, mealPrice } from './ag_common.js'
 import countID from './countID.js'
 import saveData from '../saveData/index.js'
 import copiesNumber from "../ag_common/CopiesNumber.js";
 
+
+const mealAbstract = ({
+    name,
+    type,
+    edit,
+    fixed,
+    configure
+}) => {
+    let data = []
+    // 获取所有用户id
+    const userIds = Object.keys(index.plan_day_record_show[0]['cus_loc_info']).map(v => v.split('_')[1])
+    // 获取当前餐别
+    const dinner_types = [...index.plan_day_record_show.reduce((pre, v) => {
+        pre.add(v.dinner_type)
+        return pre
+    }, new Set())]
+    for (const type_item of dinner_types) {
+        let obj = {}
+        for (const id of userIds) {
+            const dinner_mode_data = index.dinner_mode.find(v => v.cus_loc_id == id && type_item == v.dinner_type)
+            obj[id] = dinner_mode_data == undefined ? 0 : copiesNumber(dinner_mode_data[name])
+        }
+        obj['cl1'] = type_item == 'dn2' ? '午餐' : type_item == 'dn3' ? '晚餐' : type_item == 'dn5' ? '夜餐' : '早餐'
+        obj['dinner_type'] = type_item
+        obj['edit'] = edit
+        obj['Copies'] = 0
+        obj['whole'] = ""
+        obj['id'] = countID()
+        obj['fixed'] = fixed
+        obj['configure'] = configure
+        obj['type'] = type
+        obj['update'] = false
+        // obj['specialMealColor'] = "#00000090"
+        data.push(obj)
+    }
+    return data
+}
+
+const mealPrice = () => {
+    return mealAbstract({
+        name: 'price',
+        type: "餐标",
+        edit: false,
+        fixed: false,
+        configure: true
+    })
+}
 
 // 拿到餐标 => 客户信息 菜品信息 
 
@@ -109,11 +155,11 @@ const data = () => {
         obj['isNewAdd'] = false
         obj['note'] = play_object['note'] == false ? "" : play_object['note']
         obj['teseMatchRowId'] = play_object['tese_match_row_id']
-        
-        if(obj['teseMatchRowId'] != -1){
+
+        if (obj['teseMatchRowId'] != -1) {
             // console.log(obj)
             index.plan_day_record_show.forEach(v => {
-                if(obj['teseMatchRowId'] == v.id){
+                if (obj['teseMatchRowId'] == v.id) {
                     // console.log(v)
                     obj['specialMealColor'] = specialMeal.colors[specialMeal.Catering[obj['dinner_type']] - 2]
                 }
@@ -121,7 +167,7 @@ const data = () => {
         }
         data.push(obj)
         // if (isShow) {
-        
+
         // }
     }
     // data.unshift(cost_proportion(data)[2])
@@ -782,5 +828,5 @@ export {
 }
 
 export default {
-    data, dish_detailed, duibi, headHookLimit, countMaterialData, mealPrice, mealCopies, cost_proportion, countCostPrice
+    data, dish_detailed, duibi, headHookLimit, countMaterialData, mealPrice, mealCopies, cost_proportion, countCostPrice, mealPrice, mealAbstract
 }

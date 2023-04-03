@@ -1,5 +1,5 @@
 /** @odoo-module **/
-import { mealPrice } from "./ag_common.js"
+import { mealPrice } from "./ag-grid-row.js"
 
 
 const init_mp = () => {
