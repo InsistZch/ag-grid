@@ -33,10 +33,11 @@ const col = () => {
         {
             headerName: '类别',
             field: 'type',
-            minWidth: 55,
-            maxWidth: 100,
+            minWidth: 40,
+            maxWidth: 50,
             editable: false,
             pinned: 'left',
+            hide:false,
             filter: true,
             // checkboxSelection: true, //设置为true显示为复选框
             // headerCheckboxSelection: true, //表头是否也显示复选框，全选反选用
@@ -82,6 +83,7 @@ const col = () => {
             // cellEditorParams:{values:dish_dropdown()},
             cellEditor: customCells,
             pinned: 'left',
+            hide:false,
             filter: true,
             tooltipField: 'dish',
             tooltipComponent: dish_tooltipField,
@@ -159,6 +161,7 @@ const col = () => {
         obj['field'] = `${item['id']}`
         obj['minWidth'] = 42
         obj['maxWidth'] = 70
+        obj['hide'] = false
         // obj['pinned'] = 'left'
         obj['valueParser'] = params => Number(params.newValue)
         obj['cellRenderer'] = (params) => {
@@ -241,15 +244,16 @@ const col = () => {
         headerName: '份数',
         field: 'Copies',
         // minWidth:10,
-        minWidth: 48,
-        maxWidth: 100,
+        minWidth: 40,
+        maxWidth: 50,
         editable: false,
+        hide:false,
         pinned: 'right',
     })
     col.push({
         headerName: '配量汇总',
         field: "whole",
-        minWidth: 250,
+        minWidth: 400,
         pinned: 'right',
         hide: !user_setting.is_plan_day_show_dish_bom_str,
         // autoHeight: true,
@@ -393,6 +397,7 @@ const col = () => {
         field: 'note',
         pinned: 'right',
         minWidth:100,
+        maxWidth:160,
         hide: !user_setting.is_plan_day_show_note
     })
     col.push({
@@ -402,7 +407,6 @@ const col = () => {
         hide: !user_setting.is_plan_day_show_save_bom_btn,
         editable: false,
         minWidth: 25,
-        width: 10,
         maxWidth: 30,
         cellRenderer: params => {
             if (Restrictions(params) || !params.data.fixed) return params.value
