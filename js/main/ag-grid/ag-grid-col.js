@@ -6,7 +6,6 @@ import { duibi } from './ag-grid-row.js';
 import preserved_dishes from './preserved_dishes.js';
 import init_mc from './special_fast_data.js';
 import dish_tooltipField from './dish_tooltipField.js'
-// import ShowCellRenderer from './ShowCellRenderer.js'
 // 定义列
 const col = () => {
     const user_setting = index.user_settings[0]

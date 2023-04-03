@@ -1,7 +1,6 @@
 /** @odoo-module **/
 import index from '../../../data/index.js'
 import m from './specialMeal.js'
-import init_mp from './meal_price.js'
 import countID from './countID.js'
 import saveData from '../saveData/index.js'
 import copiesNumber from "../ag_common/CopiesNumber.js";
@@ -52,6 +51,11 @@ const mealPrice = () => {
         fixed: false,
         configure: true
     })
+}
+
+const init_mp = () => {
+    return mealPrice()
+
 }
 
 // 拿到餐标 => 客户信息 菜品信息 

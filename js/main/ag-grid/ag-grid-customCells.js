@@ -5,7 +5,6 @@ import dishTable from '../dish-data-gird/dish-table.js'
 import { add_dish_key_id, } from "../tool.js";
 import saveData from '../saveData/index.js';
 import preserved_dishes from './preserved_dishes.js';
-import row from '../purchase/purchase_row.js';
 
 
 
