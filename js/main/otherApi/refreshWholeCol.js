@@ -1,3 +1,4 @@
+/** @odoo-module **/
 import gridCol  from '../ag-grid/ag-grid-col.js'
 export default {
     refreshWhole: () => {

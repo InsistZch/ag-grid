@@ -1,4 +1,4 @@
-
+/** @odoo-module **/
 class CustomColumnsToolPanel {
     init(params) {
         const eDiv = document.createElement('div')

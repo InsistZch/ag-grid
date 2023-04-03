@@ -1,4 +1,4 @@
-
+/** @odoo-module **/
 class CustomStatsToolPanel {
     init(params){
         const eDiv = document.createElement('div')
