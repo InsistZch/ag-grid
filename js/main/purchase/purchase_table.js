@@ -11,6 +11,7 @@ const gridOptions = (agOption) => {
     return {
         columnDefs: col,
         rowData: row(agOption),
+        enableRangeSelection: true,
         defaultColDef: {
             editable: false,//单元表格是否可编辑
             // enableRowGroup: true,
