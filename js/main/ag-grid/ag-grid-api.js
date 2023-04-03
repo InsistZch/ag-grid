@@ -10,8 +10,8 @@ import { countMaterialData, cost_proportion } from './ag-grid-row.js'
 import mealcopies from './special_fast_data.js'
 import init_mp from "./meal_price.js"
 import countID, { costPlusOne } from './countID.js'
-import {customFrom as customFromDom, resetPurchaseData} from './../otherApi/index.js'
-import {changedValuetoData, anew_top_cost} from './ag_common.js'
+import { customFrom as customFromDom, resetPurchaseData } from './../otherApi/index.js'
+import { changedValuetoData, anew_top_cost } from './ag_common.js'
 // import 
 
 // 添加对应数据
@@ -71,7 +71,7 @@ const nodeRowData = (v, e, ratio, type) => {
     // 去除当前值为0的数据
     if (v.data[`${e.colDef.field}`] == 0) return
 
-    v.data[`${e.colDef.field}`] = Number(v.data[`${e.colDef.field}`] )
+    v.data[`${e.colDef.field}`] = Number(v.data[`${e.colDef.field}`])
     let value = 0
     if (e.oldValue == 0) {
         value = e.newValue
@@ -93,7 +93,6 @@ const nodeRowData = (v, e, ratio, type) => {
 // cellRenderer > onCellValueChanged
 const onCellValueChanged = async (e, gridOptions) => {
 
-    // console.log(e.data.type)
     const saveDataBtn = document.querySelector('#saveDataBtn')
     saveDataBtn.classList.remove('btn-outline-primary')
     saveDataBtn.classList.add('btn-outline-danger')
@@ -172,16 +171,16 @@ const onCellValueChanged = async (e, gridOptions) => {
             // console.log(e.data.type)
             // 先改变份数 再改变菜品份数
             // console.log(copiesChangedjudeg)
-            if(e.data.type == "特色" && !e.data.configure){
-                let ratio = ( ( copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue)) / parseInt(e.oldValue == 0 ? 1 : e.oldValue))
+            if (e.data.type == "特色" && !e.data.configure) {
+                let ratio = ((copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue)) / parseInt(e.oldValue == 0 ? 1 : e.oldValue))
                 let count = 0
                 e.api.forEachNode(v => {
                     if (v.data == null || v.data.cl1 != e.data.cl1 || v.data.configure) return
                     if (v.data.type == "特色") {
                         count += Number(v.data[e.colDef.field])
                     }
-                    if(v.data.specialMealColor == e.data.specialMealColor && v.data.type != "特色"){
-                        if(v.data[e.colDef.field] > 0){
+                    if (v.data.specialMealColor == e.data.specialMealColor && v.data.type != "特色") {
+                        if (v.data[e.colDef.field] > 0) {
                             v.data[e.colDef.field] = copiesNumber(v.data[e.colDef.field] + (v.data[e.colDef.field] * ratio))
                         }
                     }
@@ -189,7 +188,7 @@ const onCellValueChanged = async (e, gridOptions) => {
                 let CopiesCount = 0
                 let kuaiNewCount = 0, kuaiOldCount = 0
                 for (const item of mealcopies()) {
-                    if(item.cl1 == e.data.cl1){
+                    if (item.cl1 == e.data.cl1) {
                         // console.log(item.cl1)
                         // console.log(1, `type: ${item.type},item: ${item[e.colDef.field]}, newValue: ${e.newValue}, oldValue: ${e.oldValue}`)
                         if (item.type == "特色") {
@@ -256,9 +255,11 @@ const onCellValueChanged = async (e, gridOptions) => {
         // 当前数据 101
 
     } else if (e.colDef.headerName == '菜品') {
+        
         if (e.newValue == null || e.newValue == undefined || e.newValue.trim() == "") {
             e.data[`${e.colDef.field}`] = e.oldValue
         }
+
         for (const item of index.dish_key) {
             if (item.name == e.newValue) {
                 // console.log(item, e.data)
@@ -633,7 +634,7 @@ const onCellValueChanged = async (e, gridOptions) => {
                     } else {
                         resolve()
                     }
-                }else{
+                } else {
                     console.log(materialObj)
                     resolve()
                 }
@@ -789,7 +790,7 @@ const onCellValueChanged = async (e, gridOptions) => {
         await rowNode.setData(e.data)
 
         resetPurchaseData.Change(gridOptions)
-        gridOptions.api.refreshCells({force:true})
+        gridOptions.api.refreshCells({ force: true })
         // console.log(e.data)
         // for (const {data} of e.node.parent.allLeafChildren) {
         //     const rowNode = gridOptions.api.getRowNode(data.id)
@@ -801,13 +802,13 @@ const onCellValueChanged = async (e, gridOptions) => {
         //     const rowNode = gridOptions.api.getRowNode(v.data.id)
         //     rowNode.setDataValue('whole', v.data.whole)
         // })
-    }else if(e.colDef.headerName == "成本价"){
+    } else if (e.colDef.headerName == "成本价") {
 
     }
     // console.log(e.data)
     // console.log(new Date() * 1 - newDate)
     changedValuetoData(e, gridOptions)
-    
+
     // await rowNode.setData(e.data)/
     // console.log(new Date() * 1 - newDate)
     // gridOptions.api.refreshCells({force:true})
@@ -866,6 +867,7 @@ const getContextMenuItems = (params, gridOptions) => {
                         // const id = parseInt(gridOptions.api.getDisplayedRowAtIndex(params.node.rowIndex).rowIndex) + 1
                         // console.log(params)
                         gridOptions.api.expandAll()
+
                         gridOptions.api.applyTransaction({ add: data, addIndex: params.node.rowIndex + 1 })
 
                         return true
@@ -986,8 +988,8 @@ const getContextMenuItems = (params, gridOptions) => {
                         // })
                         // console.log(arr)
                         for (const item of gridOptions.api.getColumnDefs()) {
-                            if(item.headerName == "类别"){
-                                category = {...item}
+                            if (item.headerName == "类别") {
+                                category = { ...item }
                             }
                             arr.push(item)
                         }
@@ -1121,7 +1123,7 @@ const sales_type = (value) => {
         case "素菜":
             return 'special';
         case "汤粥":
-            return 'special'; 
+            return 'special';
         case "绿豆汤":
             return 'green_bean_soup';
         case "简餐":
@@ -1161,8 +1163,8 @@ const getRowStyle = params => {
                 fontWeight: "600",
                 // display: params.data.show ? "flex" : "none"
             }
-        }else if(params.data.configure){
-            if(params.data.type == "快餐" || params.data.type == "特色"){
+        } else if (params.data.configure) {
+            if (params.data.type == "快餐" || params.data.type == "特色") {
                 return {
                     fontWeight: "600",
                 }

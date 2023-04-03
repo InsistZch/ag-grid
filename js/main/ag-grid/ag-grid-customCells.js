@@ -1,10 +1,11 @@
 /** @odoo-module **/
 import index from '../../../data/index.js'
-import {dish_detailed} from './ag-grid-row.js'
+import { dish_detailed } from './ag-grid-row.js'
 import dishTable from '../dish-data-gird/dish-table.js'
-import {add_dish_key_id,} from "../tool.js";
+import { add_dish_key_id, } from "../tool.js";
 import saveData from '../saveData/index.js';
 import preserved_dishes from './preserved_dishes.js';
+import row from '../purchase/purchase_row.js';
 
 
 
@@ -15,7 +16,6 @@ class customCells {
         // 将一些必要数据存入 this
         this.params = params
         this.dish_data = []
-
         // 创建元素
         const dn = document.createElement('div')
 
@@ -104,7 +104,7 @@ class customCells {
                 this.dish_data.push(dish_key)
             }
         }
-        
+
         datalist.innerHTML = str
         item_click(datalist, (v) => {
             input.value = v
@@ -172,7 +172,7 @@ class customCells {
             } else {
                 dish_key_list = [...index.dish_key]
 
-            } 
+            }
             // console.log(params.data.dish_key_id, dish_key_list)
             if (input.value.trim() == "") {
                 count = 0
@@ -183,7 +183,7 @@ class customCells {
                         arr.push(dish_key)
                     }
                 }
-               
+
             } else {
                 for (const dish_key of dish_key_list) {
                     if (dish_key.dish_top_category_id == params.data.dish_key_id.dish_top_category_id) {
@@ -194,7 +194,7 @@ class customCells {
                     }
                 }
             }
-            
+
             // console.log(arr, str)
             // 判断是否需要创建菜品
             createDish.style.display = 'block'
@@ -215,7 +215,7 @@ class customCells {
                 input.focus()
             })
         }
-        
+
         // console.log(this.dish_data)
         // 写入 查找更多 功能
         const queryDiv = document.createElement('div');
@@ -230,7 +230,7 @@ class customCells {
             dish_dataDiv.innerHTML = ""
 
             // 获取到本行数据
-            const doubleClickGetRowData = ({data}) => {
+            const doubleClickGetRowData = ({ data }) => {
                 // console.log(data)
                 if (data == undefined) return
                 this.dish_data.push({
@@ -244,7 +244,7 @@ class customCells {
                 document.querySelector('.modal-backdrop.fade').parentNode.removeChild(document.querySelector('.modal-backdrop.fade'))
                 input.focus();
             }
-            const clickGetRowData = ({data}) => {
+            const clickGetRowData = ({ data }) => {
                 // console.log(data)
                 if (data == undefined) return
                 this.dish_data.push({
@@ -300,7 +300,7 @@ class customCells {
         // 将元素插入到dn
         dn.appendChild(input)
         dn.appendChild(dish_content)
-        
+
         // 存放元素
         this.ele = dn
         input.value = params.value
@@ -327,7 +327,25 @@ class customCells {
     // 编辑结束后返回一次
     // 如果返回true,编辑结果失效
     isCancelAfterEnd() {
+
         const currentData = this.ele.querySelector('input').value
+
+        let rowDishs = ""
+        let needRowdata = [];
+        this.params.api.forEachNode((v, index) => {
+            if (v.data == null) return
+            if (v.data.teseMatchRowId === -1 && this.params.rowIndex !== index && v.data.dinner_type == this.params.data.dinner_type) needRowdata.push(v.data)
+        })
+        
+        needRowdata.forEach((data) => {
+            if (data.dish === currentData) {
+                rowDishs = data.dish
+            }
+        })
+
+        if (rowDishs === currentData) return true
+
+
         if (currentData == undefined || currentData == null || currentData.trim() == "") return true
         for (const e of this.dish_data) {
             // console.log(e,this.params)
@@ -362,7 +380,7 @@ class customCells {
                     this.params.data.whole = dish_detailedValue[0]
                     obj['material_item'] = dish_detailedValue[1]
                 }
-                this.params.data.dish_key_id = {...obj}
+                this.params.data.dish_key_id = { ...obj }
                 // console.log(this.params.data.dish_key_id)
                 this.currentData = currentData
                 return false
@@ -388,10 +406,10 @@ class customCells {
 }
 const item_click = (el, func) => {
     const els = el.querySelectorAll('div')
-        for (const el of els) {
-            el.onclick = function(e) {
-                func(this.innerText)
-            }
+    for (const el of els) {
+        el.onclick = function (e) {
+            func(this.innerText)
         }
+    }
 }
 export default customCells

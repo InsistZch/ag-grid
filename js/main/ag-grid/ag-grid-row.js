@@ -111,10 +111,10 @@ const data = () => {
         obj['teseMatchRowId'] = play_object['tese_match_row_id']
         
         if(obj['teseMatchRowId'] != -1){
-            console.log(obj)
+            // console.log(obj)
             index.plan_day_record_show.forEach(v => {
                 if(obj['teseMatchRowId'] == v.id){
-                    console.log(v)
+                    // console.log(v)
                     obj['specialMealColor'] = specialMeal.colors[specialMeal.Catering[obj['dinner_type']] - 2]
                 }
             })
@@ -137,7 +137,7 @@ const data = () => {
     //         })
     //     }
     //  })
-    console.log(data)
+    // console.log(data)
     return data
 }
 
