@@ -99,20 +99,33 @@ class isShowColumns {
                 item[1].hide = !item[1].hide
                 let col = agOption.columnDefs.filter((col) => col.hide == false).length;
 
-                if (item[0] == "whole" && col < 20 && item[1].hide == true) {
-                    let arr = []
+                let arr = []
+                if (item[0] == "whole" && item[1].hide == true) {
+                    if (col < 20) {
+                        arr = []
+                        agOption.columnDefs.forEach(col => {
+                            if (col.field == "save" || col.field == "Copies" || col.field == "note") {
+                                arr.push({
+                                    colId: col.field,
+                                    pinned: null
+                                })
+                            }
+                        });
+                    }
+                } else {
+                    arr = []
                     agOption.columnDefs.forEach(col => {
                         if (col.field == "save" || col.field == "Copies" || col.field == "note") {
                             arr.push({
                                 colId: col.field,
-                                pinned: null
+                                pinned: "right"
                             })
                         }
                     });
-                    agOption.columnApi.applyColumnState({
-                        state: [...arr]
-                    })
                 }
+                agOption.columnApi.applyColumnState({
+                    state: [...arr]
+                })
             }
         }
     }

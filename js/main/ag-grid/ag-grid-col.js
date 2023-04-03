@@ -130,7 +130,7 @@ const col = () => {
             headerName: '成本',
             field: 'costPrice',
             minWidth: 50,
-            maxWidth: 110,
+            maxWidth: 60,
             pinned: 'left',
             hide: !user_setting.is_plan_day_show_dish_cost,
             editable: false,
