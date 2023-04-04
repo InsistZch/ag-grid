@@ -4,7 +4,7 @@ import col from "./purchase_col.js";
 import row from "./purchase_row.js";
 import { getRowId } from './purchase_api.js';
 import GroupRowInnerRenderer from './GroupRowInnerRenderer.js'
-import CustomColumnsToolPanel from "./CustomColumnsToolPanel.js";
+// import CustomColumnsToolPanel from "./CustomColumnsToolPanel.js";
 import CustomStatsToolPanel from './CustomStatsToolPanel.js'
 
 const gridOptions = (agOption) => {  
@@ -30,42 +30,42 @@ const gridOptions = (agOption) => {
             menuTabs: []
         },
         // suppressDragLeaveHidesColumns: true,
-        sideBar: {
-            toolPanels: [
-                {
-                  id: 'columns',
-                  labelDefault: '列显示与隐藏',
-                  labelKey: 'columns',
-                  iconKey: 'columns',
-                  toolPanel: CustomColumnsToolPanel,
-                  minWidth: 100,
-                  width: 120,
-                  maxWidth: 150,
-                  toolPanelParams: {
-                    suppressRowGroups: true,
-                    suppressValues: true,
-                    suppressPivots: true,
-                    suppressPivotMode: true,
-                    suppressColumnFilter: true,
-                    suppressColumnSelectAll: true,
-                    suppressColumnExpandAll: true,
-                  },
-                },
+        // sideBar: {
+        //     toolPanels: [
+        //         {
+        //           id: 'columns',
+        //           labelDefault: '列显示与隐藏',
+        //           labelKey: 'columns',
+        //           iconKey: 'columns',
+        //         //   toolPanel: CustomColumnsToolPanel,
+        //           minWidth: 100,
+        //           width: 120,
+        //           maxWidth: 150,
+        //           toolPanelParams: {
+        //             suppressRowGroups: true,
+        //             suppressValues: true,
+        //             suppressPivots: true,
+        //             suppressPivotMode: true,
+        //             suppressColumnFilter: true,
+        //             suppressColumnSelectAll: true,
+        //             suppressColumnExpandAll: true,
+        //           },
+        //         },
               
-                {
-                    id: 'customStats',
-                    labelDefault: '保存订单',
-                    labelKey: 'customStats',
-                    iconKey: 'columns',
-                    toolPanel: CustomStatsToolPanel,
-                    minWidth: 100,
-                    width: 120,
-                    maxWidth: 150,
-                },
-            ],
-            position: 'top',
-            defaultToolPanel: 'columns',
-        },
+        //         {
+        //             id: 'customStats',
+        //             labelDefault: '保存订单',
+        //             labelKey: 'customStats',
+        //             iconKey: 'columns',
+        //             toolPanel: CustomStatsToolPanel,
+        //             minWidth: 100,
+        //             width: 120,
+        //             maxWidth: 150,
+        //         },
+        //     ],
+        //     position: 'top',
+        //     defaultToolPanel: 'columns',
+        // },
         getContextMenuItems: () => [],
         groupDisplayType: 'groupRows',
         groupDefaultExpanded: -1,

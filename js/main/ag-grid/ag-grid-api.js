@@ -186,8 +186,6 @@ const onCellValueChanged = async (e, gridOptions) => {
             if (e.data.type == "特色" && !e.data.configure) {
                 // let ratio = ((copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue)) / parseInt(e.oldValue == 0 ? 1 : e.oldValue))
 
-
-
                 let count = 0
                 e.api.forEachNode(v => {
                     if (v.data == null || v.data.cl1 != e.data.cl1 || v.data.configure) return
@@ -287,6 +285,7 @@ const onCellValueChanged = async (e, gridOptions) => {
             }
         })
 
+        
         needRowdata.forEach((data) => {
             if (data.dish === e.newValue) {
                 e.data[`${e.colDef.field}`] = e.oldValue

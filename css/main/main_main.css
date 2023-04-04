@@ -24,7 +24,7 @@ div.ag_main span.date{
     transform: translate(-50%, -50%);
 }
 
-.ag_all_button{
+.ag_init_button , .ag_purchase_button{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -33,13 +33,21 @@ div.ag_main span.date{
     position: relative;
 }
 
-.ag-button{
+.ag_purchase_button{
+    display: none;
+}
+
+.ag-button , .purchase_button{
     height: max-content;
     display: flex;
     align-items: center;
     padding: .5rem 0;
     padding-left: 10px;
     
+}
+
+.ag_purchase_button{
+    justify-content: flex-end;
 }
 
 div.function{
