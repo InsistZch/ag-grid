@@ -892,6 +892,7 @@ const getContextMenuItems = (params, gridOptions) => {
                         const value = MealCategory.querySelector(`option[value="${MealCategory.value}"]`).innerText
                         data[0]['type'] = value
                         data[0]['sales_type'] = sales_type(value)
+                        data[0]['teseMatchRowId'] = -1
                         console.log(MealCategory)
                         if (specialMeal.Catering[params.node.data.dinner_type] <= specialMeal.colors.length && value == "特色") {
                             data[0]['specialMealID'] = specialMeal.Catering[params.node.data.dinner_type]
