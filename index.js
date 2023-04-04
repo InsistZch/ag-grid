@@ -9,12 +9,12 @@ import refreshWholeCol from './js/main/otherApi/refreshWholeCol.js'
 import isShowPurchaseColumns from './js/main/purchase/isShowPurchaseColumns.js'
 console.log(data_index)
 
-// for (const item of data_index.material_item) {
-//     // 360190
-//     if(item.id == 360190){
-//         console.log(item)
-//     }
-// }
+for (const item of data_index.material_item) {
+    // 360190
+    if(item.id == 3143511){
+        console.log(item)
+    }
+}
 
 document.addEventListener("DOMContentLoaded", function () {
 

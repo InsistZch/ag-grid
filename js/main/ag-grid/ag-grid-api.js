@@ -5,9 +5,9 @@ import saveData from "../saveData/index.js"
 import { add_dish_bom_id, add_material_id, add_material_item_bom_unit_ratio_id } from "../tool.js"
 import m from "./specialMeal.js"
 import copiesNumber from '../ag_common/CopiesNumber.js'
-import { countMaterialData } from './ag-grid-row.js'
+import { countMaterialData, dish_detailed } from './ag-grid-row.js'
 import mealcopies from './special_fast_data.js'
-import init_mp from "./ag-grid-row.js"
+import { init_mp } from "./ag-grid-row.js"
 import countID from './countID.js'
 import { customFrom as customFromDom, resetPurchaseData } from './../otherApi/index.js'
 import { changedValuetoData, anew_top_cost } from './ag_common.js'
@@ -113,8 +113,10 @@ const onCellValueChanged = async (e, gridOptions) => {
             await rowNode.setDataValue(e.colDef.field, e.oldValue)
             return
         }
+
         const meal_price = init_mp().find(v => v.cl1 == e.data.cl1)
         // console.log(meal_price)
+       
         if (meal_price[e.colDef.field] == 0 || meal_price[e.colDef.field] == null) {
             if (e.newValue != 0 && e.newValue != null) {
                 let price = prompt("请输入餐标：")
@@ -254,6 +256,36 @@ const onCellValueChanged = async (e, gridOptions) => {
         // 当前数据 101
 
     } else if (e.colDef.headerName == '菜品') {
+        let needRowdata = [];
+        let spRowdata = [];
+
+        e.api.forEachNode((v, index) => {
+            if (v.data == null) return
+            if (v.data.teseMatchRowId === -1 && e.rowIndex !== index && v.data.dinner_type == e.data.dinner_type) needRowdata.push(v.data)
+            if (e.data.teseMatchRowId == v.data.teseMatchRowId && e.rowIndex !== index && v.data.dinner_type == e.data.dinner_type) spRowdata.push(v.data)
+
+            if (e.rowIndex == index) {
+                if (v.data.teseMatchRowId == -1) {
+                    spRowdata = []
+                } else {
+                    needRowdata = []
+                }
+            }
+        })
+
+        needRowdata.forEach((data) => {
+            if (data.dish === e.newValue) {
+                e.data[`${e.colDef.field}`] = e.oldValue
+            }
+        })
+
+        spRowdata.forEach((data) => {
+            if (data.dish === e.newValue) {
+                const rowNode = e.api.getRowNode(v.data.id)
+                rowNode.setDataValue
+                e.data[`${e.colDef.field}`] = e.oldValue
+            }
+        })
 
         if (e.newValue == null || e.newValue == undefined || e.newValue.trim() == "") {
             e.data[`${e.colDef.field}`] = e.oldValue
@@ -284,8 +316,8 @@ const onCellValueChanged = async (e, gridOptions) => {
             newCopies: e.data['Copies']
         })
         e.data['costPrice'] = d[2]
-        e.data['dname'] = `${e.newValue}_${e.dish}`
-        // gridOptions.api.refreshCells({force:true})
+        e.data['dname'] = `${e.newValue}_${e.data.type}`
+
     } else if (e.colDef.headerName == '配量汇总') {
         e.data.update = true
         let d1 = e.newValue

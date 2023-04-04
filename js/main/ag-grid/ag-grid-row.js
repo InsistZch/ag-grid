@@ -42,21 +42,39 @@ const mealAbstract = ({
     }
     return data
 }
-
-const mealPrice = () => {
-    return mealAbstract({
-        name: 'price',
-        type: "餐标",
-        edit: false,
-        fixed: false,
-        configure: true
-    })
-}
-
+// class mealPrice{
+//     static init = false
+//     static data = null
+//     get_data(){
+//         if(!this.init){
+//             this.data = mealAbstract({
+//                 name: 'price',
+//                 type: "餐标",
+//                 edit: false,
+//                 fixed: false,
+//                 configure: true
+//             })
+//         }
+//         this.init = false
+//         return this.data
+//     }
+    
+// }
+let mealPrice = []
+// init_mp 
 const init_mp = () => {
-    return mealPrice()
-
+    if(mealPrice.length == 0){
+        mealPrice = mealAbstract({
+            name: 'price',
+            type: "餐标",
+            edit: false,
+            fixed: false,
+            configure: true
+        })
+    }
+    return mealPrice
 }
+
 
 // 拿到餐标 => 客户信息 菜品信息 
 
@@ -407,6 +425,7 @@ const init_dish_detailed = (manual_material_qty, count) => {
 // 
 // 获取菜品详细信息
 const dish_detailed = (dish_key, count) => {
+
     // 获取当前菜品详细配料
     let str = ""
     let arr = []
@@ -479,8 +498,6 @@ const dish_detailed = (dish_key, count) => {
                     break
                 }
             }
-
-
             arr.push(arr_data)
         }
     }
