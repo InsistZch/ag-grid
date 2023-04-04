@@ -109,6 +109,9 @@ const onCellValueChanged = async (e, gridOptions) => {
     // dish _ type
     if (!isNaN(e.colDef.field)) {
 
+
+        console.log(e)
+
         if (e.newValue == undefined || e.newValue == null || String(e.newValue).trim() == "") {
             e.data[`${e.colDef.field}`] = 0
             e.newValue = 0
