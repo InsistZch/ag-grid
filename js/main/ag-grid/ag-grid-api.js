@@ -64,9 +64,16 @@ const nodeRowData = (v, e, ratio, type) => {
     if (type == "快餐") {
         if (v.data.specialMealColor != undefined) return
     } else {
-        if (v.data.specialMealColor == undefined) return
+        if (v.data.specialMealColor == undefined && v.data.type != "汤粥") return
     }
-
+    if(v.data.type == "汤粥"){
+        const arr = mealcopies().filter(v => v.cl1 == e.data.cl1).map(v => v[e.colDef.field])
+        v.data[e.colDef.field] = 0
+        for (const item of arr) {
+            v.data[e.colDef.field] += item
+        }
+        return
+    }
     // 去除当前值为0的数据
     if (v.data[`${e.colDef.field}`] == 0) return
 
@@ -173,6 +180,7 @@ const onCellValueChanged = async (e, gridOptions) => {
             // 先改变份数 再改变菜品份数
             // console.log(copiesChangedjudeg)
             if (e.data.type == "特色" && !e.data.configure) {
+                console.log(e)
                 let ratio = ((copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue)) / parseInt(e.oldValue == 0 ? 1 : e.oldValue))
                 let count = 0
                 e.api.forEachNode(v => {
