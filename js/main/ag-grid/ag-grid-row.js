@@ -849,5 +849,5 @@ export {
 }
 
 export default {
-    data, dish_detailed, duibi, headHookLimit, countMaterialData, mealCopies, cost_proportion, countCostPrice, mealPrice, mealAbstract,init_mp
+    data, dish_detailed, duibi, headHookLimit, countMaterialData, mealPrice, mealCopies, cost_proportion, countCostPrice, mealAbstract,init_mp
 }
