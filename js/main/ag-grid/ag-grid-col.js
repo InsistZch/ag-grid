@@ -36,7 +36,7 @@ const col = () => {
             maxWidth: 50,
             editable: false,
             pinned: 'left',
-            hide:false,
+            hide: false,
             filter: true,
             // checkboxSelection: true, //设置为true显示为复选框
             // headerCheckboxSelection: true, //表头是否也显示复选框，全选反选用
@@ -52,16 +52,16 @@ const col = () => {
                 // configure 
                 // cl1
                 // console.log(params)
-                if(params.data.configure) return 1
+                if (params.data.configure) return 1
                 let count = 0
 
                 // 
                 let fristTypeID = 0, isfrist = true
                 params.api.forEachNode(v => {
-                    if(v.data == undefined || v.data.configure) return
-                    if(v.data.cl1 == params.data.cl1 && v.data.type == params.data.type && v.data.type != "特色" && v.data.teseMatchRowId == -1 ){
+                    if (v.data == undefined || v.data.configure) return
+                    if (v.data.cl1 == params.data.cl1 && v.data.type == params.data.type && v.data.type != "特色" && v.data.teseMatchRowId == -1) {
                         count++
-                        if(isfrist){
+                        if (isfrist) {
                             isfrist = !isfrist
                             fristTypeID = v.data.id
                             return
@@ -82,7 +82,7 @@ const col = () => {
             // cellEditorParams:{values:dish_dropdown()},
             cellEditor: customCells,
             pinned: 'left',
-            hide:false,
+            hide: false,
             filter: true,
             tooltipField: 'dish',
             tooltipComponent: dish_tooltipField,
@@ -115,8 +115,8 @@ const col = () => {
                                 title = "半成品"
                                 break;
                             default:
-                                color = "red"
-                                title = "该餐品无分类"
+                                color = "black"
+                                title = ""
                                 break;
                         }
                         break
@@ -165,7 +165,7 @@ const col = () => {
         obj['valueParser'] = params => Number(params.newValue)
         obj['cellRenderer'] = (params) => {
             // console.log(Restrictions(params))
-            if(params.value == undefined || params.value == "NaN%"){
+            if (params.value == undefined || params.value == "NaN%") {
                 // const rowNode = params.api.getRowNode(params.data.id)
                 // console.log(rowNode, params)
                 // rowNode.setDataValue(params.colDef.field, 0)
@@ -174,7 +174,7 @@ const col = () => {
             if (params.data.configure) {
                 if (params.data.type == "%") {
                     // console.log(params.value)
-                    if(params.value == undefined || params.value == "NaN%") return "0%"
+                    if (params.value == undefined || params.value == "NaN%") return "0%"
                     const v = Number(params.value.split('%')[0]) / 100
                     const high = index.org_config.cus_los_ratio_high_lmt;
                     let style = ""
@@ -246,7 +246,7 @@ const col = () => {
         minWidth: 40,
         maxWidth: 50,
         editable: false,
-        hide:false,
+        hide: false,
         pinned: 'right',
     })
     col.push({
@@ -395,8 +395,8 @@ const col = () => {
         headerName: '备注',
         field: 'note',
         pinned: 'right',
-        minWidth:100,
-        maxWidth:160,
+        minWidth: 100,
+        maxWidth: 160,
         hide: !user_setting.is_plan_day_show_note
     })
     col.push({
