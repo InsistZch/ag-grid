@@ -115,8 +115,8 @@ const col = () => {
                                 title = "半成品"
                                 break;
                             default:
-                                color = "red"
-                                title = "该餐品无分类"
+                                color = "black"
+                                title = ""
                                 break;
                         }
                         break
