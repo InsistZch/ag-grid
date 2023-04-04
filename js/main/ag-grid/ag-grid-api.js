@@ -109,15 +109,12 @@ const onCellValueChanged = async (e, gridOptions) => {
     // dish _ type
     if (!isNaN(e.colDef.field)) {
 
-
-        console.log(e)
-
-        if (e.newValue == undefined || e.newValue == null || String(e.newValue).trim() == "") {
+        if (e.newValue == undefined || e.newValue == null || String(e.newValue).trim() == "") { // 当新值不为undefined
             e.data[`${e.colDef.field}`] = 0
             e.newValue = 0
         }
         // console.log(e.newValue)
-        if (isNaN(e.newValue)) {
+        if (isNaN(e.newValue)) { // 不是数字
             e.data[`${e.colDef.field}`] = e.oldValue
             const rowNode = await gridOptions.api.getRowNode(e.data.id)
             await rowNode.setDataValue(e.colDef.field, e.oldValue)
@@ -160,7 +157,11 @@ const onCellValueChanged = async (e, gridOptions) => {
         // 第一，改变了快餐
         // 第二，改变了特色
         // 增加比例
-        const ratio = ((copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue)) / parseInt(e.oldValue == 0 ? 1 : e.oldValue))
+        let ratio = 0
+        if(e.oldValue != 0){
+            ratio = ((copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue)) / parseInt(e.oldValue))
+        }
+
         // console.log(e.newValue, e.oldValue, ratio)
         // 餐标 => 不可改变
         // 成本 => 自动改变 
@@ -183,8 +184,10 @@ const onCellValueChanged = async (e, gridOptions) => {
             // 先改变份数 再改变菜品份数
             // console.log(copiesChangedjudeg)
             if (e.data.type == "特色" && !e.data.configure) {
-                console.log(e)
-                let ratio = ((copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue)) / parseInt(e.oldValue == 0 ? 1 : e.oldValue))
+                // let ratio = ((copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue)) / parseInt(e.oldValue == 0 ? 1 : e.oldValue))
+
+
+
                 let count = 0
                 e.api.forEachNode(v => {
                     if (v.data == null || v.data.cl1 != e.data.cl1 || v.data.configure) return
