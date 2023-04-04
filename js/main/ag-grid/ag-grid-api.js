@@ -5,7 +5,7 @@ import saveData from "../saveData/index.js"
 import { add_dish_bom_id, add_material_id, add_material_item_bom_unit_ratio_id } from "../tool.js"
 import m from "./specialMeal.js"
 import copiesNumber from '../ag_common/CopiesNumber.js'
-import { countMaterialData} from './ag-grid-row.js'
+import { countMaterialData } from './ag-grid-row.js'
 import mealcopies from './special_fast_data.js'
 import init_mp from "./ag-grid-row.js"
 import countID from './countID.js'
@@ -254,7 +254,7 @@ const onCellValueChanged = async (e, gridOptions) => {
         // 当前数据 101
 
     } else if (e.colDef.headerName == '菜品') {
-        
+
         if (e.newValue == null || e.newValue == undefined || e.newValue.trim() == "") {
             e.data[`${e.colDef.field}`] = e.oldValue
         }
@@ -852,7 +852,7 @@ const getContextMenuItems = (params, gridOptions) => {
                         const value = MealCategory.querySelector(`option[value="${MealCategory.value}"]`).innerText
                         data[0]['type'] = value
                         data[0]['sales_type'] = sales_type(value)
-                        console.log(specialMeal)
+                        console.log(MealCategory)
                         if (specialMeal.Catering[params.node.data.dinner_type] <= specialMeal.colors.length && value == "特色") {
                             data[0]['specialMealID'] = specialMeal.Catering[params.node.data.dinner_type]
                             data[0]['specialMealColor'] = specialMeal.colors[specialMeal.Catering[params.node.data.dinner_type] - 1]
@@ -953,7 +953,16 @@ const getContextMenuItems = (params, gridOptions) => {
                         data[0]['type'] = value.innerText
                         data[0]['sales_type'] = sales_type(value.innerText)
                         data[0]['specialMealColor'] = specialMeal.colors[SpecialMealCategory.value - 1]
-                        // console.log(data)
+
+                        let teseMatchRowId = -1;
+
+                        params.api.forEachNode((v) => {
+                            if (v.data && v.data.specialMealColor == data[0]['specialMealColor'] && v.data.teseMatchRowId !== -1) {
+                                teseMatchRowId = v.data.teseMatchRowId
+                            }
+                        })
+
+                        data[0]["teseMatchRowId"] = teseMatchRowId
 
                         gridOptions.api.expandAll()
                         gridOptions.api.applyTransaction({ add: data, addIndex: params.node.rowIndex + 1 })

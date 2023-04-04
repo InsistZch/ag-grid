@@ -330,19 +330,39 @@ class customCells {
         const currentData = this.ele.querySelector('input').value
 
         let rowDishs = ""
+        let spDishs = ""
         let needRowdata = [];
+        let spRowdata = [];
+
         this.params.api.forEachNode((v, index) => {
             if (v.data == null) return
+            
             if (v.data.teseMatchRowId === -1 && this.params.rowIndex !== index && v.data.dinner_type == this.params.data.dinner_type) needRowdata.push(v.data)
+            if (this.params.data.teseMatchRowId == v.data.teseMatchRowId && this.params.rowIndex !== index && v.data.dinner_type == this.params.data.dinner_type) spRowdata.push(v.data)
+
+            if ( this.params.rowIndex == index){
+                if(v.data.teseMatchRowId == -1){
+                    spRowdata = []
+                }else{
+                    needRowdata = []
+                }
+            }
         })
-        
+
         needRowdata.forEach((data) => {
             if (data.dish === currentData) {
                 rowDishs = data.dish
             }
         })
 
+        spRowdata.forEach((data) => {
+            if (data.dish === currentData) {
+                spDishs = data.dish
+            }
+        })
+
         if (rowDishs === currentData) return true
+        if (spDishs === currentData) return true
 
 
         if (currentData == undefined || currentData == null || currentData.trim() == "") return true
