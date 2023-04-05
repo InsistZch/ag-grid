@@ -16,8 +16,9 @@ const isShowPurchaseColumns = (gridOptions) => {
 
     createLabels.forEach((createLabel) => {
         createLabel.onclick = function (e) {
-            cols = gridOptions.columnApi.getColumnState()
             e.stopPropagation()
+            cols = gridOptions.columnApi.getColumnState()
+            
             if (e.pointerType == "") return
 
             const inp = this.querySelector('input')
