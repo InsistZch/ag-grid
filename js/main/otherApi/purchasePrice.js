@@ -10,8 +10,6 @@ export default (elStr, func = () => {}) => {
             sure: "#purchase_price_sure",
             deleteData: ["#purchase_price_table"],
             initFun(){
-                
-
                 // const d = priceRow(material)
                 const option = priceTable(material,agOption)
                 const eGridDiv = document.querySelector('#purchase_price_table');

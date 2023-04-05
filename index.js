@@ -70,6 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (isShow) {
             const purchaseOption = purchase_table(agOption)
             eDiv.innerHTML = ""
+            
             resetPurchaseData.purchase_init(purchaseOption)
             new agGrid.Grid(eDiv, purchaseOption);
             isShowPurchaseColumns(purchaseOption)

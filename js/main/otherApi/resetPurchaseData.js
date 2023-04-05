@@ -9,7 +9,7 @@ class resetPurchaseData{
     }
     Change(agOption){
         const data = purchase_row(agOption)
-        this.purchaseOption.api.setRowData(data)
+        this.purchaseOption && this.purchaseOption.api.setRowData(data)
     }
 }
 
