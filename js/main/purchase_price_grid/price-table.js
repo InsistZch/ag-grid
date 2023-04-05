@@ -1,5 +1,4 @@
 /** @odoo-module **/
-
 import col from "./price-col.js";
 import data from './price-row.js'
 import {onCellValueChanged, getRowId} from './price-api.js'

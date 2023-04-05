@@ -98,6 +98,7 @@ const nodeRowData = (v, e, ratio, type) => {
 // 汤面总数为 特色餐 + 普通餐
 // cellRenderer > onCellValueChanged
 const onCellValueChanged = async (e, gridOptions) => {
+    console.log(gridOptions)
 
     const saveDataBtn = document.querySelector('#saveDataBtn')
     saveDataBtn.classList.remove('btn-outline-primary')

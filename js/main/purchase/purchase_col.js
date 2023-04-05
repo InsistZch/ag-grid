@@ -13,7 +13,7 @@ export default [
     {
         headerName: "需求日期",
         field: "demandDate",
-        hide:true
+        hide: true
     },
     {
         headerName: "需量",
@@ -39,17 +39,18 @@ export default [
     {
         headerName: "应下单",
         field: "shouldOrder",
-        hide:true
+        hide: true
     },
     {
         headerName: "今天",
         field: "today",
-        hide:true
+        hide: true
     },
     {
         headerName: "下单",
         field: "Order",
         editable: true,
+        // cellRenderer:
     },
     {
         headerName: "送货日期",
@@ -59,17 +60,17 @@ export default [
     {
         headerName: "明天",
         field: "tomorrow",
-        hide:true
+        hide: true
     },
     {
         headerName: "后天",
         field: "thirdDay",
-        hide:true
+        hide: true
     },
     {
         headerName: "单位",
         field: "unit",
-        hide:false
+        hide: false
     },
     {
         headerName: "供应商",
@@ -79,6 +80,6 @@ export default [
         headerName: "备注",
         field: "remarks",
         minWidth: 300,
-        hide:true
+        hide: true
     }
 ]

@@ -1,14 +1,13 @@
 /** @odoo-module **/
-
 import col from "./purchase_col.js";
 import row from "./purchase_row.js";
-import { getRowId } from './purchase_api.js';
+import { getRowId, getContextMenuItems, onCellValueChanged } from './purchase_api.js';
 import GroupRowInnerRenderer from './GroupRowInnerRenderer.js'
 // import CustomColumnsToolPanel from "./CustomColumnsToolPanel.js";
-import CustomStatsToolPanel from './CustomStatsToolPanel.js'
+// import CustomStatsToolPanel from './CustomStatsToolPanel.js'
 
-const gridOptions = (agOption) => {  
-    return {
+const gridOptions = (agOption) => {
+    const obj =  {
         columnDefs: col,
         rowData: row(agOption),
         enableRangeSelection: true,
@@ -51,7 +50,7 @@ const gridOptions = (agOption) => {
         //             suppressColumnExpandAll: true,
         //           },
         //         },
-              
+
         //         {
         //             id: 'customStats',
         //             labelDefault: '保存订单',
@@ -66,13 +65,14 @@ const gridOptions = (agOption) => {
         //     position: 'top',
         //     defaultToolPanel: 'columns',
         // },
-        getContextMenuItems: () => [],
+        getContextMenuItems: (e) => getContextMenuItems(e),
+        onCellValueChanged: (e) => onCellValueChanged(e,obj),
         groupDisplayType: 'groupRows',
         groupDefaultExpanded: -1,
         groupRowRendererParams: {
             suppressCount: true,
             innerRenderer: GroupRowInnerRenderer,
-            editable:false
+            editable: false
         },
         // // suppressColumnMoveAnimation:false,
         // onCellValueChanged: (params) => onCellValueChanged(params, agOption),
@@ -83,7 +83,8 @@ const gridOptions = (agOption) => {
         getRowId,
         // localeText:locale,
         // context: {},
-       
+
     }
+    return obj
 };
 export default gridOptions

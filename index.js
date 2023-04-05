@@ -68,7 +68,9 @@ document.addEventListener("DOMContentLoaded", function () {
         agOption.api.sizeColumnsToFit();
 
         if (isShow) {
+            console.log(agOption)
             const purchaseOption = purchase_table(agOption)
+            console.log(purchaseOption)
             eDiv.innerHTML = ""
             
             resetPurchaseData.purchase_init(purchaseOption)
