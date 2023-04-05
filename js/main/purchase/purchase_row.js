@@ -1,15 +1,15 @@
 /** @odoo-module **/
-import {getCountMaterial} from "../otherApi/getMaterial.js"
+import { getCountMaterial } from "../otherApi/getMaterial.js"
 import index from './../../../data/index.js'
 
 
 const row = (agOption) => {
     const rowData = []
     const d = getCountMaterial(agOption)
-    
+
     d.forEach((v, i) => {
         // console.log(v)
-        const {name} = index.material_top_category.find(e => e.id == v.top_category_id)
+        const { name } = index.material_top_category.find(e => e.id == v.top_category_id)
         const unitName = index.material_purchase_unit_category.find(e => e.id == v.main_unit_id)
         let obj = {
             material: v.name.split('-')[0],
@@ -22,8 +22,8 @@ const row = (agOption) => {
             today: "",
             Order: v.dish_qty,
             deliveryDate: "3-25",
-            tomorrow:"",
-            thirdDay:"",
+            tomorrow: "",
+            thirdDay: "",
             unit: unitName.name,
             supplier: "",
             remarks: "",

@@ -484,6 +484,7 @@ const dish_detailed = (dish_key, count) => {
                     // arr_data['main_unit_bom_unit_ratio'] = ratio.main_unit_bom_unit_ratio
                     // console.log(arr_data, dish_bom)
                     const qty = (count * 0.01) * dish_bom.gbom_qty_high
+                    arr_data['main_unit_bom_unit_ratio'] = ratio.main_unit_bom_unit_ratio
                     if (arr_data.main_price / ratio.main_unit_bom_unit_ratio >= 5 && qty < 10) {
                         str += Math.ceil(qty.toFixed(1))
                         arr_data['dish_qty'] = qty.toFixed(1)

@@ -137,8 +137,7 @@ class customCells {
                     })
                 }
             })
-
-
+            // console.log(rs)
             return rs
 
         }
@@ -329,38 +328,26 @@ class customCells {
 
         const currentData = this.ele.querySelector('input').value
 
+        // 同一餐不能出现重复
         let rowDishs = ""
         let spDishs = ""
         let needRowdata = [];
         let spRowdata = [];
-
         this.params.api.forEachNode((v, index) => {
             if (v.data == null) return
-            
+
             if (v.data.teseMatchRowId === -1 && this.params.rowIndex !== index && v.data.dinner_type == this.params.data.dinner_type) needRowdata.push(v.data)
             if (this.params.data.teseMatchRowId == v.data.teseMatchRowId && this.params.rowIndex !== index && v.data.dinner_type == this.params.data.dinner_type) spRowdata.push(v.data)
-
-            if ( this.params.rowIndex == index){
-                if(v.data.teseMatchRowId == -1){
-                    spRowdata = []
-                }else{
-                    needRowdata = []
-                }
+            if (this.params.rowIndex == index) {
+                (v.data.teseMatchRowId == -1) ? spRowdata = [] : needRowdata = []
             }
         })
-
         needRowdata.forEach((data) => {
-            if (data.dish === currentData) {
-                rowDishs = data.dish
-            }
+            if (data.dish === currentData) rowDishs = data.dish
         })
-
         spRowdata.forEach((data) => {
-            if (data.dish === currentData) {
-                spDishs = data.dish
-            }
+            if (data.dish === currentData) spDishs = data.dish
         })
-
         if (rowDishs === currentData) return true
         if (spDishs === currentData) return true
 
@@ -398,6 +385,9 @@ class customCells {
                 } else {
                     this.params.data.whole = dish_detailedValue[0]
                     obj['material_item'] = dish_detailedValue[1]
+                }
+                for (const item of obj['material_item']) {
+                    console.log(item)
                 }
                 this.params.data.dish_key_id = { ...obj }
                 // console.log(this.params.data.dish_key_id)

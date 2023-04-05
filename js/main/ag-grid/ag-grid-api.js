@@ -66,7 +66,7 @@ const nodeRowData = (v, e, ratio, type) => {
     } else {
         if (v.data.specialMealColor == undefined && v.data.type != "汤粥") return
     }
-    if(v.data.type == "汤粥"){
+    if (v.data.type == "汤粥") {
         const arr = mealcopies().filter(v => v.cl1 == e.data.cl1).map(v => v[e.colDef.field])
         v.data[e.colDef.field] = 0
         for (const item of arr) {
@@ -123,7 +123,7 @@ const onCellValueChanged = async (e, gridOptions) => {
 
         const meal_price = init_mp().find(v => v.cl1 == e.data.cl1)
         // console.log(meal_price)
-       
+
         if (meal_price[e.colDef.field] == 0 || meal_price[e.colDef.field] == null) {
             if (e.newValue != 0 && e.newValue != null) {
                 let price = prompt("请输入餐标：")
@@ -158,7 +158,7 @@ const onCellValueChanged = async (e, gridOptions) => {
         // 第二，改变了特色
         // 增加比例
         let ratio = 0
-        if(e.oldValue != 0){
+        if (e.oldValue != 0) {
             ratio = ((copiesNumber(Math.ceil(e.newValue)) - parseInt(e.oldValue)) / parseInt(e.oldValue))
         }
 
@@ -275,28 +275,20 @@ const onCellValueChanged = async (e, gridOptions) => {
             if (v.data == null) return
             if (v.data.teseMatchRowId === -1 && e.rowIndex !== index && v.data.dinner_type == e.data.dinner_type) needRowdata.push(v.data)
             if (e.data.teseMatchRowId == v.data.teseMatchRowId && e.rowIndex !== index && v.data.dinner_type == e.data.dinner_type) spRowdata.push(v.data)
-
             if (e.rowIndex == index) {
-                if (v.data.teseMatchRowId == -1) {
-                    spRowdata = []
-                } else {
-                    needRowdata = []
-                }
+                (v.data.teseMatchRowId == -1) ? spRowdata = [] : needRowdata = []
             }
         })
-
-        
         needRowdata.forEach((data) => {
             if (data.dish === e.newValue) {
-                e.data[`${e.colDef.field}`] = e.oldValue
+                const rowNode = e.api.getRowNode(v.data.id)
+                rowNode.setDataValue(e.colDef.field, e.oldValue)
             }
         })
-
         spRowdata.forEach((data) => {
             if (data.dish === e.newValue) {
                 const rowNode = e.api.getRowNode(v.data.id)
-                rowNode.setDataValue
-                e.data[`${e.colDef.field}`] = e.oldValue
+                rowNode.setDataValue(e.colDef.field, e.oldValue)
             }
         })
 

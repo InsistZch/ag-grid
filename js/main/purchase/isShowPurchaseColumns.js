@@ -5,7 +5,6 @@ const isShowPurchaseColumns = (gridOptions) => {
     let cols = gridOptions.columnApi.getColumnState()
     const createLabels = document.querySelectorAll(".el_columns_item")
     const inps = document.querySelectorAll('.el_columns_item input')
-    console.log(inps)
 
     cols.forEach((col) => {
         inps.forEach((inp) => {
