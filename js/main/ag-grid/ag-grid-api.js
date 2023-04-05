@@ -327,6 +327,8 @@ const onCellValueChanged = async (e, gridOptions) => {
         resetPurchaseData.Change(gridOptions)
 
     } else if (e.colDef.headerName == '配量汇总') {
+
+        console.log(e)
         e.data.update = true
         let d1 = e.newValue
         // 清空配量汇总
@@ -351,8 +353,9 @@ const onCellValueChanged = async (e, gridOptions) => {
         // 可能修改多个地方        
 
         // 分割 配量汇总 字符串
-        // console.log(d1)
+       
         let material_data = d1.split(' ')
+        // console.log(material_data)
         for (const material of material_data) {
             // let isTrue = true
             if (material.trim() == "") continue
@@ -561,7 +564,6 @@ const onCellValueChanged = async (e, gridOptions) => {
                                 customPrice.onwheel = () => limitNumber()
                             }
                         })
-
                     } else {
                         e.data[`${e.colDef.field}`] = e.oldValue
                         gridOptions.api.refreshCells({ force: true })
@@ -572,6 +574,7 @@ const onCellValueChanged = async (e, gridOptions) => {
             await new Promise(resolve => {
                 // 判断是否有数量以及单位
                 if (isExistMaterial) {
+                    // console.log('1')
                     if (d[2] == undefined || d[3] == undefined) {
                         let dishes_name = document.querySelector('#write_Side_dishes_name')
                         let dishes_section = document.querySelector('#write_Side_dishes_section')
@@ -675,7 +678,7 @@ const onCellValueChanged = async (e, gridOptions) => {
                         resolve()
                     }
                 } else {
-                    console.log(materialObj)
+                    // console.log(materialObj)
                     resolve()
                 }
             })
@@ -815,6 +818,7 @@ const onCellValueChanged = async (e, gridOptions) => {
                 }
             }
         }
+        console.log(e.data.dish_key_id.material_item)
         const [whole, material_items, costPrice] = countMaterialData({
             material_items: [...e.data.dish_key_id.material_item],
             dish_key_id: e.data.dish_key_id.id,
@@ -824,7 +828,7 @@ const onCellValueChanged = async (e, gridOptions) => {
         })
         // console.log(e.data)
         e.data.costPrice = costPrice
-        e.data.whole = whole
+        // e.data.whole = whole
         e.data.dish_key_id.material_item = [...material_items]
         const rowNode = await e.api.getRowNode(e.data.id)
         await rowNode.setData(e.data)
