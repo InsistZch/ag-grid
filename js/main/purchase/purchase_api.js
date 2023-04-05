@@ -19,12 +19,15 @@ const getContextMenuItems = (params) => {
 const onCellValueChanged = (e, gridOptions) => {
 
     if (e.colDef.headerName == '下单') {
+        let newValue = 0;
         const rowNode = gridOptions.api.getRowNode(e.data.id)
-        if (isNaN(e.newValue)) {
+        if (e.newValue == 0 || e.newValue == null || e.newValue == undefined) {
+            rowNode.setDataValue(e.colDef.field, newValue)
+        } else if (isNaN(e.newValue)) {
             rowNode.setDataValue(e.colDef.field, e.oldValue)
         } else {
-            const newValue = Number(e.newValue).toFixed(1)
-            console.log(newValue)
+            newValue = Number(e.newValue)
+            if (e.newValue.indexOf(".") > 0) newValue = newValue.toFixed(1)
             rowNode.setDataValue(e.colDef.field, newValue)
         }
     }
