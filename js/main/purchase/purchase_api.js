@@ -1,19 +1,47 @@
 import refreshWholeCol from "../otherApi/refreshWholeCol.js";
+import { customFrom as customFromDom } from './../otherApi/index.js'
+import index from '../../../data/index.js'
 
 /** @odoo-module **/
 const getRowId = (params) => params.data.id;
 
 const getContextMenuItems = (e, gridOptions) => {
-    if (e.node.data && e.node.data == undefined) return
+    if (e.node && e.node.data == undefined) return
 
-    // console.log(e.column.colId)
     const result = [
         {
             name: '添加食材',
             action: () => {
-                console.log(e, gridOptions)
-                const data = [{}]
-                gridOptions.api.applyTransaction({ add: data, addIndex: e.node.rowIndex + 1 })
+                if (e.node !== null && e.column !== null && e.value !== null) {
+                    customFromDom({
+                        parent: "#add_meal",
+                        deleteData: ["#add_meal_category"],
+                        cancel: ["#add_meal_cancel1", "#add_meal_cancel2"],
+                        sure: "#add_meal_sure",
+                        initFun(_parent) {
+                            console.log(e)
+                            let material = _parent.querySelector('#material')
+                            index.material_item.forEach(v => {
+                                material.innerHTML += v.name == e.node.data['material'] ?
+                                    `<option value="${v.id}" selected>${v.name}</option>` :
+                                    `<option value="${v.id}">${v.name}</option>`
+                            })
+
+                        },
+                        sureFun(_parent) {
+                            const MealCategory = _parent.querySelector('#MealCategory')
+                            const rowData = [{}]
+                            if (e.value == null) {
+                                rowData[0]["category_name"] = e.node.key
+                            } else {
+                                rowData[0]["category_name"] = e.node.data.category_name
+                            }
+                            gridOptions.api.applyTransaction({ add: rowData, addIndex: e.node.rowIndex + 1 })
+                            return true
+                        }
+                    })
+
+                }
             }
         },
         {

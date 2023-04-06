@@ -549,25 +549,45 @@
                 </footer>
             </div>
         </div>
-        <div id="add_remarks" class="modalcustom">
+        <div id="add_meal" class="modalcustom">
             <div class="modal-contentcustom" style="height: 80vh;">
 
                 <header class="modal-headercustom">
-                    <h4 class="customcustom">提示</h4>
-                    <span class="closecustom" id="add_remarks_cancel1">×</span>
+                    <h4 class="customcustom">添加食品</h4>
+                    <span class="closecustom" id="add_meal_cancel1">×</span>
                 </header>
-
                 <div class="modal-bodycustom modal-body">
-                    <ol class="list-group list-group-numbered" id="add_remarks_category">
-                    </ol>
-                    <button type="button" id="add_remarks_button" class="btn btn-outline-secondary">添加备注</button>
+                    <div id="add_meal_category">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="materialSpan">食材</span>
+                            </div>
+                            <select class="form-control" id="material" aria-describedby="modal-bodycustom-addon4">
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="quantitySpan">下单</span>
+                            </div>
+                            <select class="form-control" id="quantity" aria-describedby="modal-bodycustom-addon4">
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="unitSpan">单位</span>
+                            </div>
+                            <select class="form-control" id="unit" aria-describedby="modal-bodycustom-addon4">
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <footer class="modal-footercustom">
-                    <button id="add_remarks_cancel2">取消</button>
-                    <button id="add_remarks_sure">确定</button>
+                    <button id="add_meal_cancel2">取消</button>
+                    <button id="add_meal_sure">确定</button>
                 </footer>
             </div>
         </div>
+    </div>
     </div>
 </body>
 <script src="./js/header/catalogue.js"></script>
