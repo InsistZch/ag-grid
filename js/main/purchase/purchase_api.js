@@ -21,15 +21,12 @@ const getContextMenuItems = (e, gridOptions) => {
                         initFun(_parent) {
                             console.log(e)
                             let material = _parent.querySelector('#material')
-                            index.material_item.forEach(v => {
-                                // material.innerHTML += v.name == e.node.data['material'] ?
-                                //     `<option value="${v.id}" selected>${v.name.split("-")[0]}</option>` :
-                                //     `<option value="${v.id}">${v.name.split("-")[0]}</option>`
-                            })
-
+                            let quantity = _parent.querySelector('#quantity')
+                            let unit = _parent.querySelector('#unit')
+                            
                         },
                         sureFun(_parent) {
-                            const MealCategory = _parent.querySelector('#MealCategory')
+                            const material = _parent.querySelector('#material')
                             const rowData = [{}]
                             if (e.value == null) {
                                 rowData[0]["category_name"] = e.node.key
