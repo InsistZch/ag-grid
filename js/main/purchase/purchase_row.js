@@ -20,7 +20,7 @@ const row = (agOption) => {
             marketPrice: v.material_price_alert,
             shouldOrder: v.dish_qty,
             today: "",
-            Order: v.dish_qty,
+            Order: Number(v.dish_qty).toFixed(1),
             deliveryDate: "3-25",
             tomorrow: "",
             thirdDay: "",

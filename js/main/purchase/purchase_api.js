@@ -13,34 +13,90 @@ const getContextMenuItems = (e, gridOptions) => {
             name: '添加食材',
             action: () => {
                 if (e.node !== null && e.column !== null && e.value !== null) {
+                    let addMaterialObj = {}
                     customFromDom({
                         parent: "#add_meal",
                         deleteData: ["#add_meal_category"],
                         cancel: ["#add_meal_cancel1", "#add_meal_cancel2"],
                         sure: "#add_meal_sure",
                         initFun(_parent) {
-                            let material = _parent.querySelector('#material')
-                            let quantity = _parent.querySelector('#quantity')
-                            let unit = _parent.querySelector('#unit')
-
-                            index.material_item.forEach(v => {
-                                const material_item_name = [] 
-                                material_item_name.push(v.name.split("-")[0])
-                                console.log(material_item_name)
-                            })
-                            material.onchange = () => {
-                                console.log(material.value)
+                            const material = _parent.querySelector("#material")
+                            const materialDishFood = _parent.querySelector('#materialDishFood')
+                            const add_meal_unit = _parent.querySelector('#add_meal_unit')
+                            
+                            material.onkeyup = () => {
+                                if(material.value.trim() == ""){
+                                    materialDishFood.innerHTML = ""
+                                    return
+                                }
+                                const arr = index.material_item.reduce((pre, v) => {
+                                    if(v.name.includes(material.value)){
+                                        pre.push(v)
+                                    }
+                                    return pre
+                                }, [])
+                                add_meal_unit.innerHTML = ""
+                                materialDishFood.innerHTML = ""
+                                addMaterialObj = {}
+                                for (const item of arr) {
+                                    const {name} = index.material_purchase_unit_category.find(v => v.id == item.main_unit_id)
+                                    const createDiv = document.createElement('div')
+                                    createDiv.classList.add('food_item')
+                                    createDiv.innerHTML = `${item.name.split('-')[0]} <span>价格：${Number(item.main_price).toFixed(1)} / ${name}</span>`
+                                    createDiv.onclick = () => {
+                                        add_meal_unit.innerHTML = ""
+                                        material.value = item.name.split('-')[0]
+                                        addMaterialObj = {...item}
+                                        add_meal_unit.innerHTML += `<option value="${name}" data=${JSON.stringify(item)}>${name}</option>`
+                                        for (const get_item of getUnitObj(item)) {
+                                            const {name} = index.material_purchase_unit_category.find(v => v.id == get_item.purchase_unit_id)
+                                            add_meal_unit.innerHTML += `<option value="${name}" data=${JSON.stringify(get_item)}>${name}</option>`
+                                        }
+                                        materialDishFood.innerHTML = ""
+                                    }
+                                    materialDishFood.appendChild(createDiv)
+                                }
+                                for (const item of index.material_item) {
+                                    const {name} = index.material_purchase_unit_category.find(v => v.id == item.main_unit_id)
+                                    if(item.name.split('-')[0] == material.value){
+                                        addMaterialObj = {...item}
+                                        add_meal_unit.innerHTML += `<option value="${name}" data=${JSON.stringify(item)}>${name}</option>`
+                                        for (const get_item of getUnitObj(item)) {
+                                            const {name} = index.material_purchase_unit_category.find(v => v.id == get_item.purchase_unit_id)
+                                            add_meal_unit.innerHTML += `<option value="${name}" data=${JSON.stringify(get_item)}>${name}</option>`
+                                        }
+                                        break
+                                    }
+                                }
                             }
                         },
                         sureFun(_parent) {
                             const material = _parent.querySelector('#material')
-                            const rowData = [{}]
-                            if (e.value == null) {
-                                rowData[0]["category_name"] = e.node.key
-                            } else {
-                                rowData[0]["category_name"] = e.node.data.category_name
-                            }
-                            gridOptions.api.applyTransaction({ add: rowData, addIndex: e.node.rowIndex + 1 })
+                            const add_meal_order = _parent.querySelector('#add_meal_order')
+                            const add_meal_unit = _parent.querySelector('#add_meal_unit')
+                            const unitData = JSON.parse(add_meal_unit.querySelector(`option[value="${add_meal_unit.value}"]`).getAttribute('data'))
+                            console.log(unitData)
+                            if(material.value.trim() == "" || addMaterialObj == {}) return true
+                            const { name } = index.material_top_category.find(e => e.id == addMaterialObj.top_category_id)
+                            gridOptions.api.applyTransaction({ add: [{
+                                material: addMaterialObj.name.split('-')[0],
+                                demandDate: "3-23",
+                                quantity: Number(addMaterialObj.dish_qty).toFixed(1),
+                                stock: 1000,
+                                standardPrice: Number(addMaterialObj.main_price / unitData.main_unit_bom_unit_ratio).toFixed(1),
+                                marketPrice: Number(addMaterialObj.material_price_alert / unitData.main_unit_bom_unit_ratio).toFixed(1),
+                                shouldOrder: Number(addMaterialObj.dish_qty).toFixed(1),
+                                today: "",
+                                Order: Number(add_meal_order.value).toFixed(1),
+                                deliveryDate: "3-25",
+                                tomorrow: "",
+                                thirdDay: "",
+                                unit: add_meal_unit.value,
+                                supplier: "",
+                                remarks: "",
+                                id: e.node.rowIndex + 1,
+                                category_name: name
+                            }], addIndex: e.node.rowIndex + 1 })
                             return true
                         }
                     })
@@ -84,6 +140,21 @@ const onCellClicked = (e, gridOptions, agOption) => {
             }
         });
     });
+}
+
+// 获取食材转化比信息
+const getUnitObj = (material) => {
+    const ids = [...material.bom_unit_ratio_ids]
+    let idsIndex = ids.length - 1
+    if(idsIndex < 0) return []
+    const arr = index.material_item_bom_unit_ratio.filter(v => {
+        if(idsIndex < 0) return false
+        if(v.id == ids[idsIndex]){
+            idsIndex--
+            return true
+        }
+    })
+    return arr
 }
 
 export {

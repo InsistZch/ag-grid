@@ -553,29 +553,35 @@
             <div class="modal-contentcustom" style="height: 80vh;">
 
                 <header class="modal-headercustom">
-                    <h4 class="customcustom">添加食品</h4>
+                    <h4 class="customcustom">添加食材</h4>
                     <span class="closecustom" id="add_meal_cancel1">×</span>
                 </header>
                 <div class="modal-bodycustom modal-body">
                     <div id="add_meal_category">
-                        <div class="input-group mb-3">
+                        <div class="input-group mb-3 ">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="materialSpan">食材</span>
+                                <span class="input-group-text" id="materialSpan">名称</span>
                             </div>
-                            <input class="form-control" id="material" aria-describedby="modal-bodycustom-addon4">
+                            <div class="form-control el_dish_content" style="padding: 0;position: relative;cursor: pointer;">
+                                <input class=" el_dish_search" style="width: 100%;" id="material" aria-describedby="modal-bodycustom-addon4">
+                                <div class="el_dish_food" id="materialDishFood" style="position:absolute; z-index: 1;background-color: #fff;width: 100%; max-height: 500px; overflow-y: auto;" >
+
+                                </div>
+                            </div>
+                            
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="quantitySpan">下单</span>
                             </div>
-                            <input type="number" class="form-control" value="0" id=""
+                            <input type="number" class="form-control" value="0" id="add_meal_order"
                             aria-describedby="modal-bodycustom-addon2" />
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="unitSpan">单位</span>
                             </div>
-                            <select class="form-control" id="unit" aria-describedby="modal-bodycustom-addon4">
+                            <select class="form-control" id="add_meal_unit" aria-describedby="modal-bodycustom-addon4">
                             </select>
                         </div>
                     </div>
