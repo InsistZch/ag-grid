@@ -19,11 +19,18 @@ const getContextMenuItems = (e, gridOptions) => {
                         cancel: ["#add_meal_cancel1", "#add_meal_cancel2"],
                         sure: "#add_meal_sure",
                         initFun(_parent) {
-                            console.log(e)
                             let material = _parent.querySelector('#material')
                             let quantity = _parent.querySelector('#quantity')
                             let unit = _parent.querySelector('#unit')
-                            
+
+                            index.material_item.forEach(v => {
+                                const material_item_name = [] 
+                                material_item_name.push(v.name.split("-")[0])
+                                console.log(material_item_name)
+                            })
+                            material.onchange = () => {
+                                console.log(material.value)
+                            }
                         },
                         sureFun(_parent) {
                             const material = _parent.querySelector('#material')
