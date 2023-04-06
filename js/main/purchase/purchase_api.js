@@ -22,9 +22,9 @@ const getContextMenuItems = (e, gridOptions) => {
                             console.log(e)
                             let material = _parent.querySelector('#material')
                             index.material_item.forEach(v => {
-                                material.innerHTML += v.name == e.node.data['material'] ?
-                                    `<option value="${v.id}" selected>${v.name}</option>` :
-                                    `<option value="${v.id}">${v.name}</option>`
+                                // material.innerHTML += v.name == e.node.data['material'] ?
+                                //     `<option value="${v.id}" selected>${v.name.split("-")[0]}</option>` :
+                                //     `<option value="${v.id}">${v.name.split("-")[0]}</option>`
                             })
 
                         },
