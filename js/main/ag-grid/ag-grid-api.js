@@ -848,7 +848,7 @@ const onCellValueChanged = async (e, gridOptions) => {
         //     rowNode.setDataValue('whole', v.data.whole)
         // })
     } else if (e.colDef.headerName == "成本价") {
-
+        
     }
     // console.log(e.data)
     // console.log(new Date() * 1 - newDate)

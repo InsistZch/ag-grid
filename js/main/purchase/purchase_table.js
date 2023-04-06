@@ -65,7 +65,7 @@ const gridOptions = (agOption) => {
         //     position: 'top',
         //     defaultToolPanel: 'columns',
         // },
-        getContextMenuItems: (e) => getContextMenuItems(e),
+        getContextMenuItems: (e) => getContextMenuItems(e,obj),
         onCellValueChanged: (e) => onCellValueChanged(e,obj),
         groupDisplayType: 'groupRows',
         groupDefaultExpanded: -1,

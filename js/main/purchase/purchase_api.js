@@ -1,7 +1,7 @@
 /** @odoo-module **/
 const getRowId = (params) => params.data.id;
 
-const getContextMenuItems = (params) => {
+const getContextMenuItems = (params,gridOptions ) => {
     if (params.node.data == undefined) return
 
     // console.log(params.column.colId)
@@ -10,7 +10,12 @@ const getContextMenuItems = (params) => {
             name: '添加食材',
         },
         {
-            name: '删除食材'
+            name: '删除食材',
+            action: () => {
+                console.log("删除食材")
+                const selRows = gridOptions.api.getRowNode(params.node.id)
+                gridOptions.api.applyTransaction({ remove: [selRows] });
+            }
         }
     ]
     return result
