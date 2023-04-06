@@ -1,19 +1,25 @@
+import refreshWholeCol from "../otherApi/refreshWholeCol.js";
+
 /** @odoo-module **/
 const getRowId = (params) => params.data.id;
 
-const getContextMenuItems = (params,gridOptions ) => {
-    if (params.node.data == undefined) return
+const getContextMenuItems = (e, gridOptions) => {
+    if (e.node.data && e.node.data == undefined) return
 
-    // console.log(params.column.colId)
+    // console.log(e.column.colId)
     const result = [
         {
             name: '添加食材',
+            action: () => {
+                console.log(e, gridOptions)
+                const data = [{}]
+                gridOptions.api.applyTransaction({ add: data, addIndex: e.node.rowIndex + 1 })
+            }
         },
         {
             name: '删除食材',
             action: () => {
-                console.log("删除食材")
-                const selRows = gridOptions.api.getRowNode(params.node.id)
+                const selRows = gridOptions.api.getRowNode(e.node.id)
                 gridOptions.api.applyTransaction({ remove: [selRows] });
             }
         }
@@ -38,10 +44,20 @@ const onCellValueChanged = (e, gridOptions) => {
     }
 }
 
+const onCellClicked = (e, gridOptions, agOption) => {
+    agOption.rowData.forEach(row => {
+        row.dish_key_id.material_item.forEach(item => {
+            if (item.name.split("-")[0] == (e.data.material)) {
+                agOption.api.setColumnDefs(refreshWholeCol.refreshWhole(e.data.material))
+            }
+        });
+    });
+}
+
 export {
-    getRowId, getContextMenuItems, onCellValueChanged
+    getRowId, getContextMenuItems, onCellValueChanged, onCellClicked
 }
 
 export default {
-    getRowId, getContextMenuItems, onCellValueChanged
+    getRowId, getContextMenuItems, onCellValueChanged, onCellClicked
 }

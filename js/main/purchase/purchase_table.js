@@ -1,13 +1,13 @@
 /** @odoo-module **/
 import col from "./purchase_col.js";
 import row from "./purchase_row.js";
-import { getRowId, getContextMenuItems, onCellValueChanged } from './purchase_api.js';
+import { getRowId, getContextMenuItems, onCellValueChanged, onCellClicked } from './purchase_api.js';
 import GroupRowInnerRenderer from './GroupRowInnerRenderer.js'
 // import CustomColumnsToolPanel from "./CustomColumnsToolPanel.js";
 // import CustomStatsToolPanel from './CustomStatsToolPanel.js'
 
 const gridOptions = (agOption) => {
-    const obj =  {
+    const obj = {
         columnDefs: col,
         rowData: row(agOption),
         enableRangeSelection: true,
@@ -65,8 +65,9 @@ const gridOptions = (agOption) => {
         //     position: 'top',
         //     defaultToolPanel: 'columns',
         // },
-        getContextMenuItems: (e) => getContextMenuItems(e,obj),
-        onCellValueChanged: (e) => onCellValueChanged(e,obj),
+        getContextMenuItems: (e) => getContextMenuItems(e, obj, agOption),
+        onCellValueChanged: (e) => onCellValueChanged(e, obj),
+        onCellClicked: (e) => onCellClicked(e, obj, agOption),
         groupDisplayType: 'groupRows',
         groupDefaultExpanded: -1,
         groupRowRendererParams: {

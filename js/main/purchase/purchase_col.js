@@ -1,4 +1,5 @@
 /** @odoo-module **/
+
 export default [
     {
         headerName: "",
@@ -8,7 +9,7 @@ export default [
     },
     {
         headerName: "食材",
-        field: "material"
+        field: "material",
     },
     {
         headerName: "需求日期",

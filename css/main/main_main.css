@@ -152,3 +152,10 @@ div.function .btn-group button:not([saveData]):hover{
     background-color: #71639e;
     color: #fff;
 }
+
+.span_value{
+    background-color: #ffd49b;
+}
+.params_value{
+    background-color: #cacaca;
+}

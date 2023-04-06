@@ -1,7 +1,7 @@
 /** @odoo-module **/
 import gridCol from '../ag-grid/ag-grid-col.js'
 export default {
-    refreshWhole: () => {
+    refreshWhole: (materialName = "") => {
         const col = gridCol()
 
         for (const col_item of col) {
@@ -32,7 +32,21 @@ export default {
                         return pre
                     }, [])
                     params.data.dish_key_id.material_item = arr
-                    return params.value
+
+
+                    if (materialName.trim() == "") {
+                        return params.value
+                    } else {
+                        console.log(params.value)
+                        params.data.dish_key_id.material_item.forEach(item => {
+                            if (item.name.split("-")[0] == (materialName)) {
+                                console.log(params.value.split(materialName))
+                                params.value = `<div class='params_value'>${params.value.split(materialName)[0] + `<span class='span_value'>${materialName}</span>` + params.value.split(materialName)[1]}<div/>`
+                            }
+                        })
+                        return params.value
+                    }
+
                 }
             }
         }
