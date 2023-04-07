@@ -1,6 +1,6 @@
 /** @odoo-module **/
 const isShowPurchaseColumns = (gridOptions) => {
-// 显示和隐藏
+    // 显示和隐藏
 
     let cols = gridOptions.columnApi.getColumnState()
     const createLabels = document.querySelectorAll(".el_columns_item")
@@ -18,11 +18,8 @@ const isShowPurchaseColumns = (gridOptions) => {
         createLabel.onclick = function (e) {
             e.stopPropagation()
             cols = gridOptions.columnApi.getColumnState()
-            
             if (e.pointerType == "") return
-
             const inp = this.querySelector('input')
-
             cols.forEach((col) => {
                 if (inp.id === col.colId) {
                     gridOptions.columnApi.applyColumnState({
@@ -33,6 +30,7 @@ const isShowPurchaseColumns = (gridOptions) => {
                             }
                         ]
                     });
+                    String(e.target) == "[object HTMLDivElement]" && (inp.checked = !inp.checked)
                 }
             });
         }
