@@ -105,10 +105,10 @@ div.function .btn-group button:not([saveData]):hover{
 }
 
 .agGridLeft{
-    width: 35%;
+    width: 50%;
 }
 .agGridRight{
-    width: 65%;
+    width: 50%;
 }
 
 .createDish {
