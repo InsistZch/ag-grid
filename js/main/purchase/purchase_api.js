@@ -1,3 +1,5 @@
+/** @odoo-module **/
+
 import refreshWholeCol from "../otherApi/refreshWholeCol.js";
 import { customFrom as customFromDom } from './../otherApi/index.js'
 import index from '../../../data/index.js'
