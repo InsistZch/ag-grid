@@ -29,7 +29,7 @@ const dom = async ({parent,cancel,sure,deleteData,cancelFun = () => {},sureFun =
         const _cancel_item = _parent.querySelector(cancel_item)
         _cancel_item.onclick = () => {
             cancelFun()
-            // deldata()
+            deldata()
             _parent.style.display = 'none'
         }
     }

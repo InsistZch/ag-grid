@@ -16,7 +16,7 @@ const getContextMenuItems = (e, gridOptions) => {
                     let addMaterialObj = {}
                     customFromDom({
                         parent: "#add_meal",
-                        deleteData: ["#add_meal_category"],
+                        deleteData: [],
                         cancel: ["#add_meal_cancel1", "#add_meal_cancel2"],
                         sure: "#add_meal_sure",
                         initFun(_parent) {
@@ -137,6 +137,7 @@ const onCellClicked = (e, gridOptions, agOption) => {
         row.dish_key_id.material_item.forEach(item => {
             if (item.name.split("-")[0] == (e.data.material)) {
                 agOption.api.setColumnDefs(refreshWholeCol.refreshWhole(e.data.material))
+                agOption.api.clearRangeSelection()
             }
         });
     });
