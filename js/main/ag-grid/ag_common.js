@@ -12,7 +12,6 @@ import mealcopies from './special_fast_data.js'
 
 // 处理数据改变后 份数，成本，头部成本比例
 const changedValuetoData = async (e, gridOptions) => {
-    console.log(gridOptions)
     const rowNode = await gridOptions.api.getRowNode(e.data.id)
     // console.log(e.data.type, e.data.Copies)    
     await rowNode.setData(e.data)

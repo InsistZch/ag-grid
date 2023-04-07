@@ -479,6 +479,7 @@ const onCellValueChanged = async (e, gridOptions) => {
                                 const customPhaseValue = customPhase.querySelector(`option[value="${customPhase.value}"]`).innerText
                                 let name = `${customName.value}-${customFrom.value}-${customPhaseValue}`
                                 const customPrice = _parent.querySelector('#customPrice')
+                                const topCategory = _parent.querySelector('#topCategory')
                                 let m_id = add_material_id()
                                 let r_id = add_material_item_bom_unit_ratio_id()
                                 index.material_item_bom_unit_ratio.push({
@@ -496,8 +497,10 @@ const onCellValueChanged = async (e, gridOptions) => {
                                     phase: customPhase.value,
                                     main_price: customPrice.value,
                                     main_unit_id: customCompany.value,
+                                    // top_category_id:2,
                                     material_price_alert: Number(customPrice.value) + 3,
                                     repeat_tag: true,
+                                    top_category_id:topCategory.value,
                                 }
                                 // 记载数据
                                 // console.log(obj1)
@@ -556,6 +559,7 @@ const onCellValueChanged = async (e, gridOptions) => {
                             },
                             initFun: (_parent) => {
                                 const customPrice = _parent.querySelector('#customPrice')
+                                const topCategory = _parent.querySelector('#topCategory')
                                 const limitNumber = () => {
                                     if (isNaN(customPrice.value) || Number(customPrice.value) < 1) {
                                         customPrice.value = 1
@@ -563,6 +567,11 @@ const onCellValueChanged = async (e, gridOptions) => {
                                 }
                                 customPrice.onkeydown = () => limitNumber()
                                 customPrice.onwheel = () => limitNumber()
+                                index.material_top_category.forEach(v => {
+                                    topCategory.innerHTML += v.id == 1 ?
+                                        `<option value="${v.id}" selected>${v.name}</option>` :
+                                        `<option value="${v.id}">${v.name}</option>`
+                                })
                             }
                         })
                     } else {
@@ -906,6 +915,7 @@ const getContextMenuItems = (params, gridOptions) => {
                             specialMeal.Catering[params.node.data.dinner_type]++
 
                         }
+
                         data[0]['dish_key_id'] = {
                             dish_top_category_id: MealCategory.value,
                             material_item: []
