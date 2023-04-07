@@ -22,8 +22,12 @@ const getContextMenuItems = (e, gridOptions) => {
                         initFun(_parent) {
                             const material = _parent.querySelector("#material")
                             const materialDishFood = _parent.querySelector('#materialDishFood')
+                            const add_meal_order = _parent.querySelector('#add_meal_order')
                             const add_meal_unit = _parent.querySelector('#add_meal_unit')
-                            
+                            material.value = ""
+                            materialDishFood.innerHTML = ""
+                            add_meal_unit.innerHTML = ""
+                            add_meal_order.value = 0
                             material.onkeyup = () => {
                                 if(material.value.trim() == ""){
                                     materialDishFood.innerHTML = ""
