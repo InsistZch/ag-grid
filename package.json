@@ -4,6 +4,7 @@
     "ag-charts-community": "^7.0.0",
     "ag-grid-community": "^29.0.0",
     "ag-grid-enterprise": "^29.0.0",
-    "bootstrap": "^5.2.3"
+    "bootstrap": "^5.2.3",
+    "moment": "^2.29.4"
   }
 }

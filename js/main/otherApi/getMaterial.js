@@ -52,7 +52,8 @@ const getCountMaterial = (agOption) => {
                     main_unit_id: item.main_unit_id,
                     name: item.name,
                     material_price_alert: Number(item.material_price_alert.toFixed(1)),
-                    top_category_id: item.top_category_id
+                    top_category_id: item.top_category_id,
+                    plan_day_purchase_ahead_days: item.plan_day_purchase_ahead_days.split('-')[1]
                 })
             }
         }

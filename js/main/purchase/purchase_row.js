@@ -1,6 +1,7 @@
 /** @odoo-module **/
 import { getCountMaterial } from "../otherApi/getMaterial.js"
 import index from './../../../data/index.js'
+import moment from './../../../node_modules/moment/dist/moment.js'
 
 
 const row = (agOption) => {
@@ -12,7 +13,7 @@ const row = (agOption) => {
         const unitName = index.material_purchase_unit_category.find(e => e.id == v.main_unit_id)
         let obj = {
             material: v.name.split('-')[0],
-            demandDate: "3-23",
+            demandDate: moment().add(v.plan_day_purchase_ahead_days,'days').format("MM-DD"),
             quantity: v.dish_qty,
             stock: 1000,
             standardPrice: v.main_price,
@@ -20,7 +21,7 @@ const row = (agOption) => {
             shouldOrder: v.dish_qty,
             today: "",
             Order: Number(v.dish_qty).toFixed(1),
-            deliveryDate: "3-25",
+            deliveryDate: moment().format("MM-DD"),
             tomorrow: "",
             thirdDay: "",
             unit: unitName.name,
@@ -28,6 +29,9 @@ const row = (agOption) => {
             remarks: "",
             id: i,
             category_name: name
+        }
+        if(v.plan_day_purchase_ahead_days != 2){
+            obj.Order = 0
         }
         rowData.push(obj)
     })
