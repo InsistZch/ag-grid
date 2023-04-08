@@ -1,16 +1,19 @@
 /** @odoo-module **/
 import gridCol from '../ag-grid/ag-grid-col.js'
 export default {
-    refreshWhole: (materialName = "", agOption) => {      
+    refreshWhole: (materialName = "", agOption) => {
+
+        let cols = agOption.columnApi.getColumnState();
+        console.log(cols)
+
         const col = agOption.columnDefs
         console.log(col)
         for (const col_item of col) {
-            if (!isNaN(col_item["field"])){
+            if (!isNaN(col_item["field"])) {
                 col_item['hide'] = true
             }
             if (col_item['field'] == "whole") {
                 col_item['hide'] = false
-                col_item['pinned'] = null
                 col_item['cellRenderer'] = (params) => {
                     if (params.data.configure || !params.data.fixed) return params.value
                     if (params.value == undefined || params.data.whole.trim() == "" || params.data.dish_key_id.material_item == []) {
@@ -52,12 +55,33 @@ export default {
 
                 }
             }
+
             if (col_item['field'] == "Copies") {
                 col_item['hide'] = false
                 col_item['pinned'] = null
             }
+
+            if (col_item['field'] == "note") {
+
+                cols.forEach((c) => {
+                    if (c.colId == 'note') {
+                        col_item['hide'] = c.hide
+                    }
+                })
+
+            }
+
+            if (col_item['field'] == "save") {
+                cols.forEach((c) => {
+                    if (c.colId == 'save' && c.hide == false) {
+                        col_item['hide'] = c.hide
+                    }
+                })
+
+            }
         }
         return col
     },
-    original: () => gridCol()
+    original: (agOption) => {
+        isShowColumns.init_select(agOption)}
 }

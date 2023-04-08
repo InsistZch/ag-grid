@@ -46,7 +46,15 @@ document.addEventListener("DOMContentLoaded", function () {
     // 一个单位食材为斤
     main_index.otherApi.purchasePrice('#purchase_price_btn', () => getMaterial(agOption))
 
+    
+    //控制列显示与隐藏
+    const isShowColumns = new main_index.otherApi.isShowColumns()
+    isShowColumns.init_select(agOption)
+    isShowColumns.change_select(agOption)
+    isShowColumns.menu_select(agOption)
+
     main_index.otherApi.purchase(["#purchase", "#purchase_ruturn"], () => {
+
         document.querySelector('#myGrid').classList.toggle("agGridLeft")
         const eDiv = document.querySelector('#myGrid2');
         const isShow = eDiv.classList.toggle("agGridRight")
@@ -68,6 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
         agOption.api.sizeColumnsToFit();
 
         if (isShow) {
+
             const purchaseOption = purchase_table(agOption)
             eDiv.innerHTML = ""
 
@@ -86,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
             })
 
         } else {
-            agOption.api.setColumnDefs(refreshWholeCol.original());
+            isShowColumns.init_select(agOption)
 
             agInitButton.forEach((agButton) => {
                 agButton.style.display = 'flex'
@@ -96,9 +105,4 @@ document.addEventListener("DOMContentLoaded", function () {
             })
         }
     })
-    //控制列显示与隐藏
-    const isShowColumns = new main_index.otherApi.isShowColumns()
-    isShowColumns.init_select(agOption)
-    isShowColumns.change_select(agOption)
-    isShowColumns.menu_select(agOption)
 });
