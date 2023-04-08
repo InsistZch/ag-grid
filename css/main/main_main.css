@@ -16,7 +16,26 @@ main.main div.content {
     position: relative;
 }
 
-div.ag_main span.date{
+.the_alert {
+    position: absolute;
+    left: 600px;
+    right: 600px;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+.date_alert {
+    display: none;
+    height: 50px;
+    line-height: 50px;
+    margin-bottom: 0 !important;
+    --bs-alert-padding-y: 0 !important;
+    --bs-alert-padding-x: 2rem !important;
+    font-size: 13px;
+}
+
+div.ag_main span.date {
     font-size: 1.3rem;
     position: absolute;
     top: 50%;
@@ -24,7 +43,8 @@ div.ag_main span.date{
     transform: translate(-50%, -50%);
 }
 
-.ag_init_button , .ag_purchase_button{
+.ag_init_button,
+.ag_purchase_button {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -33,47 +53,52 @@ div.ag_main span.date{
     position: relative;
 }
 
-.ag_purchase_button{
+.ag_purchase_button {
     display: none;
 }
 
-.ag-button , .purchase_button{
+.ag-button,
+.purchase_button {
     height: max-content;
     display: flex;
     align-items: center;
     padding: .5rem 0;
     padding-left: 10px;
-    
+
 }
 
-.ag_purchase_button{
+.ag_purchase_button {
     justify-content: flex-end;
 }
 
-div.function{
+div.function {
     margin-left: 20px;
     display: flex;
     align-items: center;
 }
-div.function .btn-group{
+
+div.function .btn-group {
     margin-right: 1rem;
     font-size: .7rem;
 }
-div.function .btn-group button{
+
+div.function .btn-group button {
     width: max-content;
     height: max-content;
     padding: .1rem .3rem;
 }
-div.function .btn-group button:not([saveData]){  
+
+div.function .btn-group button:not([saveData]) {
     border-color: #71639e;
     color: #71639e;
 }
-div.function .btn-group button:not([saveData]):hover{
+
+div.function .btn-group button:not([saveData]):hover {
     color: #f8f9fa;
     background-color: #71639e;
 }
 
-.ag-button .form-check .form-check-input:checked{
+.ag-button .form-check .form-check-input:checked {
     background-color: #71639e;
     border-color: #71639e;
 }
@@ -88,26 +113,28 @@ div.function .btn-group button:not([saveData]):hover{
     --ag-cell-horizontal-padding: 2px;
 }
 
-.el_columns_item{
+.el_columns_item {
     display: block;
     margin-left: 0.5rem;
 }
 
-.el_columns_item:first-child{
+.el_columns_item:first-child {
     margin-top: 0.5rem;
 }
 
-.myGrid{
+.myGrid {
     width: 100%;
 }
-.myGrid2{
+
+.myGrid2 {
     width: 0%;
 }
 
-.agGridLeft{
+.agGridLeft {
     width: 50%;
 }
-.agGridRight{
+
+.agGridRight {
     width: 50%;
 }
 
@@ -119,28 +146,30 @@ div.function .btn-group button:not([saveData]):hover{
     cursor: pointer;
 }
 
-.show-cell{
+.show-cell {
     background-color: #fff;
     border: 1px solid #eee !important;
 }
 
-#add_remarks .list-group-item .input-group>.form-control, .input-group>.form-floating, .input-group>.form-select {
+#add_remarks .list-group-item .input-group>.form-control,
+.input-group>.form-floating,
+.input-group>.form-select {
     flex: none !important;
     width: 90%;
     margin-left: 10px;
 }
 
-#add_remarks #add_remarks_category .list-group-item{
+#add_remarks #add_remarks_category .list-group-item {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
 }
 
-#add_remarks #add_remarks_category .list-group-item .input-group{
+#add_remarks #add_remarks_category .list-group-item .input-group {
     width: 85% !important;
 }
 
-#add_remarks #add_remarks_button{
+#add_remarks #add_remarks_button {
     display: block;
     width: 70%;
     margin: 0 auto;
@@ -148,14 +177,16 @@ div.function .btn-group button:not([saveData]):hover{
     border-color: #71639e;
     color: #71639e;
 }
-#add_remarks #add_remarks_button:hover{
+
+#add_remarks #add_remarks_button:hover {
     background-color: #71639e;
     color: #fff;
 }
 
-.span_value{
+.span_value {
     background-color: #ffd49b;
 }
-.params_value{
+
+.params_value {
     background-color: #cacaca;
 }

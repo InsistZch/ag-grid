@@ -77,6 +77,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (isShow) {
 
+            // <span class="date">2023-2-17 日计划</span>
+            const dateSpan = document.querySelector('.date')
+            const dateAlert = document.querySelector('.date_alert')
+
+            const date = dateSpan.innerHTML.split(" ")[0].split('-')
+
+            var d = new Date(...date);
+            var nowD = new Date();
+            if(d - nowD < 0){
+                dateAlert.style.display = 'block'
+
+                setTimeout(()=>{
+                    dateAlert.style.display = 'none'
+                },2000)
+            }
+
             const purchaseOption = purchase_table(agOption)
             eDiv.innerHTML = ""
 

@@ -137,7 +137,6 @@
                         </div>
                     </div>
                     <span class="date">2023-2-17 日计划</span>
-
                     <div class="function">
                         <div class="btn-group" role="group">
                             <button type="button" class="btn btn-outline-primary">菜品榜</button>
@@ -156,6 +155,9 @@
                             <button type="button" class="btn btn-outline-primary">领料</button>
                         </div>
                     </div>
+                </div>
+                <div class="the_alert">
+                    <div class="date_alert alert alert-warning" role="alert">只能对今天和今天之后的日菜单下达采购单</div>
                 </div>
                 <div class="ag_purchase_button">
                     <div class="ag-button">
@@ -295,7 +297,7 @@
                 </div>
             </div>
         </div>
-        <div id="material_modal" class="modalcustom" >
+        <div id="material_modal" class="modalcustom">
 
             <div class="modal-contentcustom" style="height: 100%;">
 
@@ -329,7 +331,7 @@
                             <option value="其他">其他</option>
                         </select>
                     </div>
-                    <div class="input-group mb-3" >
+                    <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="modal-bodycustom-addon33">食材类别</span>
                         </div>
@@ -346,7 +348,7 @@
                             <span class="input-group-text" id="modal-bodycustom-addon33">食材分类</span>
                         </div>
                         <select class="form-control" id="topCategory" aria-describedby="modal-bodycustom-addon33">
-                            
+
                         </select>
                     </div>
                     <div class="input-group mb-3">
@@ -570,20 +572,23 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="materialSpan">名称</span>
                             </div>
-                            <div class="form-control el_dish_content" style="padding: 0;position: relative;cursor: pointer;">
-                                <input class=" el_dish_search" style="width: 100%;height: 100%;" id="material" aria-describedby="modal-bodycustom-addon4">
-                                <div class="el_dish_food" id="materialDishFood" style="position:absolute; z-index: 1;background-color: #fff;width: 100%; max-height: 500px; overflow-y: auto;" >
+                            <div class="form-control el_dish_content"
+                                style="padding: 0;position: relative;cursor: pointer;">
+                                <input class=" el_dish_search" style="width: 100%;height: 100%;" id="material"
+                                    aria-describedby="modal-bodycustom-addon4">
+                                <div class="el_dish_food" id="materialDishFood"
+                                    style="position:absolute; z-index: 1;background-color: #fff;width: 100%; max-height: 500px; overflow-y: auto;">
 
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="quantitySpan">下单</span>
                             </div>
                             <input type="number" class="form-control" value="0" id="add_meal_order"
-                            aria-describedby="modal-bodycustom-addon2" />
+                                aria-describedby="modal-bodycustom-addon2" />
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">

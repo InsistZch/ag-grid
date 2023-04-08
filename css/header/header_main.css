@@ -3,5 +3,6 @@ header.header{
     width: 100%;
     background-color: #71639e;
     display: flex;
+    position: relative;
     justify-content: space-between;
 }
