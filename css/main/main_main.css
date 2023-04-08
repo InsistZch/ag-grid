@@ -17,22 +17,13 @@ main.main div.content {
 }
 
 .the_alert {
-    position: absolute;
-    left: 600px;
-    right: 600px;
-    top: 0;
-    bottom: 0;
-    z-index: 1;
-}
-
-.date_alert {
     display: none;
-    height: 50px;
-    line-height: 50px;
-    margin-bottom: 0 !important;
-    --bs-alert-padding-y: 0 !important;
-    --bs-alert-padding-x: 2rem !important;
-    font-size: 13px;
+    position: absolute;
+    left: 400px;
+    right: 400px;
+    top: 0;
+    bottom: 0px;
+    z-index: 999;
 }
 
 div.ag_main span.date {

@@ -93,8 +93,7 @@ export default {
                 hide: !isShowColumns[inp].checked
             })
         }
-        console.log(arr)
-
+        
         agOption.columnApi.applyColumnState({
             state: [...arr]
         })

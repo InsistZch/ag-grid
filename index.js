@@ -46,79 +46,91 @@ document.addEventListener("DOMContentLoaded", function () {
     // 一个单位食材为斤
     main_index.otherApi.purchasePrice('#purchase_price_btn', () => getMaterial(agOption))
 
-    
+    main_index.otherApi.purchase(["#purchase", "#purchase_ruturn"], () => {
+        // 时间警告
+        const dateSpan = document.querySelector('.date')
+        const theAlert = document.querySelector('.the_alert')
+        const date = dateSpan.innerHTML.split(" ")[0].split('-')
+
+        var d = new Date(...date);
+        var nowD = new Date();
+        if (d - nowD < 0) {
+            theAlert.style.display = 'block'
+
+            const alert = (message, type) => {
+                const div = document.createElement('div')
+                div.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+                theAlert.innerHTML = '';
+                theAlert.append(div)
+            }
+
+            alert('只能对今天和今天之后的日菜单下达采购单!', 'warning')
+
+            const timer = setTimeout(() => {
+                theAlert.style.display = 'none'
+            }, 2000)
+
+            // 清空定时器
+            for (let i = 1; i < timer; i++) {
+                clearInterval(i);
+            }
+        } else {
+            document.querySelector('#myGrid').classList.toggle("agGridLeft")
+            const eDiv = document.querySelector('#myGrid2');
+            let isShow = eDiv.classList.toggle("agGridRight")
+            const agInitButton = document.querySelectorAll('.ag_init_button');
+            const agPurchaseButton = document.querySelectorAll('.ag_purchase_button');
+            // console.log(isShow)  
+            const col_cus = agOption.columnDefs.reduce((pre, v) => {
+                if (!isNaN(v.field)) {
+                    pre.push({
+                        colId: v.field,
+                        hide: isShow,
+                    })
+                }
+                return pre
+            }, [])
+            agOption.columnApi.applyColumnState({
+                state: [...col_cus]
+            })
+            agOption.api.sizeColumnsToFit();
+
+            if (isShow) {
+                const purchaseOption = purchase_table(agOption)
+                eDiv.innerHTML = ""
+
+                resetPurchaseData.purchase_init(purchaseOption)
+                new agGrid.Grid(eDiv, purchaseOption);
+                isShowPurchaseColumns(purchaseOption)
+                // purchaseOption.api.sizeColumnsToFit();
+                // console.log(agOption)
+                agOption.api.setColumnDefs(refreshWholeCol.refreshWhole('', agOption));
+                agOption.api.sizeColumnsToFit()
+                agInitButton.forEach((agButton) => {
+                    agButton.style.display = 'none'
+                })
+                agPurchaseButton.forEach((agButton) => {
+                    agButton.style.display = 'flex'
+                })
+
+            } else {
+                refreshWholeCol.original(isShowColumns, agOption)
+
+                agInitButton.forEach((agButton) => {
+                    agButton.style.display = 'flex'
+                })
+                agPurchaseButton.forEach((agButton) => {
+                    agButton.style.display = 'none'
+                })
+            }
+
+        }
+
+    })
+
     //控制列显示与隐藏
     const isShowColumns = new main_index.otherApi.isShowColumns()
     isShowColumns.init_select(agOption)
     isShowColumns.change_select(agOption)
     isShowColumns.menu_select(agOption)
-
-    main_index.otherApi.purchase(["#purchase", "#purchase_ruturn"], () => {
-
-        document.querySelector('#myGrid').classList.toggle("agGridLeft")
-        const eDiv = document.querySelector('#myGrid2');
-        const isShow = eDiv.classList.toggle("agGridRight")
-        const agInitButton = document.querySelectorAll('.ag_init_button');
-        const agPurchaseButton = document.querySelectorAll('.ag_purchase_button');
-        // console.log(isShow)  
-        const col_cus = agOption.columnDefs.reduce((pre, v) => {
-            if (!isNaN(v.field)) {
-                pre.push({
-                    colId: v.field,
-                    hide: isShow,
-                })
-            }
-            return pre
-        }, [])
-        agOption.columnApi.applyColumnState({
-            state: [...col_cus]
-        })
-        agOption.api.sizeColumnsToFit();
-
-        if (isShow) {
-
-            // <span class="date">2023-2-17 日计划</span>
-            const dateSpan = document.querySelector('.date')
-            const dateAlert = document.querySelector('.date_alert')
-
-            const date = dateSpan.innerHTML.split(" ")[0].split('-')
-
-            var d = new Date(...date);
-            var nowD = new Date();
-            if(d - nowD < 0){
-                dateAlert.style.display = 'block'
-
-                setTimeout(()=>{
-                    dateAlert.style.display = 'none'
-                },2000)
-            }
-
-            const purchaseOption = purchase_table(agOption)
-            eDiv.innerHTML = ""
-
-            resetPurchaseData.purchase_init(purchaseOption)
-            new agGrid.Grid(eDiv, purchaseOption);
-            isShowPurchaseColumns(purchaseOption)
-            // purchaseOption.api.sizeColumnsToFit();
-            // console.log(agOption)
-            agOption.api.setColumnDefs(refreshWholeCol.refreshWhole('',agOption));
-            agOption.api.sizeColumnsToFit()
-            agInitButton.forEach((agButton) => {
-                agButton.style.display = 'none'
-            })
-            agPurchaseButton.forEach((agButton) => {
-                agButton.style.display = 'flex'
-            })
-
-        } else {
-            refreshWholeCol.original(isShowColumns,agOption)
-
-            agInitButton.forEach((agButton) => {
-                agButton.style.display = 'flex'
-            })
-            agPurchaseButton.forEach((agButton) => {
-                agButton.style.display = 'none'
-            })
-        }
-    })
 });
