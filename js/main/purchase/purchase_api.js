@@ -140,7 +140,7 @@ const onCellClicked = (e, gridOptions, agOption) => {
     agOption.rowData.forEach(row => {
         row.dish_key_id.material_item.forEach(item => {
             if (item.name.split("-")[0] == (e.data.material)) {
-                agOption.api.setColumnDefs(refreshWholeCol.refreshWhole(e.data.material))
+                agOption.api.setColumnDefs(refreshWholeCol.refreshWhole(e.data.material,agOption))
                 agOption.api.clearRangeSelection()
             }
         });

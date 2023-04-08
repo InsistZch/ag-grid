@@ -68,19 +68,16 @@ document.addEventListener("DOMContentLoaded", function () {
         agOption.api.sizeColumnsToFit();
 
         if (isShow) {
-            console.log(agOption)
             const purchaseOption = purchase_table(agOption)
-            console.log(purchaseOption)
             eDiv.innerHTML = ""
-            
+
             resetPurchaseData.purchase_init(purchaseOption)
             new agGrid.Grid(eDiv, purchaseOption);
             isShowPurchaseColumns(purchaseOption)
             // purchaseOption.api.sizeColumnsToFit();
             // console.log(agOption)
-            agOption.api.setColumnDefs(refreshWholeCol.refreshWhole());
-            purchaseOption.api.sizeColumnsToFit();
-
+            agOption.api.setColumnDefs(refreshWholeCol.refreshWhole('',agOption));
+            agOption.api.sizeColumnsToFit()
             agInitButton.forEach((agButton) => {
                 agButton.style.display = 'none'
             })

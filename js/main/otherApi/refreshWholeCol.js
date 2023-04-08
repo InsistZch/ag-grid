@@ -1,11 +1,16 @@
 /** @odoo-module **/
 import gridCol from '../ag-grid/ag-grid-col.js'
 export default {
-    refreshWhole: (materialName = "") => {
-        const col = gridCol()
-
+    refreshWhole: (materialName = "", agOption) => {      
+        const col = agOption.columnDefs
+        console.log(col)
         for (const col_item of col) {
+            if (!isNaN(col_item["field"])){
+                col_item['hide'] = true
+            }
             if (col_item['field'] == "whole") {
+                col_item['hide'] = false
+                col_item['pinned'] = null
                 col_item['cellRenderer'] = (params) => {
                     if (params.data.configure || !params.data.fixed) return params.value
                     if (params.value == undefined || params.data.whole.trim() == "" || params.data.dish_key_id.material_item == []) {
@@ -46,6 +51,10 @@ export default {
                     }
 
                 }
+            }
+            if (col_item['field'] == "Copies") {
+                col_item['hide'] = false
+                col_item['pinned'] = null
             }
         }
         return col
