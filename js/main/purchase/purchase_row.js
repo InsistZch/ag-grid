@@ -1,7 +1,7 @@
 /** @odoo-module **/
 import { getCountMaterial } from "../otherApi/getMaterial.js"
 import index from './../../../data/index.js'
-import moment from './../../../node_modules/moment/dist/moment.js'
+// import moment from './../../../node_modules/moment/dist/moment.js'
 
 
 const row = (agOption) => {
