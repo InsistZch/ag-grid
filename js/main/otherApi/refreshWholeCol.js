@@ -82,6 +82,22 @@ export default {
         }
         return col
     },
-    original: (agOption) => {
-        isShowColumns.init_select(agOption)}
+    original: (isShowColumns, agOption) => {
+        console.log(isShowColumns)
+        const arr = []
+
+        for (const inp in isShowColumns) {
+            console.log(isShowColumns[inp])
+            arr.push({
+                colId: inp,
+                hide: !isShowColumns[inp].checked
+            })
+        }
+        console.log(arr)
+
+        agOption.columnApi.applyColumnState({
+            state: [...arr]
+        })
+
+    }
 }

@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
             })
 
         } else {
-            isShowColumns.init_select(agOption)
+            refreshWholeCol.original(isShowColumns,agOption)
 
             agInitButton.forEach((agButton) => {
                 agButton.style.display = 'flex'
