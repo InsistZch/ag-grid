@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const dateSpan = document.querySelector('.date')
         const theAlert = document.querySelector('.the_alert')
         const date = dateSpan.innerHTML.split(" ")[0].split('-')
-
+        console.log(dateSpan)
         var d = new Date(...date);
         var nowD = new Date();
         if (d - nowD < 0) {
@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 agButton.style.display = 'none'
                 initFunction.style.display = 'none'
-                date.className='purchase_date'
+                date.id = 'purchase_date'
 
                 agPurchaseButton.forEach((agButton) => {
                     agButton.style.display = 'flex'
@@ -117,9 +117,10 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
                 refreshWholeCol.original(isShowColumns, agOption)
 
-                agInitButton.forEach((agButton) => {
-                    agButton.style.display = 'flex'
-                })
+                agButton.style.display = 'flex'
+                initFunction.style.display = 'flex'
+                date.id = ''
+
                 agPurchaseButton.forEach((agButton) => {
                     agButton.style.display = 'none'
                 })
