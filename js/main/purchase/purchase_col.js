@@ -53,8 +53,8 @@ export default [
         hide: true
     },
     {
-        headerName: "今天",
-        field: "today",
+        headerName: "明天",
+        field: "tomorrow",
         hide: true
     },
     {
@@ -66,11 +66,6 @@ export default [
     {
         headerName: "送货日期",
         field: "deliveryDate",
-        hide: true
-    },
-    {
-        headerName: "明天",
-        field: "tomorrow",
         hide: true
     },
     {
