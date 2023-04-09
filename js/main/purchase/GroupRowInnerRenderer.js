@@ -14,7 +14,6 @@ class GroupRowInnerRenderer{
 
         btnOrder.onclick = () => {
             const arr = params.node.allLeafChildren.map(v => v.data)
-            console.log(arr)
         }
 
         span.innerHTML = `<span style="font-weight: 600;">${params.value}</span>`

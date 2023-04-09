@@ -14,8 +14,6 @@ const row = (agOption) => {
 
     const date = new Date()
     const nowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
-
-
     d.forEach((v, i) => {
         const { name } = (index.material_top_category.find(e => e.id == v.top_category_id))
         const unitName = index.material_purchase_unit_category.find(e => e.id == v.main_unit_id)
@@ -24,6 +22,7 @@ const row = (agOption) => {
         const theOrderDate = `${orderDate.getMonth() < 10 ? `0${orderDate.getMonth()}` : orderDate.getMonth()}-${orderDate.getDate() < 10 ? `0${orderDate.getDate()}` : orderDate.getDate()}`
         // console.log(orderDate.getMonth(), orderDate.getDate())
 
+        console.log(v.purchase_freq_id)
         let obj = {
             material: v.name.split('-')[0],
             creationDate: nowDate,
@@ -44,7 +43,8 @@ const row = (agOption) => {
             supplier: "",
             remarks: "",
             id: i,
-            category_name: name
+            category_name: name,
+            purchase_freq_id:v.purchase_freq_id
         }
         if (v.plan_day_purchase_ahead_days != 2) {
             obj.Order = 0

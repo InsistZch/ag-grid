@@ -10,6 +10,13 @@ export default [
     {
         headerName: "食材",
         field: "material",
+        cellRenderer: (params) => {
+            if (params.data.purchase_freq_id != 1) {
+                return `<div style='color:#5f5f5f;'>${params.value}</div>`
+            } else {
+                return params.value
+            }
+        }
     },
     {
         headerName: "生成日期",
