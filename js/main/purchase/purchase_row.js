@@ -22,7 +22,6 @@ const row = (agOption) => {
         const theOrderDate = `${orderDate.getMonth() < 10 ? `0${orderDate.getMonth()}` : orderDate.getMonth()}-${orderDate.getDate() < 10 ? `0${orderDate.getDate()}` : orderDate.getDate()}`
         // console.log(orderDate.getMonth(), orderDate.getDate())
 
-        console.log(v.purchase_freq_id)
         let obj = {
             material: v.name.split('-')[0],
             creationDate: nowDate,
@@ -46,7 +45,7 @@ const row = (agOption) => {
             category_name: name,
             purchase_freq_id:v.purchase_freq_id
         }
-        if (v.plan_day_purchase_ahead_days != 2) {
+        if (v.plan_day_purchase_ahead_days != -2) {
             obj.Order = 0
         }
         rowData.push(obj)

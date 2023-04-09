@@ -44,8 +44,13 @@ document.addEventListener("DOMContentLoaded", function () {
     // 主单位是斤
     // 一个食材单位为两
     // 一个单位食材为斤
+
+    
+    const isShowColumns = new main_index.otherApi.isShowColumns()
+
     main_index.otherApi.purchasePrice('#purchase_price_btn', () => getMaterial(agOption))
 
+    let purchaseOption = null
     main_index.otherApi.purchase(["#purchase", "#purchase_ruturn"], () => {
         // 时间警告
         const dateSpan = document.querySelector('.date')
@@ -68,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }, 2000)
             // 清空定时器
             for (let i = 1; i < timer; i++) {
-                clearInterval(i);
+                clearTimeout(i);
             }
         } else {
             document.querySelector('#myGrid').classList.toggle("agGridLeft")
@@ -94,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
             agOption.api.sizeColumnsToFit();
 
             if (isShow) {
-                const purchaseOption = purchase_table(agOption)
+                purchaseOption = purchase_table(agOption)
                 eDiv.innerHTML = ""
 
                 resetPurchaseData.purchase_init(purchaseOption)
@@ -113,9 +118,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     agButton.style.display = 'flex'
                 })
 
-            } else {
-                refreshWholeCol.original(isShowColumns, agOption)
+            } else {         
 
+                refreshWholeCol.original(isShowColumns, agOption)
                 agButton.style.display = 'flex'
                 initFunction.style.display = 'flex'
                 date.id = ''
@@ -123,14 +128,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 agPurchaseButton.forEach((agButton) => {
                     agButton.style.display = 'none'
                 })
+
+                const nowD = new Date()
+
+                const purchaseConsole = []
+                purchaseOption.rowData.forEach((v)=>{
+                    const t = new Date(new Date().getFullYear(), v.orderDate.split('-')[0] - 1, v.orderDate.split('-')[1])
+                    if (t - nowD >= 1) {
+                        purchaseConsole.push(v)
+                    }
+                })
+
+                console.log(purchaseConsole)
             }
-
         }
-
     })
 
     //控制列显示与隐藏
-    const isShowColumns = new main_index.otherApi.isShowColumns()
     isShowColumns.init_select(agOption)
     isShowColumns.change_select(agOption)
     isShowColumns.menu_select(agOption)

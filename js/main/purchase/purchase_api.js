@@ -1,15 +1,14 @@
 /** @odoo-module **/
 
 import refreshWholeCol from "../otherApi/refreshWholeCol.js";
-import { customFrom as customFromDom } from './../otherApi/index.js'
+import { customFrom as customFromDom, isShowColumns as newisShowColumns } from './../otherApi/index.js'
 import index from '../../../data/index.js'
 
 /** @odoo-module **/
 const getRowId = (params) => params.data.id;
 
-const getContextMenuItems = (e, gridOptions) => {
+const getContextMenuItems = (e, gridOptions, agOption) => {
     if (e.node && e.node.data == undefined) return
-
     const result = [
         {
             name: '添加食材',
@@ -90,36 +89,74 @@ const getContextMenuItems = (e, gridOptions) => {
                             const add_meal_order = _parent.querySelector('#add_meal_order')
                             const add_meal_unit = _parent.querySelector('#add_meal_unit')
                             const unitData = JSON.parse(add_meal_unit.querySelector(`option[value="${add_meal_unit.value}"]`).getAttribute('data'))
-                            console.log(unitData)
+                            // console.log(unitData)
 
                             const orderDate = new Date(new Date().getFullYear(), planDate.getMonth() + 1, planDate.getDate() + Number(unitData.plan_day_purchase_ahead_days))
                             const theOrderDate = `${orderDate.getMonth() < 10 ? `0${orderDate.getMonth()}` : orderDate.getMonth()}-${orderDate.getDate() < 10 ? `0${orderDate.getDate()}` : orderDate.getDate()}`
 
                             if (material.value.trim() == "" || addMaterialObj == {}) return true
+                            console.log(addMaterialObj)
                             const { name } = index.material_top_category.find(e => e.id == addMaterialObj.top_category_id)
-                            gridOptions.api.applyTransaction({
-                                add: [{
-                                    material: addMaterialObj.name.split('-')[0],
-                                    creationDate: nowDate,
-                                    orderDate:theOrderDate,
-                                    demandDate: demandDate,
-                                    quantity: Number(addMaterialObj.dish_qty).toFixed(1),
-                                    stock: 1000,
-                                    standardPrice: Number(addMaterialObj.main_price / unitData.main_unit_bom_unit_ratio).toFixed(1),
-                                    marketPrice: Number(addMaterialObj.material_price_alert / unitData.main_unit_bom_unit_ratio).toFixed(1),
-                                    shouldOrder: Number(addMaterialObj.dish_qty).toFixed(1),
-                                    today: "",
-                                    Order: Number(add_meal_order.value).toFixed(1),
-                                    deliveryDate: "3-25",
-                                    tomorrow: "",
-                                    thirdDay: "",
-                                    unit: add_meal_unit.value,
-                                    supplier: "",
-                                    remarks: "",
-                                    id: e.node.rowIndex + 1,
-                                    category_name: name
-                                }], addIndex: e.node.rowIndex + 1
-                            })
+                            const obj = {
+                                material: addMaterialObj.name.split('-')[0],
+                                creationDate: nowDate,
+                                orderDate: theOrderDate,
+                                demandDate: demandDate,
+                                quantity: Number(add_meal_order.value).toFixed(1),
+                                stock: 1000,
+                                // standardPrice: Number(addMaterialObj.main_price / unitData.main_unit_bom_unit_ratio).toFixed(1),
+                                // marketPrice: Number(addMaterialObj.material_price_alert / unitData.main_unit_bom_unit_ratio).toFixed(1),
+                                standardPrice: Number(addMaterialObj.main_price).toFixed(1),
+                                marketPrice:Number(addMaterialObj.material_price_alert).toFixed(1),
+                                shouldOrder: Number(add_meal_order.value).toFixed(1),
+                                today: "",
+                                Order: nowDate == theOrderDate ? Number(add_meal_order.value).toFixed(1) : 0,
+                                deliveryDate: "3-25",
+                                tomorrow: "",
+                                thirdDay: "",
+                                unit: add_meal_unit.value,
+                                supplier: "",
+                                remarks: "",
+                                id: e.node.rowIndex + 1,
+                                category_name: name
+                            }
+                            // gridOptions.api.applyTransaction({
+                            //     add: [obj], addIndex: e.node.rowIndex + 1
+                            // })
+                            gridOptions.rowData.push(obj)
+                            gridOptions.api.setRowData(gridOptions.rowData)
+                         
+                            // const purchaseReturn = document.querySelector('#purchase_ruturn')
+
+                            // const nowD = new Date()
+
+                            // purchaseReturn.onclick = () => {
+                            //     const isShowColumns = new newisShowColumns()
+
+                            //     const agButton = document.querySelector('.ag_init_button .ag-button');
+                            //     const initFunction = document.querySelector('.ag_init_button .function')
+                            //     const date = document.querySelector('.date');
+                            //     const agPurchaseButton = document.querySelectorAll('.ag_purchase_button');
+                            //     refreshWholeCol.original(isShowColumns, agOption)
+                            //     agButton.style.display = 'flex'
+                            //     initFunction.style.display = 'flex'
+                            //     date.id = ''
+                            //     agPurchaseButton.forEach((agButton) => {
+                            //         agButton.style.display = 'none'
+                            //     })
+
+                            //     gridOptions.api.forEachNode((v) => {
+                            //         if (v.data) {
+                            //             const t = new Date(new Date().getFullYear(), v.data.orderDate.split('-')[0] - 1, v.data.orderDate.split('-')[1])
+                            //             if (t - nowD >= 1) {
+                            //                 console.log(v.data)
+                            //             }
+                            //         }
+                            //     })
+                            // }
+
+
+
                             return true
                         }
                     })
@@ -180,6 +217,8 @@ const getUnitObj = (material) => {
     })
     return arr
 }
+
+
 
 export {
     getRowId, getContextMenuItems, onCellValueChanged, onCellClicked

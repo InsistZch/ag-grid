@@ -79,7 +79,7 @@ const gridOptions = (agOption) => {
         // pagination: true,
         // menuTabs: params => api.menuTabs(params),
         paginationAutoPageSize: true, //根据网页高度自动分页（前端分页）
-        getRowId,
+        getRowId
         // localeText:locale,
         // context: {},
 
