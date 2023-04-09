@@ -12,6 +12,16 @@ export default [
         field: "material",
     },
     {
+        headerName: "生成日期",
+        field: "creationDate",
+        hide: true
+    },
+    {
+        headerName: "下单日期",
+        field: "orderDate",
+        hide: true
+    },
+    {
         headerName: "需求日期",
         field: "demandDate",
         hide: true
