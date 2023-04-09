@@ -34,6 +34,14 @@ div.ag_main span.date {
     transform: translate(-50%, -50%);
 }
 
+#purchase_date{
+    font-size: 1rem;
+    position: absolute;
+    top: 10px;
+    left: 30px;
+    transform: none;
+}
+
 .ag_init_button,
 .ag_purchase_button {
     display: flex;
@@ -109,10 +117,16 @@ div.function .btn-group button:not([saveData]):hover {
     margin-left: 0.5rem;
 }
 
-.el_columns_item:first-child {
+.ag_init_button .el_columns_item:first-child {
     margin-top: 0.5rem;
 }
 
+.ag_purchase_button .el_columns_item{
+    margin: 0;
+    margin-right: 5px;
+    font-size: 12px;
+    padding-top: 3px;
+}
 .myGrid {
     width: 100%;
 }
@@ -180,4 +194,17 @@ div.function .btn-group button:not([saveData]):hover {
 
 .params_value {
     background-color: #cacaca;
+}
+
+.ag_purchase_button .function{
+    margin-left: 4px;
+}
+
+.purchase_button{
+    padding: 2px !important;
+}
+
+#purchase_ruturn{
+    height: 26px !important;
+    font-size: 12px;
 }

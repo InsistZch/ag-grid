@@ -51,25 +51,22 @@ document.addEventListener("DOMContentLoaded", function () {
         const dateSpan = document.querySelector('.date')
         const theAlert = document.querySelector('.the_alert')
         const date = dateSpan.innerHTML.split(" ")[0].split('-')
-
+        console.log(dateSpan)
         var d = new Date(...date);
         var nowD = new Date();
         if (d - nowD < 0) {
             theAlert.style.display = 'block'
-
             const alert = (message, type) => {
                 const div = document.createElement('div')
                 div.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
                 theAlert.innerHTML = '';
                 theAlert.append(div)
             }
-
             alert('只能对今天和今天之后的日菜单下达采购单!', 'warning')
 
             const timer = setTimeout(() => {
                 theAlert.style.display = 'none'
             }, 2000)
-
             // 清空定时器
             for (let i = 1; i < timer; i++) {
                 clearInterval(i);
@@ -78,7 +75,9 @@ document.addEventListener("DOMContentLoaded", function () {
             document.querySelector('#myGrid').classList.toggle("agGridLeft")
             const eDiv = document.querySelector('#myGrid2');
             let isShow = eDiv.classList.toggle("agGridRight")
-            const agInitButton = document.querySelectorAll('.ag_init_button');
+            const agButton = document.querySelector('.ag_init_button .ag-button');
+            const initFunction = document.querySelector('.ag_init_button .function');
+            const date = document.querySelector('.date');
             const agPurchaseButton = document.querySelectorAll('.ag_purchase_button');
             // console.log(isShow)  
             const col_cus = agOption.columnDefs.reduce((pre, v) => {
@@ -106,9 +105,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 // console.log(agOption)
                 agOption.api.setColumnDefs(refreshWholeCol.refreshWhole('', agOption));
                 agOption.api.sizeColumnsToFit()
-                agInitButton.forEach((agButton) => {
-                    agButton.style.display = 'none'
-                })
+
+                agButton.style.display = 'none'
+                initFunction.style.display = 'none'
+                date.id = 'purchase_date'
+
                 agPurchaseButton.forEach((agButton) => {
                     agButton.style.display = 'flex'
                 })
@@ -116,9 +117,10 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
                 refreshWholeCol.original(isShowColumns, agOption)
 
-                agInitButton.forEach((agButton) => {
-                    agButton.style.display = 'flex'
-                })
+                agButton.style.display = 'flex'
+                initFunction.style.display = 'flex'
+                date.id = ''
+
                 agPurchaseButton.forEach((agButton) => {
                     agButton.style.display = 'none'
                 })

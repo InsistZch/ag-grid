@@ -8,11 +8,17 @@ const row = (agOption) => {
     const rowData = []
     const d = getCountMaterial(agOption)
 
+    const date = new Date()
+    const nowDate = `${date.getMonth() + 1 <10 ? `0${date.getMonth() + 1}`: date.getMonth() + 1}-${date.getDate() <10 ? `0${date.getDate()}`: date.getdate()}`
+
+
     d.forEach((v, i) => {
         const {name}  = (index.material_top_category.find(e => e.id == v.top_category_id))
         const unitName = index.material_purchase_unit_category.find(e => e.id == v.main_unit_id)
         let obj = {
             material: v.name.split('-')[0],
+            creationDate:nowDate,
+            orderDate:nowDate,
             demandDate: moment().add(v.plan_day_purchase_ahead_days,'days').format("MM-DD"),
             quantity: v.dish_qty,
             stock: 1000,
