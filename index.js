@@ -51,7 +51,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const dateSpan = document.querySelector('.date')
         const theAlert = document.querySelector('.the_alert')
         const date = dateSpan.innerHTML.split(" ")[0].split('-')
-        console.log(dateSpan)
         var d = new Date(...date);
         var nowD = new Date();
         if (d - nowD < 0) {

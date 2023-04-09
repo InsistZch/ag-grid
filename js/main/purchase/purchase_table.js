@@ -3,8 +3,6 @@ import col from "./purchase_col.js";
 import row from "./purchase_row.js";
 import { getRowId, getContextMenuItems, onCellValueChanged, onCellClicked } from './purchase_api.js';
 import GroupRowInnerRenderer from './GroupRowInnerRenderer.js'
-// import CustomColumnsToolPanel from "./CustomColumnsToolPanel.js";
-// import CustomStatsToolPanel from './CustomStatsToolPanel.js'
 
 const gridOptions = (agOption) => {
     const obj = {

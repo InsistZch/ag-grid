@@ -1,13 +1,11 @@
 /** @odoo-module **/
-import gridCol from '../ag-grid/ag-grid-col.js'
+// import gridCol from '../ag-grid/ag-grid-col.js'
 export default {
     refreshWhole: (materialName = "", agOption) => {
 
         let cols = agOption.columnApi.getColumnState();
-        console.log(cols)
-
         const col = agOption.columnDefs
-        console.log(col)
+        
         for (const col_item of col) {
             if (!isNaN(col_item["field"])) {
                 col_item['hide'] = true
