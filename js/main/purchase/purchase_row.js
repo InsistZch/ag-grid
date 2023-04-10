@@ -46,7 +46,7 @@ const row = (agOption) => {
             remarks: "",
             id: i,
             category_name: name,
-            purchase_freq_id: v.purchase_freq_id
+            purchase_freq: v.purchase_freq
         }
         rowData.push(obj)
     })

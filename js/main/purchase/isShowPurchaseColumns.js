@@ -43,14 +43,16 @@ const isShowPurchaseColumns = (gridOptions) => {
     noDailyProcurement.onclick = () => {
         if (!noDailyProcurement.checked) {
             gridOptions.api.forEachNode(v => {
-                if (v.key == null && v.data.purchase_freq_id != 1) {
+                if (v.key == null && v.data.purchase_freq != 'day') {
                     gridOptions.api.applyTransaction({ remove: [v.data] });
                 }
             })
 
         } else {
             gridOptions.rowData.forEach((v) => {
+                console.log(v)
                 if(gridOptions.api.getRowNode(v.id) == undefined){
+                    console.log(v)
                     gridOptions.api.applyTransaction({ add: [v] });
                 }
             })

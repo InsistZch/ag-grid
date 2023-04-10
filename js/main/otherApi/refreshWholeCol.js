@@ -5,7 +5,7 @@ export default {
 
         let cols = agOption.columnApi.getColumnState();
         const col = agOption.columnDefs
-        
+
         for (const col_item of col) {
             if (!isNaN(col_item["field"])) {
                 col_item['hide'] = true
@@ -39,9 +39,26 @@ export default {
                     }, [])
                     params.data.dish_key_id.material_item = arr
 
-
                     if (materialName.trim() == "") {
-                        return params.value
+                        let current = value.split(" ")
+                        let name = ''
+                        let num = ''
+                        let unit = ''
+                        let all = ''
+                        for (const cv of current) {
+                            name = cv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g) != null ? cv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0] : ''
+                            num = cv.match(/([0-9]+)/) != null ? cv.match(/([0-9]+)/)[0] : ''
+                            unit = cv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g) != null ? cv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[1] : ''
+
+                            params.data.dish_key_id.material_item.forEach((v)=>{
+                                if(name == `${v.name.split('-')[0]}${v.dish_process_category_name}` && v.purchase_freq != 'day'){
+                                    name = `<span class='span_name'>${name}</span>`
+                                }
+                                console.log(v)
+                            })
+                            all += name + num + unit + ' '
+                        }
+                        return all
                     } else {
                         params.data.dish_key_id.material_item.forEach(item => {
                             if (item.name.split("-")[0] == (materialName)) {
@@ -87,7 +104,7 @@ export default {
                 hide: !isShowColumns[inp].checked
             })
         }
-        
+
         agOption.columnApi.applyColumnState({
             state: [...arr]
         })

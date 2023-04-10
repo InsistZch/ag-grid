@@ -118,7 +118,7 @@ const getContextMenuItems = (e, gridOptions, agOption) => {
                                 supplier: "",
                                 remarks: "",
                                 id: gridOptions.rowData.length + 1,
-                                purchase_freq_id:addMaterialObj.purchase_freq_id,
+                                purchase_freq:addMaterialObj.purchase_freq,
                                 category_name: name,
                                 newAdd: true,
                             }
