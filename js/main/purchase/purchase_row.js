@@ -14,13 +14,16 @@ const row = (agOption) => {
 
     const date = new Date()
     const nowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
+    const tomorrowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 1 < 10 ? `0${date.getDate() + 1}` : date.getDate() + 1}`
+    const thirdDayDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 2 < 10 ? `0${date.getDate() + 2}` : date.getDate() + 2}`
+
     d.forEach((v, i) => {
         const { name } = (index.material_top_category.find(e => e.id == v.top_category_id))
         const unitName = index.material_purchase_unit_category.find(e => e.id == v.main_unit_id)
 
         const orderDate = new Date(new Date().getFullYear(), planDate.getMonth() + 1, planDate.getDate() + Number(v.plan_day_purchase_ahead_days))
         const theOrderDate = `${orderDate.getMonth() < 10 ? `0${orderDate.getMonth()}` : orderDate.getMonth()}-${orderDate.getDate() < 10 ? `0${orderDate.getDate()}` : orderDate.getDate()}`
-        // console.log(orderDate.getMonth(), orderDate.getDate())
+        // console.log(v.dish_qty)
 
         let obj = {
             material: v.name.split('-')[0],
@@ -34,19 +37,16 @@ const row = (agOption) => {
             marketPrice: v.material_price_alert,
             shouldOrder: v.dish_qty,
             today: "",
-            Order: Number(v.dish_qty).toFixed(1),
+            Order: theOrderDate == nowDate ? v.dish_qty : 0,
             deliveryDate: moment().format("MM-DD"),
-            tomorrow: "",
-            thirdDay: "",
+            tomorrow: theOrderDate == tomorrowDate ? v.dish_qty : 0,
+            thirdDay: theOrderDate == thirdDayDate ? v.dish_qty : 0,
             unit: unitName.name,
             supplier: "",
             remarks: "",
             id: i,
             category_name: name,
-            purchase_freq_id:v.purchase_freq_id
-        }
-        if (v.plan_day_purchase_ahead_days != -2) {
-            obj.Order = 0
+            purchase_freq_id: v.purchase_freq_id
         }
         rowData.push(obj)
     })

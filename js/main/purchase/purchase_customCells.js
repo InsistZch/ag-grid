@@ -23,7 +23,7 @@ class customCells {
         div.appendChild(input)
 
         this.ele = div
-        
+
     }
 
     getGui() {
@@ -49,6 +49,21 @@ class customCells {
         } else {
             const currentData = value
             this.currentData = `${currentData.split('-')[1]}-${currentData.split('-')[2]}`
+
+            const date = new Date()
+            const nowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
+            const tomorrowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 1 < 10 ? `0${date.getDate() + 1}` : date.getDate() + 1}`
+            const thirdDayDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 2 < 10 ? `0${date.getDate() + 2}` : date.getDate() + 2}`
+
+
+            const rowNode = this.params.api.getRowNode(this.params.data.id)
+
+            rowNode.setDataValue('Order', this.currentData == nowDate ? rowNode.data.shouldOrder : 0)
+            rowNode.setDataValue('tomorrow', this.currentData == tomorrowDate ? rowNode.data.shouldOrder : 0)
+            rowNode.setDataValue('thirdDay', this.currentData == thirdDayDate ? rowNode.data.shouldOrder : 0)
+
+            this.params.api.refreshCells({ force: true })
+
         }
 
     }

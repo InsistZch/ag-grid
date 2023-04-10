@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // 一个食材单位为两
     // 一个单位食材为斤
 
-    
+
     const isShowColumns = new main_index.otherApi.isShowColumns()
 
     main_index.otherApi.purchasePrice('#purchase_price_btn', () => getMaterial(agOption))
@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     agButton.style.display = 'flex'
                 })
 
-            } else {         
+            } else {
 
                 refreshWholeCol.original(isShowColumns, agOption)
                 agButton.style.display = 'flex'
@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const nowD = new Date()
 
                 const purchaseConsole = []
-                purchaseOption.rowData.forEach((v)=>{
+                purchaseOption.rowData.forEach((v) => {
                     const t = new Date(new Date().getFullYear(), v.orderDate.split('-')[0] - 1, v.orderDate.split('-')[1])
                     if (t - nowD >= 1) {
                         purchaseConsole.push(v)
@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 console.log(purchaseConsole)
 
-                if (agOption.context.owl_widget.PurChaseOrderSave) {
+                if (agOption.context != undefined && agOption.context.owl_widget.PurChaseOrderSave) {
                     await agOption.context.owl_widget.PurChaseOrderSave(purchaseConsole)
                 }
             }
