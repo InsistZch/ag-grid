@@ -6,6 +6,8 @@ const isShowPurchaseColumns = (gridOptions) => {
     const createLabels = document.querySelectorAll(".el_columns_item")
     const inps = document.querySelectorAll('.el_columns_item input')
 
+    const noDailyProcurement = document.querySelector('#noDailyProcurement')
+
     cols.forEach((col) => {
         inps.forEach((inp) => {
             if (inp.id === col.colId) {
@@ -13,6 +15,8 @@ const isShowPurchaseColumns = (gridOptions) => {
             }
         })
     });
+
+    noDailyProcurement.checked = true
 
     createLabels.forEach((createLabel) => {
         createLabel.onclick = function (e) {
@@ -35,6 +39,23 @@ const isShowPurchaseColumns = (gridOptions) => {
             });
         }
     })
+
+    noDailyProcurement.onclick = () =>{
+        console.log(gridOptions)
+        if(!noDailyProcurement.checked){
+            gridOptions.api.forEachNode(v =>{
+                console.log(v)
+                if(v.key == null && v.data.purchase_freq_id != 1){
+                    gridOptions.api.applyTransaction({ remove: [v.data]});
+                }
+            })           
+            
+        }else{
+            gridOptions.rowData.forEach((v)=>{
+                gridOptions.api.applyTransaction({ add: [v]});
+            })
+        }
+    }
 }
 
 export default isShowPurchaseColumns

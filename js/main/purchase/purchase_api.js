@@ -126,6 +126,7 @@ const getContextMenuItems = (e, gridOptions, agOption) => {
                             //     add: [obj], addIndex: e.node.rowIndex + 1
                             // })
                             gridOptions.rowData.push(obj)
+                            console.log(addMaterialObj)
                             gridOptions.api.setRowData(gridOptions.rowData)
 
                             // const purchaseReturn = document.querySelector('#purchase_ruturn')
@@ -173,7 +174,7 @@ const getContextMenuItems = (e, gridOptions, agOption) => {
                 gridOptions.api.forEachNode(v =>{
                     v.key == null && gridOptions.rowData.push(v.data)
                 })
-                                
+
                 gridOptions.api.setRowData(gridOptions.rowData)
             }
         }
