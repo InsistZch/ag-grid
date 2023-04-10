@@ -5,6 +5,7 @@ class isShowColumns {
     cost = document.querySelector('#ag-button-cost')
     note = document.querySelector('#ag-button-note')
     save = document.querySelector('#ag-button-save')
+    Copies = document.querySelector('#ag-button-Copies')
     whole = document.querySelector('#ag-button-whole')
     menu = document.querySelector('#ag-button-menu')
     Nomenu = document.querySelector('#ag-button-Nomenu')
@@ -15,6 +16,7 @@ class isShowColumns {
             this.cost = document.querySelector('#ag-button-cost')
             this.note = document.querySelector('#ag-button-note')
             this.save = document.querySelector('#ag-button-save')
+            this.Copies = document.querySelector('#ag-button-Copies')
             this.whole = document.querySelector('#ag-button-whole')
             this.menu = document.querySelector('#ag-button-menu')
             this.Nomenu = document.querySelector('#ag-button-Nomenu')
@@ -67,6 +69,12 @@ class isShowColumns {
                 this.save.checked = !col_item['hide']
                 this.nodes.set('save', {
                     node: this.save,
+                    hide: col_item['hide']
+                })
+            } else if (col_item['colId'] == "Copies") {
+                this.Copies.checked = !col_item['hide']
+                this.nodes.set('Copies', {
+                    node: this.Copies,
                     hide: col_item['hide']
                 })
             } else if (col_item['colId'] == "whole") {

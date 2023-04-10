@@ -56,7 +56,6 @@ export default {
 
             if (col_item['field'] == "Copies") {
                 col_item['hide'] = false
-                col_item['pinned'] = null
             }
 
             if (col_item['field'] == "note") {
@@ -68,7 +67,6 @@ export default {
                 })
 
             }
-
             if (col_item['field'] == "save") {
                 cols.forEach((c) => {
                     if (c.colId == 'save' && c.hide == false) {

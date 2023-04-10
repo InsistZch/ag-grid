@@ -26,43 +26,6 @@ const gridOptions = (agOption) => {
             lockPinned: true,
             menuTabs: []
         },
-        // suppressDragLeaveHidesColumns: true,
-        // sideBar: {
-        //     toolPanels: [
-        //         {
-        //           id: 'columns',
-        //           labelDefault: '列显示与隐藏',
-        //           labelKey: 'columns',
-        //           iconKey: 'columns',
-        //         //   toolPanel: CustomColumnsToolPanel,
-        //           minWidth: 100,
-        //           width: 120,
-        //           maxWidth: 150,
-        //           toolPanelParams: {
-        //             suppressRowGroups: true,
-        //             suppressValues: true,
-        //             suppressPivots: true,
-        //             suppressPivotMode: true,
-        //             suppressColumnFilter: true,
-        //             suppressColumnSelectAll: true,
-        //             suppressColumnExpandAll: true,
-        //           },
-        //         },
-
-        //         {
-        //             id: 'customStats',
-        //             labelDefault: '保存订单',
-        //             labelKey: 'customStats',
-        //             iconKey: 'columns',
-        //             toolPanel: CustomStatsToolPanel,
-        //             minWidth: 100,
-        //             width: 120,
-        //             maxWidth: 150,
-        //         },
-        //     ],
-        //     position: 'top',
-        //     defaultToolPanel: 'columns',
-        // },
         getContextMenuItems: (e) => getContextMenuItems(e, obj, agOption),
         onCellValueChanged: (e) => onCellValueChanged(e, obj),
         onCellClicked: (e) => onCellClicked(e, obj, agOption),

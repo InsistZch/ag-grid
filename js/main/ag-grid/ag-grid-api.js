@@ -98,7 +98,6 @@ const nodeRowData = (v, e, ratio, type) => {
 // 汤面总数为 特色餐 + 普通餐
 // cellRenderer > onCellValueChanged
 const onCellValueChanged = async (e, gridOptions) => {
-    console.log(gridOptions)
 
     const saveDataBtn = document.querySelector('#saveDataBtn')
     saveDataBtn.classList.remove('btn-outline-primary')
@@ -329,7 +328,6 @@ const onCellValueChanged = async (e, gridOptions) => {
 
     } else if (e.colDef.headerName == '配量汇总') {
 
-        console.log(e)
         e.data.update = true
         let d1 = e.newValue
         // 清空配量汇总
@@ -828,7 +826,7 @@ const onCellValueChanged = async (e, gridOptions) => {
                 }
             }
         }
-        console.log(e.data.dish_key_id.material_item)
+        // console.log(e.data.dish_key_id.material_item)
         const [whole, material_items, costPrice] = countMaterialData({
             material_items: [...e.data.dish_key_id.material_item],
             dish_key_id: e.data.dish_key_id.id,
