@@ -107,7 +107,7 @@ const getContextMenuItems = (e, gridOptions, agOption) => {
                                 // standardPrice: Number(addMaterialObj.main_price / unitData.main_unit_bom_unit_ratio).toFixed(1),
                                 // marketPrice: Number(addMaterialObj.material_price_alert / unitData.main_unit_bom_unit_ratio).toFixed(1),
                                 standardPrice: Number(addMaterialObj.main_price).toFixed(1),
-                                marketPrice:Number(addMaterialObj.material_price_alert).toFixed(1),
+                                marketPrice: Number(addMaterialObj.material_price_alert).toFixed(1),
                                 shouldOrder: Number(add_meal_order.value).toFixed(1),
                                 today: "",
                                 Order: nowDate == theOrderDate ? Number(add_meal_order.value).toFixed(1) : 0,
@@ -117,15 +117,17 @@ const getContextMenuItems = (e, gridOptions, agOption) => {
                                 unit: add_meal_unit.value,
                                 supplier: "",
                                 remarks: "",
-                                id: e.node.rowIndex + 1,
-                                category_name: name
+                                id: gridOptions.rowData.length + 1,
+                                purchase_freq_id:addMaterialObj.purchase_freq_id,
+                                category_name: name,
+                                newAdd: true,
                             }
                             // gridOptions.api.applyTransaction({
                             //     add: [obj], addIndex: e.node.rowIndex + 1
                             // })
                             gridOptions.rowData.push(obj)
                             gridOptions.api.setRowData(gridOptions.rowData)
-                         
+
                             // const purchaseReturn = document.querySelector('#purchase_ruturn')
 
                             // const nowD = new Date()
@@ -166,6 +168,13 @@ const getContextMenuItems = (e, gridOptions, agOption) => {
             action: () => {
                 const selRows = gridOptions.api.getRowNode(e.node.id)
                 gridOptions.api.applyTransaction({ remove: [selRows] });
+
+                gridOptions.rowData = []
+                gridOptions.api.forEachNode(v =>{
+                    v.key == null && gridOptions.rowData.push(v.data)
+                })
+                                
+                gridOptions.api.setRowData(gridOptions.rowData)
             }
         }
     ]

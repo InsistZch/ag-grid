@@ -44,7 +44,6 @@ class customCells {
         const oldValue = this.params.value
         const value = this.ele.querySelector('input').value
 
-        console.log(value < this.ele.querySelector('input').min || value > this.ele.querySelector('input').max)
         if (value == '' || value < this.ele.querySelector('input').min || value > this.ele.querySelector('input').max) {
             this.currentData = oldValue
         } else {

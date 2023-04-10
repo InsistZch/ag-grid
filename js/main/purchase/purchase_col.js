@@ -29,7 +29,7 @@ export default [
         field: "orderDate",
         editable: true,
         hide: true,
-        cellEditor:customCells
+        cellEditor: customCells
     },
     {
         headerName: "需求日期",
@@ -62,11 +62,7 @@ export default [
         field: "shouldOrder",
         hide: true
     },
-    {
-        headerName: "明天",
-        field: "tomorrow",
-        hide: true
-    },
+
     {
         headerName: "下单",
         field: "Order",
@@ -76,6 +72,10 @@ export default [
     {
         headerName: "送货日期",
         field: "deliveryDate",
+        hide: true
+    }, {
+        headerName: "明天",
+        field: "tomorrow",
         hide: true
     },
     {
