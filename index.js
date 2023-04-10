@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
     main_index.otherApi.purchasePrice('#purchase_price_btn', () => getMaterial(agOption))
 
     let purchaseOption = null
-    main_index.otherApi.purchase(["#purchase", "#purchase_ruturn"], () => {
+    main_index.otherApi.purchase(["#purchase", "#purchase_ruturn"], async () => {
         // 时间警告
         const dateSpan = document.querySelector('.date')
         const theAlert = document.querySelector('.the_alert')
@@ -140,6 +140,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 })
 
                 console.log(purchaseConsole)
+
+                if (agOption.context.owl_widget.PurChaseOrderSave) {
+                    await agOption.context.owl_widget.PurChaseOrderSave(purchaseConsole)
+                }
             }
         }
     })
