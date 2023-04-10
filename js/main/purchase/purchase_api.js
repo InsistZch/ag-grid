@@ -95,7 +95,7 @@ const getContextMenuItems = (e, gridOptions, agOption) => {
                             const theOrderDate = `${orderDate.getMonth() < 10 ? `0${orderDate.getMonth()}` : orderDate.getMonth()}-${orderDate.getDate() < 10 ? `0${orderDate.getDate()}` : orderDate.getDate()}`
 
                             if (material.value.trim() == "" || addMaterialObj == {}) return true
-                            
+
                             const { name } = index.material_top_category.find(e => e.id == addMaterialObj.top_category_id)
                             const obj = {
                                 material: addMaterialObj.name.split('-')[0],
@@ -154,9 +154,6 @@ const getContextMenuItems = (e, gridOptions, agOption) => {
                             //         }
                             //     })
                             // }
-
-
-
                             return true
                         }
                     })

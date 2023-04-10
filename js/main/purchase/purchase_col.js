@@ -1,4 +1,5 @@
 /** @odoo-module **/
+import customCells from "./purchase_customCells.js"
 
 export default [
     {
@@ -26,7 +27,9 @@ export default [
     {
         headerName: "下单日期",
         field: "orderDate",
-        hide: true
+        editable: true,
+        hide: true,
+        cellEditor:customCells
     },
     {
         headerName: "需求日期",
