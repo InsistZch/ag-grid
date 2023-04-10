@@ -209,7 +209,15 @@ div.function .btn-group button:not([saveData]):hover {
     font-size: 12px;
 }
 
+.el_orderDate{  
+    height: max-content;
+    width: max-content;
+    overflow: hidden;
+    background-color: #fff;
+}
 .el_orderDate_search{
-    width: 100%;
+    width: 200px;
+    height: 40px;
+    font-size: 16px;
     outline: none;
 }

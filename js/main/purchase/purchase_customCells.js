@@ -18,9 +18,12 @@ class customCells {
 
         input.min = `${d.getFullYear()}-${params.data.creationDate}`
         input.max = `${d.getFullYear()}-${params.data.demandDate}`
+
+        input.value = `${d.getFullYear()}-${params.data.orderDate}`
         div.appendChild(input)
 
         this.ele = div
+        
     }
 
     getGui() {
@@ -33,11 +36,16 @@ class customCells {
         return this.currentData
     }
 
+    isPopup() {
+        return true
+    }
+
     isCancelAfterEnd() {
         const oldValue = this.params.value
         const value = this.ele.querySelector('input').value
 
-        if (value == '') {
+        console.log(value < this.ele.querySelector('input').min || value > this.ele.querySelector('input').max)
+        if (value == '' || value < this.ele.querySelector('input').min || value > this.ele.querySelector('input').max) {
             this.currentData = oldValue
         } else {
             const currentData = value
