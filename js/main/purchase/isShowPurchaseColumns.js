@@ -40,19 +40,19 @@ const isShowPurchaseColumns = (gridOptions) => {
         }
     })
 
-    noDailyProcurement.onclick = () =>{
-        console.log(gridOptions)
-        if(!noDailyProcurement.checked){
-            gridOptions.api.forEachNode(v =>{
-                console.log(v)
-                if(v.key == null && v.data.purchase_freq_id != 1){
-                    gridOptions.api.applyTransaction({ remove: [v.data]});
+    noDailyProcurement.onclick = () => {
+        if (!noDailyProcurement.checked) {
+            gridOptions.api.forEachNode(v => {
+                if (v.key == null && v.data.purchase_freq_id != 1) {
+                    gridOptions.api.applyTransaction({ remove: [v.data] });
                 }
-            })           
-            
-        }else{
-            gridOptions.rowData.forEach((v)=>{
-                gridOptions.api.applyTransaction({ add: [v]});
+            })
+
+        } else {
+            gridOptions.rowData.forEach((v) => {
+                if(gridOptions.api.getRowNode(v.id) == undefined){
+                    gridOptions.api.applyTransaction({ add: [v] });
+                }
             })
         }
     }
