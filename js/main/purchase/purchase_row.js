@@ -23,7 +23,7 @@ const row = (agOption, purchase_summary_data) => {
 
         const orderDate = new Date(new Date().getFullYear(), planDate.getMonth() + 1, planDate.getDate() + Number(v.plan_day_purchase_ahead_days))
         const theOrderDate = `${orderDate.getMonth() < 10 ? `0${orderDate.getMonth()}` : orderDate.getMonth()}-${orderDate.getDate() < 10 ? `0${orderDate.getDate()}` : orderDate.getDate()}`
-        // console.log(v.dish_qty)
+        console.log(v)
 
         let obj = {
             material: v.name.split('-')[0],
@@ -31,15 +31,15 @@ const row = (agOption, purchase_summary_data) => {
             orderDate: theOrderDate,
             demandDate: demandDate,
             quantity: v.dish_qty,
-            shouldOrder: v.dish_qty,
+            shouldOrder: v.purchase_freq =="day" ? (v.dish_qty) : 0,
             stock: 1000,
             standardPrice: v.main_price,
             marketPrice: v.material_price_alert,
             today: "",
-            Order: theOrderDate == nowDate ? v.dish_qty : 0,
+            Order:  v.purchase_freq =="day" ? (theOrderDate == nowDate ? v.dish_qty : 0) : 0,
             deliveryDate: moment().format("MM-DD"),
-            tomorrow: theOrderDate == tomorrowDate ? v.dish_qty : 0,
-            thirdDay: theOrderDate == thirdDayDate ? v.dish_qty : 0,
+            tomorrow: v.purchase_freq =="day" ? (theOrderDate == tomorrowDate ? v.dish_qty : 0) : 0,
+            thirdDay: v.purchase_freq =="day" ? (theOrderDate == thirdDayDate ? v.dish_qty : 0) : 0,
             unit: unitName.name,
             supplier: "",
             remarks: "",

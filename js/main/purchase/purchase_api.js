@@ -84,6 +84,8 @@ const getContextMenuItems = (e, gridOptions, agOption) => {
 
                             const date = new Date()
                             const nowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
+                            const tomorrowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 1 < 10 ? `0${date.getDate() + 1}` : date.getDate() + 1}`
+                            const thirdDayDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 2 < 10 ? `0${date.getDate() + 2}` : date.getDate() + 2}`
 
                             const material = _parent.querySelector('#material')
                             const add_meal_order = _parent.querySelector('#add_meal_order')
@@ -93,6 +95,8 @@ const getContextMenuItems = (e, gridOptions, agOption) => {
 
                             const orderDate = new Date(new Date().getFullYear(), planDate.getMonth() + 1, planDate.getDate() + Number(unitData.plan_day_purchase_ahead_days))
                             const theOrderDate = `${orderDate.getMonth() < 10 ? `0${orderDate.getMonth()}` : orderDate.getMonth()}-${orderDate.getDate() < 10 ? `0${orderDate.getDate()}` : orderDate.getDate()}`
+
+
 
                             if (material.value.trim() == "" || addMaterialObj == {}) return true
 
@@ -108,17 +112,17 @@ const getContextMenuItems = (e, gridOptions, agOption) => {
                                 // marketPrice: Number(addMaterialObj.material_price_alert / unitData.main_unit_bom_unit_ratio).toFixed(1),
                                 standardPrice: Number(addMaterialObj.main_price).toFixed(1),
                                 marketPrice: Number(addMaterialObj.material_price_alert).toFixed(1),
-                                shouldOrder: Number(add_meal_order.value).toFixed(1),
+                                shouldOrder: addMaterialObj.purchase_freq == "day" ? (Number(add_meal_order.value).toFixed(1)) : 0,
                                 today: "",
-                                Order: nowDate == theOrderDate ? Number(add_meal_order.value).toFixed(1) : 0,
+                                Order: addMaterialObj.purchase_freq == "day" ? (nowDate == theOrderDate ? Number(add_meal_order.value).toFixed(1) : 0) : 0,
                                 deliveryDate: "3-25",
-                                tomorrow: "",
-                                thirdDay: "",
+                                tomorrow: addMaterialObj.purchase_freq == "day" ? (tomorrowDate == theOrderDate ? Number(add_meal_order.value).toFixed(1) : 0) : 0,
+                                thirdDay: addMaterialObj.purchase_freq == "day" ? (thirdDayDate == theOrderDate ? Number(add_meal_order.value).toFixed(1) : 0) : 0,
                                 unit: add_meal_unit.value,
                                 supplier: "",
                                 remarks: "",
                                 id: gridOptions.rowData.length + 1,
-                                purchase_freq:addMaterialObj.purchase_freq,
+                                purchase_freq: addMaterialObj.purchase_freq,
                                 category_name: name,
                                 newAdd: true,
                             }
@@ -171,7 +175,7 @@ const getContextMenuItems = (e, gridOptions, agOption) => {
                 gridOptions.api.applyTransaction({ remove: [selRows] });
 
                 gridOptions.rowData = []
-                gridOptions.api.forEachNode(v =>{
+                gridOptions.api.forEachNode(v => {
                     v.key == null && gridOptions.rowData.push(v.data)
                 })
 

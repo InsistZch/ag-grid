@@ -51,7 +51,6 @@ const isShowPurchaseColumns = (gridOptions) => {
         } else {
             gridOptions.rowData.forEach((v) => {
                 if (gridOptions.api.getRowNode(v.id) == undefined) {
-                    console.log(v)
                     gridOptions.api.applyTransaction({ add: [v] });
                 }
             })
