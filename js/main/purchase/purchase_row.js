@@ -31,6 +31,7 @@ const row = (agOption) => {
             orderDate: theOrderDate,
             demandDate: demandDate,
             quantity: v.dish_qty,
+            shouldOrder:v.dish_qty,
             stock: 1000,
             standardPrice: v.main_price,
             marketPrice: v.material_price_alert,

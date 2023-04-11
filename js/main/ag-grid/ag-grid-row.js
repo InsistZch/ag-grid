@@ -58,12 +58,12 @@ const mealAbstract = ({
 //         this.init = false
 //         return this.data
 //     }
-    
+
 // }
 let mealPrice = []
 // init_mp 
 const init_mp = () => {
-    if(mealPrice.length == 0){
+    if (mealPrice.length == 0) {
         mealPrice = mealAbstract({
             name: 'price',
             type: "餐标",
@@ -699,7 +699,9 @@ const countMaterialData = ({
     if (newCopies == 0) {
         costPrice = 0
         const str = materialToString(material_items, (item) => {
-            item.dish_qty = 0
+            if (item.dish_qty == 0) {
+                item.dish_qty = 0
+            }
         })
 
         return [str, material_items, costPrice]
@@ -846,9 +848,9 @@ const countCostPrice = (m_arr, newCopies) => {
 
 // 通过文字，获取菜品
 export {
-    data, dish_detailed, duibi, headHookLimit, countMaterialData, mealPrice, mealCopies, cost_proportion, countCostPrice,init_mp
+    data, dish_detailed, duibi, headHookLimit, countMaterialData, mealPrice, mealCopies, cost_proportion, countCostPrice, init_mp
 }
 
 export default {
-    data, dish_detailed, duibi, headHookLimit, countMaterialData, mealPrice, mealCopies, cost_proportion, countCostPrice, mealAbstract,init_mp
+    data, dish_detailed, duibi, headHookLimit, countMaterialData, mealPrice, mealCopies, cost_proportion, countCostPrice, mealAbstract, init_mp
 }

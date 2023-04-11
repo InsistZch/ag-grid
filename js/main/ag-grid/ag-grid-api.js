@@ -249,8 +249,6 @@ const onCellValueChanged = async (e, gridOptions) => {
                 })
             }
 
-
-
             const countMaterialData = agGridRow.countMaterialData({
                 material_items: e.data['dish_key_id']['material_item'],
                 dish_key_id: e.data['dish_key_id']['id'],
@@ -351,7 +349,7 @@ const onCellValueChanged = async (e, gridOptions) => {
         // 可能修改多个地方        
 
         // 分割 配量汇总 字符串
-       
+
         let material_data = d1.split(' ')
         // console.log(material_data)
         for (const material of material_data) {
@@ -497,7 +495,7 @@ const onCellValueChanged = async (e, gridOptions) => {
                                     // top_category_id:2,
                                     material_price_alert: Number(customPrice.value) + 3,
                                     repeat_tag: true,
-                                    top_category_id:topCategory.value,
+                                    top_category_id: topCategory.value,
                                 }
                                 // 记载数据
                                 // console.log(obj1)
@@ -825,7 +823,6 @@ const onCellValueChanged = async (e, gridOptions) => {
                 }
             }
         }
-        // console.log(e.data.dish_key_id.material_item)
         const [whole, material_items, costPrice] = countMaterialData({
             material_items: [...e.data.dish_key_id.material_item],
             dish_key_id: e.data.dish_key_id.id,
@@ -841,6 +838,7 @@ const onCellValueChanged = async (e, gridOptions) => {
         await rowNode.setData(e.data)
 
         resetPurchaseData.Change(gridOptions)
+
         gridOptions.api.refreshCells({ force: true })
         // console.log(e.data)
         // for (const {data} of e.node.parent.allLeafChildren) {
@@ -854,7 +852,7 @@ const onCellValueChanged = async (e, gridOptions) => {
         //     rowNode.setDataValue('whole', v.data.whole)
         // })
     } else if (e.colDef.headerName == "成本价") {
-        
+
     }
     // console.log(e.data)
     // console.log(new Date() * 1 - newDate)
