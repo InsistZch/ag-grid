@@ -50,8 +50,7 @@ const isShowPurchaseColumns = (gridOptions) => {
 
         } else {
             gridOptions.rowData.forEach((v) => {
-                console.log(v)
-                if(gridOptions.api.getRowNode(v.id) == undefined){
+                if (gridOptions.api.getRowNode(v.id) == undefined) {
                     console.log(v)
                     gridOptions.api.applyTransaction({ add: [v] });
                 }

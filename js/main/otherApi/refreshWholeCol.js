@@ -54,7 +54,6 @@ export default {
                                 if(name == `${v.name.split('-')[0]}${v.dish_process_category_name}` && v.purchase_freq != 'day'){
                                     name = `<span class='span_name'>${name}</span>`
                                 }
-                                console.log(v)
                             })
                             all += name + num + unit + ' '
                         }

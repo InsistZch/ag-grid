@@ -8,15 +8,13 @@ class resetPurchaseData{
         this.purchaseOption = purchaseOption
     }
     Change(agOption){
-        console.log(agOption)
         const data = purchase_row(agOption)
-        console.log(data)
         this.purchaseOption.rowData.forEach(row => {
             if(row.newAdd){
                 data.push(row)
             }
         })
-        this.purchaseOption && this.purchaseOption.api.setRowData(data)
+        this.purchaseOption.api && this.purchaseOption.api.setRowData(data)
         
     }
 }

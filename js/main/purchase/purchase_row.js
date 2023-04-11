@@ -35,7 +35,7 @@ const row = (agOption) => {
             stock: 1000,
             standardPrice: v.main_price,
             marketPrice: v.material_price_alert,
-            shouldOrder: v.dish_qty,
+            // shouldOrder: v.dish_qty,
             today: "",
             Order: theOrderDate == nowDate ? v.dish_qty : 0,
             deliveryDate: moment().format("MM-DD"),

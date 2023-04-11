@@ -9,22 +9,28 @@ import refreshWholeCol from './js/main/otherApi/refreshWholeCol.js'
 import isShowPurchaseColumns from './js/main/purchase/isShowPurchaseColumns.js'
 console.log(data_index)
 
-for (const item of data_index.material_item) {
-    // 360190
-    if (item.id == 3143511) {
-        console.log(item)
-    }
-}
+// for (const item of data_index.material_item) {
+//     // 360190
+//     if (item.id == 3143511) {
+//         console.log(item)
+//     }
+// }
 
 document.addEventListener("DOMContentLoaded", function () {
 
     // 添加window对象
-
     main_index.otherApi.addWindowData()
     // console.log(window)
+    // 主表单
     let agOption = main_index.init_grid_options();
     const eGridDiv = document.querySelector('#myGrid');
     new agGrid.Grid(eGridDiv, agOption);
+
+    // 采购单
+    let purchaseOption = null
+    purchaseOption = purchase_table(agOption)
+    // 初始化采购单
+    resetPurchaseData.purchase_init(purchaseOption)
     agOption.api.sizeColumnsToFit();
 
     // console.log(agOption)
@@ -45,13 +51,13 @@ document.addEventListener("DOMContentLoaded", function () {
     // 一个食材单位为两
     // 一个单位食材为斤
 
-
+    // 获取选框状态
     const isShowColumns = new main_index.otherApi.isShowColumns()
 
     main_index.otherApi.purchasePrice('#purchase_price_btn', () => getMaterial(agOption))
 
-    let purchaseOption = null
     main_index.otherApi.purchase(["#purchase", "#purchase_ruturn"], async () => {
+
         // 时间警告
         const dateSpan = document.querySelector('.date')
         const theAlert = document.querySelector('.the_alert')
@@ -76,14 +82,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 clearTimeout(i);
             }
         } else {
+
+            // 如果日计划时间正确
             document.querySelector('#myGrid').classList.toggle("agGridLeft")
             const eDiv = document.querySelector('#myGrid2');
             let isShow = eDiv.classList.toggle("agGridRight")
+            // 选框和按钮
             const agButton = document.querySelector('.ag_init_button .ag-button');
             const initFunction = document.querySelector('.ag_init_button .function');
             const date = document.querySelector('.date');
             const agPurchaseButton = document.querySelectorAll('.ag_purchase_button');
-            // console.log(isShow)  
+            // console.log(isShow)
+
             const col_cus = agOption.columnDefs.reduce((pre, v) => {
                 if (!isNaN(v.field)) {
                     pre.push({
@@ -98,28 +108,29 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             agOption.api.sizeColumnsToFit();
 
+            // 显示采购单
             if (isShow) {
-                purchaseOption = purchase_table(agOption)
                 eDiv.innerHTML = ""
 
-                resetPurchaseData.purchase_init(purchaseOption)
                 new agGrid.Grid(eDiv, purchaseOption);
+                resetPurchaseData.Change(agOption)
+                // 采购单选框的状态
                 isShowPurchaseColumns(purchaseOption)
                 // purchaseOption.api.sizeColumnsToFit();
                 // console.log(agOption)
+                // 设置主表单的列显示
                 agOption.api.setColumnDefs(refreshWholeCol.refreshWhole('', agOption));
                 agOption.api.sizeColumnsToFit()
 
+                // 隐藏主表单的选款和按钮
                 agButton.style.display = 'none'
                 initFunction.style.display = 'none'
                 date.id = 'purchase_date'
-
                 agPurchaseButton.forEach((agButton) => {
                     agButton.style.display = 'flex'
                 })
 
             } else {
-
                 refreshWholeCol.original(isShowColumns, agOption)
                 agButton.style.display = 'flex'
                 initFunction.style.display = 'flex'
@@ -139,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                 })
 
-                console.log(purchaseConsole)
+                // console.log(purchaseConsole)
 
                 if (agOption.context != undefined && agOption.context.owl_widget.PurChaseOrderSave) {
                     await agOption.context.owl_widget.PurChaseOrderSave(purchaseConsole)

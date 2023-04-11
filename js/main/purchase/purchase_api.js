@@ -108,7 +108,7 @@ const getContextMenuItems = (e, gridOptions, agOption) => {
                                 // marketPrice: Number(addMaterialObj.material_price_alert / unitData.main_unit_bom_unit_ratio).toFixed(1),
                                 standardPrice: Number(addMaterialObj.main_price).toFixed(1),
                                 marketPrice: Number(addMaterialObj.material_price_alert).toFixed(1),
-                                shouldOrder: Number(add_meal_order.value).toFixed(1),
+                                // shouldOrder: Number(add_meal_order.value).toFixed(1),
                                 today: "",
                                 Order: nowDate == theOrderDate ? Number(add_meal_order.value).toFixed(1) : 0,
                                 deliveryDate: "3-25",
@@ -126,7 +126,7 @@ const getContextMenuItems = (e, gridOptions, agOption) => {
                             //     add: [obj], addIndex: e.node.rowIndex + 1
                             // })
                             gridOptions.rowData.push(obj)
-                            console.log(addMaterialObj)
+                            // console.log(addMaterialObj)
                             gridOptions.api.setRowData(gridOptions.rowData)
 
                             // const purchaseReturn = document.querySelector('#purchase_ruturn')

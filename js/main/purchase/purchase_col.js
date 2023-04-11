@@ -48,7 +48,7 @@ export default [
         hide: true,
     },
     {
-        headerName: "标准单价",
+        headerName: "单价",
         field: "standardPrice",
         hide: true
     },
@@ -57,12 +57,11 @@ export default [
         field: "marketPrice",
         hide: true
     },
-    {
-        headerName: "应下单",
-        field: "shouldOrder",
-        hide: true
-    },
-
+    // {
+    //     headerName: "应下单",
+    //     field: "shouldOrder",
+    //     hide: true
+    // },
     {
         headerName: "下单",
         field: "Order",
@@ -96,6 +95,7 @@ export default [
         headerName: "备注",
         field: "remarks",
         minWidth: 300,
-        hide: true
+        hide: true,
+        editable: true,
     }
 ]
