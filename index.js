@@ -7,6 +7,7 @@ import purchase_table from './js/main/purchase/purchase_table.js'
 import { resetPurchaseData } from './js/main/otherApi/index.js'
 import refreshWholeCol from './js/main/otherApi/refreshWholeCol.js'
 import isShowPurchaseColumns from './js/main/purchase/isShowPurchaseColumns.js'
+import purchase_date from './js/main/purchase/purchase_Data.js'
 console.log(data_index)
 
 // for (const item of data_index.material_item) {
@@ -28,10 +29,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 采购单
     let purchaseOption = null
-    purchaseOption = purchase_table(agOption)
+    let theOne = true
+
+    // purchase_summary_data有数据，则录入purchase_summary_data中的数据，如果没有，则通过配量汇总生成
+    purchaseOption = purchase_table(agOption, data_index.purchase_summary_data)
     // 初始化采购单
     resetPurchaseData.purchase_init(purchaseOption)
     agOption.api.sizeColumnsToFit();
+
+    let purchase_rowdate = []
 
     // console.log(agOption)
     main_index.otherApi.saveData('.update', () => {
@@ -111,9 +117,18 @@ document.addEventListener("DOMContentLoaded", function () {
             // 显示采购单
             if (isShow) {
                 eDiv.innerHTML = ""
-
                 new agGrid.Grid(eDiv, purchaseOption);
-                resetPurchaseData.Change(agOption)
+
+                if (theOne == true) {
+                    if (data_index.purchase_summary_data == '') {
+                        // 用户再点开采购单前改了配量汇总 ↓
+                        resetPurchaseData.Change(agOption)
+                    }
+                } else {
+                    purchaseOption.rowData = purchase_rowdate.data
+                    purchaseOption.api.setRowData(purchaseOption.rowData)
+                }
+
                 // 采购单选框的状态
                 isShowPurchaseColumns(purchaseOption)
                 // purchaseOption.api.sizeColumnsToFit();
@@ -131,6 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 })
 
             } else {
+                theOne = false
                 refreshWholeCol.original(isShowColumns, agOption)
                 agButton.style.display = 'flex'
                 initFunction.style.display = 'flex'
@@ -142,15 +158,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const nowD = new Date()
 
-                const purchaseConsole = []
-                purchaseOption.rowData.forEach((v) => {
-                    const t = new Date(new Date().getFullYear(), v.orderDate.split('-')[0] - 1, v.orderDate.split('-')[1])
-                    if (t - nowD >= 1) {
-                        purchaseConsole.push(v)
-                    }
-                })
-
+                // const purchaseConsole = []
+                // purchaseOption.rowData.forEach((v) => {
+                //     const t = new Date(new Date().getFullYear(), v.orderDate.split('-')[0] - 1, v.orderDate.split('-')[1])
+                //     if (t - nowD >= 1) {
+                //         purchaseConsole.push(v)
+                //     }
+                // })
                 // console.log(purchaseConsole)
+
+                purchase_rowdate = new purchase_date(purchaseOption.rowData)
 
                 if (agOption.context != undefined && agOption.context.owl_widget.PurChaseOrderSave) {
                     await agOption.context.owl_widget.PurChaseOrderSave(purchaseConsole)

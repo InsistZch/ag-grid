@@ -14,8 +14,8 @@ class resetPurchaseData{
                 data.push(row)
             }
         })
+        this.purchaseOption.rowData = data
         this.purchaseOption.api && this.purchaseOption.api.setRowData(data)
-        
     }
 }
 

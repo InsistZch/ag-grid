@@ -3,8 +3,8 @@ import { getCountMaterial } from "../otherApi/getMaterial.js"
 import index from './../../../data/index.js'
 // import moment from './../../../node_modules/moment/dist/moment.js'
 
-const row = (agOption) => {
-    const rowData = []
+const row = (agOption, purchase_summary_data) => {
+    let rowData = []
     const d = getCountMaterial(agOption)
 
     const dateSpan = document.querySelector('.date') // 日计划
@@ -31,7 +31,7 @@ const row = (agOption) => {
             orderDate: theOrderDate,
             demandDate: demandDate,
             quantity: v.dish_qty,
-            shouldOrder:v.dish_qty,
+            shouldOrder: v.dish_qty,
             stock: 1000,
             standardPrice: v.main_price,
             marketPrice: v.material_price_alert,
@@ -49,6 +49,10 @@ const row = (agOption) => {
         }
         rowData.push(obj)
     })
+    // purchase_summary_data有数据，则录入purchase_summary_data中的数据，如果没有，则通过配量汇总生成
+    if (purchase_summary_data != '' && purchase_summary_data != undefined) {
+        rowData = purchase_summary_data
+    }
     return rowData
 }
 

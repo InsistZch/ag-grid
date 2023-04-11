@@ -20,6 +20,7 @@ import planed_cost_ratio_dict from './planed_cost_ratio_dict.json' assert { type
 import dish_family from './dish_family.json' assert { type: 'json' };
 import purchase_category from './purchase_category.json' assert { type: 'json' };
 import user_settings from './user_settings.json' assert { type: 'json' };
+import purchase_summary_data from './purchase_summary_data.json' assert {type: 'json'}
 
 
 export default {
@@ -43,5 +44,6 @@ export default {
     planed_cost_ratio_dict,
     dish_family,
     purchase_category,
-    user_settings
+    user_settings,
+    purchase_summary_data
 }
