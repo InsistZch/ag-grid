@@ -168,6 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // console.log(purchaseConsole)
 
                 purchase_rowdate = new purchase_date(purchaseOption.rowData)
+                console.log(purchaseOption.rowData)
 
                 if (agOption.context != undefined && agOption.context.owl_widget.PurChaseOrderSave) {
                     await agOption.context.owl_widget.PurChaseOrderSave(purchaseConsole)
