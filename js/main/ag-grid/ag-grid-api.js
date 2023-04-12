@@ -823,6 +823,7 @@ const onCellValueChanged = async (e, gridOptions) => {
                 }
             }
         }
+
         const [whole, material_items, costPrice] = countMaterialData({
             material_items: [...e.data.dish_key_id.material_item],
             dish_key_id: e.data.dish_key_id.id,

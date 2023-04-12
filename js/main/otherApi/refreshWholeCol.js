@@ -75,9 +75,8 @@ export default {
             }
 
             if (col_item['field'] == "note") {
-
                 cols.forEach((c) => {
-                    if (c.colId == 'note') {
+                    if (c.colId == 'note' && c.hide == false) {
                         col_item['hide'] = c.hide
                     }
                 })

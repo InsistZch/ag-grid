@@ -80,12 +80,12 @@ const getContextMenuItems = (e, gridOptions, agOption) => {
                             const dateSpan = document.querySelector('.date') // 日计划
                             const planDateHtml = dateSpan.innerHTML.split(" ")[0].split('-')
                             const planDate = new Date(planDateHtml)
-                            const demandDate = `${planDate.getMonth() + 1 < 10 ? `0${planDate.getMonth() + 1}` : planDate.getMonth() + 1}-${planDate.getDate() < 10 ? `0${planDate.getDate()}` : planDate.getDate()}`
+                            const demandDate = `${planDate.getFullYear()}-${planDate.getMonth() + 1 < 10 ? `0${planDate.getMonth() + 1}` : planDate.getMonth() + 1}-${planDate.getDate() < 10 ? `0${planDate.getDate()}` : planDate.getDate()}`
 
                             const date = new Date()
-                            const nowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
-                            const tomorrowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 1 < 10 ? `0${date.getDate() + 1}` : date.getDate() + 1}`
-                            const thirdDayDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 2 < 10 ? `0${date.getDate() + 2}` : date.getDate() + 2}`
+                            const nowDate = `${date.getFullYear()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
+                            const tomorrowDate = `${date.getFullYear()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 1 < 10 ? `0${date.getDate() + 1}` : date.getDate() + 1}`
+                            const thirdDayDate = `${date.getFullYear()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 2 < 10 ? `0${date.getDate() + 2}` : date.getDate() + 2}`
 
                             const material = _parent.querySelector('#material')
                             const add_meal_order = _parent.querySelector('#add_meal_order')
@@ -94,7 +94,7 @@ const getContextMenuItems = (e, gridOptions, agOption) => {
                             // console.log(unitData)
 
                             const orderDate = new Date(new Date().getFullYear(), planDate.getMonth() + 1, planDate.getDate() + Number(unitData.plan_day_purchase_ahead_days))
-                            const theOrderDate = `${orderDate.getMonth() < 10 ? `0${orderDate.getMonth()}` : orderDate.getMonth()}-${orderDate.getDate() < 10 ? `0${orderDate.getDate()}` : orderDate.getDate()}`
+                            const theOrderDate = `${orderDate.getFullYear()}-${orderDate.getMonth() < 10 ? `0${orderDate.getMonth()}` : orderDate.getMonth()}-${orderDate.getDate() < 10 ? `0${orderDate.getDate()}` : orderDate.getDate()}`
 
 
 
@@ -130,41 +130,23 @@ const getContextMenuItems = (e, gridOptions, agOption) => {
                             //     add: [obj], addIndex: e.node.rowIndex + 1
                             // })
                             gridOptions.rowData.push(obj)
-                            // console.log(addMaterialObj)
-                            gridOptions.api.setRowData(gridOptions.rowData)
+                            let showData = []
 
-                            // const purchaseReturn = document.querySelector('#purchase_ruturn')
+                            const noDailyProcurement = document.querySelector('#noDailyProcurement')
 
-                            // const nowD = new Date()
-
-                            // purchaseReturn.onclick = () => {
-                            //     const isShowColumns = new newisShowColumns()
-
-                            //     const agButton = document.querySelector('.ag_init_button .ag-button');
-                            //     const initFunction = document.querySelector('.ag_init_button .function')
-                            //     const date = document.querySelector('.date');
-                            //     const agPurchaseButton = document.querySelectorAll('.ag_purchase_button');
-                            //     refreshWholeCol.original(isShowColumns, agOption)
-                            //     agButton.style.display = 'flex'
-                            //     initFunction.style.display = 'flex'
-                            //     date.id = ''
-                            //     agPurchaseButton.forEach((agButton) => {
-                            //         agButton.style.display = 'none'
-                            //     })
-
-                            //     gridOptions.api.forEachNode((v) => {
-                            //         if (v.data) {
-                            //             const t = new Date(new Date().getFullYear(), v.data.orderDate.split('-')[0] - 1, v.data.orderDate.split('-')[1])
-                            //             if (t - nowD >= 1) {
-                            //                 console.log(v.data)
-                            //             }
-                            //         }
-                            //     })
-                            // }
+                            if (noDailyProcurement.checked == true) {
+                                showData = gridOptions.rowData
+                            }else{
+                                gridOptions.rowData.forEach((v)=>{
+                                    if(v.purchase_freq == 'day'){
+                                        showData.push(v)
+                                    }
+                                })
+                            }
+                            gridOptions.api.setRowData(showData)
                             return true
                         }
                     })
-
                 }
             }
         },

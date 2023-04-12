@@ -240,7 +240,7 @@ div.function .btn-group button:not([saveData]):hover {
 
 .ag_purchase_button .dropdown-toggle.btn.show {
     border-color: #71639e !important;
-    color: #71639e;
+    color: #71639e !important;
 }
 
 .ag_purchase_button .dropdown-menu {

@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let theOne = true
 
     // purchase_summary_data有数据，则录入purchase_summary_data中的数据，如果没有，则通过配量汇总生成
-    purchaseOption = purchase_table(agOption, data_index.purchase_summary_data)
+    purchaseOption = purchase_table(agOption)
     // 初始化采购单
     resetPurchaseData.purchase_init(purchaseOption)
     agOption.api.sizeColumnsToFit();
