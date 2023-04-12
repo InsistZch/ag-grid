@@ -34,7 +34,7 @@ div.ag_main span.date {
     transform: translate(-50%, -50%);
 }
 
-#purchase_date{
+#purchase_date {
     font-size: 1rem;
     position: absolute;
     top: 10px;
@@ -121,12 +121,13 @@ div.function .btn-group button:not([saveData]):hover {
     margin-top: 0.5rem;
 }
 
-.ag_purchase_button .el_columns_item{
+.ag_purchase_button .el_columns_item {
     margin: 0;
     margin-right: 5px;
     font-size: 12px;
     padding-top: 3px;
 }
+
 .myGrid {
     width: 100%;
 }
@@ -196,32 +197,57 @@ div.function .btn-group button:not([saveData]):hover {
     background-color: #cacaca;
 }
 
-.span_name{
+.span_name {
     color: #cacaca;
 }
 
-.ag_purchase_button .function{
+.ag_purchase_button .function {
     margin-left: 4px;
 }
 
-.purchase_button{
+.purchase_button {
     padding: 2px !important;
 }
 
-#purchase_ruturn{
+#purchase_ruturn {
     height: 26px !important;
     font-size: 12px;
 }
 
-.el_orderDate{  
+.el_orderDate {
     height: max-content;
     width: max-content;
     overflow: hidden;
     background-color: #fff;
 }
-.el_orderDate_search{
+
+.el_orderDate_search {
     width: 200px;
     height: 40px;
     font-size: 16px;
     outline: none;
+}
+
+.ag_purchase_button .dropdown-toggle {
+    height: 26px;
+    border-color: #71639e !important;
+    color: #71639e !important;
+    font-size: 12px;
+    border-radius: 10px;
+    margin-right: 10px;
+    padding: 3px 10px;
+}
+
+.ag_purchase_button .dropdown-toggle.btn.show {
+    border-color: #71639e !important;
+    color: #71639e;
+}
+
+.ag_purchase_button .dropdown-menu {
+    min-width: 7rem !important;
+}
+
+.ag_purchase_button .dropdown-menu .el_columns_item {
+    display: block;
+    margin-left: 1rem;
 }
