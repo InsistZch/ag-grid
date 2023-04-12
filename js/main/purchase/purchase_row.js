@@ -23,7 +23,6 @@ const row = (agOption, purchase_summary_data) => {
 
         const orderDate = new Date(new Date().getFullYear(), planDate.getMonth() + 1, planDate.getDate() + Number(v.plan_day_purchase_ahead_days))
         const theOrderDate = `${orderDate.getMonth() < 10 ? `0${orderDate.getMonth()}` : orderDate.getMonth()}-${orderDate.getDate() < 10 ? `0${orderDate.getDate()}` : orderDate.getDate()}`
-        console.log(v)
 
         let obj = {
             material: v.name.split('-')[0],

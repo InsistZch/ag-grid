@@ -1,6 +1,11 @@
 /** @odoo-module **/
 import customCells from "./purchase_customCells.js"
 
+const date = new Date()
+const nowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
+const tomorrowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 1 < 10 ? `0${date.getDate() + 1}` : date.getDate() + 1}`
+const thirdDayDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 2 < 10 ? `0${date.getDate() + 2}` : date.getDate() + 2}`
+
 export default [
     {
         headerName: "",
@@ -65,7 +70,11 @@ export default [
     {
         headerName: "下单",
         field: "Order",
-        editable: true,
+        editable: (e) => {
+            if (e.data.orderDate == nowDate && e.data.purchase_freq == 'day') {
+                return true
+            }
+        },
         // cellRenderer:
     },
     {
@@ -75,12 +84,22 @@ export default [
     }, {
         headerName: "明天",
         field: "tomorrow",
-        hide: true
+        hide: true,
+        editable: (e) => {
+            if (e.data.orderDate == tomorrowDate && e.data.purchase_freq == 'day') {
+                return true
+            }
+        },
     },
     {
         headerName: "后天",
         field: "thirdDay",
-        hide: true
+        hide: true,
+        editable: (e) => {
+            if (e.data.orderDate == thirdDayDate && e.data.purchase_freq == 'day') {
+                return true
+            }
+        },
     },
     {
         headerName: "单位",

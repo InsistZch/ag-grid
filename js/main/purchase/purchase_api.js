@@ -188,7 +188,7 @@ const getContextMenuItems = (e, gridOptions, agOption) => {
 
 const onCellValueChanged = (e, gridOptions) => {
 
-    if (e.colDef.headerName == '下单') {
+    if (e.colDef.headerName == '下单' || e.colDef.headerName == '明天' || e.colDef.headerName == '后天') {
         let newValue = 0;
         const rowNode = gridOptions.api.getRowNode(e.data.id)
         if (e.newValue == 0 || e.newValue == null || e.newValue == undefined) {
@@ -197,8 +197,9 @@ const onCellValueChanged = (e, gridOptions) => {
             rowNode.setDataValue(e.colDef.field, e.oldValue)
         } else {
             newValue = Number(e.newValue)
-            if (e.newValue.indexOf(".") > 0) newValue = newValue.toFixed(1)
+            if (String(e.newValue).indexOf(".") > 0) newValue = newValue.toFixed(1)
             rowNode.setDataValue(e.colDef.field, newValue)
+            e.data.shouldOrder = newValue
         }
     }
 }

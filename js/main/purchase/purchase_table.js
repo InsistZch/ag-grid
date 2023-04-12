@@ -4,10 +4,10 @@ import row from "./purchase_row.js";
 import { getRowId, getContextMenuItems, onCellValueChanged, onCellClicked } from './purchase_api.js';
 import GroupRowInnerRenderer from './GroupRowInnerRenderer.js'
 
-const gridOptions = (agOption,purchase_summary_data) => {
+const gridOptions = (agOption, purchase_summary_data) => {
     const obj = {
         columnDefs: col,
-        rowData: row(agOption,purchase_summary_data),
+        rowData: row(agOption, purchase_summary_data),
         enableRangeSelection: true,
         defaultColDef: {
             editable: false,//单元表格是否可编辑
@@ -47,6 +47,7 @@ const gridOptions = (agOption,purchase_summary_data) => {
         // context: {},
 
     }
+
     return obj
 };
 export default gridOptions

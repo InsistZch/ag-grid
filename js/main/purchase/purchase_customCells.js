@@ -1,4 +1,5 @@
 /** @odoo-module **/
+
 class customCells {
 
     init(params) {
@@ -58,9 +59,9 @@ class customCells {
 
             const rowNode = this.params.api.getRowNode(this.params.data.id)
 
-            rowNode.setDataValue('Order', this.currentData == nowDate ? rowNode.data.quantity : 0)
-            rowNode.setDataValue('tomorrow', this.currentData == tomorrowDate ? rowNode.data.quantity : 0)
-            rowNode.setDataValue('thirdDay', this.currentData == thirdDayDate ? rowNode.data.quantity : 0)
+            rowNode.setDataValue('Order', this.currentData == nowDate ? rowNode.data.shouldOrder : 0)
+            rowNode.setDataValue('tomorrow', this.currentData == tomorrowDate ? rowNode.data.shouldOrder : 0)
+            rowNode.setDataValue('thirdDay', this.currentData == thirdDayDate ? rowNode.data.shouldOrder : 0)
 
             this.params.api.refreshCells({ force: true })
 
