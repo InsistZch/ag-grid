@@ -321,7 +321,7 @@ const onCellValueChanged = async (e, gridOptions) => {
         e.data['costPrice'] = d[2]
         e.data['dname'] = `${e.newValue}_${e.data.type}`
 
-        resetPurchaseData.Change(gridOptions)
+        resetPurchaseData.Change(gridOptions,e)
 
     } else if (e.colDef.headerName == '配量汇总') {
 
@@ -336,7 +336,7 @@ const onCellValueChanged = async (e, gridOptions) => {
             console.log(e)
             rowNode.setDataValue('whole', "")
             rowNode.setDataValue('costPrice', 0)
-            resetPurchaseData.Change(gridOptions)
+            resetPurchaseData.Change(gridOptions,e)
             return
         }
         // 只添加空格
@@ -419,7 +419,6 @@ const onCellValueChanged = async (e, gridOptions) => {
                 })
 
                 // console.log(mate, materialObj)
-
 
                 // 食材存在
                 if (mate.length > 0) {
@@ -838,7 +837,7 @@ const onCellValueChanged = async (e, gridOptions) => {
         const rowNode = await e.api.getRowNode(e.data.id)
         await rowNode.setData(e.data)
 
-        resetPurchaseData.Change(gridOptions)
+        resetPurchaseData.Change(gridOptions,e)
 
         gridOptions.api.refreshCells({ force: true })
         // console.log(e.data)

@@ -1,21 +1,24 @@
 /** @odoo-module **/
 import purchase_row from "../purchase/purchase_row.js"
 
-class resetPurchaseData{
+class resetPurchaseData {
     purchaseOption = null
 
-    purchase_init(purchaseOption){
+    purchase_init(purchaseOption) {
         this.purchaseOption = purchaseOption
     }
-    Change(agOption){
-        const data = purchase_row(agOption)
-        this.purchaseOption.rowData.forEach(row => {
-            if(row.newAdd){
-                data.push(row)
-            }
-        })
+    Change(agOption, e) {
+
+        const data = purchase_row(agOption, e)
+        // this.purchaseOption.rowData.forEach(row => {
+        //     if(row.newAdd){
+        //         data.push(row)
+        //     }
+        // })
+        console.log(data)
         this.purchaseOption.rowData = data
         this.purchaseOption.api && this.purchaseOption.api.setRowData(data)
+        this.purchaseOption.api && this.purchaseOption.api.refreshCells({ force: true })
     }
 }
 

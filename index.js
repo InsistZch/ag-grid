@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let theOne = true
 
     // purchase_summary_data有数据，则录入purchase_summary_data中的数据，如果没有，则通过配量汇总生成
-    purchaseOption = purchase_table(agOption)
+    purchaseOption = purchase_table(agOption) // 初始化
     // 初始化采购单
     resetPurchaseData.purchase_init(purchaseOption)
     agOption.api.sizeColumnsToFit();
@@ -118,18 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (isShow) {
                 eDiv.innerHTML = ""
                 new agGrid.Grid(eDiv, purchaseOption);
-
-                if (theOne == true) {
-                    if (data_index.purchase_summary_data == '') {
-                        // 用户再点开采购单前改了配量汇总 ↓
-                        resetPurchaseData.Change(agOption)
-                    }
-                } else {
-                    purchaseOption.rowData = purchase_rowdate.data
-                    purchaseOption.api.setRowData(purchaseOption.rowData)
-                }
-
-                // 采购单选框的状态
+                resetPurchaseData.Change(agOption)
                 isShowPurchaseColumns(purchaseOption)
                 // purchaseOption.api.sizeColumnsToFit();
                 // console.log(agOption)
@@ -137,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 agOption.api.setColumnDefs(refreshWholeCol.refreshWhole('', agOption));
                 agOption.api.sizeColumnsToFit()
 
-                // 隐藏主表单的选款和按钮
+                // 隐藏主表单的选款和按钮   +
                 agButton.style.display = 'none'
                 initFunction.style.display = 'none'
                 date.id = 'purchase_date'
@@ -155,17 +144,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 agPurchaseButton.forEach((agButton) => {
                     agButton.style.display = 'none'
                 })
-
-                const nowD = new Date()
-
-                // const purchaseConsole = []
-                // purchaseOption.rowData.forEach((v) => {
-                //     const t = new Date(new Date().getFullYear(), v.orderDate.split('-')[0] - 1, v.orderDate.split('-')[1])
-                //     if (t - nowD >= 1) {
-                //         purchaseConsole.push(v)
-                //     }
-                // })
-                // console.log(purchaseConsole)
 
                 purchase_rowdate = new purchase_date(purchaseOption.rowData)
                 console.log(purchaseOption.rowData)

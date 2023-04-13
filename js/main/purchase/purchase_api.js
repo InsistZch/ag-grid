@@ -1,13 +1,14 @@
 /** @odoo-module **/
 
 import refreshWholeCol from "../otherApi/refreshWholeCol.js";
+import resetPurchaseData from '../otherApi/resetPurchaseData.js'
 import { customFrom as customFromDom, isShowColumns as newisShowColumns } from './../otherApi/index.js'
 import index from '../../../data/index.js'
 
 /** @odoo-module **/
 const getRowId = (params) => params.data.id;
 
-const getContextMenuItems = (e, gridOptions, agOption) => {
+const getContextMenuItems = (e, purchaseOption, agOption) => {
     if (e.node && e.node.data == undefined) return
     const result = [
         {
@@ -80,12 +81,12 @@ const getContextMenuItems = (e, gridOptions, agOption) => {
                             const dateSpan = document.querySelector('.date') // 日计划
                             const planDateHtml = dateSpan.innerHTML.split(" ")[0].split('-')
                             const planDate = new Date(planDateHtml)
-                            const demandDate = `${planDate.getFullYear()}-${planDate.getMonth() + 1 < 10 ? `0${planDate.getMonth() + 1}` : planDate.getMonth() + 1}-${planDate.getDate() < 10 ? `0${planDate.getDate()}` : planDate.getDate()}`
+                            const demandDate = `${planDate.getMonth() + 1 < 10 ? `0${planDate.getMonth() + 1}` : planDate.getMonth() + 1}-${planDate.getDate() < 10 ? `0${planDate.getDate()}` : planDate.getDate()}`
 
                             const date = new Date()
-                            const nowDate = `${date.getFullYear()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
-                            const tomorrowDate = `${date.getFullYear()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 1 < 10 ? `0${date.getDate() + 1}` : date.getDate() + 1}`
-                            const thirdDayDate = `${date.getFullYear()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 2 < 10 ? `0${date.getDate() + 2}` : date.getDate() + 2}`
+                            const nowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
+                            const tomorrowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 1 < 10 ? `0${date.getDate() + 1}` : date.getDate() + 1}`
+                            const thirdDayDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 2 < 10 ? `0${date.getDate() + 2}` : date.getDate() + 2}`
 
                             const material = _parent.querySelector('#material')
                             const add_meal_order = _parent.querySelector('#add_meal_order')
@@ -93,8 +94,8 @@ const getContextMenuItems = (e, gridOptions, agOption) => {
                             const unitData = JSON.parse(add_meal_unit.querySelector(`option[value="${add_meal_unit.value}"]`).getAttribute('data'))
                             // console.log(unitData)
 
-                            const orderDate = new Date(new Date().getFullYear(), planDate.getMonth() + 1, planDate.getDate() + Number(unitData.plan_day_purchase_ahead_days))
-                            const theOrderDate = `${orderDate.getFullYear()}-${orderDate.getMonth() < 10 ? `0${orderDate.getMonth()}` : orderDate.getMonth()}-${orderDate.getDate() < 10 ? `0${orderDate.getDate()}` : orderDate.getDate()}`
+                            const orderDate = new Date(planDate.getFullYear(), planDate.getMonth() + 1, planDate.getDate() + Number(unitData.plan_day_purchase_ahead_days))
+                            const theOrderDate = `${orderDate.getMonth() < 10 ? `0${orderDate.getMonth()}` : orderDate.getMonth()}-${orderDate.getDate() < 10 ? `0${orderDate.getDate()}` : orderDate.getDate()}`
 
 
 
@@ -121,29 +122,30 @@ const getContextMenuItems = (e, gridOptions, agOption) => {
                                 unit: add_meal_unit.value,
                                 supplier: "",
                                 remarks: "",
-                                id: gridOptions.rowData.length + 1,
+                                id: purchaseOption.rowData.length + 1,
                                 purchase_freq: addMaterialObj.purchase_freq,
                                 category_name: name,
                                 newAdd: true,
                             }
-                            // gridOptions.api.applyTransaction({
+                            // purchaseOption.api.applyTransaction({
                             //     add: [obj], addIndex: e.node.rowIndex + 1
                             // })
-                            gridOptions.rowData.push(obj)
+                            purchaseOption.rowData.push(obj)
                             let showData = []
 
                             const noDailyProcurement = document.querySelector('#noDailyProcurement')
 
                             if (noDailyProcurement.checked == true) {
-                                showData = gridOptions.rowData
+                                showData = purchaseOption.rowData
                             }else{
-                                gridOptions.rowData.forEach((v)=>{
+                                purchaseOption.rowData.forEach((v)=>{
                                     if(v.purchase_freq == 'day'){
                                         showData.push(v)
                                     }
                                 })
                             }
-                            gridOptions.api.setRowData(showData)
+                            purchaseOption.api.setRowData(showData)
+                            console.log(purchaseOption)
                             return true
                         }
                     })
@@ -153,26 +155,25 @@ const getContextMenuItems = (e, gridOptions, agOption) => {
         {
             name: '删除食材',
             action: () => {
-                const selRows = gridOptions.api.getRowNode(e.node.id)
-                gridOptions.api.applyTransaction({ remove: [selRows] });
-
-                gridOptions.rowData = []
-                gridOptions.api.forEachNode(v => {
-                    v.key == null && gridOptions.rowData.push(v.data)
+                purchaseOption.rowData.forEach((v,i)=>{
+                    if(v.id == e.node.data.id){
+                        purchaseOption.rowData.splice(i,1)
+                    }
                 })
 
-                gridOptions.api.setRowData(gridOptions.rowData)
+                purchaseOption.api.setRowData(purchaseOption.rowData)
+                
             }
         }
     ]
     return result
 }
 
-const onCellValueChanged = (e, gridOptions) => {
+const onCellValueChanged = (e, purchaseOption) => {
 
     if (e.colDef.headerName == '下单' || e.colDef.headerName == '明天' || e.colDef.headerName == '后天') {
         let newValue = 0;
-        const rowNode = gridOptions.api.getRowNode(e.data.id)
+        const rowNode = purchaseOption.api.getRowNode(e.data.id)
         if (e.newValue == 0 || e.newValue == null || e.newValue == undefined) {
             rowNode.setDataValue(e.colDef.field, newValue)
         } else if (isNaN(e.newValue)) {
@@ -186,7 +187,7 @@ const onCellValueChanged = (e, gridOptions) => {
     }
 }
 
-const onCellClicked = (e, gridOptions, agOption) => {
+const onCellClicked = (e, purchaseOption, agOption) => {
     agOption.rowData.forEach(row => {
         row.dish_key_id.material_item.forEach(item => {
             if (item.name.split("-")[0] == (e.data.material)) {

@@ -17,10 +17,11 @@ class customCells {
 
         const d = new Date()
 
-        input.min = params.data.creationDate
-        input.max = params.data.demandDate
+        input.min = `${d.getFullYear()}-${params.data.creationDate}`
+        input.max = `${d.getFullYear()}-${params.data.demandDate}`
 
-        input.value = params.data.orderDate
+        input.value = `${d.getFullYear()}-${params.data.orderDate}`
+
         div.appendChild(input)
 
         this.ele = div
@@ -48,12 +49,12 @@ class customCells {
         if (value == '' || value < this.ele.querySelector('input').min || value > this.ele.querySelector('input').max) {
             this.currentData = oldValue
         } else {
-            this.currentData = value
+            this.currentData = `${value.split("-")[1]}-${value.split("-")[2]}`
 
             const date = new Date()
-            const nowDate = `${date.getFullYear()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
-            const tomorrowDate = `${date.getFullYear()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 1 < 10 ? `0${date.getDate() + 1}` : date.getDate() + 1}`
-            const thirdDayDate = `${date.getFullYear()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 2 < 10 ? `0${date.getDate() + 2}` : date.getDate() + 2}`
+            const nowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
+            const tomorrowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 1 < 10 ? `0${date.getDate() + 1}` : date.getDate() + 1}`
+            const thirdDayDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 2 < 10 ? `0${date.getDate() + 2}` : date.getDate() + 2}`
 
 
             const rowNode = this.params.api.getRowNode(this.params.data.id)
