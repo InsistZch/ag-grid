@@ -169,7 +169,6 @@ const row = (agOption, e) => {
 
                 });
 
-                console.log(deldata)
                 deldata.forEach(({ name, num, oldindex, needDel }) => {
                     rowData.forEach((v, i) => {
                         if (e.data.wholeId[oldindex] == v.id) {
