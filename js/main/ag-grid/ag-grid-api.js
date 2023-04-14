@@ -333,7 +333,6 @@ const onCellValueChanged = async (e, gridOptions) => {
             e.data.dish_key_id.material_item = []
             // e.data.costPrice = 0
             const rowNode = e.api.getRowNode(e.data.id)
-            console.log(e)
             rowNode.setDataValue('whole', "")
             rowNode.setDataValue('costPrice', 0)
             resetPurchaseData.Change(gridOptions,e)
@@ -419,6 +418,7 @@ const onCellValueChanged = async (e, gridOptions) => {
                 })
 
                 // console.log(mate, materialObj)
+
 
                 // 食材存在
                 if (mate.length > 0) {

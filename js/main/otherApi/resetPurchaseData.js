@@ -15,7 +15,6 @@ class resetPurchaseData {
         //         data.push(row)
         //     }
         // })
-        console.log(data)
         this.purchaseOption.rowData = data
         this.purchaseOption.api && this.purchaseOption.api.setRowData(data)
         this.purchaseOption.api && this.purchaseOption.api.refreshCells({ force: true })

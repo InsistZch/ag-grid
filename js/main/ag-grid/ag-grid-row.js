@@ -165,8 +165,6 @@ const data = () => {
                     dish_top_category_id: dish_key.dish_top_category_id,
                     material_item: d_data[1]
                 }
-
-
             }
         }
         obj['dname'] = obj['dish'] + "_" + obj['type']
@@ -187,6 +185,14 @@ const data = () => {
                 }
             })
         }
+
+        const wholeId = []
+        obj.dish_key_id.material_item.forEach((mitem)=>{
+            wholeId.push(mitem.id)
+        })
+
+        obj['wholeId'] =  wholeId
+        
         data.push(obj)
         // if (isShow) {
 

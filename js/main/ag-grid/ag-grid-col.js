@@ -317,8 +317,8 @@ const col = () => {
                 }
                 return pre
             }, [])
-            params.data.dish_key_id.material_item = arr
-            // console.log(params.data.dish_key_id.material_item)
+            params.data.dish_key_id.material_item = arr 
+            // console.log(params.data)
 
             // 找到当前菜品列的全部数据
             params.api.forEachNode((e) => {

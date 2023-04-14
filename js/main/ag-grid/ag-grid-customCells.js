@@ -325,7 +325,6 @@ class customCells {
     // 编辑结束后返回一次
     // 如果返回true,编辑结果失效
     isCancelAfterEnd() {
-
         const currentData = this.ele.querySelector('input').value
 
         // 同一餐不能出现重复
@@ -390,7 +389,7 @@ class customCells {
                     console.log(item)
                 }
                 this.params.data.dish_key_id = { ...obj }
-                // console.log(this.params.data.dish_key_id)
+                console.log(this.params.data.dish_key_id)
                 this.currentData = currentData
                 return false
             }
