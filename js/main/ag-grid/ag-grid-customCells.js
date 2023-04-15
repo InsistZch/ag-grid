@@ -372,7 +372,7 @@ class customCells {
                 // 需要斤数
                 if (preserved_dishes.has(e.id)) {
                     const value = preserved_dishes.get(e.id)
-                    console.log(value)
+                    // console.log(value)
                     if (value.dinner_type == this.params.data.dinner_type) {
                         this.params.data.whole = value.whole
                         obj['material_item'] = [...value.material_item]
@@ -389,7 +389,7 @@ class customCells {
                     console.log(item)
                 }
                 this.params.data.dish_key_id = { ...obj }
-                console.log(this.params.data.dish_key_id)
+                // console.log(this.params.data.dish_key_id)
                 this.currentData = currentData
                 return false
             }

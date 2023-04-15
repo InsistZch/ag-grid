@@ -63,13 +63,18 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                                     materialDishFood.appendChild(createDiv)
                                 }
                                 for (const item of index.material_item) {
+                                    console.log(item)
                                     const { name } = index.material_purchase_unit_category.find(v => v.id == item.main_unit_id)
+
+                                    console.log(name)
                                     if (item.name.split('-')[0] == material.value) {
                                         addMaterialObj = { ...item }
                                         add_meal_unit.innerHTML += `<option value="${name}" data=${JSON.stringify(item)}>${name}</option>`
                                         for (const get_item of getUnitObj(item)) {
                                             const { name } = index.material_purchase_unit_category.find(v => v.id == get_item.purchase_unit_id)
-                                            add_meal_unit.innerHTML += `<option value="${name}" data=${JSON.stringify(get_item)}>${name}</option>`
+
+                                            add_meal_unit.innerHTML += `<option value="${name}" data=${JSON.stringify(item)}>${name}</option>`
+                                            // console.log(item, get_item)
                                         }
                                         break
                                     }
@@ -97,8 +102,6 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                             const orderDate = new Date(planDate.getFullYear(), planDate.getMonth() + 1, planDate.getDate() + Number(unitData.plan_day_purchase_ahead_days))
                             const theOrderDate = `${orderDate.getMonth() < 10 ? `0${orderDate.getMonth()}` : orderDate.getMonth()}-${orderDate.getDate() < 10 ? `0${orderDate.getDate()}` : orderDate.getDate()}`
 
-
-
                             if (material.value.trim() == "" || addMaterialObj == {}) return true
 
                             const { name } = index.material_top_category.find(e => e.id == addMaterialObj.top_category_id)
@@ -107,7 +110,7 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                                 creationDate: nowDate,
                                 orderDate: theOrderDate,
                                 demandDate: demandDate,
-                                quantity: Number(add_meal_order.value).toFixed(1),
+                                quantity: +Number(add_meal_order.value).toFixed(1),
                                 stock: 1000,
                                 // standardPrice: Number(addMaterialObj.main_price / unitData.main_unit_bom_unit_ratio).toFixed(1),
                                 // marketPrice: Number(addMaterialObj.material_price_alert / unitData.main_unit_bom_unit_ratio).toFixed(1),
@@ -120,6 +123,8 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                                 tomorrow: addMaterialObj.purchase_freq == "day" ? (tomorrowDate == theOrderDate ? Number(add_meal_order.value).toFixed(1) : 0) : 0,
                                 thirdDay: addMaterialObj.purchase_freq == "day" ? (thirdDayDate == theOrderDate ? Number(add_meal_order.value).toFixed(1) : 0) : 0,
                                 unit: add_meal_unit.value,
+                                purchase_unit_id: index.material_purchase_unit_category.find(v => v.name == add_meal_unit.value).id,
+                                main_unit_id: index.material_item.find(v => v.name = addMaterialObj.name.split('-')[0]).main_unit_id,
                                 supplier: "",
                                 remarks: "",
                                 id: purchaseOption.rowData.length + 1,
@@ -137,15 +142,15 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
 
                             if (noDailyProcurement.checked == true) {
                                 showData = purchaseOption.rowData
-                            }else{
-                                purchaseOption.rowData.forEach((v)=>{
-                                    if(v.purchase_freq == 'day'){
+                            } else {
+                                purchaseOption.rowData.forEach((v) => {
+                                    if (v.purchase_freq == 'day') {
                                         showData.push(v)
                                     }
                                 })
                             }
                             purchaseOption.api.setRowData(showData)
-                            console.log(purchaseOption)
+                            // console.log(purchaseOption)
                             return true
                         }
                     })
@@ -155,14 +160,14 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
         {
             name: '删除食材',
             action: () => {
-                purchaseOption.rowData.forEach((v,i)=>{
-                    if(v.id == e.node.data.id){
-                        purchaseOption.rowData.splice(i,1)
+                purchaseOption.rowData.forEach((v, i) => {
+                    if (v.id == e.node.data.id) {
+                        purchaseOption.rowData.splice(i, 1)
                     }
                 })
 
                 purchaseOption.api.setRowData(purchaseOption.rowData)
-                
+
             }
         }
     ]
@@ -210,6 +215,7 @@ const getUnitObj = (material) => {
             return true
         }
     })
+    // console.log(arr)
     return arr
 }
 

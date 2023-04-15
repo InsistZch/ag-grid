@@ -41,11 +41,12 @@ const getCountMaterial = (agOption, purItem) => {
         purItem.forEach(item => {
             const dish_qty = Number(((item.dish_qty || 0) / item.main_unit_bom_unit_ratio).toFixed(1))
             const main_price = Number((item.main_price / item.main_unit_bom_unit_ratio).toFixed(1))
-
+            console.log()
             material.set(item.id, {
                 dish_qty,
                 main_price: main_price,
                 main_unit_id: item.main_unit_id,
+                purchase_unit_id:item.purchase_unit_id,
                 name: item.name,
                 material_price_alert: Number(item.material_price_alert.toFixed(1)),
                 top_category_id: item.top_category_id,
@@ -70,6 +71,7 @@ const getCountMaterial = (agOption, purItem) => {
                         dish_qty,
                         main_price: main_price,
                         main_unit_id: item.main_unit_id,
+                        purchase_unit_id:item.main_unit_id,
                         name: item.name,
                         material_price_alert: Number(item.material_price_alert.toFixed(1)),
                         top_category_id: item.top_category_id,

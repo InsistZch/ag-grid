@@ -4,6 +4,7 @@
         "demandDate": "2023-04-14",
         "main_qty": 60,
         "main_unit_id": 5,
+        "purchase_unit_id":5,
         "material_id": 360937,
         "orderDate": "2023-04-13"
     }

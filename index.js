@@ -68,8 +68,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const dateSpan = document.querySelector('.date')
         const theAlert = document.querySelector('.the_alert')
         const date = dateSpan.innerHTML.split(" ")[0].split('-')
-        var d = new Date(...date);
-        var nowD = new Date();
+        var d = new Date(date[0], date[1] - 1, date[2]);
+        var nowD = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
         if (d - nowD < 0) {
             theAlert.style.display = 'block'
             const alert = (message, type) => {
@@ -146,7 +146,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 })
 
                 purchase_rowdate = new purchase_date(purchaseOption.rowData)
-                console.log(purchaseOption.rowData)
+
+                // 打印数据
+                const purchaseConsole = []
+                purchase_rowdate.data.forEach((r) => {
+                    purchaseConsole.push({
+                        mname: r.material,
+                        purchase_unit_id: r.purchase_unit_id,
+                        main_unit_id : r.main_unit_id,
+                        purchase_gty: r.quantity,
+                        creationDate:   `${d.getFullYear()}-${r.creationDate}`,
+                        orderDate:`${d.getFullYear()}-${r.orderDate}`,
+                        demandDate:`${d.getFullYear()}-${r.demandDate}`
+                    })
+                })
+                console.log(purchaseConsole)
 
                 if (agOption.context != undefined && agOption.context.owl_widget.PurChaseOrderSave) {
                     await agOption.context.owl_widget.PurChaseOrderSave(purchaseConsole)

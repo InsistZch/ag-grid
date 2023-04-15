@@ -192,7 +192,6 @@ const data = () => {
         })
 
         obj['wholeId'] =  wholeId
-        
         data.push(obj)
         // if (isShow) {
 

@@ -321,6 +321,7 @@ const onCellValueChanged = async (e, gridOptions) => {
         e.data['costPrice'] = d[2]
         e.data['dname'] = `${e.newValue}_${e.data.type}`
 
+        console.log(e.data.whole)
         resetPurchaseData.Change(gridOptions,e)
 
     } else if (e.colDef.headerName == '配量汇总') {
