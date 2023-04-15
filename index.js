@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.log(purchaseOption.rowData)
 
                 if (agOption.context != undefined && agOption.context.owl_widget.PurChaseOrderSave) {
-                    await agOption.context.owl_widget.PurChaseOrderSave(purchaseConsole)
+                    // await agOption.context.owl_widget.PurChaseOrderSave(purchaseConsole)
                 }
             }
         }
