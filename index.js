@@ -169,6 +169,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     })
 
+
+
     //控制列显示与隐藏
     isShowColumns.init_select(agOption)
     isShowColumns.change_select(agOption)
