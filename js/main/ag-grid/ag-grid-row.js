@@ -192,6 +192,7 @@ const data = () => {
         })
 
         obj['wholeId'] =  wholeId
+        obj['isMountWhole'] = obj['whole']
         data.push(obj)
         // if (isShow) {
 

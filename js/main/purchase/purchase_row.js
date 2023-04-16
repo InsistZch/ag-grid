@@ -56,11 +56,152 @@ const row = (agOption, e) => {
     } else {
         rowData = purchase_rowdata.data
         if (e) {
-            const wholeId = []
+            const allOldwholeId = []
+            const newwholeId = []
+            const oldwholeId = e.data.wholeId
             e.data.dish_key_id.material_item.forEach((mitem) => {
-                wholeId.push(mitem.id)
+                newwholeId.push(mitem.id)
+
             })
-            console.log(wholeId)
+            agOption.api.forEachNode((row) => {
+                if (row.key == null && e.rowIndex != row.rowIndex) {
+                    allOldwholeId.push(...row.data.wholeId)
+                }
+            })
+            const purAddItem = []
+            const purUpDataItem = []
+            const deldata = []
+            const cdeldata = []
+            if (e.colDef.headerName == '配量汇总') {
+                const newValue = e.newValue.split(" ")
+                const oldValue = e.oldValue.split(" ")
+                let add = []
+                const updata = []
+                let allwhole = ''
+                agOption.api.forEachNode((row) => {
+                    if (row.key == null && e.rowIndex != row.rowIndex) {
+                        allwhole += `${row.data.whole} `
+                    }
+                })
+                const allOldValue = allwhole.split(" ")
+                newValue.forEach((newv, i) => {
+                    const newvName = (newv != '' && newv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0])
+                    if ((oldValue.map(o => o != '' && o.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0])).indexOf(newvName) < 0) {
+                        add.push({ newvName, num: + newv.match(/([0-9]+)/)[0] })
+                    }
+                    oldValue.forEach(oldv => {
+                        const oldvName = (oldv != '' && oldv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0])
+                        const num = + (newv != '' && newv.match(/([0-9]+)/)[0]) - (oldv != '' && oldv.match(/([0-9]+)/)[0])
+                        if (newvName == oldvName && newv != oldv) {
+                            updata.push({ newvName, num })
+                        }
+                    })
+                });
+
+
+                const isadd = []
+                add.forEach((a) => {
+                    if ((allOldValue.map(o => o != '' && o.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0])).indexOf(a.newvName) >= 0) {
+                        updata.push(a)
+                    } else {
+                        isadd.push(a)
+                    }
+                })
+                add = isadd
+
+                e.data.dish_key_id.material_item.forEach((puri) => {
+                    const puriname = `${puri.name.split('-')[0]}${puri.dish_process_category_name}`
+                    console.log(puri)
+                    add.forEach((add) => {
+                        if (puriname == add.newvName) {
+                            purAddItem.push(puri)
+                        }
+                    })
+                    updata.forEach((updata) => {
+                        if (puriname == updata.newvName) {
+                            purUpDataItem.push({ puriId: puri.id, num: updata.num })
+                        }
+                    })
+
+                })
+
+                if (newValue.length < oldValue.length) {
+                    oldValue.forEach((oldv, i) => {
+                        const oldvName = (oldv != '' && oldv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0])
+                        const num = oldv != '' && oldv.match(/([0-9]+)/)[0]
+                        if (newValue == '') {
+                            if (oldvName != '' && num != '') deldata.push({ name: oldvName, num, oldindex: i, needDel: true })
+                        } else {
+                            newValue.forEach((newv) => {
+                                const newvName = (newv != '' && newv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0])
+                                if (oldvName != '' && newvName != '' && newvName != oldvName) {
+                                    deldata.push({ name: oldvName, num, oldindex: i, needDel: true })
+                                }
+                            })
+                        }
+                    });
+
+                    allOldValue.forEach(oldv => {
+                        const oldvName = (oldv != '' && oldv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0])
+                        deldata.forEach((del) => {
+                            if (del.name == oldvName) {
+                                del.needDel = false
+                            }
+                        })
+
+                    });
+                }
+            }
+            if (e.colDef.headerName == '菜品') {
+
+                newwholeId.forEach((n, i) => {
+                    console.log(allOldwholeId, n)
+                    if (allOldwholeId.indexOf(n) < 0) {
+                        purAddItem.push(e.data.dish_key_id.material_item[i])
+                    }
+                    if (allOldwholeId.indexOf(n) >= 0) {
+                        purUpDataItem.push({ puriId: n, num: e.data.dish_key_id.material_item[i].dish_qty })
+                    }
+
+                })
+
+                oldwholeId.forEach(o => {
+                    console.log(o)
+                    cdeldata.push(o)
+                });
+
+                console.log(purAddItem, purUpDataItem)
+            }
+            if (!isNaN(e.colDef.field)) {
+                const newValue = e.data.whole.split(" ")
+                const oldValue = e.data.isMountWhole.split(" ")
+
+                console.log(newValue, oldValue)
+
+                const updata = []
+                newValue.forEach((newv, i) => {
+                    const newvName = (newv != '' && newv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0])
+                    oldValue.forEach(oldv => {
+                        const oldvName = (oldv != '' && oldv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0])
+                        const num = + (newv != '' && newv.match(/([0-9]+)/)[0]) - (oldv != '' && oldv.match(/([0-9]+)/)[0])
+                        if (newvName == oldvName && newv != oldv) {
+                            updata.push({ newvName, num })
+                        }
+                    })
+                });
+                console.log(updata)
+                e.data.dish_key_id.material_item.forEach((puri) => {
+                    const puriname = `${puri.name.split('-')[0]}${puri.dish_process_category_name}`
+                    updata.forEach((updata) => {
+                        console.log(puri,updata.newvName)
+                        if (puriname == updata.newvName) {
+                            purUpDataItem.push({ puriId: puri.id, num: updata.num })
+                        }
+                    })
+
+                })
+                console.log(purUpDataItem)
+            }
             // const newValue = e.newValue.split(" ")
             // const oldValue = e.oldValue.split(" ")
 
@@ -123,30 +264,27 @@ const row = (agOption, e) => {
             //     })
 
             //     //添加
-            //     const materialItemD = getCountMaterial(agOption, purAddItem)
-            //     d = materialItemD
-            //     e.data.wholeId = wholeId
+            const materialItemD = getCountMaterial(agOption, purAddItem)
+            d = materialItemD
 
             //     // 修改
-            //     purUpDataItem.forEach(({ puri, num }) => {
-            //         const puriname = puri.name.split('-')[0]
-            //         rowData.forEach(v => {
-            //             if (puriname == v.material) {
-            //                 console.log(v, puri, num)
-            //                 v.Order = v.purchase_freq == "day" ? (nowDate == v.orderDate ? (+v.Order) + num : 0) : 0
-            //                 v.tomorrow = v.purchase_freq == "day" ? (tomorrowDate == v.orderDate ? (+v.tomorrow) + num : 0) : 0
-            //                 v.thirdDay = v.purchase_freq == "day" ? (thirdDayDate == v.orderDate ? (+v.thirdDay) + num : 0) : 0
-            //                 v.shouldOrder = (+ v.shouldOrder) + num
+            purUpDataItem.forEach(({ puriId, num }) => {
+                rowData.forEach(v => {
+                    if (puriId == v.id) {
+                        v.Order = v.purchase_freq == "day" ? (nowDate == v.orderDate ? (+v.Order) + num : 0) : 0
+                        v.tomorrow = v.purchase_freq == "day" ? (tomorrowDate == v.orderDate ? (+v.tomorrow) + num : 0) : 0
+                        v.thirdDay = v.purchase_freq == "day" ? (thirdDayDate == v.orderDate ? (+v.thirdDay) + num : 0) : 0
+                        v.shouldOrder = (+ v.shouldOrder) + num
 
-            //                 if (v.Order < 0 || v.tomorrow < 0 || v.thirdDay < 0 || v.shouldOrder < 0) {
-            //                     v.Order = 0
-            //                     v.tomorrow = 0
-            //                     v.thirdDay = 0
-            //                     v.shouldOrder = 0
-            //                 }
-            //             }
-            //         })
-            //     })
+                        if (v.Order < 0 || v.tomorrow < 0 || v.thirdDay < 0 || v.shouldOrder < 0) {
+                            v.Order = 0
+                            v.tomorrow = 0
+                            v.thirdDay = 0
+                            v.shouldOrder = 0
+                        }
+                    }
+                })
+            })
 
             // } else {
             //     const deldata = []
@@ -175,30 +313,43 @@ const row = (agOption, e) => {
 
             //     });
 
-            //     deldata.forEach(({ name, num, oldindex, needDel }) => {
-            //         rowData.forEach((v, i) => {
-            //             if (e.data.wholeId[oldindex] == v.id) {
-            //                 if (needDel == true) {
-            //                     rowData.splice(i, 1)
-            //                 } else {
-            //                     v.Order = v.purchase_freq == "day" ? (nowDate == v.orderDate ? (+v.Order) - num : 0) : 0
-            //                     v.tomorrow = v.purchase_freq == "day" ? (tomorrowDate == v.orderDate ? (+v.tomorrow) - num : 0) : 0
-            //                     v.thirdDay = v.purchase_freq == "day" ? (thirdDayDate == v.orderDate ? (+v.thirdDay) - num : 0) : 0
-            //                     v.shouldOrder = (+ v.shouldOrder) + num
+            deldata.forEach(({ num, oldindex, needDel }) => {
+                rowData.forEach((v, i) => {
 
-            //                     if (v.Order < 0 || v.tomorrow < 0 || v.thirdDay < 0 || v.shouldOrder < 0) {
-            //                         v.Order = 0
-            //                         v.tomorrow = 0
-            //                         v.thirdDay = 0
-            //                         v.shouldOrder = 0
-            //                     }
-            //                 }
-            //             }
-            //         })
-            //     })
-            //     deldata.forEach(({oldindex}) => {
-            //         e.data.wholeId.splice(oldindex, 1)
-            //     })
+                    if (e.data.wholeId[oldindex] == v.id) {
+                        if (needDel == true) {
+                            rowData.splice(i, 1)
+                        } else {
+
+                            v.Order = v.purchase_freq == "day" ? (nowDate == v.orderDate ? (+v.Order) - num : 0) : 0
+                            v.tomorrow = v.purchase_freq == "day" ? (tomorrowDate == v.orderDate ? (+v.tomorrow) - num : 0) : 0
+                            v.thirdDay = v.purchase_freq == "day" ? (thirdDayDate == v.orderDate ? (+v.thirdDay) - num : 0) : 0
+                            v.shouldOrder = (+ v.shouldOrder) + num
+
+                            if (v.Order < 0 || v.tomorrow < 0 || v.thirdDay < 0 || v.shouldOrder < 0) {
+                                v.Order = 0
+                                v.tomorrow = 0
+                                v.thirdDay = 0
+                                v.shouldOrder = 0
+                            }
+                        }
+                    }
+                })
+            })
+
+            cdeldata.forEach((c) => {
+                rowData.forEach((v, i) => {
+                    if (c == v.id) {
+                        rowData.splice(i, 1)
+                    }
+                })
+            })
+
+            e.data.wholeId = newwholeId
+            e.data.isMountWhole = e.data.whole
+            // deldata.forEach(({ oldindex }) => {
+            //     e.data.wholeId.splice(oldindex, 1)
+            // })
             // }
         }
     }
@@ -225,8 +376,8 @@ const row = (agOption, e) => {
             tomorrow: v.purchase_freq == "day" ? ((v.orderDate ? `${v.orderDate.split('-')[1]}-${v.orderDate.split('-')[2]}` : theOrderDate) == tomorrowDate ? v.dish_qty : 0) : 0,
             thirdDay: v.purchase_freq == "day" ? ((v.orderDate ? `${v.orderDate.split('-')[1]}-${v.orderDate.split('-')[2]}` : theOrderDate) == thirdDayDate ? v.dish_qty : 0) : 0,
             unit: unitName.name,
-            main_unit_id:v.main_unit_id,
-            purchase_unit_id:v.purchase_unit_id,
+            main_unit_id: v.main_unit_id,
+            purchase_unit_id: v.purchase_unit_id,
             supplier: "",
             remarks: "",
             id: i,

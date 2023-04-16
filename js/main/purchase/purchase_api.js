@@ -63,10 +63,7 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                                     materialDishFood.appendChild(createDiv)
                                 }
                                 for (const item of index.material_item) {
-                                    console.log(item)
                                     const { name } = index.material_purchase_unit_category.find(v => v.id == item.main_unit_id)
-
-                                    console.log(name)
                                     if (item.name.split('-')[0] == material.value) {
                                         addMaterialObj = { ...item }
                                         add_meal_unit.innerHTML += `<option value="${name}" data=${JSON.stringify(item)}>${name}</option>`

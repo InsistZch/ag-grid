@@ -10,7 +10,7 @@ export default [
     {
         headerName: "",
         field: "category_name",
-        hide: true, 
+        hide: true,
         rowGroup: true
     },
     {
@@ -19,7 +19,11 @@ export default [
         cellRenderer: (params) => {
             if (params.data.purchase_freq != 'day') {
                 return `<div style='color:#cacaca;'>${params.value}</div>`
-            } else {
+            } else if (params.data.orderDate != nowDate && params.data.purchase_freq != 'day') {
+                return `<div style='color:#cacaca;'><i>${params.value}</i></div>`
+            }else if (params.data.orderDate != nowDate) {
+                return `<i>${params.value}</i>`
+            }else {
                 return params.value
             }
         }

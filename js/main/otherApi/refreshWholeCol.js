@@ -39,6 +39,13 @@ export default {
                     }, [])
                     params.data.dish_key_id.material_item = arr
 
+                    const date = new Date()
+                    const nowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
+
+                    const dateSpan = document.querySelector('.date') // 日计划
+                    const planDateHtml = dateSpan.innerHTML.split(" ")[0].split('-')
+                    const planDate = new Date(planDateHtml)
+
                     if (materialName.trim() == "") {
                         let current = value.split(" ")
                         let name = ''
@@ -50,13 +57,22 @@ export default {
                             num = cv.match(/([0-9]+)/) != null ? cv.match(/([0-9]+)/)[0] : ''
                             unit = cv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g) != null ? cv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[1] : ''
 
-                            params.data.dish_key_id.material_item.forEach((v)=>{
-                                if(name == `${v.name.split('-')[0]}${v.dish_process_category_name}` && v.purchase_freq != 'day'){
+                            params.data.dish_key_id.material_item.forEach((v) => {
+
+                                const orderDate = new Date(planDate.getFullYear(), planDate.getMonth() + 1, planDate.getDate() + Number(v.plan_day_purchase_ahead_days))
+                                const theOrderDate = `${orderDate.getMonth() < 10 ? `0${orderDate.getMonth()}` : orderDate.getMonth()}-${orderDate.getDate() < 10 ? `0${orderDate.getDate()}` : orderDate.getDate()}`
+
+                                if (name == `${v.name.split('-')[0]}${v.dish_process_category_name}` && v.purchase_freq != 'day') {
                                     name = `<span class='span_name'>${name}</span>`
+                                }
+
+                                if (theOrderDate != nowDate){
+                                    name = `<i>${name}</i>`
                                 }
                             })
                             all += name + num + unit + ' '
                         }
+
                         return all
                     } else {
                         params.data.dish_key_id.material_item.forEach(item => {

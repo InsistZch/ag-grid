@@ -261,9 +261,14 @@ const onCellValueChanged = async (e, gridOptions) => {
             e.data['whole'] = countMaterialData[0]
             e.data['dish_key_id']['material_item'] = countMaterialData[1]
             e.data['costPrice'] = isNaN(countMaterialData[2]) ? 0 : countMaterialData[2]
+
         }
 
         // 当前数据 101
+
+
+
+        resetPurchaseData.Change(gridOptions, e)
 
     } else if (e.colDef.headerName == '菜品') {
         let needRowdata = [];
@@ -322,10 +327,10 @@ const onCellValueChanged = async (e, gridOptions) => {
         e.data['dname'] = `${e.newValue}_${e.data.type}`
 
         console.log(e.data.whole)
-        resetPurchaseData.Change(gridOptions,e)
+        resetPurchaseData.Change(gridOptions, e)
 
     } else if (e.colDef.headerName == '配量汇总') {
-
+        
         e.data.update = true
         let d1 = e.newValue
         // 清空配量汇总
@@ -336,7 +341,6 @@ const onCellValueChanged = async (e, gridOptions) => {
             const rowNode = e.api.getRowNode(e.data.id)
             rowNode.setDataValue('whole', "")
             rowNode.setDataValue('costPrice', 0)
-            resetPurchaseData.Change(gridOptions,e)
             return
         }
         // 只添加空格
@@ -838,9 +842,26 @@ const onCellValueChanged = async (e, gridOptions) => {
         const rowNode = await e.api.getRowNode(e.data.id)
         await rowNode.setData(e.data)
 
-        resetPurchaseData.Change(gridOptions,e)
-
         gridOptions.api.refreshCells({ force: true })
+        if (e.newValue.split(' ').length < e.oldValue.split(' ').length) {
+            // console.log('删除')
+            customFromDom({
+                parent: '#isDeleteRow',
+                cancel: ['#isDeleteRow_cancel1', '#isDeleteRow_cancel2'],
+                sure: "#isDeleteRow_sure",
+                deleteData: [],
+                cancelFun: () => {
+                    e.data[`${e.colDef.field}`] = e.oldValue
+                    gridOptions.api.refreshCells({ force: true })
+                },
+                sureFun: () => {
+                    resetPurchaseData.Change(gridOptions, e)
+                    return true
+                }
+            })
+        } else {
+            resetPurchaseData.Change(gridOptions, e)
+        }
         // console.log(e.data)
         // for (const {data} of e.node.parent.allLeafChildren) {
         //     const rowNode = gridOptions.api.getRowNode(data.id)

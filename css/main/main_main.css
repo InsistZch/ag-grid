@@ -243,8 +243,8 @@ div.function .btn-group button:not([saveData]):hover {
     color: #71639e !important;
 }
 
-.ag_purchase_button .dropdown-menu {
-    min-width: 7rem !important;
+.ag_purchase_button .dropdown-menu.show {
+    min-width: 8rem !important;
 }
 
 .ag_purchase_button .dropdown-menu .el_columns_item {
