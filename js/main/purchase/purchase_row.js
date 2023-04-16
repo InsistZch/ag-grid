@@ -8,6 +8,8 @@ let isOneData = false
 
 export function reset_purchase_rowdata() {
     purchase_rowdata = []
+    isOneData = false
+
 }
 
 const row = (agOption, e) => {
