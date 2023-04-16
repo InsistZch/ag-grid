@@ -331,6 +331,24 @@ const onCellValueChanged = async (e, gridOptions) => {
 
     } else if (e.colDef.headerName == '配量汇总') {
         
+        if (e.newValue == '') {
+            // console.log('删除')
+            customFromDom({
+                parent: '#isDeleteRow',
+                cancel: ['#isDeleteRow_cancel1', '#isDeleteRow_cancel2'],
+                sure: "#isDeleteRow_sure",
+                deleteData: [],
+                cancelFun: () => {
+                    e.data[`${e.colDef.field}`] = e.oldValue
+                    gridOptions.api.refreshCells({ force: true })
+                },
+                sureFun: () => {
+                    resetPurchaseData.Change(gridOptions, e)
+                    return true
+                }
+            })
+        }
+
         e.data.update = true
         let d1 = e.newValue
         // 清空配量汇总

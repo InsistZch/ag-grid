@@ -179,22 +179,23 @@ const row = (agOption, e) => {
                 console.log(newValue, oldValue)
 
                 const updata = []
-                newValue.forEach((newv, i) => {
+                newValue.forEach((newv) => {
                     const newvName = (newv != '' && newv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0])
-                    oldValue.forEach(oldv => {
+                    oldValue.forEach((oldv, i) => {
                         const oldvName = (oldv != '' && oldv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0])
                         const num = + (newv != '' && newv.match(/([0-9]+)/)[0]) - (oldv != '' && oldv.match(/([0-9]+)/)[0])
                         if (newvName == oldvName && newv != oldv) {
-                            updata.push({ newvName, num })
+                            updata.push({ newvName, num, wholeId: e.data.wholeId[i] })
                         }
                     })
                 });
                 console.log(updata)
                 e.data.dish_key_id.material_item.forEach((puri) => {
-                    const puriname = `${puri.name.split('-')[0]}${puri.dish_process_category_name}`
+                    // const puriname = `${puri.name.split('-')[0]}${puri.dish_process_category_name}`
                     updata.forEach((updata) => {
-                        console.log(puri,updata.newvName)
-                        if (puriname == updata.newvName) {
+                        console.log(updata.newvName, puri)
+                        console.log(puri, updata.newvName)
+                        if (puri.id == updata.wholeId) {
                             purUpDataItem.push({ puriId: puri.id, num: updata.num })
                         }
                     })

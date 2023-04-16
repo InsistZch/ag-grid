@@ -137,15 +137,22 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
 
                             const noDailyProcurement = document.querySelector('#noDailyProcurement')
 
-                            if (noDailyProcurement.checked == true) {
+                            if (noDailyProcurement.checked == true && noNowProcurement.checked == true) {
                                 showData = purchaseOption.rowData
-                            } else {
+                            } else if(noDailyProcurement.checked == true && noNowProcurement.checked == false){
+                                purchaseOption.rowData.forEach((v) => {
+                                    if (v.creationDate == v.orderDate ) {
+                                        showData.push(v)
+                                    }
+                                })
+                            } else if(noDailyProcurement.checked == false && noNowProcurement.checked == true){
                                 purchaseOption.rowData.forEach((v) => {
                                     if (v.purchase_freq == 'day') {
                                         showData.push(v)
                                     }
                                 })
                             }
+
                             purchaseOption.api.setRowData(showData)
                             // console.log(purchaseOption)
                             return true
