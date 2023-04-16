@@ -272,7 +272,7 @@ const row = (agOption, e) => {
             purUpDataItem.forEach(({ puriId, num }) => {
                 rowData.forEach(v => {
                     if (puriId == v.id) {
-                        v.quantity = (+v.quantity) + num
+                        // v.quantity = (+v.quantity) + num
                         v.Order = v.purchase_freq == "day" ? (nowDate == v.orderDate ? (+v.Order) + num : 0) : 0
                         v.tomorrow = v.purchase_freq == "day" ? (tomorrowDate == v.orderDate ? (+v.tomorrow) + num : 0) : 0
                         v.thirdDay = v.purchase_freq == "day" ? (thirdDayDate == v.orderDate ? (+v.thirdDay) + num : 0) : 0
