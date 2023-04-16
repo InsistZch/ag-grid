@@ -6,6 +6,10 @@ import purchase_data from './purchase_data.js'
 let purchase_rowdata = []
 let isOneData = false
 
+export function reset_purchase_rowdata() {
+    purchase_rowdata = []
+}
+
 const row = (agOption, e) => {
     let rowData = []
     let d = [] // plan + place
