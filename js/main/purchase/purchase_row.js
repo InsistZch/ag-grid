@@ -3,16 +3,18 @@ import { getCountMaterial } from "../otherApi/getMaterial.js"
 import index from './../../../data/index.js'
 import purchase_data from './purchase_data.js'
 
-let purchase_rowdata = []
-let isOneData = false
+// export function reset_purchase_rowdata() {
+//     purchase_rowdata = []
+//     isOneData = false
 
-export function reset_purchase_rowdata() {
-    purchase_rowdata = []
-    isOneData = false
-
-}
+// }
 
 const row = (agOption, e) => {
+
+    const purchaseData = purchase_data
+
+    console.log(purchaseData)
+
     let rowData = []
     let d = [] // plan + place
     const dateSpan = document.querySelector('.date') // 日计划
@@ -25,8 +27,8 @@ const row = (agOption, e) => {
     const tomorrowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 1 < 10 ? `0${date.getDate() + 1}` : date.getDate() + 1}`
     const thirdDayDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 2 < 10 ? `0${date.getDate() + 2}` : date.getDate() + 2}`
 
-    if (isOneData == false) {
-        isOneData = true
+    if (purchaseData.isOneData == false) {
+        purchaseData.isOneData = true
         const purchase_summary_data = index.purchase_summary_data
         let purD = []
         let wholeD = []
@@ -41,15 +43,16 @@ const row = (agOption, e) => {
                             item.main_unit_bom_unit_ratio = unit.main_unit_bom_unit_ratio
                         }
                     })
-                    item.dish_qty = purData.main_qty
+                    item.dish_qty = purData.purchase_qty
                     // 使用数据中的日期 不使用自动生成的日期
                     item.creationDate = purData.creationDate
                     item.demandDate = purData.demandDate
                     item.orderDate = purData.orderDate
+                    item.purchase_unit_id = purData.purchase_unit_id
                     purItem.push(item)
                 }
             })
-            if (demandDate == purData.demandDate) {
+            if (demandDate == `${purData.demandDate.split('-')[1]}-${purData.demandDate.split('-')[2]}`) {
                 needWhole = false // 数据中有plan 就不从配量汇总获取
             }
         });
@@ -59,8 +62,8 @@ const row = (agOption, e) => {
             wholeD = getCountMaterial(agOption)
         }
         d = new Map([...purD, ...wholeD])
-    } else {
-        rowData = purchase_rowdata.data
+    } else { 
+        rowData = purchaseData.data
         if (e) {
             const allOldwholeId = []
             const newwholeId = []
@@ -209,68 +212,7 @@ const row = (agOption, e) => {
                 })
                 console.log(purUpDataItem)
             }
-            // const newValue = e.newValue.split(" ")
-            // const oldValue = e.oldValue.split(" ")
 
-            // let allwhole = ``
-            // agOption.api.forEachNode((row) => {
-            //     if (row.key == null && e.rowIndex != row.rowIndex) {
-            //         allwhole += `${row.data.whole} `
-
-            //     }
-            // })
-            // const allOldValue = allwhole.split(" ")
-
-            // if (newValue.length >= oldValue.length) {
-            //     const add = newValue
-            //     const updata = []
-            //     oldValue.forEach(oldv => {
-            //         newValue.forEach((newv, i) => {
-            //             const oldvName = (oldv != '' && oldv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0])
-            //             const newvName = (newv != '' && newv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0])
-            //             if (newvName == oldvName) {
-            //                 add.splice(i, 1)
-            //             }
-            //             if (newvName == oldvName && newv != oldv) {
-            //                 const num = newv.match(/([0-9]+)/)[0] - oldv.match(/([0-9]+)/)[0]
-            //                 updata.push({ name: newvName, num })
-            //             }
-            //         })
-            //     });
-            //     allOldValue.forEach(oldv => {
-            //         newValue.forEach((newv, i) => {
-            //             const oldvName = (oldv != '' && oldv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0])
-            //             const newvName = (newv != '' && newv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0])
-            //             if (newvName == oldvName) {
-            //                 add.splice(i, 1)
-            //                 const num = +(newv.match(/([0-9]+)/)[0])
-            //                 updata.push({ name: newvName, num })
-            //             }
-            //         })
-            //     });
-
-            //     const purAddItem = []
-            //     const purUpDataItem = []
-            //     const wholeId = []
-            //     e.data.dish_key_id.material_item.forEach((puri) => {
-            //         const puriname = `${puri.name.split('-')[0]}${puri.dish_process_category_name}`
-            //         add.forEach((add) => {
-            //             const name = add.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0]
-            //             if (puriname == name) {
-            //                 purAddItem.push(puri)
-            //             }
-            //         })
-            //         updata.forEach((updata) => {
-            //             const name = updata.name
-            //             if (puriname == name) {
-            //                 purUpDataItem.push({ puri, num: updata.num })
-            //             }
-            //         })
-
-            //         // wholeId.push(puri.id)
-            //     })
-
-            //     //添加
             const materialItemD = getCountMaterial(agOption, purAddItem)
             d = materialItemD
 
@@ -373,7 +315,7 @@ const row = (agOption, e) => {
             creationDate: v.creationDate ? `${v.creationDate.split('-')[1]}-${v.creationDate.split('-')[2]}` : nowDate,
             orderDate: v.orderDate ? `${v.orderDate.split('-')[1]}-${v.orderDate.split('-')[2]}` : theOrderDate,
             demandDate: v.demandDate ? `${v.demandDate.split('-')[1]}-${v.demandDate.split('-')[2]}` : demandDate,
-            quantity: v.dish_qty,
+            quantity: Number(v.dish_qty.toFixed(1)),
             shouldOrder: v.purchase_freq == "day" ? (v.dish_qty) : 0,
             stock: 1000,
             standardPrice: v.main_price,
@@ -395,7 +337,7 @@ const row = (agOption, e) => {
         rowData.push(obj)
     })
 
-    purchase_rowdata = new purchase_data(rowData)
+    purchaseData.data = rowData
     return rowData
 }
 

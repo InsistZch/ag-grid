@@ -2,7 +2,8 @@
 class purchase_data{
     constructor(data){
         this.data = data
+        this.isOneData = false
     }
 }
 
-export default purchase_data
+export default new purchase_data()

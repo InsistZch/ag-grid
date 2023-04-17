@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
     resetPurchaseData.purchase_init(purchaseOption)
     agOption.api.sizeColumnsToFit();
 
-    let purchase_rowdate = []
+    let purchase_rowdate = purchase_date
 
     // console.log(agOption)
     main_index.otherApi.saveData('.update', () => {
@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     agButton.style.display = 'none'
                 })
 
-                purchase_rowdate = new purchase_date(purchaseOption.rowData)
+                purchase_rowdate.data = purchaseOption.rowData
 
                 // 打印数据
                 const purchaseConsole = []

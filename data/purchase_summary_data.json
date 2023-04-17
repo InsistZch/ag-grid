@@ -1,11 +1,56 @@
 [
     {
-        "creationDate": "2023-04-12",
-        "demandDate": "2023-04-14",
-        "main_qty": 60,
-        "main_unit_id": 5,
-        "purchase_unit_id":5,
-        "material_id": 360937,
-        "orderDate": "2023-04-13"
+        "material_id": 360491,
+        "purchase_unit_id": 9,
+        "main_unit_id": 9,
+        "purchase_qty": 45.7,
+        "creationDate": "2023-04-17",
+        "orderDate": "2023-04-15",
+        "demandDate": "2023-04-17"
+    },
+    {
+        "material_id": 360543,
+        "purchase_unit_id": 9,
+        "main_unit_id": 9,
+        "purchase_qty": 298.0,
+        "creationDate": "2023-04-17",
+        "orderDate": "2023-04-15",
+        "demandDate": "2023-04-17"
+    },
+    {
+        "material_id": 360548,
+        "purchase_unit_id": 9,
+        "main_unit_id": 9,
+        "purchase_qty": 22.0,
+        "creationDate": "2023-04-17",
+        "orderDate": "2023-04-15",
+        "demandDate": "2023-04-17"
+    },
+    {
+        "material_id": 360569,
+        "purchase_unit_id": 9,
+        "main_unit_id": 9,
+        "purchase_qty": 491.0,
+        "creationDate": "2023-04-17",
+        "orderDate": "2023-04-15",
+        "demandDate": "2023-04-17"
+    },
+    {
+        "material_id": 360728,
+        "purchase_unit_id": 9,
+        "main_unit_id": 9,
+        "purchase_qty": 22.0,
+        "creationDate": "2023-04-17",
+        "orderDate": "2023-04-15",
+        "demandDate": "2023-04-17"
+    },
+    {
+        "material_id": 360742,
+        "purchase_unit_id": 9,
+        "main_unit_id": 9,
+        "purchase_qty": 40.0,
+        "creationDate": "2023-04-17",
+        "orderDate": "2023-04-16",
+        "demandDate": "2023-04-17"
     }
 ]
