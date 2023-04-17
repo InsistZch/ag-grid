@@ -46,8 +46,11 @@ export default {
                     const planDateHtml = dateSpan.innerHTML.split(" ")[0].split('-')
                     const planDate = new Date(planDateHtml)
 
-                    if (materialName.trim() == "") {
+                    // 
+                    const DisplayProcessing = () => {
+                        console.log(value)
                         let current = value.split(" ")
+                        console.log(value, current)
                         let name = ''
                         let num = ''
                         let unit = ''
@@ -66,23 +69,35 @@ export default {
                                     name = `<span class='span_name'>${name}</span>`
                                 }
 
-                                if (theOrderDate != nowDate){
+                                if (theOrderDate != nowDate) {
                                     name = `<i>${name}</i>`
                                 }
                             })
                             all += name + num + unit + ' '
-                        }
 
+                        }
+                        console.log(all)
                         return all
-                    } else {
-                        params.data.dish_key_id.material_item.forEach(item => {
-                            if (item.name.split("-")[0] == (materialName)) {
-                                params.value = `<div class='params_value'>${params.value.split(materialName)[0] + `<span class='span_value'>${materialName}</span>` + params.value.split(materialName)[1]}<div/>`
-                            }
-                        })
-                        return params.value
                     }
 
+                    if (materialName.trim() == "") {
+                        // console.log(DisplayProcessing())
+                        value = DisplayProcessing()
+                        // console.log(value)
+                        // return all
+                    } else {
+                        value = DisplayProcessing()
+                        console.log(value)
+                        params.data.dish_key_id.material_item.forEach(item => {
+                            if (item.name.split("-")[0] == (materialName)) {
+                                // value = `<div class='params_value'>${value.split(materialName)[0]}<span class='span_value'>${materialName}</span>${value.split(materialName)[1]}<div/>`
+                                value = "<div class='params_value'>" + value.split(materialName)[0] + "<span class='span_value'>" + materialName + "</span>" + value.split(materialName)[1] + "<div/>"
+                            }
+                        })
+                        // console.log(value)
+                    }
+                    // console.log(value)
+                    return value
                 }
             }
 
