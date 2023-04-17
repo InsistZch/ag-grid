@@ -3,11 +3,12 @@ import { getCountMaterial } from "../otherApi/getMaterial.js"
 import index from './../../../data/index.js'
 import purchase_data from './purchase_data.js'
 
-// export function reset_purchase_rowdata() {
-//     purchase_rowdata = []
-//     isOneData = false
+export function reset_purchase_rowdata() {
 
-// }
+    purchase_data.data = []
+    purchase_data.isOneData = false
+
+}
 
 const row = (agOption, e) => {
 
