@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         mname: r.material,
                         purchase_unit_id: r.purchase_unit_id,
                         main_unit_id : r.main_unit_id,
-                        purchase_gty: r.quantity,
+                        purchase_qty: r.quantity,
                         creationDate:   `${d.getFullYear()}-${r.creationDate}`,
                         orderDate:`${d.getFullYear()}-${r.orderDate}`,
                         demandDate:`${d.getFullYear()}-${r.demandDate}`
@@ -163,7 +163,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.log(purchaseConsole)
 
                 if (agOption.context != undefined && agOption.context.owl_widget.PurChaseOrderSave) {
-                    await agOption.context.owl_widget.PurChaseOrderSave(purchaseConsole)
+                    let new_data_obj = {
+                        new_material_item_list: saveData.new_material_item_list,
+                        new_material_to_unit_ratio: saveData.new_material_to_unit_ratio,
+                    }
+                    await agOption.context.owl_widget.PurChaseOrderSave(new_data_obj, purchaseConsole)
                 }
             }
         }
