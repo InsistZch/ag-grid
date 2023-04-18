@@ -75,7 +75,7 @@ export default [
         headerName: "下单",
         field: "Order",
         editable: (e) => {
-            if (e.data.orderDate == nowDate && e.data.purchase_freq == 'day') {
+            if (e.data.orderDate == nowDate) {
                 return true
             }
         },
@@ -90,7 +90,7 @@ export default [
         field: "tomorrow",
         hide: true,
         editable: (e) => {
-            if (e.data.orderDate == tomorrowDate && e.data.purchase_freq == 'day') {
+            if (e.data.orderDate == tomorrowDate) {
                 return true
             }
         },
@@ -100,7 +100,7 @@ export default [
         field: "thirdDay",
         hide: true,
         editable: (e) => {
-            if (e.data.orderDate == thirdDayDate && e.data.purchase_freq == 'day') {
+            if (e.data.orderDate == thirdDayDate) {
                 return true
             }
         },

@@ -10,7 +10,6 @@ import dish_tooltipField from './dish_tooltipField.js'
 const col = () => {
     const user_setting = index.user_settings[0]
 
-    console.log('123~')
     const col = [
         // {
         //     headerName: '',//选择列头部显示的文字，可以为空
@@ -260,7 +259,6 @@ const col = () => {
         // autoHeight: true,
         // wrapText: true,
         cellRenderer: (params) => {
-            console.log('456~')
             if (params.data.configure && !params.data.edit) {
                 if (params.data.type == "%") {
                     if (params.data.cl1 != null) return ""
