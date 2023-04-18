@@ -8,6 +8,7 @@ import { resetPurchaseData } from './js/main/otherApi/index.js'
 import refreshWholeCol from './js/main/otherApi/refreshWholeCol.js'
 import isShowPurchaseColumns from './js/main/purchase/isShowPurchaseColumns.js'
 import purchase_date from './js/main/purchase/purchase_data.js'
+import {get_purchase_row_data_list} from "./js/main/tool.js";
 console.log(data_index)
 
 // for (const item of data_index.material_item) {
@@ -136,22 +137,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     agButton.style.display = 'flex'
                 })
 
-                const orderConsole = (arr) => {
-                    arr.forEach(a => {
-                        if (a.deliveryDate.split('-').length == 2) {
-                            const year = d.getFullYear()
-                            a.deliveryDate = `${year}-${a.deliveryDate}`
-                            a.demandDate = `${year}-${a.demandDate}`
-                            a.orderDate = `${year}-${a.orderDate}`
-                            a.creationDate = `${year}-${a.creationDate}`
-                        }
-                    });
-                    console.log(arr)
+                const orderConsole = async (arr) => {
+
+                    let ans_arr = get_purchase_row_data_list(d, arr)
+                    console.log(ans_arr)
+
+                    if (purchaseOption.context != undefined && purchaseOption.context.owl_widget.DownloadPurchaseOrderAllCategory) {
+
+                        await purchaseOption.context.owl_widget.DownloadPurchaseOrderAllCategory(ans_arr)
+                    }
                 }
                 const btnOrderAll = document.querySelector('#purchase_order_all')
-                btnOrderAll.onclick = () => {
+                btnOrderAll.onclick = async () => {
                     const arr = purchaseOption.rowData
-                    orderConsole(arr)
+                    await orderConsole(arr)
                 }
 
 
@@ -169,26 +168,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 purchase_rowdate.data = purchaseOption.rowData
 
                 // 打印数据
-                const purchaseConsole = []
-                purchase_rowdate.data.forEach((r) => {
-                    purchaseConsole.push({
-                        mname: r.material,
-                        purchase_unit_id: r.purchase_unit_id,
-                        main_unit_id: r.main_unit_id,
-                        purchase_qty: r.quantity,
-                        creationDate: `${d.getFullYear()}-${r.creationDate}`,
-                        orderDate: `${d.getFullYear()}-${r.orderDate}`,
-                        demandDate: `${d.getFullYear()}-${r.demandDate}`
-                    })
-                })
-                console.log(purchaseConsole)
+                let ans_arr = get_purchase_row_data_list(d, purchase_rowdate.data)
 
-                if (agOption.context != undefined && agOption.context.owl_widget.PurChaseOrderSave) {
-                    let new_data_obj = {
-                        new_material_item_list: saveData.new_material_item_list,
-                        new_material_to_unit_ratio: saveData.new_material_to_unit_ratio,
-                    }
-                    await agOption.context.owl_widget.PurChaseOrderSave(new_data_obj, purchaseConsole)
+
+                if (purchaseOption.context != undefined && purchaseOption.context.owl_widget.PurChaseOrderSave) {
+
+                    await purchaseOption.context.owl_widget.PurChaseOrderSave(ans_arr)
                 }
             }
         }

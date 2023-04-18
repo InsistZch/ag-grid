@@ -1,4 +1,5 @@
 /** @odoo-module **/
+import {get_purchase_row_data_list} from "../tool.js";
 
 class GroupRowInnerRenderer {
     init(params) {
@@ -13,21 +14,20 @@ class GroupRowInnerRenderer {
         btnOrder.classList.add('el_btn')
         btnOrder.style.cssText = `margin-left: 5rem;`
 
-        const orderConsole = (arr) => {
-            arr.forEach(a => {
-                if (a.deliveryDate.split('-').length == 2) {
-                    const year = new Date().getFullYear()
-                    a.deliveryDate = `${year}-${a.deliveryDate}`
-                    a.demandDate = `${year}-${a.demandDate}`
-                    a.orderDate = `${year}-${a.orderDate}`
-                    a.creationDate = `${year}-${a.creationDate}`
-                }
-            });
-            console.log(arr)
+        const orderConsole = async (arr) => {
+            let nowD = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+
+            let ans_arr = get_purchase_row_data_list(nowD, arr)
+            console.log(ans_arr)
+            if (params.context && params.context.owl_widget.DownloadPurchaseOrderInCategory) {
+                await params.context.owl_widget.DownloadPurchaseOrderInCategory(ans_arr)
+            }
+
         }
-        btnOrder.onclick = () => {
+        btnOrder.onclick = async () => {
             const arr = params.node.allLeafChildren.map(v => v.data)
-            orderConsole(arr)
+            console.log('局部下载采购单')
+            await orderConsole(arr)
         }
 
         // btnOrderAll.onclick = () => {
