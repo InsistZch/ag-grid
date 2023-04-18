@@ -88,6 +88,7 @@ const row = (agOption, e) => {
             const deldata = []
             const cdeldata = []
             if (e.colDef.headerName == '配量汇总') {
+                if(e.newValue==null) e.newValue = ""
                 const newValue = e.newValue.split(" ")
                 const oldValue = e.oldValue.split(" ")
                 let add = []
@@ -137,7 +138,7 @@ const row = (agOption, e) => {
                         }
                     })
 
-                    console.log(purUpDataItem)
+                    // console.log(purUpDataItem)
 
                 })
 
@@ -156,6 +157,8 @@ const row = (agOption, e) => {
                             })
                         }
                     });
+
+                    // console.log(deldata)
 
                     allOldValue.forEach(oldv => {
                         const oldvName = (oldv != '' && oldv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0])

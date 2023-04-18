@@ -2,6 +2,7 @@
 
 import refreshWholeCol from "../otherApi/refreshWholeCol.js";
 import resetPurchaseData from '../otherApi/resetPurchaseData.js'
+import isShowPurchaseColumns from "./isShowPurchaseColumns.js";
 import { customFrom as customFromDom, isShowColumns as newisShowColumns } from './../otherApi/index.js'
 import index from '../../../data/index.js'
 
@@ -177,6 +178,7 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                             }
 
                             purchaseOption.api.setRowData(showData)
+                            isShowPurchaseColumns(purchaseOption)
                             // console.log(purchaseOption)
                             return true
                         }

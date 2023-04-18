@@ -99,6 +99,8 @@ const nodeRowData = (v, e, ratio, type) => {
 // cellRenderer > onCellValueChanged
 const onCellValueChanged = async (e, gridOptions) => {
 
+    console.log(e)
+
     const saveDataBtn = document.querySelector('#saveDataBtn')
     saveDataBtn.classList.remove('btn-outline-primary')
     saveDataBtn.classList.add('btn-outline-danger')
@@ -324,7 +326,7 @@ const onCellValueChanged = async (e, gridOptions) => {
 
     } else if (e.colDef.headerName == '配量汇总') {
 
-        if (e.newValue == '') {
+        if (e.newValue == null || e.newValue == '') {
             // console.log('删除')
             customFromDom({
                 parent: '#isDeleteRow',
@@ -864,7 +866,7 @@ const onCellValueChanged = async (e, gridOptions) => {
         await rowNode.setData(e.data)
 
         gridOptions.api.refreshCells({ force: true })
-        if (e.newValue.split(' ').length < e.oldValue.split(' ').length) {
+        if (e.newValue.split(' ').length < e.oldValue.split(' ').length && e.newValue == null) {
             // console.log('删除')
             customFromDom({
                 parent: '#isDeleteRow',
