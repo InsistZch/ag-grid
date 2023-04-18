@@ -32,7 +32,7 @@ export function get_purchase_row_data_list(date, arr) {
             category_name: r.category_name,
             purchase_unit_id: r.purchase_unit_id,
             main_unit_id: r.main_unit_id,
-            purchase_qty: r.quantity,
+            purchase_qty: r.shouldOrder,
             remarks: r.remarks,
             standardPrice: r.standardPrice,
             creationDate: `${r.creationDate}`,

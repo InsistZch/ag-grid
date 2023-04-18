@@ -9,7 +9,6 @@ import refreshWholeCol from './js/main/otherApi/refreshWholeCol.js'
 import isShowPurchaseColumns from './js/main/purchase/isShowPurchaseColumns.js'
 import purchase_date from './js/main/purchase/purchase_data.js'
 import {get_purchase_row_data_list} from "./js/main/tool.js";
-import col from './js/main/ag-grid/ag-grid-col.js'
 console.log(data_index)
 
 // for (const item of data_index.material_item) {
