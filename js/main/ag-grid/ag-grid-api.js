@@ -50,12 +50,12 @@ let copiesChangedjudeg = false
 let copiesChanged = (e, ratio) => {
     e.api.forEachNode(v => nodeRowData(v, e, ratio, e.data.type))
     e.api.refreshCells({ force: true })
+
 }
 // v => 循环数据
 // e => 本行数据
 // ratio => 比率
 const nodeRowData = (v, e, ratio, type) => {
-
     // 去除不同数据
     if (v.data == undefined || v.data.cl1 != e.data.cl1) return
     // 去除配置
@@ -108,7 +108,6 @@ const onCellValueChanged = async (e, gridOptions) => {
     // console.log(e)
     // dish _ type
     if (!isNaN(e.colDef.field)) {
-
         if (e.newValue == undefined || e.newValue == null || String(e.newValue).trim() == "") { // 当新值不为undefined
             e.data[`${e.colDef.field}`] = 0
             e.newValue = 0
@@ -174,7 +173,6 @@ const onCellValueChanged = async (e, gridOptions) => {
                 copiesChangedjudeg = true
                 copiesChanged(e, ratio)
 
-                // console.log(111)
             }
         } else {
             // console.log(e.data)
@@ -261,13 +259,8 @@ const onCellValueChanged = async (e, gridOptions) => {
             e.data['whole'] = countMaterialData[0]
             e.data['dish_key_id']['material_item'] = countMaterialData[1]
             e.data['costPrice'] = isNaN(countMaterialData[2]) ? 0 : countMaterialData[2]
-
         }
-
         // 当前数据 101
-
-
-
         resetPurchaseData.Change(gridOptions, e)
 
     } else if (e.colDef.headerName == '菜品') {
@@ -330,7 +323,7 @@ const onCellValueChanged = async (e, gridOptions) => {
         resetPurchaseData.Change(gridOptions, e)
 
     } else if (e.colDef.headerName == '配量汇总') {
-        
+
         if (e.newValue == '') {
             // console.log('删除')
             customFromDom({

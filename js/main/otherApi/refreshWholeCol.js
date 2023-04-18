@@ -48,9 +48,7 @@ export default {
 
                     // 
                     const DisplayProcessing = () => {
-                        console.log(value)
                         let current = value.split(" ")
-                        console.log(value, current)
                         let name = ''
                         let num = ''
                         let unit = ''
@@ -76,7 +74,6 @@ export default {
                             all += name + num + unit + ' '
 
                         }
-                        console.log(all)
                         return all
                     }
 
@@ -87,16 +84,13 @@ export default {
                         // return all
                     } else {
                         value = DisplayProcessing()
-                        console.log(value)
                         params.data.dish_key_id.material_item.forEach(item => {
                             if (item.name.split("-")[0] == (materialName)) {
                                 // value = `<div class='params_value'>${value.split(materialName)[0]}<span class='span_value'>${materialName}</span>${value.split(materialName)[1]}<div/>`
                                 value = "<div class='params_value'>" + value.split(materialName)[0] + "<span class='span_value'>" + materialName + "</span>" + value.split(materialName)[1] + "<div/>"
                             }
                         })
-                        // console.log(value)
                     }
-                    // console.log(value)
                     return value
                 }
             }

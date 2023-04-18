@@ -13,8 +13,6 @@ const row = (agOption, e) => {
 
     const purchaseData = purchase_data
 
-    console.log(purchaseData)
-
     let rowData = []
     let d = [] // plan + place
     const dateSpan = document.querySelector('.date') // 日计划
@@ -62,21 +60,29 @@ const row = (agOption, e) => {
             wholeD = getCountMaterial(agOption)
         }
         d = new Map([...purD, ...wholeD])
-    } else { 
+    } else {
         rowData = purchaseData.data
         if (e) {
             const allOldwholeId = []
             const newwholeId = []
             const oldwholeId = e.data.wholeId
-            e.data.dish_key_id.material_item.forEach((mitem) => {
-                newwholeId.push(mitem.id)
+            if (e.data.dish_key_id) {
+                e.data.dish_key_id.material_item.forEach((mitem) => {
+                    newwholeId.push(mitem.id)
+                    agOption.api.forEachNode((row) => {
+                        if (row.key == null && e.rowIndex != row.rowIndex) {
+                            row.data.wholeId && allOldwholeId.push(...row.data.wholeId)
+                        }
+                    })
+                })
+            } else {
+                agOption.rowData.forEach((row) => {
+                    row.dish_key_id.material_item.forEach((mitem) => {
+                        newwholeId.push(mitem.id)
+                    })
+                })
+            }
 
-            })
-            agOption.api.forEachNode((row) => {
-                if (row.key == null && e.rowIndex != row.rowIndex) {
-                    allOldwholeId.push(...row.data.wholeId)
-                }
-            })
             const purAddItem = []
             const purUpDataItem = []
             const deldata = []
@@ -120,7 +126,6 @@ const row = (agOption, e) => {
 
                 e.data.dish_key_id.material_item.forEach((puri) => {
                     const puriname = `${puri.name.split('-')[0]}${puri.dish_process_category_name}`
-                    console.log(puri)
                     add.forEach((add) => {
                         if (puriname == add.newvName) {
                             purAddItem.push(puri)
@@ -164,7 +169,6 @@ const row = (agOption, e) => {
             if (e.colDef.headerName == '菜品') {
 
                 newwholeId.forEach((n, i) => {
-                    console.log(allOldwholeId, n)
                     if (allOldwholeId.indexOf(n) < 0) {
                         purAddItem.push(e.data.dish_key_id.material_item[i])
                     }
@@ -175,17 +179,14 @@ const row = (agOption, e) => {
                 })
 
                 oldwholeId.forEach(o => {
-                    console.log(o)
                     cdeldata.push(o)
                 });
 
-                console.log(purAddItem, purUpDataItem)
             }
-            if (!isNaN(e.colDef.field)) {
+            if (!isNaN(e.colDef.field) && e.data.whole != "") {
                 const newValue = e.data.whole.split(" ")
                 const oldValue = e.data.isMountWhole.split(" ")
 
-                console.log(newValue, oldValue)
 
                 const updata = []
                 newValue.forEach((newv) => {
@@ -198,19 +199,27 @@ const row = (agOption, e) => {
                         }
                     })
                 });
-                console.log(updata)
                 e.data.dish_key_id.material_item.forEach((puri) => {
                     // const puriname = `${puri.name.split('-')[0]}${puri.dish_process_category_name}`
                     updata.forEach((updata) => {
-                        console.log(updata.newvName, puri)
-                        console.log(puri, updata.newvName)
                         if (puri.id == updata.wholeId) {
                             purUpDataItem.push({ puriId: puri.id, num: updata.num })
                         }
                     })
 
                 })
-                console.log(purUpDataItem)
+            }
+            if (!isNaN(e.colDef.field) && e.data.whole == "" && (e.data.type == "特色" || e.data.type == "快餐") && !e.data.dish_key_id) {
+                // let rowAllWhole = ''
+                // let rowAllIsMountWhole = ''
+
+                // agOption.rowData.forEach((row) => {
+                //     rowAllWhole += row.whole + " "
+                //     rowAllIsMountWhole += row.isMountWhole + " "
+                // })
+                // const newValue = rowAllWhole.split(" ")
+                // const oldValue = rowAllIsMountWhole.split(" ")
+
             }
 
             const materialItemD = getCountMaterial(agOption, purAddItem)
