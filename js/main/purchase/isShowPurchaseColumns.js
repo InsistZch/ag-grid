@@ -42,8 +42,6 @@ const isShowPurchaseColumns = (gridOptions) => {
         }
     })
 
-    console.log(gridOptions)
-
     noDailyProcurement.onclick = () => {
         if (!noDailyProcurement.checked) {
             gridOptions.api.forEachNode(v => {
