@@ -311,7 +311,7 @@ const row = (agOption, e) => {
             purchase_unit_id: v.purchase_unit_id,
             supplier: "",
             remarks: "",
-            id: !v.demandDate || `${v.demandDate.split('-')[1]}-${v.demandDate.split('-')[2]}` == demandDate ? i : `noDaliy${i}`,
+            id: !v.demandDate || `${v.demandDate.split('-')[1]}-${v.demandDate.split('-')[2]}` == demandDate ? parseInt(i) : `noDaliy${parseInt(i)}`,
             category_name: name,
             purchase_freq: v.purchase_freq
         }

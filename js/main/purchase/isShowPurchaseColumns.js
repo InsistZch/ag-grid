@@ -2,6 +2,16 @@
 const isShowPurchaseColumns = (gridOptions) => {
     // 显示和隐藏
 
+    // 像这个非日采购,如果今日下单数量是0,且不是当前的日计划日期,不需要发给前端
+    gridOptions.api.forEachNode(v => {
+        // id 为 noDaliyxxx的话就是 不是当前的日计划日期
+        const id = v.data && String(v.data.id).match(/([a-zA-Z]+)/g) && String(v.data.id).match(/([a-zA-Z]+)/g)[0]
+        if (v.key == null && v.data.purchase_freq != 'day' && v.data.Order == 0 && v.data.creationDate && id != null && id != undefined) {
+            console.log(v.data)
+            gridOptions.api.applyTransaction({ remove: [v.data] });
+        }
+    })
+
     let cols = gridOptions.columnApi.getColumnState()
     const createLabels = document.querySelectorAll(".el_columns_item")
     const inps = document.querySelectorAll('.el_columns_item input')

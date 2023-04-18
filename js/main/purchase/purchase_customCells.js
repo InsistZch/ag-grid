@@ -64,6 +64,8 @@ class customCells {
             rowNode.setDataValue('thirdDay', this.currentData == thirdDayDate ? rowNode.data.shouldOrder : 0)
 
             this.params.api.refreshCells({ force: true })
+            // console.log(this.params.api.getColumnDefs())
+            // this.params.api.setColumnDefs(this.params.api.getColumnDefs())
 
         }
 
