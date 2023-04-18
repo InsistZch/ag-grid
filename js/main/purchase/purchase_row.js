@@ -245,33 +245,6 @@ const row = (agOption, e) => {
                 })
             })
 
-            // } else {
-            //     const deldata = []
-            //     oldValue.forEach((oldv, i) => {
-            //         const oldvName = (oldv != '' && oldv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0])
-            //         const num = oldv != '' && oldv.match(/([0-9]+)/)[0]
-            //         if (newValue == '') {
-            //             if (oldvName != '' && num != '') deldata.push({ name: oldvName, num, oldindex: i, needDel: true })
-            //         } else {
-            //             newValue.forEach((newv) => {
-            //                 const newvName = (newv != '' && newv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0])
-            //                 if (oldvName != '' && newvName != '' && newvName != oldvName) {
-            //                     deldata.push({ name: oldvName, num, oldindex: i, needDel: true })
-            //                 }
-            //             })
-            //         }
-            //     });
-
-            //     allOldValue.forEach(oldv => {
-            //         const oldvName = (oldv != '' && oldv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0])
-            //         deldata.forEach((del) => {
-            //             if (del.name == oldvName) {
-            //                 del.needDel = false
-            //             }
-            //         })
-
-            //     });
-
             deldata.forEach(({ num, oldindex, needDel }) => {
                 rowData.forEach((v, i) => {
 
@@ -306,10 +279,6 @@ const row = (agOption, e) => {
 
             e.data.wholeId = newwholeId
             e.data.isMountWhole = e.data.whole
-            // deldata.forEach(({ oldindex }) => {
-            //     e.data.wholeId.splice(oldindex, 1)
-            // })
-            // }
         }
     }
     d.forEach((v, i) => {

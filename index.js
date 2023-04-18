@@ -134,6 +134,25 @@ document.addEventListener("DOMContentLoaded", function () {
                     agButton.style.display = 'flex'
                 })
 
+                const orderConsole = (arr) => {
+                    arr.forEach(a => {
+                        if (a.deliveryDate.split('-').length == 2) {
+                            const year = d.getFullYear()
+                            a.deliveryDate = `${year}-${a.deliveryDate}`
+                            a.demandDate = `${year}-${a.demandDate}`
+                            a.orderDate = `${year}-${a.orderDate}`
+                            a.creationDate = `${year}-${a.creationDate}`
+                        }
+                    });
+                    console.log(arr)
+                }
+                const btnOrderAll = document.querySelector('#purchase_order_all')
+                btnOrderAll.onclick = () => {
+                    const arr = purchaseOption.rowData
+                    orderConsole(arr)
+                }
+
+
             } else {
                 theOne = false
                 refreshWholeCol.original(isShowColumns, agOption)
@@ -153,11 +172,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     purchaseConsole.push({
                         mname: r.material,
                         purchase_unit_id: r.purchase_unit_id,
-                        main_unit_id : r.main_unit_id,
+                        main_unit_id: r.main_unit_id,
                         purchase_qty: r.quantity,
-                        creationDate:   `${d.getFullYear()}-${r.creationDate}`,
-                        orderDate:`${d.getFullYear()}-${r.orderDate}`,
-                        demandDate:`${d.getFullYear()}-${r.demandDate}`
+                        creationDate: `${d.getFullYear()}-${r.creationDate}`,
+                        orderDate: `${d.getFullYear()}-${r.orderDate}`,
+                        demandDate: `${d.getFullYear()}-${r.demandDate}`
                     })
                 })
                 console.log(purchaseConsole)
