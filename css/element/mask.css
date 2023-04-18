@@ -1,0 +1,15 @@
+.mask {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 99999;
+}
+
+.mask .alert {
+    width: 200px;
+    margin: 0 auto;
+    margin-top: 20px;
+}

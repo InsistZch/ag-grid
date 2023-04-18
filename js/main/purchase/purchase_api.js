@@ -41,9 +41,11 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                                     }
                                     return pre
                                 }, [])
+
                                 add_meal_unit.innerHTML = ""
                                 materialDishFood.innerHTML = ""
                                 addMaterialObj = {}
+
                                 for (const item of arr) {
                                     const { name } = index.material_purchase_unit_category.find(v => v.id == item.main_unit_id)
                                     const createDiv = document.createElement('div')
@@ -93,8 +95,28 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                             const material = _parent.querySelector('#material')
                             const add_meal_order = _parent.querySelector('#add_meal_order')
                             const add_meal_unit = _parent.querySelector('#add_meal_unit')
-                            const unitData = JSON.parse(add_meal_unit.querySelector(`option[value="${add_meal_unit.value}"]`).getAttribute('data'))
-                            // console.log(unitData)
+                            if (add_meal_unit.querySelector(`option[value="${add_meal_unit.value}"]`) == null) {
+                                const mask = document.querySelector('.mask')
+                                mask.style.display = 'block'
+                                const alert = (message, type) => {
+                                    const div = document.createElement('div')
+                                    div.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+                                    mask.innerHTML = '';
+                                    mask.append(div)
+                                }
+                                alert('没有食材!', 'warning')
+
+                                const timer = setTimeout(() => {
+                                    mask.style.display = 'none'
+                                }, 2000)
+                                // 清空定时器
+                                for (let i = 1; i < timer; i++) {
+                                    clearTimeout(i);
+                                }
+
+                                return
+                            }
+                            // const unitData = JSON.parse(add_meal_unit.querySelector(`option[value="${add_meal_unit.value}"]`).getAttribute('data'))
 
                             const orderDate = new Date(planDate.getFullYear(), planDate.getMonth() + 1, planDate.getDate() + Number(unitData.plan_day_purchase_ahead_days))
                             const theOrderDate = `${orderDate.getMonth() < 10 ? `0${orderDate.getMonth()}` : orderDate.getMonth()}-${orderDate.getDate() < 10 ? `0${orderDate.getDate()}` : orderDate.getDate()}`
@@ -102,6 +124,7 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                             if (material.value.trim() == "" || addMaterialObj == {}) return true
 
                             const { name } = index.material_top_category.find(e => e.id == addMaterialObj.top_category_id)
+
                             const obj = {
                                 material: addMaterialObj.name.split('-')[0],
                                 creationDate: nowDate,
@@ -139,13 +162,13 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
 
                             if (noDailyProcurement.checked == true && noNowProcurement.checked == true) {
                                 showData = purchaseOption.rowData
-                            } else if(noDailyProcurement.checked == true && noNowProcurement.checked == false){
+                            } else if (noDailyProcurement.checked == true && noNowProcurement.checked == false) {
                                 purchaseOption.rowData.forEach((v) => {
-                                    if (v.creationDate == v.orderDate ) {
+                                    if (v.creationDate == v.orderDate) {
                                         showData.push(v)
                                     }
                                 })
-                            } else if(noDailyProcurement.checked == false && noNowProcurement.checked == true){
+                            } else if (noDailyProcurement.checked == false && noNowProcurement.checked == true) {
                                 purchaseOption.rowData.forEach((v) => {
                                     if (v.purchase_freq == 'day') {
                                         showData.push(v)
