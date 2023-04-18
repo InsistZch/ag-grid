@@ -1,5 +1,5 @@
 /** @odoo-module **/
-// import gridCol from '../ag-grid/ag-grid-col.js'
+import col from '../ag-grid/ag-grid-col.js'
 export default {
     refreshWhole: (materialName = "", agOption) => {
 
@@ -119,6 +119,11 @@ export default {
         return col
     },
     original: (isShowColumns, agOption) => {
+        
+        agOption.api.setColumnDefs(col())
+        console.log(agOption.columnDefs)
+        agOption.api.refreshCells({ force: true })
+
         const arr = []
 
         for (const inp in isShowColumns) {

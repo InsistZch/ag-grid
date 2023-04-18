@@ -9,6 +9,8 @@ import dish_tooltipField from './dish_tooltipField.js'
 // 定义列
 const col = () => {
     const user_setting = index.user_settings[0]
+
+    console.log('123~')
     const col = [
         // {
         //     headerName: '',//选择列头部显示的文字，可以为空
@@ -248,7 +250,7 @@ const col = () => {
         editable: false,
         hide: false,
         pinned: 'right',
-    })
+    })    
     col.push({
         headerName: '配量汇总',
         field: "whole",
@@ -258,6 +260,7 @@ const col = () => {
         // autoHeight: true,
         // wrapText: true,
         cellRenderer: (params) => {
+            console.log('456~')
             if (params.data.configure && !params.data.edit) {
                 if (params.data.type == "%") {
                     if (params.data.cl1 != null) return ""
@@ -265,6 +268,7 @@ const col = () => {
                     // console.log(d)
                     if (d == null) return params.value
                     let v = params.value
+
                     for (const d_item of d) {
                         if (Number(d_item) / 100 > index.org_config.material_cost_ratio_high_lmt) {
                             v = v.replace(d_item + '%', `<span style="color:red;">${d_item}%</span>`)
@@ -317,7 +321,7 @@ const col = () => {
                 }
                 return pre
             }, [])
-            params.data.dish_key_id.material_item = arr 
+            params.data.dish_key_id.material_item = arr
             // console.log(params.data)
 
             // 找到当前菜品列的全部数据
@@ -468,7 +472,6 @@ const Restrictions = params => {
     if (params.data.configure && params.data.fixed) return true
     return false
 }
-
 export {
     Restrictions
 }
