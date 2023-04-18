@@ -1,5 +1,6 @@
 /** @odoo-module **/
-import {get_purchase_row_data_list} from "../tool.js";
+import { get_purchase_row_data_list } from "../tool.js";
+import purchase_data from './purchase_data.js'
 
 class GroupRowInnerRenderer {
     init(params) {
@@ -25,7 +26,8 @@ class GroupRowInnerRenderer {
 
         }
         btnOrder.onclick = async () => {
-            const arr = params.node.allLeafChildren.map(v => v.data)
+            const arr = purchase_data.data.filter(v => v.category_name == params.value)
+            // const arr = params.node.allLeafChildren.map(v => v.data)
             console.log('局部下载采购单')
             await orderConsole(arr)
         }

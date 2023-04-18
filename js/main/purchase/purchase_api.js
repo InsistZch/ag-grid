@@ -116,7 +116,7 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
 
                                 return
                             }
-                            // const unitData = JSON.parse(add_meal_unit.querySelector(`option[value="${add_meal_unit.value}"]`).getAttribute('data'))
+                            const unitData = JSON.parse(add_meal_unit.querySelector(`option[value="${add_meal_unit.value}"]`).getAttribute('data'))
 
                             const orderDate = new Date(planDate.getFullYear(), planDate.getMonth() + 1, planDate.getDate() + Number(unitData.plan_day_purchase_ahead_days))
                             const theOrderDate = `${orderDate.getMonth() < 10 ? `0${orderDate.getMonth()}` : orderDate.getMonth()}-${orderDate.getDate() < 10 ? `0${orderDate.getDate()}` : orderDate.getDate()}`
@@ -130,18 +130,18 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                                 creationDate: nowDate,
                                 orderDate: theOrderDate,
                                 demandDate: demandDate,
-                                quantity: +Number(add_meal_order.value).toFixed(1),
+                                quantity: addMaterialObj.purchase_freq == "day" ? (Number(add_meal_order.value) >= 10 ? Math.ceil(Number(add_meal_order.value)) : +Number(add_meal_order.value).toFixed(1)) : 0,
                                 stock: 1000,
                                 // standardPrice: Number(addMaterialObj.main_price / unitData.main_unit_bom_unit_ratio).toFixed(1),
                                 // marketPrice: Number(addMaterialObj.material_price_alert / unitData.main_unit_bom_unit_ratio).toFixed(1),
                                 standardPrice: Number(addMaterialObj.main_price).toFixed(1),
                                 marketPrice: Number(addMaterialObj.material_price_alert).toFixed(1),
-                                shouldOrder: addMaterialObj.purchase_freq == "day" ? (Number(add_meal_order.value).toFixed(1)) : 0,
+                                shouldOrder: Number(add_meal_order.value) >= 10 ? Math.ceil(Number(add_meal_order.value)) : +Number(add_meal_order.value).toFixed(1),
                                 today: "",
-                                Order: addMaterialObj.purchase_freq == "day" ? (nowDate == theOrderDate ? Number(add_meal_order.value).toFixed(1) : 0) : 0,
+                                Order: nowDate == theOrderDate ? (Number(add_meal_order.value) >= 10 ? Math.ceil(Number(add_meal_order.value)) : +Number(add_meal_order.value).toFixed(1)) : 0,
                                 deliveryDate: "3-25",
-                                tomorrow: addMaterialObj.purchase_freq == "day" ? (tomorrowDate == theOrderDate ? Number(add_meal_order.value).toFixed(1) : 0) : 0,
-                                thirdDay: addMaterialObj.purchase_freq == "day" ? (thirdDayDate == theOrderDate ? Number(add_meal_order.value).toFixed(1) : 0) : 0,
+                                tomorrow: tomorrowDate == theOrderDate ? Number(add_meal_order.value) >= 10 ? Math.ceil(Number(add_meal_order.value)) : +Number(add_meal_order.value).toFixed(1) : 0,
+                                thirdDay: thirdDayDate == theOrderDate ? Number(add_meal_order.value) >= 10 ? Math.ceil(Number(add_meal_order.value)) : +Number(add_meal_order.value).toFixed(1) : 0,
                                 unit: add_meal_unit.value,
                                 purchase_unit_id: index.material_purchase_unit_category.find(v => v.name == add_meal_unit.value).id,
                                 main_unit_id: index.material_item.find(v => v.name = addMaterialObj.name.split('-')[0]).main_unit_id,
@@ -212,7 +212,7 @@ const onCellValueChanged = (e, purchaseOption) => {
             rowNode.setDataValue(e.colDef.field, e.oldValue)
         } else {
             newValue = Number(e.newValue)
-            if (String(e.newValue).indexOf(".") > 0) newValue = newValue.toFixed(1)
+            if (String(e.newValue).indexOf(".") > 0) newValue = Number(newValue) >= 10 ? Math.ceil(Number(newValue)) : Number(newValue).toFixed(1)
             rowNode.setDataValue(e.colDef.field, newValue)
             e.data.shouldOrder = newValue
         }
