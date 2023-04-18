@@ -37,7 +37,6 @@ document.addEventListener("DOMContentLoaded", function () {
     resetPurchaseData.purchase_init(purchaseOption)
     agOption.api.sizeColumnsToFit();
 
-    let purchase_rowdate = purchase_date
 
     // console.log(agOption)
     main_index.otherApi.saveData('.update', () => {
@@ -61,6 +60,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const isShowColumns = new main_index.otherApi.isShowColumns()
 
     main_index.otherApi.purchasePrice('#purchase_price_btn', () => getMaterial(agOption))
+
+    let purchase_rowdate = purchase_date
+
 
     main_index.otherApi.purchase(["#purchase", "#purchase_ruturn"], async () => {
 
