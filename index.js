@@ -8,6 +8,7 @@ import { resetPurchaseData } from './js/main/otherApi/index.js'
 import refreshWholeCol from './js/main/otherApi/refreshWholeCol.js'
 import isShowPurchaseColumns from './js/main/purchase/isShowPurchaseColumns.js'
 import purchase_date from './js/main/purchase/purchase_data.js'
+import col from './js/main/ag-grid/ag-grid-col.js'
 console.log(data_index)
 
 // for (const item of data_index.material_item) {
@@ -157,6 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             } else {
                 theOne = false
+                // agOption.columnDefs = col()
                 refreshWholeCol.original(isShowColumns, agOption)
                 agButton.style.display = 'flex'
                 initFunction.style.display = 'flex'

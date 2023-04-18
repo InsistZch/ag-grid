@@ -3,12 +3,11 @@ import { getCountMaterial } from "../otherApi/getMaterial.js"
 import index from './../../../data/index.js'
 import purchase_data from './purchase_data.js'
 
-export function reset_purchase_rowdata() {
+// export function reset_purchase_rowdata() {
+//     purchase_rowdata = []
+//     isOneData = false
 
-    purchase_data.data = []
-    purchase_data.isOneData = false
-
-}
+// }
 
 const row = (agOption, e) => {
 
@@ -137,6 +136,8 @@ const row = (agOption, e) => {
                             purUpDataItem.push({ puriId: puri.id, num: updata.num })
                         }
                     })
+
+                    console.log(purUpDataItem)
 
                 })
 
@@ -280,6 +281,7 @@ const row = (agOption, e) => {
 
             e.data.wholeId = newwholeId
             e.data.isMountWhole = e.data.whole
+
         }
     }
     d.forEach((v, i) => {
@@ -309,7 +311,7 @@ const row = (agOption, e) => {
             purchase_unit_id: v.purchase_unit_id,
             supplier: "",
             remarks: "",
-            id: i,
+            id: !v.demandDate || `${v.demandDate.split('-')[1]}-${v.demandDate.split('-')[2]}` == demandDate ? i : `noDaliy${i}`,
             category_name: name,
             purchase_freq: v.purchase_freq
         }

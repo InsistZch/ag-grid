@@ -551,15 +551,20 @@ const onCellValueChanged = async (e, gridOptions) => {
                                 })
 
                                 const str = customName.value + customSectionValue + 0 + dish_process_category_name
+                                console.log(e)
                                 // e.data[`${e.colDef.field}`] = e.data[`${e.colDef.field}`].replace(data_name, str)
                                 // e.data
-                                const strs = e.data[`${e.colDef.field}`].split(' ')
+                                // const strs = e.data[`${e.colDef.field}`].split(' ')
+                                const strs = e.value.split(' ')
+
+                                console.log(strs)
                                 for (const s_key in strs) {
                                     if (strs[s_key].includes(customName.value)) {
                                         strs[s_key] = str
                                     }
                                 }
                                 e.data[`${e.colDef.field}`] = strs.join(' ')
+                                e.newValue = e.data[`${e.colDef.field}`]
                                 d[2] = 0
                                 d[3] = customSectionValue
                                 // gridOptions.api.refreshCells({ force: true })
@@ -608,6 +613,8 @@ const onCellValueChanged = async (e, gridOptions) => {
                         let section_str = materialObj.process_category.name
                         const m = index.material_item.filter(v => v.name.split('-')[0] == materialObj.material_item.name)
                         //写入自定义dom操作 配菜
+
+                        console.log(e)
                         customFromDom({
                             parent: "#write_Side_dishes",
                             cancel: ["#write_Side_dishes_cancel1", "#write_Side_dishes_cancel2"],
@@ -668,8 +675,9 @@ const onCellValueChanged = async (e, gridOptions) => {
                                 }
                                 // 替换原数据
                                 let str = ""
-                                // console.log(e.data[`${e.colDef.field}`].split(' '))
-                                for (let item of e.data[`${e.colDef.field}`].split(' ')) {
+                                // for (let item of e.data[`${e.colDef.field}`].split(' ')) {
+                                for (let item of e.newValue.split(' ')) {
+
                                     if (item.trim() == "") continue
                                     const dish_str = dishes_name.value + section + number + compamy + " "
                                     // console.log(dish_str)
@@ -682,13 +690,15 @@ const onCellValueChanged = async (e, gridOptions) => {
                                     //     str += dish_str
                                     //     continue
                                     // }
+                                    console.log(item)
                                     str += item + " "
                                 }
                                 d[2] = number
                                 d[3] = compamy
-                                // console.log(str)
+                                console.log(str)
                                 // e.data[`${e.colDef.field}`] = e.data[`${e.colDef.field}`].replace(`/${data_name}(\d+)?(.+)? /`, )
                                 e.data[`${e.colDef.field}`] = str
+                                e.newValue = e.data[`${e.colDef.field}`]
                                 gridOptions.api.refreshCells({ force: true })
                                 resolve()
                                 return true
@@ -871,7 +881,14 @@ const onCellValueChanged = async (e, gridOptions) => {
                 }
             })
         } else {
-            resetPurchaseData.Change(gridOptions, e)
+            let needChange = true
+            e.newValue.split(' ') && e.newValue.split(' ').forEach((newv) => {
+                if (newv != '' && !newv.match(/([0-9]+)/)) {
+                    needChange = false
+                }
+            })
+            console.log(needChange,e)
+            needChange && resetPurchaseData.Change(gridOptions, e)
         }
         // console.log(e.data)
         // for (const {data} of e.node.parent.allLeafChildren) {
