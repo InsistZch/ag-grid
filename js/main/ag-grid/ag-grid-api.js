@@ -859,12 +859,6 @@ const onCellValueChanged = async (e, gridOptions) => {
                 } else {
                     e.data.dish_key_id.material_item[material_itemIndex] = { ...obj }
                 }
-                e.data.whole = ""
-                for (const item of e.data.dish_key_id.material_item) {
-                    // console.log(item)
-                    const str = item.name.split('-')[0] + item.dish_process_category_name + item.dish_qty + item.unit_name
-                    e.data.whole += str + " "
-                }
             }
         }
         // console.log(e.data.dish_key_id.material_item)
@@ -879,10 +873,11 @@ const onCellValueChanged = async (e, gridOptions) => {
         e.data.costPrice = costPrice
         // e.data.whole = whole
         e.data.dish_key_id.material_item = [...material_items]
+        e.data.whole = whole
         const rowNode = await e.api.getRowNode(e.data.id)
         await rowNode.setData(e.data)
 
-        gridOptions.api.refreshCells({ force: true })   
+        gridOptions.api.refreshCells({ force: true })
         // if (e.newValue.split(' ').length < e.oldValue.split(' ').length && e.newValue == null) {
         //     // console.log('删除')
         //     customFromDom({

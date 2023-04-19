@@ -25,7 +25,7 @@ const row = (agOption, e) => {
     const tomorrowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 1 < 10 ? `0${date.getDate() + 1}` : date.getDate() + 1}`
     const thirdDayDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 2 < 10 ? `0${date.getDate() + 2}` : date.getDate() + 2}`
 
-    if (purchaseData.isOneData == false) {
+    if (!purchaseData.isOneData) {
         purchaseData.isOneData = true
         const purchase_summary_data = index.purchase_summary_data
         let purD = []

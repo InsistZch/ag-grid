@@ -700,7 +700,7 @@ const countMaterialData = ({
     const [, arr] = dish_detailed({ id: dish_key_id }, newCopies)
     // console.log(arr)
     let costPrice = 0;
-    // console.log(update)
+    console.log(update)
     // 如果用户没有修改则进入该方法计算
     if (newCopies == 0) {
         costPrice = 0
@@ -750,8 +750,7 @@ const countMaterialData = ({
                 }
             } else {
                 // 如果自定义食材没有数量则进入if 否则进入else
-                console.log(item)
-                if (isNaN(item.dish_qty) || parseInt(item.dish_qty) == 0) {
+                if (isNaN(item.dish_qty) || Number(item.dish_qty) == 0) {
                     item.dish_qty = 0
                     m_arr.push({ ...item })
                 } else {
