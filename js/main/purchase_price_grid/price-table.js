@@ -13,7 +13,7 @@ const gridOptions = (material_items, agOption) => {
             // sortable: true, //开启排序
             resizable: true,//是否可以调整列大小，就是拖动改变列大小
             // filter: true,  //开启刷选
-            minWidth: 200,
+            minWidth: 150,
             defaultMinWidth: 220,
             flex: 1,
             // floatingFilter: true,

@@ -1,0 +1,18 @@
+div.price_div{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+div.price_div .el_update_btn{
+    color: rgb(109 78 171);
+    border: 1px solid rgb(109 78 171);
+}
+div.price_div .el_update_btn path{
+    color: white;
+}
+div.price_div .el_update_btn:hover{
+    background-color: rgb(109 78 171);
+    color: white;
+}
