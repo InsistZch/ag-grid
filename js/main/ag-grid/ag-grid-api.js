@@ -354,15 +354,6 @@ const onCellValueChanged = async (e, gridOptions) => {
             return
         }
        
-        // 清空配量汇总
-        // if (e.newValue == null || e.newValue.trim() == "") {
-        //     // e.data.whole = ""
-        //     e.data.dish_key_id.material_item = []
-        //     // e.data.costPrice = 0
-        //     const rowNode = e.api.getRowNode(e.data.id)
-        //     rowNode.setDataValue('whole', "")
-        //     rowNode.setDataValue('costPrice', 0)
-        // }
         // 只添加空格
         if (e.newValue.trim() == e.oldValue.trim()) return
 
@@ -371,14 +362,30 @@ const onCellValueChanged = async (e, gridOptions) => {
 
         if (d1[d1.length - 1] != " ") d1 += ' '
         // console.log(e)
-        // 可能为单位，也可能为新增数据
-        // 数据可能存在，也可能不存在
-
-        // 可能修改多个地方        
-
-        // 分割 配量汇总 字符串
+        
+        
 
         let material_data = d1.split(' ')
+        if(material_data.length < e.oldValue.split(" ").length){
+            await new Promise((resolve, reject) => {
+                customFromDom({
+                    parent: '#isDeleteRow',
+                    cancel: ['#isDeleteRow_cancel1', '#isDeleteRow_cancel2'],
+                    sure: "#isDeleteRow_sure",
+                    deleteData: [],
+                    cancelFun: () => {
+                        const rowNode = e.api.getRowNode(e.data.id)
+                        e.data[`${e.colDef.field}`] = e.oldValue
+                        rowNode.setData(e.data)
+                        resolve()
+                    },
+                    sureFun: () => {
+                        resolve()
+                        return true
+                    }
+                })
+            })
+        }
         // console.log(material_data)
         for (const material of material_data) {
             // let isTrue = true
@@ -876,32 +883,32 @@ const onCellValueChanged = async (e, gridOptions) => {
         await rowNode.setData(e.data)
 
         gridOptions.api.refreshCells({ force: true })   
-        if (e.newValue.split(' ').length < e.oldValue.split(' ').length && e.newValue == null) {
-            // console.log('删除')
-            customFromDom({
-                parent: '#isDeleteRow',
-                cancel: ['#isDeleteRow_cancel1', '#isDeleteRow_cancel2'],
-                sure: "#isDeleteRow_sure",
-                deleteData: [],
-                cancelFun: () => {
-                    e.data[`${e.colDef.field}`] = e.oldValue
-                    gridOptions.api.refreshCells({ force: true })
-                },
-                sureFun: () => {
-                    resetPurchaseData.Change(gridOptions, e)
-                    return true
-                }
-            })
-        } else {
-            let needChange = true
-            e.newValue.split(' ') && e.newValue.split(' ').forEach((newv) => {
-                if (newv != '' && !newv.match(/([0-9]+)/)) {
-                    needChange = false
-                }
-            })
-            console.log(needChange,e)
-            needChange && resetPurchaseData.Change(gridOptions, e)
-        }
+        // if (e.newValue.split(' ').length < e.oldValue.split(' ').length && e.newValue == null) {
+        //     // console.log('删除')
+        //     customFromDom({
+        //         parent: '#isDeleteRow',
+        //         cancel: ['#isDeleteRow_cancel1', '#isDeleteRow_cancel2'],
+        //         sure: "#isDeleteRow_sure",
+        //         deleteData: [],
+        //         cancelFun: () => {
+        //             e.data[`${e.colDef.field}`] = e.oldValue
+        //             gridOptions.api.refreshCells({ force: true })
+        //         },
+        //         sureFun: () => {
+        //             resetPurchaseData.Change(gridOptions, e)
+        //             return true
+        //         }
+        //     })
+        // } else {
+        //     let needChange = true
+        //     e.newValue.split(' ') && e.newValue.split(' ').forEach((newv) => {
+        //         if (newv != '' && !newv.match(/([0-9]+)/)) {
+        //             needChange = false
+        //         }
+        //     })
+        //     console.log(needChange,e)
+        //     needChange && resetPurchaseData.Change(gridOptions, e)
+        // }
         // console.log(e.data)
         // for (const {data} of e.node.parent.allLeafChildren) {
         //     const rowNode = gridOptions.api.getRowNode(data.id)
