@@ -528,7 +528,7 @@ const onCellValueChanged = async (e, gridOptions) => {
                                     main_price: customPrice.value,
                                     main_unit_id: customCompany.value,
                                     // top_category_id:2,
-                                    material_price_alert: Number(customPrice.value) + 3,
+                                    material_price_alert: Number(customPrice.value) + 2,
                                     repeat_tag: true,
                                     top_category_id: topCategory.value,
                                 }
@@ -571,7 +571,7 @@ const onCellValueChanged = async (e, gridOptions) => {
                                 })
 
                                 const str = customName.value + customSectionValue + 0 + dish_process_category_name
-                                console.log(e)
+                                // console.log(e)
                                 // e.data[`${e.colDef.field}`] = e.data[`${e.colDef.field}`].replace(data_name, str)
                                 // e.data
                                 // const strs = e.data[`${e.colDef.field}`].split(' ')
@@ -596,11 +596,11 @@ const onCellValueChanged = async (e, gridOptions) => {
                                 const customPrice = _parent.querySelector('#customPrice')
                                 const topCategory = _parent.querySelector('#topCategory')
                                 const limitNumber = () => {
-                                    if (isNaN(customPrice.value) || Number(customPrice.value) < 1) {
-                                        customPrice.value = 1
+                                    if (isNaN(customPrice.value) || Number(customPrice.value) < 0) {
+                                        customPrice.value = 0
                                     }
                                 }
-                                customPrice.onkeydown = () => limitNumber()
+                                customPrice.onkeyup = () => limitNumber()
                                 customPrice.onwheel = () => limitNumber()
                                 index.material_top_category.forEach(v => {
                                     topCategory.innerHTML += v.id == 1 ?

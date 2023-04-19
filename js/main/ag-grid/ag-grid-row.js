@@ -700,7 +700,7 @@ const countMaterialData = ({
     const [, arr] = dish_detailed({ id: dish_key_id }, newCopies)
     // console.log(arr)
     let costPrice = 0;
-    console.log(update)
+    // console.log(update)
     // 如果用户没有修改则进入该方法计算
     if (newCopies == 0) {
         costPrice = 0
@@ -816,7 +816,7 @@ const countMaterialData = ({
     // costPrice = Number(costPrice.toFixed(2))
     // whole字段
     const str = materialToString(m_arr)
-    console.log(m_arr)
+    // console.log(m_arr)
     return [str, m_arr, costPrice]
 }
 
