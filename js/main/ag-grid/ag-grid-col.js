@@ -301,26 +301,26 @@ const col = () => {
 
 
             // 找到目前所有材料的数据
-            const arr = material_item.reduce((pre, v) => {
-                let current = value.split(" ")
+            // const arr = material_item.reduce((pre, v) => {
+            //     let current = value.split(" ")
 
-                for (const cv of current) {
-                    let c = cv.match(/([\u4e00-\u9fa5a-zA-Z]+)/)
-                    if (c == null) break
-                    let d = v.name.split('-')[0]
-                    // console.log(c[0], d + v.dish_process_category_name)
+            //     for (const cv of current) {
+            //         let c = cv.match(/([\u4e00-\u9fa5a-zA-Z]+)/)
+            //         if (c == null) break
+            //         let d = v.name.split('-')[0]
+            //         // console.log(c[0], d + v.dish_process_category_name)
 
-                    if (c[0] == d || c[0] == d + v.dish_process_category_name) {
+            //         if (c[0] == d || c[0] == d + v.dish_process_category_name) {
 
-                        // console.log(127, v)
-                        pre.push(v)
-                        break
-                    }
-                }
-                return pre
-            }, [])
-            params.data.dish_key_id.material_item = arr
-            // console.log(params.data)
+            //             // console.log(127, v)
+            //             pre.push(v)
+            //             break
+            //         }
+            //     }
+            //     return pre
+            // }, [])
+            // params.data.dish_key_id.material_item = arr
+            // // console.log(params.data)
 
             // 找到当前菜品列的全部数据
             params.api.forEachNode((e) => {

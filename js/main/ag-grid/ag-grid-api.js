@@ -325,39 +325,50 @@ const onCellValueChanged = async (e, gridOptions) => {
         resetPurchaseData.Change(gridOptions, e)
 
     } else if (e.colDef.headerName == '配量汇总') {
-
+        // 全部删除 
         if (e.newValue == null || e.newValue == '') {
             // console.log('删除')
-            customFromDom({
-                parent: '#isDeleteRow',
-                cancel: ['#isDeleteRow_cancel1', '#isDeleteRow_cancel2'],
-                sure: "#isDeleteRow_sure",
-                deleteData: [],
-                cancelFun: () => {
-                    e.data[`${e.colDef.field}`] = e.oldValue
-                    gridOptions.api.refreshCells({ force: true })
-                },
-                sureFun: () => {
-                    resetPurchaseData.Change(gridOptions, e)
-                    return true
-                }
+            await new Promise((resolve, reject) => {
+                customFromDom({
+                    parent: '#isDeleteRow',
+                    cancel: ['#isDeleteRow_cancel1', '#isDeleteRow_cancel2'],
+                    sure: "#isDeleteRow_sure",
+                    deleteData: [],
+                    cancelFun: () => {
+                        const rowNode = e.api.getRowNode(e.data.id)
+                        e.data[`${e.colDef.field}`] = e.oldValue
+                        resolve()
+                        rowNode.setData(e.data)
+                    },
+                    sureFun: () => {
+                        resetPurchaseData.Change(gridOptions, e)
+                        e.data.dish_key_id.material_item = []
+                        const rowNode = e.api.getRowNode(e.data.id)
+                        rowNode.setDataValue('whole', "")
+                        rowNode.setDataValue('costPrice', 0)
+                        resolve()
+                        return true
+                    }
+                })
             })
+            return
         }
+       
+        // 清空配量汇总
+        // if (e.newValue == null || e.newValue.trim() == "") {
+        //     // e.data.whole = ""
+        //     e.data.dish_key_id.material_item = []
+        //     // e.data.costPrice = 0
+        //     const rowNode = e.api.getRowNode(e.data.id)
+        //     rowNode.setDataValue('whole', "")
+        //     rowNode.setDataValue('costPrice', 0)
+        // }
+        // 只添加空格
+        if (e.newValue.trim() == e.oldValue.trim()) return
 
         e.data.update = true
         let d1 = e.newValue
-        // 清空配量汇总
-        if (e.newValue == null || e.newValue.trim() == "") {
-            // e.data.whole = ""
-            e.data.dish_key_id.material_item = []
-            // e.data.costPrice = 0
-            const rowNode = e.api.getRowNode(e.data.id)
-            rowNode.setDataValue('whole', "")
-            rowNode.setDataValue('costPrice', 0)
-            return
-        }
-        // 只添加空格
-        if (e.newValue.trim() == e.oldValue.trim()) return
+
         if (d1[d1.length - 1] != " ") d1 += ' '
         // console.log(e)
         // 可能为单位，也可能为新增数据
@@ -597,7 +608,6 @@ const onCellValueChanged = async (e, gridOptions) => {
                     }
                 }
             })
-
             await new Promise(resolve => {
                 // 判断是否有数量以及单位
                 if (isExistMaterial) {
@@ -836,7 +846,7 @@ const onCellValueChanged = async (e, gridOptions) => {
                     unit_id: materialObj['unitObj'].unit_id,
                     unit_name: materialObj['unitObj'].unit_name,
                 }
-                //  console.log(materialObj['material_item'], obj, d[2])
+                // console.log(materialObj['material_item'], obj, d[2])
                 if (material_itemIndex == -1) {
                     e.data.dish_key_id.material_item.push({ ...obj })
                 } else {
@@ -850,7 +860,7 @@ const onCellValueChanged = async (e, gridOptions) => {
                 }
             }
         }
-
+        // console.log(e.data.dish_key_id.material_item)
         const [whole, material_items, costPrice] = countMaterialData({
             material_items: [...e.data.dish_key_id.material_item],
             dish_key_id: e.data.dish_key_id.id,
@@ -865,7 +875,7 @@ const onCellValueChanged = async (e, gridOptions) => {
         const rowNode = await e.api.getRowNode(e.data.id)
         await rowNode.setData(e.data)
 
-        gridOptions.api.refreshCells({ force: true })
+        gridOptions.api.refreshCells({ force: true })   
         if (e.newValue.split(' ').length < e.oldValue.split(' ').length && e.newValue == null) {
             // console.log('删除')
             customFromDom({
