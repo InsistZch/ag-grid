@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 purchase_rowdate.data = purchaseOption.rowData
 
                 // 打印数据
-                let ans_arr = get_purchase_row_data_list(d, purchase_rowdate.data)
+                // let ans_arr = get_purchase_row_data_list(d, purchase_rowdate.data)
 
 
                 if (purchaseOption.context != undefined && purchaseOption.context.owl_widget.PurChaseOrderSave) {
