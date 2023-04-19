@@ -89,6 +89,7 @@ const row = (agOption, e) => {
             const deldata = []
             const cdeldata = []
             if (e.colDef.headerName == '配量汇总') {
+                if(e.newValue==null) e.newValue = ""
                 const newValue = e.newValue.split(" ")
                 const oldValue = e.oldValue.split(" ")
                 let add = []
@@ -138,7 +139,7 @@ const row = (agOption, e) => {
                         }
                     })
 
-                    console.log(purUpDataItem)
+                    // console.log(purUpDataItem)
 
                 })
 
@@ -157,6 +158,8 @@ const row = (agOption, e) => {
                             })
                         }
                     });
+
+                    // console.log(deldata)
 
                     allOldValue.forEach(oldv => {
                         const oldvName = (oldv != '' && oldv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0])
@@ -297,22 +300,22 @@ const row = (agOption, e) => {
             creationDate: v.creationDate ? `${v.creationDate.split('-')[1]}-${v.creationDate.split('-')[2]}` : nowDate,
             orderDate: v.orderDate ? `${v.orderDate.split('-')[1]}-${v.orderDate.split('-')[2]}` : theOrderDate,
             demandDate: v.demandDate ? `${v.demandDate.split('-')[1]}-${v.demandDate.split('-')[2]}` : demandDate,
-            quantity: Number(v.dish_qty.toFixed(1)),
-            shouldOrder: v.purchase_freq == "day" ? (v.dish_qty) : 0,
+            quantity: v.purchase_freq == "day" ? (Number(v.dish_qty) >= 10 ? Math.ceil(Number(v.dish_qty)) : +Number(v.dish_qty).toFixed(1)) : 0,
+            shouldOrder: Number(v.dish_qty.toFixed(1)),
             stock: 1000,
             standardPrice: v.main_price,
             marketPrice: v.material_price_alert,
             today: "",
-            Order: v.purchase_freq == "day" ? ((v.orderDate ? `${v.orderDate.split('-')[1]}-${v.orderDate.split('-')[2]}` : theOrderDate) == nowDate ? v.dish_qty : 0) : 0,
+            Order: (v.orderDate ? `${v.orderDate.split('-')[1]}-${v.orderDate.split('-')[2]}` : theOrderDate) == nowDate ? (Number(v.dish_qty) >= 10 ? Math.ceil(Number(v.dish_qty)) : +Number(v.dish_qty).toFixed(1)) : 0,
             deliveryDate: moment().format("MM-DD"),
-            tomorrow: v.purchase_freq == "day" ? ((v.orderDate ? `${v.orderDate.split('-')[1]}-${v.orderDate.split('-')[2]}` : theOrderDate) == tomorrowDate ? v.dish_qty : 0) : 0,
-            thirdDay: v.purchase_freq == "day" ? ((v.orderDate ? `${v.orderDate.split('-')[1]}-${v.orderDate.split('-')[2]}` : theOrderDate) == thirdDayDate ? v.dish_qty : 0) : 0,
+            tomorrow: (v.orderDate ? `${v.orderDate.split('-')[1]}-${v.orderDate.split('-')[2]}` : theOrderDate) == tomorrowDate ? (Number(v.dish_qty) >= 10 ? Math.ceil(Number(v.dish_qty)) : +Number(v.dish_qty).toFixed(1)) : 0,
+            thirdDay: (v.orderDate ? `${v.orderDate.split('-')[1]}-${v.orderDate.split('-')[2]}` : theOrderDate) == thirdDayDate ? (Number(v.dish_qty) >= 10 ? Math.ceil(Number(v.dish_qty)) : +Number(v.dish_qty).toFixed(1)) : 0,
             unit: unitName.name,
             main_unit_id: v.main_unit_id,
             purchase_unit_id: v.purchase_unit_id,
             supplier: "",
             remarks: "",
-            id: !v.demandDate || `${v.demandDate.split('-')[1]}-${v.demandDate.split('-')[2]}` == demandDate ? i : `noDaliy${i}`,
+            id: !v.demandDate || `${v.demandDate.split('-')[1]}-${v.demandDate.split('-')[2]}` == demandDate ? parseInt(i) : `noDaliy${parseInt(i)}`,
             category_name: name,
             purchase_freq: v.purchase_freq
         }

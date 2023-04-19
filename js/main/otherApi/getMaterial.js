@@ -42,7 +42,7 @@ const getCountMaterial = (agOption, purItem) => {
             const dish_qty = Number(((item.dish_qty || 0) / item.main_unit_bom_unit_ratio).toFixed(1))
             const main_price = Number((item.main_price / item.main_unit_bom_unit_ratio).toFixed(1))
             // console.log(item)
-            material.set(item.id, {
+            material.set(item.id+'summary_data', {
                 dish_qty,
                 main_price: main_price,
                 main_unit_id: item.main_unit_id,

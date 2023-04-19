@@ -1,7 +1,7 @@
 /** @odoo-module **/
 import purchase_row from "../purchase/purchase_row.js"
 import refreshWholeCol from './refreshWholeCol.js'
-
+import isShowPurchaseColumns from "./../purchase/isShowPurchaseColumns.js";
 class resetPurchaseData {
     purchaseOption = null
 
@@ -18,6 +18,7 @@ class resetPurchaseData {
         this.purchaseOption.rowData = data
         this.purchaseOption.api && this.purchaseOption.api.setRowData(data)
         this.purchaseOption.api && this.purchaseOption.api.refreshCells({ force: true })
+        isShowPurchaseColumns(this.purchaseOption)
         refreshWholeCol.refreshWhole('', agOption)
     }
 }
