@@ -173,7 +173,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (purchaseOption.context != undefined && purchaseOption.context.owl_widget.PurChaseOrderSave) {
 
-                    await purchaseOption.context.owl_widget.PurChaseOrderSave(ans_arr)
+                    // await purchaseOption.context.owl_widget.PurChaseOrderSave(ans_arr)
                 }
             }
         }
