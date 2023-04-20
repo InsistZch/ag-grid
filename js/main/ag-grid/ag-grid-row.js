@@ -816,7 +816,7 @@ const countMaterialData = ({
     // costPrice = Number(costPrice.toFixed(2))
     // whole字段
     const str = materialToString(m_arr)
-    console.log(m_arr)
+    // console.log(m_arr)
     return [str, m_arr, costPrice]
 }
 

@@ -123,6 +123,7 @@ class customCells {
                         dinner_type: node.data.dinner_type,
                         Copies: node.data.Copies,
                         costPrice: node.data.costPrice,
+                        dname: node.data.dname,
                         material_item_bom_list: node.data.dish_key_id.material_item.map(e => {
                             return {
                                 name: e.name,
@@ -131,7 +132,6 @@ class customCells {
                                 process_name: e.dish_process_category_name,
                                 dish_qty: e.dish_qty,
                                 unit_name: e.unit_name,
-
                             }
                         })
                     })
@@ -325,7 +325,7 @@ class customCells {
     // 编辑结束后返回一次
     // 如果返回true,编辑结果失效
     isCancelAfterEnd() {
-        const currentData = this.ele.querySelector('input').value
+        const currentData = this.ele.querySelector('input').value + "_" + this.params.data.type
 
         // 同一餐不能出现重复
         let rowDishs = ""
@@ -342,10 +342,10 @@ class customCells {
             }
         })
         needRowdata.forEach((data) => {
-            if (data.dish === currentData) rowDishs = data.dish
+            if (data.dname === currentData) rowDishs = data.dname
         })
         spRowdata.forEach((data) => {
-            if (data.dish === currentData) spDishs = data.dish
+            if (data.dname === currentData) spDishs = data.dname
         })
         if (rowDishs === currentData) return true
         if (spDishs === currentData) return true
@@ -353,8 +353,9 @@ class customCells {
 
         if (currentData == undefined || currentData == null || currentData.trim() == "") return true
         for (const e of this.dish_data) {
-            // console.log(e,this.params)
-            if (e.name == currentData && e.dish_top_category_id == this.params.data.dish_key_id.dish_top_category_id) {
+            console.log(e,this.params)
+            
+            if (e.name + "_" + this.params.data.type == currentData && e.dish_top_category_id == this.params.data.dish_key_id.dish_top_category_id) {
                 // console.log(e, this.params)
                 if (e.name == this.params.data.dish) {
                     return false
@@ -390,7 +391,7 @@ class customCells {
                 }
                 this.params.data.dish_key_id = { ...obj }
                 // console.log(this.params.data.dish_key_id)
-                this.currentData = currentData
+                this.currentData = currentData.split('_')[0]
                 return false
             }
         }

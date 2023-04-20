@@ -266,7 +266,18 @@ const onCellValueChanged = async (e, gridOptions) => {
     } else if (e.colDef.headerName == '菜品') {
         let needRowdata = [];
         let spRowdata = [];
+        // 判断新菜品type 是否与旧菜品一致
+        // 如果不一致 则打回
+        // 如果与新菜品一致 则判断 该菜品是否为重复菜品
 
+        const rowNode = e.api.getRowNode(e.data.id)
+        const isDish = index.dish_key.filter(v => v.name == e.newValue).some(v => v.dish_top_category_id == e.data.dish_key_id.dish_top_category_id)
+        if(!isDish){
+            rowNode.setDataValue(e.colDef.field, e.oldValue)
+            return
+        }
+
+        // needRowdata => 找到所有
         e.api.forEachNode((v, index) => {
             if (v.data == null) return
             if (v.data.teseMatchRowId === -1 && e.rowIndex !== index && v.data.dinner_type == e.data.dinner_type) needRowdata.push(v.data)
@@ -275,34 +286,35 @@ const onCellValueChanged = async (e, gridOptions) => {
                 (v.data.teseMatchRowId == -1) ? spRowdata = [] : needRowdata = []
             }
         })
-        needRowdata.forEach((data) => {
-            if (data.dish === e.newValue) {
-                const rowNode = e.api.getRowNode(v.data.id)
+        for (const data of needRowdata) {
+            if (data.dname === e.newValue + '_' + data.type) {
                 rowNode.setDataValue(e.colDef.field, e.oldValue)
-            }
-        })
-        spRowdata.forEach((data) => {
-            if (data.dish === e.newValue) {
-                const rowNode = e.api.getRowNode(v.data.id)
-                rowNode.setDataValue(e.colDef.field, e.oldValue)
-            }
-        })
-
-        if (e.newValue == null || e.newValue == undefined || e.newValue.trim() == "") {
-            e.data[`${e.colDef.field}`] = e.oldValue
-        }
-
-        for (const item of index.dish_key) {
-            if (item.name == e.newValue) {
-                if (item.dish_top_category_id != e.data.dish_key_id.dish_top_category_id && item.name != e.oldValue) {
-                    e.data[`${e.colDef.field}`] = e.oldValue
-                }
+                return
             }
         }
+        for (const data of spRowdata) {
+            if (data.dname === e.newValue + '_' + data.type) {
+                rowNode.setDataValue(e.colDef.field, e.oldValue)
+                return
+            }
+        }
+
+        if (e.newValue == null || e.newValue.trim() == "") {
+            rowNode.setDataValue(e.colDef.field, e.oldValue)
+            return
+        }
+        // 一个餐品 可能会有两种餐别
+        // for (const item of index.dish_key) {
+        //     if(item.name == e.newValue){
+        //         if (item.dish_top_category_id != e.data.dish_key_id.dish_top_category_id && item.name != e.oldValue) {
+        //             rowNode.setDataValue(e.colDef.field, e.oldValue)
+        //         }
+        //     }
+        // }
         const arr = ["早餐", "中餐", "晚餐", "夜餐"]
         for (const item of arr) {
             if (e.newValue == item) {
-                e.data[`${e.colDef.field}`] = e.oldValue
+                rowNode.setDataValue(e.colDef.field, e.oldValue)
             }
         }
         const d = countMaterialData({
@@ -311,14 +323,14 @@ const onCellValueChanged = async (e, gridOptions) => {
             oldCopies: e.data['Copies'],
             newCopies: e.data['Copies']
         })
-        e.data['costPrice'] = d[2]
+        rowNode.setDataValue('costPrice', d[2])
+        // e.data['costPrice'] = d[2]
         e.data['dname'] = `${e.newValue}_${e.data.type}`
 
-        console.log(e.data.whole)
+        // console.log(e.data.whole)
         resetPurchaseData.Change(gridOptions, e)
 
     } else if (e.colDef.headerName == '配量汇总') {
-        console.log('123')
         // 全部删除 
         if (e.newValue == null || e.newValue == '') {
             await new Promise((resolve, reject) => {

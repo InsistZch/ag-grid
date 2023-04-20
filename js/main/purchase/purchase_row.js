@@ -201,7 +201,7 @@ const row = (agOption, e) => {
                     }
 
                 })
-                console.log(oldwholeId)
+                // console.log(oldwholeId)
                 oldwholeId.forEach((oldI, i) => {
                     const oldValue = e.data.isMountWhole.split(" ")
                     // deldata.push({ oldI, num: (+num) / unitMR, oldindex: i, needDel: true })
@@ -215,7 +215,7 @@ const row = (agOption, e) => {
                     // })
                 })
                 // 删除食材采购单食材食材还是减少数量
-                console.log(allOldwholeId)
+                // console.log(allOldwholeId)
                 allOldwholeId.forEach(aAldI => {
                     deldata.forEach((del) => {
                         if (del.oldI == aAldI) {
@@ -288,7 +288,7 @@ const row = (agOption, e) => {
                 })
             })
 
-            console.log(deldata)
+            // console.log(deldata)
 
             deldata.forEach(({ num, oldindex, needDel }) => {
                 rowData.forEach((v, i) => {
@@ -313,7 +313,7 @@ const row = (agOption, e) => {
                 })
             })
 
-            console.log(purAddItem, purUpDataItem, deldata, rowData)
+            // console.log(purAddItem, purUpDataItem, deldata, rowData)
 
             // cdeldata.forEach((c) => {
             //     rowData.forEach((v, i) => {
@@ -328,7 +328,7 @@ const row = (agOption, e) => {
 
         }
     }
-    console.log(demandDate)
+    // console.log(demandDate)
     d.forEach((v, i) => {
         const { name } = (index.material_top_category.find(e => e.id == v.top_category_id))
         const unitName = index.material_purchase_unit_category.find(e => e.id == v.main_unit_id)

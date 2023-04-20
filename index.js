@@ -11,9 +11,9 @@ import purchase_date from './js/main/purchase/purchase_data.js'
 import {get_purchase_row_data_list} from "./js/main/tool.js";
 console.log(data_index)
 
-// for (const item of data_index.material_item) {
+// for (const item of data_index.dish_key) {
 //     // 360190
-//     if (item.id == 3143511) {
+//     if (item.name == "红枣银耳汤") {
 //         console.log(item)
 //     }
 // }
