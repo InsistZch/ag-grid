@@ -392,8 +392,12 @@ const onCellValueChanged = async (e, gridOptions) => {
             if (material.trim() == "") continue
 
             // 鸭肉片23.58斤 鸭肉片 23.58 斤
-            let d = material.match(/([\u4e00-\u9fa5]{0,6})?(-?\d*\.?\d+?)?([\u4e00-\u9fa5a-zA-Z]+)?/)
+            let d = material.match(/([\u4e00-\u9fa5]{0,6})?(.*?\d*\.?\d+?)?([\u4e00-\u9fa5a-zA-Z]+)?/)
             console.log(d)
+            if(isNaN(d[2])){
+                console.log(d[2])
+                d[2] = 0
+            }
 
             // 输入数据错误，则跳出循环
             if (d == null) {
@@ -872,7 +876,7 @@ const onCellValueChanged = async (e, gridOptions) => {
         // console.log(e.data)
         e.data.costPrice = costPrice
         // e.data.whole = whole
-        e.data.dish_key_id.material_item = [...material_items]
+        // e.data.dish_key_id.material_item = [...material_items]
         e.data.whole = whole
         const rowNode = await e.api.getRowNode(e.data.id)
         await rowNode.setData(e.data)
