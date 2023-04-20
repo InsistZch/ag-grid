@@ -55,7 +55,7 @@ export default {
                         let all = ''
                         for (const cv of current) {
                             name = cv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g) != null ? cv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0] : ''
-                            num = cv.match(/([0-9]+)/) != null ? cv.match(/([0-9]+)/)[0] : ''
+                            num = cv.match(/(\d*\.?\d+?)/) != null ? cv.match(/(\d*\.?\d+?)/)[0] : ''
                             unit = cv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g) != null ? cv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[1] : ''
 
                             params.data.dish_key_id.material_item.forEach((v) => {
@@ -80,17 +80,24 @@ export default {
                     if (materialName.trim() == "") {
                         // console.log(DisplayProcessing())
                         value = DisplayProcessing()
-                        // console.log(value)
+                        console.log(value)
                         // return all
                     } else {
                         value = DisplayProcessing()
                         params.data.dish_key_id.material_item.forEach(item => {
                             if (item.name.split("-")[0] == (materialName)) {
-                                // value = `<div class='params_value'>${value.split(materialName)[0]}<span class='span_value'>${materialName}</span>${value.split(materialName)[1]}<div/>`
-                                value = "<div class='params_value'>" + value.split(materialName)[0] + "<span class='span_value'>" + materialName + "</span>" + value.split(materialName)[1] + "<div/>"
+                                console.log(materialName)
+                                value = `
+                                <div class='params_value'>
+                                ${value.split(materialName)[0]}
+                                <span class='span_value'>${materialName}</span>
+                                ${value.split(materialName)[1]}
+                                </div>`
+                                // value = "<div class='params_value'>" + value.split(materialName)[0] + "<span class='span_value'>" + materialName + "</span>" + value.split(materialName)[1] + "</div>"
                             }
                         })
                     }
+                    console.log(value)
                     return value
                 }
             }
