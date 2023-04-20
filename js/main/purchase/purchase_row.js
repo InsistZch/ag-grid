@@ -3,11 +3,12 @@ import { getCountMaterial } from "../otherApi/getMaterial.js"
 import index from './../../../data/index.js'
 import purchase_data from './purchase_data.js'
 
-// export function reset_purchase_rowdata() {
-//     purchase_rowdata = []
-//     isOneData = false
+export function reset_purchase_rowdata() {
 
-// }
+    purchase_data.isOneData = false
+    purchase_data.data = []
+
+}
 
 const row = (agOption, e) => {
 
@@ -25,11 +26,15 @@ const row = (agOption, e) => {
     const tomorrowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 1 < 10 ? `0${date.getDate() + 1}` : date.getDate() + 1}`
     const thirdDayDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 2 < 10 ? `0${date.getDate() + 2}` : date.getDate() + 2}`
 
+<<<<<<< HEAD
     const numFormat = (num) => {
         return (Number(num) >= 10 ? Math.ceil(num) : Number(num).toFixed(1))
     }
 
     if (purchaseData.isOneData == false) {
+=======
+    if (!purchaseData.isOneData) {
+>>>>>>> 2faa7966cad6b62ac1830f091ed33f5db33fc0d7
         purchaseData.isOneData = true
         const purchase_summary_data = index.purchase_summary_data
         let purD = []
@@ -337,8 +342,13 @@ const row = (agOption, e) => {
             creationDate: v.creationDate ? `${v.creationDate.split('-')[1]}-${v.creationDate.split('-')[2]}` : nowDate,
             orderDate: v.orderDate ? `${v.orderDate.split('-')[1]}-${v.orderDate.split('-')[2]}` : theOrderDate,
             demandDate: v.demandDate ? `${v.demandDate.split('-')[1]}-${v.demandDate.split('-')[2]}` : demandDate,
+<<<<<<< HEAD
             quantity: v.purchase_freq == "day" ? numFormat(v.dish_qty) : 0,
             shouldOrder: Number(v.dish_qty.toFixed(1)),
+=======
+            quantity: v.purchase_freq == "day" ? (Number(v.dish_qty) >= 10 ? Math.ceil(Number(v.dish_qty)) : +Number(v.dish_qty).toFixed(2)) : 0,
+            shouldOrder: Number(v.dish_qty.toFixed(2)),
+>>>>>>> 2faa7966cad6b62ac1830f091ed33f5db33fc0d7
             stock: 1000,
             standardPrice: v.main_price,
             marketPrice: v.material_price_alert,

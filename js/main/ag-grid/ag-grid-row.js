@@ -750,7 +750,7 @@ const countMaterialData = ({
                 }
             } else {
                 // 如果自定义食材没有数量则进入if 否则进入else
-                if (isNaN(item.dish_qty) || parseInt(item.dish_qty) == 0) {
+                if (isNaN(item.dish_qty) || Number(item.dish_qty) == 0) {
                     item.dish_qty = 0
                     m_arr.push({ ...item })
                 } else {
@@ -759,7 +759,7 @@ const countMaterialData = ({
                     const scale = (newCopies - oldCopies) / old
                     // console.log(scale, item.dish_qty)
                     let dish = 0
-                    if (item.main_price / item.main_unit_bom_unit_ratio >= 5 && Number(item.dish_qty) < 10) {
+                    if ((item.main_price / item.main_unit_bom_unit_ratio) >= 5 && Number(item.dish_qty) < 10) {
                         dish = Number((Number(item.dish_qty) + (Number(item.dish_qty) * scale)).toFixed(1))
                     }
                     else if (Number(item.dish_qty) < 1) {
@@ -816,7 +816,7 @@ const countMaterialData = ({
     // costPrice = Number(costPrice.toFixed(2))
     // whole字段
     const str = materialToString(m_arr)
-    // console.log(m_arr)
+    console.log(m_arr)
     return [str, m_arr, costPrice]
 }
 
