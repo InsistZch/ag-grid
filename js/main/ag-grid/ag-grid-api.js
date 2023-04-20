@@ -393,8 +393,10 @@ const onCellValueChanged = async (e, gridOptions) => {
                 console.log(d)
 
                 // 输入数据错误，则跳出循环
-                if (d == null) {
+                if (d == null || d[1] == undefined) {
+                    const rowNode = e.api.getRowNode(e.data.id)
                     e.data[`${e.colDef.field}`] = e.oldValue
+                    rowNode.setData(e.data)
                     return
                 }
                 // 假设现在是一个新食材
@@ -938,6 +940,8 @@ const onCellValueChanged = async (e, gridOptions) => {
         })
         // console.log(e.data)
         e.data.costPrice = costPrice
+        // e.data.whole = whole
+        // e.data.dish_key_id.material_item = [...material_items]
         e.data.whole = whole
         const rowNode = await e.api.getRowNode(e.data.id)
         await rowNode.setData(e.data)
