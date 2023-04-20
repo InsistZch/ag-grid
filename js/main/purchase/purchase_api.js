@@ -215,7 +215,7 @@ const onCellValueChanged = (e, purchaseOption) => {
             rowNode.setDataValue(e.colDef.field, e.oldValue)
         } else {
             newValue = Number(e.newValue)
-            if (String(e.newValue).indexOf(".") > 0) newValue = Number(newValue) >= 10 ? Math.ceil(Number(newValue)) : Number(newValue).toFixed(2)
+            if (String(e.newValue).indexOf(".") > 0) newValue = Number(newValue) >= 10 ? (Math.ceil(Number(newValue))) : Number(Number(newValue).toFixed(2))
             rowNode.setDataValue(e.colDef.field, newValue)
             e.data.shouldOrder = newValue
         }

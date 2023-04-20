@@ -342,7 +342,7 @@ const row = (agOption, e) => {
             creationDate: v.creationDate ? `${v.creationDate.split('-')[1]}-${v.creationDate.split('-')[2]}` : nowDate,
             orderDate: v.orderDate ? `${v.orderDate.split('-')[1]}-${v.orderDate.split('-')[2]}` : theOrderDate,
             demandDate: v.demandDate ? `${v.demandDate.split('-')[1]}-${v.demandDate.split('-')[2]}` : demandDate,
-            quantity: Number(v.dish_qty.toFixed(2)),
+            quantity: numFormat(v.dish_qty),
             shouldOrder: v.purchase_freq == "day" ? numFormat(v.dish_qty) : 0,
             stock: 1000,
             standardPrice: v.main_price,
