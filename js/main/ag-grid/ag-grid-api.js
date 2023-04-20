@@ -340,10 +340,12 @@ const onCellValueChanged = async (e, gridOptions) => {
                     },
                     sureFun: () => {
                         resetPurchaseData.Change(gridOptions, e)
-                        e.data.dish_key_id.material_item = []
+                        
                         const rowNode = e.api.getRowNode(e.data.id)
-                        rowNode.setDataValue('whole', "")
-                        rowNode.setDataValue('costPrice', 0)
+                        e.data.dish_key_id.material_item = []
+                        e.data.whole = ""
+                        e.data.costPrice = 0
+                        rowNode.setData(e.data)
                         resolve()
                         return true
                     }
