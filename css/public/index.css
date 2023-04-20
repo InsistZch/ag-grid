@@ -1,23 +1,36 @@
-body{
+body {
     margin: 0;
     width: 100%;
     box-sizing: border-box;
     /* overflow-x: hidden; */
     /* overflow: hidden; */
-    width:100%;
-}
-html{
-    -webkit-text-size-adjust:none;
+    width: 100%;
 }
 
-a{
+html {
+    -webkit-text-size-adjust: none;
+}
+
+a {
     text-decoration: none;
 }
 
-ul,ol{
+ul,
+ol {
     list-style: none;
 }
 
-.box-border{
+.box-border {
     box-sizing: border-box;
+}
+
+/* 在Chrome浏览器下 */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+/* 在Firefox浏览器下 */
+input[type="number"] {
+    -moz-appearance: textfield;
 }

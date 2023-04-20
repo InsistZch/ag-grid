@@ -58,6 +58,10 @@ export default {
                             num = cv.match(/([0-9]+)/) != null ? cv.match(/([0-9]+)/)[0] : ''
                             unit = cv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g) != null ? cv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[1] : ''
 
+                            if(unit == undefined){
+                                unit = ''
+                            }
+
                             params.data.dish_key_id.material_item.forEach((v) => {
 
                                 const orderDate = new Date(planDate.getFullYear(), planDate.getMonth() + 1, planDate.getDate() + Number(v.plan_day_purchase_ahead_days))
@@ -80,7 +84,6 @@ export default {
                     if (materialName.trim() == "") {
                         // console.log(DisplayProcessing())
                         value = DisplayProcessing()
-                        // console.log(value)
                         // return all
                     } else {
                         value = DisplayProcessing()
