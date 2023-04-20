@@ -272,7 +272,7 @@ const onCellValueChanged = async (e, gridOptions) => {
 
         const rowNode = e.api.getRowNode(e.data.id)
         const isDish = index.dish_key.filter(v => v.name == e.newValue).some(v => v.dish_top_category_id == e.data.dish_key_id.dish_top_category_id)
-        if(!isDish){
+        if (!isDish) {
             rowNode.setDataValue(e.colDef.field, e.oldValue)
             return
         }
@@ -351,13 +351,13 @@ const onCellValueChanged = async (e, gridOptions) => {
                         return true
                     }
                 }).then(() => {
-                    console.log(e)
-                    e.data.dish_key_id.material_item = []
-                    const rowNode = e.api.getRowNode(e.data.id)
-                    rowNode.setDataValue('whole', "")
-                    rowNode.setDataValue('costPrice', 0)
-                    resetPurchaseData.Change(gridOptions, e)
-                })
+                        console.log(e)
+                        e.data.dish_key_id.material_item = []
+                        const rowNode = e.api.getRowNode(e.data.id)
+                        rowNode.setDataValue('whole', "")
+                        rowNode.setDataValue('costPrice', 0)
+                        resetPurchaseData.Change(gridOptions, e)
+                    })
             })
             return
         }
