@@ -351,7 +351,7 @@ const onCellValueChanged = async (e, gridOptions) => {
             })
             return
         }
-       
+
         // 只添加空格
         if (e.newValue.trim() == e.oldValue.trim()) return
 
@@ -360,11 +360,10 @@ const onCellValueChanged = async (e, gridOptions) => {
 
         if (d1[d1.length - 1] != " ") d1 += ' '
         // console.log(e)
-        
-        
+
         let cancelDelete = true
         let material_data = d1.split(' ')
-        if(material_data.length < e.oldValue.split(" ").length){
+        if (material_data.length < e.oldValue.split(" ").length) {
             await new Promise((resolve, reject) => {
                 customFromDom({
                     parent: '#isDeleteRow',
@@ -385,16 +384,16 @@ const onCellValueChanged = async (e, gridOptions) => {
             }).then((deleteValue) => cancelDelete = deleteValue)
         }
         // console.log(material_data)
-        if(cancelDelete){
+        if (cancelDelete) {
             e.data.dish_key_id.material_item = []
             for (const material of material_data) {
                 // let isTrue = true
                 if (material.trim() == "") continue
-    
+
                 // 鸭肉片23.58斤 鸭肉片 23.58 斤
                 let d = material.match(/([\u4e00-\u9fa5]{0,6})?(.*\d*\.?\d+?)?([\u4e00-\u9fa5a-zA-Z]+)?/)
                 console.log(d)
-                
+
                 // 输入数据错误，则跳出循环
                 if (d == null) {
                     e.data[`${e.colDef.field}`] = e.oldValue
@@ -402,7 +401,6 @@ const onCellValueChanged = async (e, gridOptions) => {
                 }
                 // 假设现在是一个新食材
 
-                
                 // 如果当前单位不为material_purchase_unit_category中数据
                 // 只有全部不等于才会返回true
                 // 当前单位在material_purchase_unit_category中找不到
@@ -423,13 +421,13 @@ const onCellValueChanged = async (e, gridOptions) => {
                     // 分两种情况
                     // 小米 颗粒 辣 小米
                     // 猪肉片 猪肉片片
-    
+
                     // 查看食材是否存在
                     const materials = index.material_item.filter(v => {
                         return d[1].includes(v.name.split('-')[0])
                     })
                     // console.log(d[1], materials)
-    
+
                     // 切配方式为可能存在
                     const mate = materials.filter(v => {
                         const name = v.name.split('-')[0]
@@ -454,10 +452,10 @@ const onCellValueChanged = async (e, gridOptions) => {
                         }
                         // return name == d[1]
                     })
-    
+
                     // console.log(mate, materialObj)
-    
-    
+
+
                     // 食材存在
                     if (mate.length > 0) {
                         isExistMaterial = true
@@ -475,28 +473,32 @@ const onCellValueChanged = async (e, gridOptions) => {
                         }
                         resolve(materialObj)
                     }
-    
+
                     // 食材不存在
                     // 创建食材
                     if (mate == undefined || mate.length == 0) {
                         let isCreate = confirm(`尚无${d[1]}食品，是否创建？`)
                         if (isCreate) {
                             const customName = document.querySelector('#customName')
-    
+
                             // 添加可选数据
                             let customFrom = document.querySelector('#customFrom')
                             let customPhase = document.querySelector('#customPhase')
-    
-    
+
+
                             let customSection = document.querySelector('#customSection')
                             index.dish_process_category.forEach((e, i) => addData(e, i, customSection));
-    
+
                             let customCompany = document.querySelector('#customCompany')
                             index.material_purchase_unit_category.forEach((e, i) => addData(e, i, customCompany))
-    
-    
+
+                            const dateSpan = document.querySelector('.date') // 日计划
+                            const planDateHtml = dateSpan.innerHTML.split(" ")[0].split('-')
+                            const planDate = new Date(planDateHtml)
+                            const date = new Date()
+                            const demandDate = `${date.getFullYear()}-${planDate.getMonth() + 1 < 10 ? `0${planDate.getMonth() + 1}` : planDate.getMonth() + 1}-${planDate.getDate() < 10 ? `0${planDate.getDate()}` : planDate.getDate()}`
+                            const nowDate = `${date.getFullYear()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
                             customName.value = d[1]
-                            // 创建食品
                             customFromDom({
                                 parent: "#material_modal",
                                 cancel: ["#material_modal_cancel1", "#material_modal_cancel2"],
@@ -511,7 +513,25 @@ const onCellValueChanged = async (e, gridOptions) => {
                                     const customPhaseValue = customPhase.querySelector(`option[value="${customPhase.value}"]`).innerText
                                     let name = `${customName.value}-${customFrom.value}-${customPhaseValue}`
                                     const customPrice = _parent.querySelector('#customPrice')
-                                    const topCategory = _parent.querySelector('#topCategory')
+                                    const topCategory = document.getElementsByName('topCategoryCheck')
+                                    const customPurchaseCategory = document.getElementsByName('customPurchaseCategory')
+                                    const customOrder = document.querySelector('#customOrder')
+
+                                    const plan_day_purchase_ahead_days = Math.ceil(((new Date(planDate) - new Date(customOrder.value)) / (1000 * 3600 * 24)))
+
+                                    let topCategoryValue = ''
+                                    let customPurchaseCategoryValue = ''
+                                    topCategory.forEach((topCategoryCheck) => {
+                                        if (topCategoryCheck.checked == true) {
+                                            topCategoryValue = topCategoryCheck.value
+                                        }
+                                    })
+                                    customPurchaseCategory.forEach((customPurchaseCategoryCheck) => {
+                                        if (customPurchaseCategoryCheck.checked == true) {
+                                            customPurchaseCategoryValue = customPurchaseCategoryCheck.value
+                                        }
+                                    })
+
                                     let m_id = add_material_id()
                                     let r_id = add_material_item_bom_unit_ratio_id()
                                     index.material_item_bom_unit_ratio.push({
@@ -530,9 +550,11 @@ const onCellValueChanged = async (e, gridOptions) => {
                                         main_price: customPrice.value,
                                         main_unit_id: customCompany.value,
                                         // top_category_id:2,
-                                        material_price_alert: Number(customPrice.value) + 2,
+                                        material_price_alert: Number(customPrice.value) + 3,
                                         repeat_tag: true,
-                                        top_category_id: topCategory.value,
+                                        top_category_id: topCategoryValue,
+                                        plan_day_purchase_ahead_days: -plan_day_purchase_ahead_days,
+                                        purchase_freq: customPurchaseCategoryValue
                                     }
                                     // 记载数据
                                     // console.log(obj1)
@@ -555,14 +577,14 @@ const onCellValueChanged = async (e, gridOptions) => {
                                     // saveData.new_or_update_dish_bom_list.new.push(obj)
                                     let dish_process_category_name = customCompany.querySelector(`option[value="${customCompany.value}"]`).innerText
                                     let customSectionValue = customSection.querySelector(`option[value="${customSection.value}"]`).innerText
-                                    // console.log(customSectionValue, d)
                                     customSectionValue = customSectionValue == "无" || customSectionValue == d[2] ? "" : customSectionValue
                                     // 切片方式
                                     materialObj['process_category'] = {
                                         id: customCompany.value,
                                         name: dish_process_category_name,
                                     }
-    
+
+                                    console.log(dish_process_category_name)
                                     e.data.dish_key_id.material_item.push({
                                         ...obj1,
                                         dish_process_category_name: customSectionValue,
@@ -571,15 +593,13 @@ const onCellValueChanged = async (e, gridOptions) => {
                                         main_unit_bom_unit_ratio: 1,
                                         dish_qty: 0,
                                     })
-    
+
                                     const str = customName.value + customSectionValue + 0 + dish_process_category_name
-                                    // console.log(e)
                                     // e.data[`${e.colDef.field}`] = e.data[`${e.colDef.field}`].replace(data_name, str)
                                     // e.data
                                     // const strs = e.data[`${e.colDef.field}`].split(' ')
                                     const strs = e.value.split(' ')
-    
-                                    console.log(strs)
+
                                     for (const s_key in strs) {
                                         if (strs[s_key].includes(customName.value)) {
                                             strs[s_key] = str
@@ -588,8 +608,9 @@ const onCellValueChanged = async (e, gridOptions) => {
                                     e.data[`${e.colDef.field}`] = strs.join(' ')
                                     e.newValue = e.data[`${e.colDef.field}`]
                                     d[2] = 0
-                                    d[3] = customSectionValue
+                                    d[3] = dish_process_category_name
                                     // gridOptions.api.refreshCells({ force: true })
+
                                     isExistMaterial = false
                                     resolve()
                                     return true
@@ -597,17 +618,48 @@ const onCellValueChanged = async (e, gridOptions) => {
                                 initFun: (_parent) => {
                                     const customPrice = _parent.querySelector('#customPrice')
                                     const topCategory = _parent.querySelector('#topCategory')
+                                    const customOrder = _parent.querySelector('#customOrder')
+                                    const customPurchaseCategory = _parent.querySelector('#customPurchaseCategory')
                                     const limitNumber = () => {
-                                        if (isNaN(customPrice.value) || Number(customPrice.value) < 0) {
-                                            customPrice.value = 0
+                                        if (isNaN(customPrice.value) || Number(customPrice.value) < 1) {
+                                            customPrice.value = 1
                                         }
                                     }
-                                    customPrice.onkeyup = () => limitNumber()
+                                    customPrice.onkeydown = () => limitNumber()
                                     customPrice.onwheel = () => limitNumber()
+                                    topCategory.innerHTML = ''
                                     index.material_top_category.forEach(v => {
                                         topCategory.innerHTML += v.id == 1 ?
-                                            `<option value="${v.id}" selected>${v.name}</option>` :
-                                            `<option value="${v.id}">${v.name}</option>`
+                                            `<div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name='topCategoryCheck' id="topCategoryCheck${v.id}" value="${v.id}" checked>
+                                                    <label class="form-check-label" for="topCategoryCheck${v.id}">${v.name}</label>
+                                            </div>`:
+                                            `<div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name='topCategoryCheck' id="topCategoryCheck${v.id}" value="${v.id}">
+                                                    <label class="form-check-label" for="topCategoryCheck${v.id}">${v.name}</label>
+                                            </div>`
+                                    })
+
+                                    customOrder.min = nowDate
+                                    customOrder.max = demandDate
+                                    customOrder.value = nowDate
+                                    customOrder.onkeyup = () => {
+                                        if (customOrder.value == '' || (customOrder.value < customOrder.min && customOrder.value < customOrder.max)) {
+                                            customOrder.value = nowDate
+                                        }
+                                    }
+
+                                    customPurchaseCategory.innerHTML = ''
+                                    index.purchase_category.forEach(v => {
+                                        customPurchaseCategory.innerHTML += v.id == 1 ?
+                                            `<div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name='customPurchaseCategory' id="customPurchaseCategory${v.id}" value="${v.name}" checked>
+                                                <label class="form-check-label" for="customPurchaseCategory${v.id}">${v.name_cn}</label>
+                                        </div>`:
+                                            `<div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name='customPurchaseCategory' id="customPurchaseCategory${v.id}" value="${v.name}">
+                                                <label class="form-check-label" for="customPurchaseCategory${v.id}">${v.name_cn}</label>
+                                        </div>`
                                     })
                                 }
                             })
@@ -625,7 +677,7 @@ const onCellValueChanged = async (e, gridOptions) => {
                         //     const oldwhole = e.oldValue.split(" ")
                         //     for (const item of oldwhole) {
                         //         if(item.includes(d[1])){
-                                    
+
                         //         }
                         //     }
                         // }
@@ -635,14 +687,14 @@ const onCellValueChanged = async (e, gridOptions) => {
                             let dishes_quantity = document.querySelector('#write_Side_dishes_quantity')
                             let dishes_company = document.querySelector('#write_Side_dishes_company')
                             let dishes_category = document.querySelector('#write_Side_dishes_category')
-    
+
                             // console.log(name, material_item)
                             // 定义变量
                             // 查看是否带切片方式
                             let section_str = materialObj.process_category.name
                             const m = index.material_item.filter(v => v.name.split('-')[0] == materialObj.material_item.name)
                             //写入自定义dom操作 配菜
-    
+
                             console.log(e)
                             customFromDom({
                                 parent: "#write_Side_dishes",
@@ -657,17 +709,17 @@ const onCellValueChanged = async (e, gridOptions) => {
                                             `<option value="${v.id}" selected>${v.name}</option>` :
                                             `<option value="${v.id}">${v.name}</option>`
                                     })
-    
+
                                     index.material_purchase_unit_category.forEach((v, i) => addData(v, i, dishes_company))
-    
+
                                     // 菜品可能是鲜品也可能是冻品
                                     for (const m_item of m) {
                                         dishes_category.innerHTML += `
                                         <option value="${m_item.id}">${m_item.form}</option>`
                                     }
-    
+
                                     dishes_quantity.value = d[2] != undefined && d[2].trim() != "" ? d[2] : 0
-    
+
                                     // console.log(m, d[1])
                                 },
                                 cancelFun: () => {
@@ -677,9 +729,9 @@ const onCellValueChanged = async (e, gridOptions) => {
                                 sureFun: () => {
                                     let section = dishes_section.querySelector(`option[value="${dishes_section.value}"]`)
                                     section = section.innerText == "无" ? "" : section.innerText
-    
+
                                     let number = dishes_quantity.value.trim() == "" ? 0 : dishes_quantity.value
-    
+
                                     let compamy = dishes_company.querySelector(`option[value="${dishes_company.value}"]`).innerText
                                     // console.log(compamy)
                                     for (const m_item of m) {
@@ -697,7 +749,7 @@ const onCellValueChanged = async (e, gridOptions) => {
                                             break
                                         }
                                     }
-    
+
                                     materialObj['process_category'] = {
                                         name: section,
                                         id: Number(dishes_section.value)
@@ -706,11 +758,11 @@ const onCellValueChanged = async (e, gridOptions) => {
                                     let str = ""
                                     // for (let item of e.data[`${e.colDef.field}`].split(' ')) {
                                     for (let item of e.newValue.split(' ')) {
-    
+
                                         if (item.trim() == "") continue
                                         const dish_str = dishes_name.value + section + number + compamy + " "
                                         // console.log(dish_str)
-    
+
                                         if (item.includes(materialObj['material_item'].name)) {
                                             str += dish_str
                                             continue
@@ -758,7 +810,7 @@ const onCellValueChanged = async (e, gridOptions) => {
                     }
                     materialObj['unit_ratio_Arr'] = [...unit_ratio_Arr]
                     // console.log(unit_ratio_Arr)
-    
+
                     // 对比当前食材单位是否为已存在单位
                     let isUnit = true
                     for (const arr_item of unit_ratio_Arr) {
@@ -806,7 +858,7 @@ const onCellValueChanged = async (e, gridOptions) => {
                                     "main_unit_bom_unit_ratio": Number(ratio.value),
                                     unit_id: unitName.getAttribute('unitID'),
                                     unit_name: unitName.value
-    
+
                                 }
                                 materialObj['material_item']['bom_unit_ratio_ids'].push(id)
                                 index.material_item_bom_unit_ratio.push(obj)
@@ -840,25 +892,25 @@ const onCellValueChanged = async (e, gridOptions) => {
                         resolve()
                     }
                 })
-    
+
                 // console.log(materialObj, e.data.dish_key_id.material_item)
                 // 添加数据
                 if (isExistMaterial) {
                     // 添加数据
                     const material_itemIndex = e.data.dish_key_id.material_item.findIndex(v => v.id == materialObj['material_item'].id)
-    
+
                     // console.log(material_itemIndex)
                     let num = d[2].match(/(\+|-)?\d+\.?\d*?/)[0]
 
                     console.log(num)
-                    
+
                     // -1为找不到当前数据则新增
-                     console.log(d)
+                    console.log(d)
                     const obj = {
                         ...materialObj['material_item'],
                         process_id: materialObj['process_category'].id,
                         dish_process_category_name: materialObj['process_category'].name,
-    
+
                         name: materialObj['name'],
                         dish_qty: num,
                         main_unit_bom_unit_ratio: materialObj['unitObj'].main_unit_bom_unit_ratio,
@@ -876,10 +928,10 @@ const onCellValueChanged = async (e, gridOptions) => {
                 }
             }
             // console.log(e.data.dish_key_id.material_item)
-        }else{
+        } else {
             return
         }
-        const [whole,, costPrice] = countMaterialData({
+        const [whole, , costPrice] = countMaterialData({
             material_items: [...e.data.dish_key_id.material_item],
             dish_key_id: e.data.dish_key_id.id,
             oldCopies: e.data.Copies,
@@ -888,10 +940,12 @@ const onCellValueChanged = async (e, gridOptions) => {
         })
         // console.log(e.data)
         e.data.costPrice = costPrice
-        e.data.whole = whole 
+        e.data.whole = whole
         const rowNode = await e.api.getRowNode(e.data.id)
         await rowNode.setData(e.data)
 
+        
+        resetPurchaseData.Change(gridOptions, e)
         gridOptions.api.refreshCells({ force: true })
         // if (e.newValue.split(' ').length < e.oldValue.split(' ').length && e.newValue == null) {
         //     // console.log('删除')
@@ -933,7 +987,6 @@ const onCellValueChanged = async (e, gridOptions) => {
     } else if (e.colDef.headerName == "成本价") {
 
     }
-    // console.log(e.data)
     // console.log(new Date() * 1 - newDate)
     changedValuetoData(e, gridOptions)
 

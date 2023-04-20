@@ -12,6 +12,7 @@ export function reset_purchase_rowdata() {
 
 const row = (agOption, e) => {
 
+    console.log('123')
     const purchaseData = purchase_data
 
     let rowData = []
@@ -27,7 +28,7 @@ const row = (agOption, e) => {
     const thirdDayDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 2 < 10 ? `0${date.getDate() + 2}` : date.getDate() + 2}`
 
     const numFormat = (num) => {
-        return (Number(num) >= 10 ? Math.ceil(num) : Number(num).toFixed(1))
+        return (Number(num) >= 10 ? Math.ceil(num) : Number(num).toFixed(2))
     }
 
     if (!purchaseData.isOneData) {
@@ -71,7 +72,8 @@ const row = (agOption, e) => {
         if (e) {
             const allOldwholeId = []
             const newwholeRI = [] // 新的配量汇总的main_unit_bom_unit_ratio 和 id
-            const oldwholeId = e.data.wholeId
+            console.log(e.data.wholeId)
+            const oldwholeId = e.data.wholeId || []
 
             // 是不是改变快餐和特色
             console.log(e)
@@ -167,6 +169,8 @@ const row = (agOption, e) => {
                     })
                 })
 
+                console.log(newwholeId, oldwholeId)
+
                 oldwholeId.forEach((oldI, i) => {
                     if (newwholeId.includes(oldI) == false) {
                         const unit_id = index.material_purchase_unit_category.find(v => v.name == oldValue[i].match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[1]).id
@@ -199,6 +203,7 @@ const row = (agOption, e) => {
                     }
 
                 })
+                console.log(oldwholeId)
                 oldwholeId.forEach((oldI, i) => {
                     const oldValue = e.data.isMountWhole.split(" ")
                     // deldata.push({ oldI, num: (+num) / unitMR, oldindex: i, needDel: true })
@@ -310,7 +315,7 @@ const row = (agOption, e) => {
                 })
             })
 
-            console.log(purAddItem, purUpDataItem, rowData)
+            console.log(purAddItem, purUpDataItem, deldata, rowData)
 
             // cdeldata.forEach((c) => {
             //     rowData.forEach((v, i) => {
@@ -344,10 +349,10 @@ const row = (agOption, e) => {
             standardPrice: v.main_price,
             marketPrice: v.material_price_alert,
             today: "",
-            Order: (v.orderDate ? `${v.orderDate.split('-')[1]}-${v.orderDate.split('-')[2]}` : theOrderDate) == nowDate ? numFormat(v.dish_qty) : 0,
+            Order: v.purchase_freq == "day" ?((v.orderDate ? `${v.orderDate.split('-')[1]}-${v.orderDate.split('-')[2]}` : theOrderDate) == nowDate ? numFormat(v.dish_qty) : 0):0,
             deliveryDate: moment().format("MM-DD"),
-            tomorrow: (v.orderDate ? `${v.orderDate.split('-')[1]}-${v.orderDate.split('-')[2]}` : theOrderDate) == tomorrowDate ? numFormat(v.dish_qty) : 0,
-            thirdDay: (v.orderDate ? `${v.orderDate.split('-')[1]}-${v.orderDate.split('-')[2]}` : theOrderDate) == thirdDayDate ? numFormat(v.dish_qty) : 0,
+            tomorrow: v.purchase_freq == "day" ?((v.orderDate ? `${v.orderDate.split('-')[1]}-${v.orderDate.split('-')[2]}` : theOrderDate) == tomorrowDate ? numFormat(v.dish_qty) : 0):0,
+            thirdDay: v.purchase_freq == "day" ?((v.orderDate ? `${v.orderDate.split('-')[1]}-${v.orderDate.split('-')[2]}` : theOrderDate) == thirdDayDate ? numFormat(v.dish_qty) : 0):0,
             unit: unitName.name,
             main_unit_id: v.main_unit_id,
             purchase_unit_id: v.purchase_unit_id,
