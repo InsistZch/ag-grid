@@ -205,6 +205,7 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
 
 const onCellValueChanged = (e, purchaseOption) => {
 
+
     if (e.colDef.headerName == '下单' || e.colDef.headerName == '明天' || e.colDef.headerName == '后天') {
         let newValue = 0;
         const rowNode = purchaseOption.api.getRowNode(e.data.id)
@@ -218,6 +219,30 @@ const onCellValueChanged = (e, purchaseOption) => {
             rowNode.setDataValue(e.colDef.field, newValue)
             e.data.shouldOrder = newValue
         }
+    } else if (e.colDef.headerName == '下单日期') {
+        const d = new Date()
+        const minD = new Date(`${d.getFullYear()}-${e.data.creationDate}`)
+        const maxD = new Date(`${d.getFullYear()}-${e.data.demandDate}`)
+        const newD = new Date(`${d.getFullYear()}-${e.newValue}`)
+        console.log(e, minD, maxD, newD)
+
+        const timeText = /^(\d{2})-(\d{2})$/
+        const rowNode = e.api.getRowNode(e.data.id)
+        if (e.newValue == '' || newD < minD || newD > maxD || !timeText.test(e.newValue)) {
+            rowNode.setDataValue(e.colDef.field, e.oldValue)
+        } else {
+            const nowDate = `${d.getMonth() + 1 < 10 ? `0${d.getMonth() + 1}` : d.getMonth() + 1}-${d.getDate() < 10 ? `0${d.getDate()}` : d.getDate()}`
+            const tomorrowDate = `${d.getMonth() + 1 < 10 ? `0${d.getMonth() + 1}` : d.getMonth() + 1}-${d.getDate() + 1 < 10 ? `0${d.getDate() + 1}` : d.getDate() + 1}`
+            const thirdDayDate = `${d.getMonth() + 1 < 10 ? `0${d.getMonth() + 1}` : d.getMonth() + 1}-${d.getDate() + 2 < 10 ? `0${d.getDate() + 2}` : d.getDate() + 2}`
+
+            rowNode.setDataValue('Order', e.newValue == nowDate ? rowNode.data.shouldOrder : 0)
+            rowNode.setDataValue('tomorrow', e.newValue == tomorrowDate ? rowNode.data.shouldOrder : 0)
+            rowNode.setDataValue('thirdDay', e.newValue == thirdDayDate ? rowNode.data.shouldOrder : 0)
+            // console.log(this.params.api.getColumnDefs())
+            // this.params.api.setColumnDefs(this.params.api.getColumnDefs())
+
+        }
+        e.api.refreshCells({ force: true })
     }
 }
 

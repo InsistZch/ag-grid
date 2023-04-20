@@ -11,8 +11,6 @@ export function reset_purchase_rowdata() {
 }
 
 const row = (agOption, e) => {
-
-    console.log('123')
     const purchaseData = purchase_data
 
     let rowData = []
@@ -72,14 +70,14 @@ const row = (agOption, e) => {
         if (e) {
             const allOldwholeId = []
             const newwholeRI = [] // 新的配量汇总的main_unit_bom_unit_ratio 和 id
-            console.log(e.data.wholeId)
+            // console.log(e.data.wholeId)
             const oldwholeId = e.data.wholeId || []
 
             // 是不是改变快餐和特色
-            console.log(e)
+            // console.log(e)
             if (e.data.dish_key_id) {
                 e.data.dish_key_id.material_item.forEach((mitem) => {
-                    console.log(mitem)
+                    // console.log(mitem)
                     newwholeRI.push({
                         mainRatio: mitem.main_unit_bom_unit_ratio,
                         id: mitem.id
@@ -163,7 +161,7 @@ const row = (agOption, e) => {
                     updata.forEach((updata) => {
                         if (puriname == updata.newvName) {
                             puriMainRatio = puri.main_unit_bom_unit_ratio
-                            console.log(puriMainRatio)
+                            // console.log(puriMainRatio)
                             purUpDataItem.push({ puriId: puri.id, num: (updata.num) / puriMainRatio })
                         }
                     })
@@ -330,6 +328,7 @@ const row = (agOption, e) => {
 
         }
     }
+    console.log(demandDate)
     d.forEach((v, i) => {
         const { name } = (index.material_top_category.find(e => e.id == v.top_category_id))
         const unitName = index.material_purchase_unit_category.find(e => e.id == v.main_unit_id)

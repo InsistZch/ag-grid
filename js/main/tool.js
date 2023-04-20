@@ -4,7 +4,7 @@ let make_add_function = () => {
     let id = 1;
 
     return () => {
-        return `virtual_${id++}909090`;
+        return `virtual_909090${id++}`;
     }
 
 }
@@ -14,7 +14,7 @@ let make_materialAdd_function = () => {
     let id = 1;
 
     return () => {
-        return `material_${id++}101010`;
+        return `virtual_101010${id++}`;
     }
 
 }

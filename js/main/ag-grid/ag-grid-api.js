@@ -294,16 +294,11 @@ const onCellValueChanged = async (e, gridOptions) => {
 
         for (const item of index.dish_key) {
             if (item.name == e.newValue) {
-                // console.log(item, e.data)
-                // console.log(item.dish_top_category_id != e.data.dish_key_id.dish_top_category_id)
-                // console.log(item.name != e.data.dish)
                 if (item.dish_top_category_id != e.data.dish_key_id.dish_top_category_id && item.name != e.oldValue) {
-                    // console.log(item, e.data)
                     e.data[`${e.colDef.field}`] = e.oldValue
                 }
             }
         }
-        // console.log(e.data)
         const arr = ["早餐", "中餐", "晚餐", "夜餐"]
         for (const item of arr) {
             if (e.newValue == item) {
@@ -323,10 +318,11 @@ const onCellValueChanged = async (e, gridOptions) => {
         resetPurchaseData.Change(gridOptions, e)
 
     } else if (e.colDef.headerName == '配量汇总') {
+        console.log('123')
         // 全部删除 
         if (e.newValue == null || e.newValue == '') {
-            // console.log('删除')
             await new Promise((resolve, reject) => {
+                console.log(e)
                 customFromDom({
                     parent: '#isDeleteRow',
                     cancel: ['#isDeleteRow_cancel1', '#isDeleteRow_cancel2'],
@@ -339,14 +335,16 @@ const onCellValueChanged = async (e, gridOptions) => {
                         rowNode.setData(e.data)
                     },
                     sureFun: () => {
-                        resetPurchaseData.Change(gridOptions, e)
-                        e.data.dish_key_id.material_item = []
-                        const rowNode = e.api.getRowNode(e.data.id)
-                        rowNode.setDataValue('whole', "")
-                        rowNode.setDataValue('costPrice', 0)
                         resolve()
                         return true
                     }
+                }).then(() => {
+                    console.log(e)
+                    e.data.dish_key_id.material_item = []
+                    const rowNode = e.api.getRowNode(e.data.id)
+                    rowNode.setDataValue('whole', "")
+                    rowNode.setDataValue('costPrice', 0)
+                    resetPurchaseData.Change(gridOptions, e)
                 })
             })
             return
@@ -363,7 +361,7 @@ const onCellValueChanged = async (e, gridOptions) => {
 
         let cancelDelete = true
         let material_data = d1.split(' ')
-        if(material_data.length < (e.oldValue + " ").split(" ").length){
+        if (material_data.length < (e.oldValue + " ").split(" ").length) {
             await new Promise((resolve, reject) => {
                 customFromDom({
                     parent: '#isDeleteRow',
@@ -944,7 +942,6 @@ const onCellValueChanged = async (e, gridOptions) => {
         const rowNode = await e.api.getRowNode(e.data.id)
         await rowNode.setData(e.data)
 
-        
         resetPurchaseData.Change(gridOptions, e)
         gridOptions.api.refreshCells({ force: true })
         // if (e.newValue.split(' ').length < e.oldValue.split(' ').length && e.newValue == null) {
