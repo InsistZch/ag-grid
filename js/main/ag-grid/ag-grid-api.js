@@ -395,8 +395,10 @@ const onCellValueChanged = async (e, gridOptions) => {
                 console.log(d)
 
                 // 输入数据错误，则跳出循环
-                if (d == null) {
+                if (d == null || d[1] == undefined) {
+                    const rowNode = e.api.getRowNode(e.data.id)
                     e.data[`${e.colDef.field}`] = e.oldValue
+                    rowNode.setData(e.data)
                     return
                 }
                 // 假设现在是一个新食材

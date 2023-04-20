@@ -14,7 +14,7 @@ let make_materialAdd_function = () => {
     let id = 1;
 
     return () => {
-        return `material_${id++}101010`;
+        return `virtual_${id++}101010`;
     }
 
 }

@@ -84,7 +84,7 @@ export default {
                     if (materialName.trim() == "") {
                         // console.log(DisplayProcessing())
                         value = DisplayProcessing()
-                        console.log(value)
+                        // console.log(value)
                         // return all
                     } else {
                         value = DisplayProcessing()
@@ -101,7 +101,7 @@ export default {
                             }
                         })
                     }
-                    console.log(value)
+                    // console.log(value)
                     return value
                 }
             }
