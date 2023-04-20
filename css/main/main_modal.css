@@ -1,254 +1,282 @@
 h4.custom {
 
-    margin-left: 20px;
-    
-    }
-    
-    
-    
-    p.custom {
-    
-    text-align: center;
-    
-    }
-    
-    
-    
-    .btncustom{
-    
-    width: 100px;
-    
-    height: 35px;
-    
-    border-radius: 5px;
-    
-    font-size: 16px;
-    
-    color: white;
-    
-    background-color: cornflowerblue;
-    
-    }
-    
-    
-    
-    .btncustom:hover,
-    
-           .btncustom:focus {
-    
-    background-color: #95b4ed;
-    
-    }
-    
-    
-    
-    .modalcustom {
-    
-    display: none;
-    
-    width: 100%;
-    
-    height: 100%;
-    
-    position: fixed;
-    
-    left: 0;
-    
-    top: 0;
-    
-    z-index: 1000;
-    
-    background-color: rgba(0, 0, 0, 0.5);
-    
-    }
-    
-    
-    
-    .modal-contentcustom {
-    
-    display: flex;
-    
-    flex-flow: column nowrap;
-    
-    justify-content: space-between;
-    
-    width: 50%;
-    
-    max-width: 700px;
-    
-    height: 100%;
-    
-    max-height: 90vh;
-    
-    margin: 50px auto;
-    
-    border-radius: 10px;
-    
-    background-color: #fff;
-    
-    -webkit-animation: zoom 0.6s;
-    
-    animation: zoom 0.6s;
-    
-    resize: both;
-    
-    overflow: auto;
-    
-    }
-    
-    
-    
-    @-webkit-keyframes zoom {
-    
-    from {
-    
-    -webkit-transform: scale(0)
-    
-    }
-    
-    
-    
-    to {
-    
-    -webkit-transform: scale(1)
-    
-    }
-    
-    }
-    
-    
-    
-    @keyframes zoom {
-    
-    from {
-    
-    transform: scale(0)
-    
-    }
-    
-    
-    
-    to {
-    
-    transform: scale(1)
-    
-    }
-    
-    }
-    
-    
-    
-    .modal-headercustom {
-    
-    box-sizing: border-box;
-    
-    border-bottom: 1px solid #ccc;
-    
-    display: flex;
-    
-    justify-content: space-between;
-    
-    align-items: center;
+   margin-left: 20px;
 
-    padding-left: 1rem;
-    
-    }
-    
-    
-    
-    .closecustom {
-    
-    color: #b7b7b7;
-    
-    font-size: 30px;
-    
-    font-weight: bold;
-    
-    margin-right: 20px;
-    
-    transition: all 0.3s;
-    
-    }
-    
-    
-    
-    .closecustom:hover,
-    
-           .closecustom:focus {
-    
-    color: #95b4ed;
-    
-    text-decoration: none;
-    
-    cursor: pointer;
-    
-    }
-    
-    
-    
-    .modal-bodycustom {
-    
-    padding: 10px;
-    
-    font-size: 16px;
-    
-    box-sizing: border-box;
-    
-    }
-    
-    
-    
-    .modal-footercustom {
-    
-    box-sizing: border-box;
-    
-    border-top: 1px solid #ccc;
-    
-    display: flex;
-    
-    padding: 15px;
-    
-    justify-content: flex-end;
-    
-    align-items: center;
-    
-    }
-    
-    
-    
-    .modal-footercustom button {
-    
-    width: 60px;
-    
-    height: 35px;
-    
-    padding: 5px;
-    
-    box-sizing: border-box;
-    
-    margin-right: 10px;
-    
-    font-size: 16px;
-    
-    color: white;
-    
-    border-radius: 5px;
-    
-    border: none;
-    cursor: pointer;
-    
-    }
-    
-    .modal-footercustom>button:first-of-type{
-       background-color: #ccc;
-       color: #fff;
-    }
-    .modal-footercustom>button:last-of-type{
-       background-color: #71639e;
-       color: #fff;
-    }
-    
-    /* .modal-footercustom button:hover,
+}
+
+
+
+p.custom {
+
+   text-align: center;
+
+}
+
+
+
+.btncustom {
+
+   width: 100px;
+
+   height: 35px;
+
+   border-radius: 5px;
+
+   font-size: 16px;
+
+   color: white;
+
+   background-color: cornflowerblue;
+
+}
+
+
+
+.btncustom:hover,
+
+.btncustom:focus {
+
+   background-color: #95b4ed;
+
+}
+
+
+
+.modalcustom {
+
+   display: none;
+
+   width: 100%;
+
+   height: 100%;
+
+   position: fixed;
+
+   left: 0;
+
+   top: 0;
+
+   z-index: 1000;
+
+   background-color: rgba(0, 0, 0, 0.5);
+
+}
+
+.modal-contentcustom {
+
+   display: flex;
+
+   flex-flow: column nowrap;
+
+   justify-content: space-between;
+
+   width: 50%;
+
+   max-width: 700px;
+
+   height: 100%;
+
+   max-height: 90vh;
+
+   margin: 50px auto;
+
+   border-radius: 4px;
+
+   background-color: #fff;
+
+   -webkit-animation: zoom 0.6s;
+
+   animation: zoom 0.6s;
+
+   resize: both;
+
+   overflow: auto;
+
+}
+
+
+@-webkit-keyframes zoom {
+
+   from {
+
+      -webkit-transform: scale(0)
+   }
+
+
+
+   to {
+
+      -webkit-transform: scale(1)
+   }
+
+}
+
+
+
+@keyframes zoom {
+
+   from {
+
+      transform: scale(0)
+   }
+
+
+
+   to {
+
+      transform: scale(1)
+   }
+
+}
+
+
+.modal-headercustom {
+
+   box-sizing: border-box;
+
+   border-bottom: 1px solid #e8e8e8;
+
+   display: flex;
+
+   justify-content: space-between;
+
+   align-items: center;
+
+}
+
+
+#material_modal .modal-headercustom {
+   padding: 5px;
+   padding-left: 10px;
+}
+
+#material_modal .modal-bodycustom {
+   padding-left: 25px;
+   padding-right: 25px;
+}
+
+
+#material_modal #topCategory {
+   margin-top: -20px;
+}
+
+#material_modal #topCategory label {
+   min-width: 64px;
+}
+
+#material_modal .col-form-label {
+   width: 65px;
+   text-align: end;
+   display: inline-block;
+}
+
+.form-control {
+   display: inline-block !important;
+   width: 55% !important;
+}
+
+#material_modal #customOrder {
+   font-size: 12px;
+}
+
+#material_modal #customPurchaseCategory {
+   padding-top: 10px;
+}
+
+.closecustom {
+
+   color: #b7b7b7;
+
+   font-size: 30px;
+
+   font-weight: bold;
+
+   margin-right: 20px;
+
+   transition: all 0.3s;
+
+}
+
+
+
+.closecustom:hover,
+
+.closecustom:focus {
+
+   color: #95b4ed;
+
+   text-decoration: none;
+
+   cursor: pointer;
+
+}
+
+
+
+.modal-bodycustom {
+
+   padding: 10px;
+
+   font-size: 16px;
+
+   box-sizing: border-box;
+
+}
+
+
+
+.modal-footercustom {
+
+   box-sizing: border-box;
+
+   border-top: 1px solid #ccc;
+
+   display: flex;
+
+   padding: 15px;
+
+   justify-content: flex-end;
+
+   align-items: center;
+
+}
+
+
+
+.modal-footercustom button {
+
+   width: 60px;
+
+   height: 35px;
+
+   padding: 5px;
+
+   box-sizing: border-box;
+
+   margin-right: 10px;
+
+   font-size: 16px;
+
+   color: white;
+
+   border-radius: 5px;
+
+   border: none;
+   cursor: pointer;
+
+}
+
+.modal-footercustom>button:first-of-type {
+   background-color: #ccc;
+   color: #fff;
+}
+
+.modal-footercustom>button:last-of-type {
+   background-color: #71639e;
+   color: #fff;
+}
+
+/* .modal-footercustom button:hover,
     
     .modal-footercustom button:focus {
     
@@ -257,18 +285,17 @@ h4.custom {
     cursor: pointer;
     
     } */
-    
-    
-    
-    @media only screen and (max-width: 700px) {
-    
-    .modal-contentcustom {
-    
-    width: 80%;
-    
-    }
-    
-    
-    
-    }
-    
+
+
+
+@media only screen and (max-width: 700px) {
+
+   .modal-contentcustom {
+
+      width: 80%;
+
+   }
+
+
+
+}

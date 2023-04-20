@@ -20,7 +20,6 @@
 </head>
 
 <body>
-    <div class="mask"></div>
     <header class="header box-border">
         <nav class="header_nav">
             <div class="nav_left">
@@ -141,7 +140,7 @@
                             <label class="form-check-label" for="ag-button-whole">配量汇总</label>
                         </div>
                     </div>
-                    <span class="date">2023-4-22</span>
+                    <span class="date">2023-4-22 日计划</span>
                     <div class="function">
                         <div class="btn-group" role="group">
                             <button type="button" class="btn btn-outline-primary">菜品榜</button>
@@ -337,75 +336,76 @@
 
                 <header class="modal-headercustom">
 
-                    <h4 class="customcustom">创建菜品所需食材</h4>
+                    <h5 class="customcustom m-2">创建菜品所需食材</h5>
                     <span class="closecustom" id="material_modal_cancel1">×</span>
 
                 </header>
-
                 <div class="modal-bodycustom modal-body">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon2">食材名称</span>
+                    <form class="row g-3">
+                        <div class="col-4 px-2 py-3">
+                            <span class="col-form-label me-2" id="basic-addon2">食材名称</span>
+                            <input type="text" id="customName" class="form-control" placeholder="材料名称"
+                                aria-describedby="basic-addon2" />
                         </div>
-                        <input type="text" id="customName" class="form-control" placeholder="材料名称"
-                            aria-describedby="basic-addon2" />
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="modal-bodycustom-addon3">形态类别</span>
+                        <div class="col-4 px-2 py-3">
+                            <span class="col-form-label me-2" id="modal-bodycustom-addon3">形态类别</span>
+                            <select class="form-control" id="customFrom" aria-describedby="modal-bodycustom-addon3">
+                                <option value="冻品" selected="1">冻品</option>
+                                <option value="鲜品">鲜品</option>
+                                <option value="干货">干货</option>
+                                <option value="其他">其他</option>
+                                <option value="常温">常温</option>
+                                <option value="腌制">腌制</option>
+                                <option value="水发">水发</option>
+                                <option value="其他">其他</option>
+                            </select>
                         </div>
-                        <select class="form-control" id="customFrom" aria-describedby="modal-bodycustom-addon3">
-                            <option value="冻品" selected="1">冻品</option>
-                            <option value="鲜品">鲜品</option>
-                            <option value="干货">干货</option>
-                            <option value="其他">其他</option>
-                            <option value="常温">常温</option>
-                            <option value="腌制">腌制</option>
-                            <option value="水发">水发</option>
-                            <option value="其他">其他</option>
-                        </select>
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="modal-bodycustom-addon33">食材类别</span>
+                        <div class="col-4 px-2 py-3">
+                            <span class="col-form-label me-2" id="modal-bodycustom-addon33">食材类别</span>
+                            <select class="form-control" id="customPhase" aria-describedby="modal-bodycustom-addon33">
+                                <option value="p1_material" selected="1">食材</option>
+                                <option value="p2_semi_dish">半成品</option>
+                                <option value="p3_dish">成品</option>
+                                <option value="p4_non_mm">非食材</option>
+                                <option value="p5_package">套餐</option>
+                            </select>
                         </div>
-                        <select class="form-control" id="customPhase" aria-describedby="modal-bodycustom-addon33">
-                            <option value="p1_material" selected="1">食材</option>
-                            <option value="p2_semi_dish">半成品</option>
-                            <option value="p3_dish">成品</option>
-                            <option value="p4_non_mm">非食材</option>
-                            <option value="p5_package">套餐</option>
-                        </select>
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="modal-bodycustom-addon334">食材分类</span>
-                        </div>
-                        <select class="form-control" id="topCategory" aria-describedby="modal-bodycustom-addon334">
+                    </form>
 
-                        </select>
-                    </div>
                     <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="modal-bodycustom-addon44">切片类型</span>
+                        <span>食材分类</span>
+                        <div class="col-11 ps-5 ms-5" id="topCategory">
                         </div>
-                        <select class="form-control" id="customSection" aria-describedby="modal-bodycustom-addon44">
-                        </select>
                     </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="modal-bodycustom-addon4441">价格</span>
+
+                    <form class="row g-3">
+                        <div class="col-4 px-2 pb-3">
+                            <span class="col-form-label me-2" id="modal-bodycustom-addon44">切片类型</span>
+                            <select class="form-control" id="customSection" aria-describedby="modal-bodycustom-addon44">
+                            </select>
                         </div>
-                        <input type="number" class="form-control" value="1" id="customPrice"
-                            aria-describedby="modal-bodycustom-addon4441" />
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="modal-bodycustom-addon444">单位</span>
+                        <div class="col-4 px-2 pb-3">
+                            <span class="col-form-label me-2" id="modal-bodycustom-addon4441">价格</span>
+                            <input type="number" class="form-control" value="0" id="customPrice"
+                                aria-describedby="modal-bodycustom-addon4441" />
                         </div>
-                        <select class="form-control" id="customCompany" aria-describedby="modal-bodycustom-addon444">
-                        </select>
-                    </div>
+                        <div class="col-4 px-2 pb-3">
+                            <span class="col-form-label me-2" id="modal-bodycustom-addon444">单位</span>
+                            <select class="form-control" id="customCompany"
+                                aria-describedby="modal-bodycustom-addon444">
+                            </select>
+                        </div>
+                    </form>
+
+                    <form class="row g-3">
+                        <div class="col-4 px-2 pb-3">
+                            <span class="col-form-label me-2" id="modal-bodycustom-addon4444">下单日期</span>
+                            <input type="date" class="form-control" id="customOrder"/>
+                        </div>
+                        <div class="col-8 px-2 pb-3" id="customPurchaseCategory">
+                            
+                        </div>
+                    </form>
                 </div>
 
                 <footer class="modal-footercustom">
