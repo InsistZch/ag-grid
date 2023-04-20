@@ -68,7 +68,6 @@ export default {
 
                             console.log(params.data.dish_key_id.material_item)
                             params.data.dish_key_id.material_item.forEach((v) => {
-                                console.log('1')
                                 const orderDate = new Date(planDate.getFullYear(), planDate.getMonth() + 1, planDate.getDate() + Number(v.plan_day_purchase_ahead_days))
                                 const theOrderDate = `${orderDate.getMonth() < 10 ? `0${orderDate.getMonth()}` : orderDate.getMonth()}-${orderDate.getDate() < 10 ? `0${orderDate.getDate()}` : orderDate.getDate()}`
 
@@ -79,6 +78,7 @@ export default {
                                     name = `<i>${name}</i>`
                                 }
                             })
+                            console.log(num)
                             all += name + num + unit + ' '
 
                         }
@@ -94,7 +94,6 @@ export default {
                         value = DisplayProcessing()
                         params.data.dish_key_id.material_item.forEach(item => {
                             if (item.name.split("-")[0] == (materialName)) {
-                                console.log(materialName)
                                 value = `
                                 <div class='params_value'>
                                 ${value.split(materialName)[0]}
@@ -106,7 +105,6 @@ export default {
                         })
 
                     }
-                    console.log(value)
                     return value
                 }
             }

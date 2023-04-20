@@ -26,7 +26,7 @@ const row = (agOption, e) => {
     const thirdDayDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 2 < 10 ? `0${date.getDate() + 2}` : date.getDate() + 2}`
 
     const numFormat = (num) => {
-        return (Number(num) >= 10 ? Math.ceil(num) : Number(num).toFixed(2))
+        return Number(Number(num) >= 10 ? Math.ceil(num) : Number(num).toFixed(2))
     }
 
     if (!purchaseData.isOneData) {
@@ -342,7 +342,7 @@ const row = (agOption, e) => {
             creationDate: v.creationDate ? `${v.creationDate.split('-')[1]}-${v.creationDate.split('-')[2]}` : nowDate,
             orderDate: v.orderDate ? `${v.orderDate.split('-')[1]}-${v.orderDate.split('-')[2]}` : theOrderDate,
             demandDate: v.demandDate ? `${v.demandDate.split('-')[1]}-${v.demandDate.split('-')[2]}` : demandDate,
-            quantity: Number(v.dish_qty.toFixed(1)),
+            quantity: Number(v.dish_qty.toFixed(2)),
             shouldOrder: v.purchase_freq == "day" ? numFormat(v.dish_qty) : 0,
             stock: 1000,
             standardPrice: v.main_price,
