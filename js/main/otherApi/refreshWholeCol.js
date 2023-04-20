@@ -52,7 +52,6 @@ export default {
                         current = current.filter((c) => {
                             return c != ''
                         })
-                        console.log(current)
                         let name = ''
                         let num = ''
                         let unit = ''
@@ -65,8 +64,6 @@ export default {
                             if (unit == undefined) {
                                 unit = ''
                             }
-
-                            console.log(params.data.dish_key_id.material_item)
                             params.data.dish_key_id.material_item.forEach((v) => {
                                 const orderDate = new Date(planDate.getFullYear(), planDate.getMonth() + 1, planDate.getDate() + Number(v.plan_day_purchase_ahead_days))
                                 const theOrderDate = `${orderDate.getMonth() < 10 ? `0${orderDate.getMonth()}` : orderDate.getMonth()}-${orderDate.getDate() < 10 ? `0${orderDate.getDate()}` : orderDate.getDate()}`
@@ -78,7 +75,6 @@ export default {
                                     name = `<i>${name}</i>`
                                 }
                             })
-                            console.log(num)
                             all += name + num + unit + ' '
 
                         }
