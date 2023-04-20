@@ -912,7 +912,7 @@ const onCellValueChanged = async (e, gridOptions) => {
                     const material_itemIndex = e.data.dish_key_id.material_item.findIndex(v => v.id == materialObj['material_item'].id)
 
                     // console.log(material_itemIndex)
-                    let num = d[2].match(/(\+|-)?\d+\.?\d*?/)[0]
+                    let num = d[2].match(/(\+|-)?\d+(\.?\d*)?/)[0]
 
                     console.log(num)
 
