@@ -373,7 +373,7 @@ const onCellValueChanged = async (e, gridOptions) => {
 
         let cancelDelete = true
         let material_data = d1.split(' ')
-        if (material_data.length < (e.oldValue + " ").split(" ").length) {
+        if (e.newValue.trim().split(" ").length < e.oldValue.trim().split(" ").length) {
             await new Promise((resolve, reject) => {
                 customFromDom({
                     parent: '#isDeleteRow',
