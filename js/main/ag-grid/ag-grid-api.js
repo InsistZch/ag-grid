@@ -402,7 +402,7 @@ const onCellValueChanged = async (e, gridOptions) => {
 
                 // 鸭肉片23.58斤 鸭肉片 23.58 斤
                 let d = material.match(/([\u4e00-\u9fa5]{0,6})?(.*\d*\.?\d+?)?([\u4e00-\u9fa5a-zA-Z]+)?/)
-                console.log(d)
+                // console.log(d)
 
                 // 输入数据错误，则跳出循环
                 if (d == null || d[1] == undefined) {
@@ -914,10 +914,10 @@ const onCellValueChanged = async (e, gridOptions) => {
                     // console.log(material_itemIndex)
                     let num = d[2].match(/(\+|-)?\d+(\.?\d*)?/)[0]
 
-                    console.log(num)
+                    // console.log(num)
 
                     // -1为找不到当前数据则新增
-                    console.log(d)
+                    // console.log(d)
                     const obj = {
                         ...materialObj['material_item'],
                         process_id: materialObj['process_category'].id,

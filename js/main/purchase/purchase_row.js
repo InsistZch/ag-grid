@@ -167,7 +167,7 @@ const row = (agOption, e) => {
                     })
                 })
 
-                console.log(newwholeId, oldwholeId)
+                // console.log(newwholeId, oldwholeId)
 
                 oldwholeId.forEach((oldI, i) => {
                     if (newwholeId.includes(oldI) == false) {
@@ -293,7 +293,6 @@ const row = (agOption, e) => {
             deldata.forEach(({ num, oldindex, needDel }) => {
                 rowData.forEach((v, i) => {
                     if (e.data.wholeId[oldindex] == v.id) {
-                        console.log(oldindex)
                         if (needDel == true) {
                             rowData.splice(i, 1)
                         } else {
