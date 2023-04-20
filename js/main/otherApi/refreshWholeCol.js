@@ -84,10 +84,7 @@ export default {
                     if (materialName.trim() == "") {
                         // console.log(DisplayProcessing())
                         value = DisplayProcessing()
-<<<<<<< HEAD
-=======
                         console.log(value)
->>>>>>> 2faa7966cad6b62ac1830f091ed33f5db33fc0d7
                         // return all
                     } else {
                         value = DisplayProcessing()
