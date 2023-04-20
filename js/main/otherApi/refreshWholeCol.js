@@ -49,6 +49,10 @@ export default {
                     // 
                     const DisplayProcessing = () => {
                         let current = value.split(" ")
+                        current = current.filter((c) => {
+                            return c != ''
+                        })
+                        console.log(current)
                         let name = ''
                         let num = ''
                         let unit = ''
@@ -58,20 +62,20 @@ export default {
                             num = cv.match(/(\d*\.?\d+?)/) != null ? cv.match(/(\d*\.?\d+?)/)[0] : ''
                             unit = cv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g) != null ? cv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[1] : ''
 
-                            if(unit == undefined){
+                            if (unit == undefined) {
                                 unit = ''
                             }
 
+                            console.log(params.data.dish_key_id.material_item)
                             params.data.dish_key_id.material_item.forEach((v) => {
-
+                                console.log('1')
                                 const orderDate = new Date(planDate.getFullYear(), planDate.getMonth() + 1, planDate.getDate() + Number(v.plan_day_purchase_ahead_days))
                                 const theOrderDate = `${orderDate.getMonth() < 10 ? `0${orderDate.getMonth()}` : orderDate.getMonth()}-${orderDate.getDate() < 10 ? `0${orderDate.getDate()}` : orderDate.getDate()}`
 
                                 if (name == `${v.name.split('-')[0]}${v.dish_process_category_name}` && v.purchase_freq != 'day') {
                                     name = `<span class='span_name'>${name}</span>`
                                 }
-
-                                if (theOrderDate != nowDate) {
+                                if ((name.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0] || name) == `${v.name.split('-')[0]}${v.dish_process_category_name}` && theOrderDate != nowDate) {
                                     name = `<i>${name}</i>`
                                 }
                             })
@@ -100,8 +104,9 @@ export default {
                                 // value = "<div class='params_value'>" + value.split(materialName)[0] + "<span class='span_value'>" + materialName + "</span>" + value.split(materialName)[1] + "</div>"
                             }
                         })
+
                     }
-                    // console.log(value)
+                    console.log(value)
                     return value
                 }
             }
@@ -130,7 +135,7 @@ export default {
         return col
     },
     original: (isShowColumns, agOption) => {
-        
+
         agOption.api.setColumnDefs(col())
         agOption.api.refreshCells({ force: true })
 
