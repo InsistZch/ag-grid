@@ -130,18 +130,18 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                                 creationDate: nowDate,
                                 orderDate: orderDate,
                                 demandDate: demandDate,
-                                quantity: addMaterialObj.purchase_freq == "day" ? (Number(add_meal_order.value) >= 10 ? Math.ceil(Number(add_meal_order.value)) : +Number(add_meal_order.value).toFixed(1)) : 0,
+                                quantity: addMaterialObj.purchase_freq == "day" ? (Number(add_meal_order.value) >= 10 ? Math.ceil(Number(add_meal_order.value)) : +Number(add_meal_order.value).toFixed(2)) : 0,
                                 stock: 1000,
                                 // standardPrice: Number(addMaterialObj.main_price / unitData.main_unit_bom_unit_ratio).toFixed(1),
                                 // marketPrice: Number(addMaterialObj.material_price_alert / unitData.main_unit_bom_unit_ratio).toFixed(1),
                                 standardPrice: Number(addMaterialObj.main_price).toFixed(1),
                                 marketPrice: Number(addMaterialObj.material_price_alert).toFixed(1),
-                                shouldOrder: Number(add_meal_order.value) >= 10 ? Math.ceil(Number(add_meal_order.value)) : +Number(add_meal_order.value).toFixed(1),
+                                shouldOrder: Number(add_meal_order.value) >= 10 ? Math.ceil(Number(add_meal_order.value)) : +Number(add_meal_order.value).toFixed(2),
                                 today: "",
-                                Order: nowDate == orderDate ? (Number(add_meal_order.value) >= 10 ? Math.ceil(Number(add_meal_order.value)) : +Number(add_meal_order.value).toFixed(1)) : 0,
+                                Order: nowDate == orderDate ? (Number(add_meal_order.value) >= 10 ? Math.ceil(Number(add_meal_order.value)) : +Number(add_meal_order.value).toFixed(2)) : 0,
                                 deliveryDate: "3-25",
-                                tomorrow: tomorrowDate == orderDate ? Number(add_meal_order.value) >= 10 ? Math.ceil(Number(add_meal_order.value)) : +Number(add_meal_order.value).toFixed(1) : 0,
-                                thirdDay: thirdDayDate == orderDate ? Number(add_meal_order.value) >= 10 ? Math.ceil(Number(add_meal_order.value)) : +Number(add_meal_order.value).toFixed(1) : 0,
+                                tomorrow: tomorrowDate == orderDate ? Number(add_meal_order.value) >= 10 ? Math.ceil(Number(add_meal_order.value)) : +Number(add_meal_order.value).toFixed(2) : 0,
+                                thirdDay: thirdDayDate == orderDate ? Number(add_meal_order.value) >= 10 ? Math.ceil(Number(add_meal_order.value)) : +Number(add_meal_order.value).toFixed(2) : 0,
                                 unit: add_meal_unit.value,
                                 purchase_unit_id: index.material_purchase_unit_category.find(v => v.name == add_meal_unit.value).id,
                                 main_unit_id: index.material_item.find(v => v.name = addMaterialObj.name.split('-')[0]).main_unit_id,
@@ -162,7 +162,7 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
 
                             if (noDailyProcurement.checked == true && noNowProcurement.checked == false) {
                                 purchaseOption.rowData.forEach((v) => {
-                                    if (v.creationDate == v.orderDate) {
+                                    if (nowDate == v.orderDate) {
                                         showData.push(v)
                                     }
                                 })
@@ -174,7 +174,7 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                                 })
                             } else if (noDailyProcurement.checked == false && noNowProcurement.checked == false) {
                                 purchaseOption.rowData.forEach((v) => {
-                                    if (v.purchase_freq == 'day' && v.creationDate == v.orderDate) {
+                                    if (v.purchase_freq == 'day' && nowDate == v.orderDate) {
                                         showData.push(v)
                                     }
                                 })
