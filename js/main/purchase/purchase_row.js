@@ -252,15 +252,6 @@ const row = (agOption, e) => {
                 })
             }
             if (!isNaN(e.colDef.field) && e.data.whole == "" && (e.data.type == "特色" || e.data.type == "快餐") && !e.data.dish_key_id) {
-                // let rowAllWhole = ''
-                // let rowAllIsMountWhole = ''
-
-                // agOption.rowData.forEach((row) => {
-                //     rowAllWhole += row.whole + " "
-                //     rowAllIsMountWhole += row.isMountWhole + " "
-                // })
-                // const newValue = rowAllWhole.split(" ")
-                // const oldValue = rowAllIsMountWhole.split(" ")
 
             }
 

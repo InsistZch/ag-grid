@@ -1,5 +1,5 @@
 /** @odoo-module **/
-import agGridRow from "./ag-grid-row.js"
+import agGridRow, { dish_detailed } from "./ag-grid-row.js"
 import index from '../../../data/index.js'
 import saveData from "../saveData/index.js"
 import { add_dish_bom_id, add_material_id, add_material_item_bom_unit_ratio_id } from "../tool.js"
@@ -11,6 +11,7 @@ import { init_mp } from "./ag-grid-row.js"
 import countID from './countID.js'
 import { customFrom as customFromDom, resetPurchaseData } from './../otherApi/index.js'
 import { changedValuetoData, anew_top_cost } from './ag_common.js'
+import preserved_dishes from './preserved_dishes.js';
 // import 
 
 // 添加对应数据
@@ -264,6 +265,8 @@ const onCellValueChanged = async (e, gridOptions) => {
         resetPurchaseData.Change(gridOptions, e)
 
     } else if (e.colDef.headerName == '菜品') {
+
+        console.log(e)
         let needRowdata = [];
         let spRowdata = [];
         // 判断新菜品type 是否与旧菜品一致
@@ -287,13 +290,14 @@ const onCellValueChanged = async (e, gridOptions) => {
             }
         })
         for (const data of needRowdata) {
-            if (data.dname === e.newValue + '_' + data.type) {
+            if (data.dname === e.newValue + '_' + e.data.type) {
                 rowNode.setDataValue(e.colDef.field, e.oldValue)
                 return
             }
         }
         for (const data of spRowdata) {
-            if (data.dname === e.newValue + '_' + data.type) {
+            if (data.dname === e.newValue + '_' + e.data.type) {
+                console.log('红枣银耳汤')
                 rowNode.setDataValue(e.colDef.field, e.oldValue)
                 return
             }
@@ -311,6 +315,43 @@ const onCellValueChanged = async (e, gridOptions) => {
         //         }
         //     }
         // }
+        // 生成material_item
+        for (const dish_key of index.dish_key) {
+            if (e.value == dish_key.name) {
+                console.log(dish_key)
+                if (dish_key.name + "_" + e.data.type == e.value + "_" + e.data.type && dish_key.dish_top_category_id == e.data.dish_key_id.dish_top_category_id) {
+                    let obj = {
+                        dish_top_category_id: dish_key.dish_top_category_id,
+                        id: dish_key.id,
+                    }
+                    let dish_detailedValue = dish_detailed(dish_key, e.data.Copies)
+                    if (preserved_dishes.has(dish_key.id)) {
+                        const value = preserved_dishes.get(dish_key.id)
+                        // console.log(value)
+                        if (value.dinner_type == e.data.dinner_type) {
+                            e.data.whole = value.whole
+                            obj['material_item'] = [...value.material_item]
+
+                        } else {
+                            e.data.whole = dish_detailedValue[0]
+                            obj['material_item'] = dish_detailedValue[1]
+                        }
+                    } else {
+
+                        e.data.whole = dish_detailedValue[0]
+                        obj['material_item'] = dish_detailedValue[1]
+                    }
+                    for (const item of obj['material_item']) {
+                        console.log(item)
+                    }
+                    e.data.dish_key_id = { ...obj }
+                    console.log({ ...obj })
+                }
+            }
+        }
+
+
+
         const arr = ["早餐", "中餐", "晚餐", "夜餐"]
         for (const item of arr) {
             if (e.newValue == item) {
@@ -351,13 +392,13 @@ const onCellValueChanged = async (e, gridOptions) => {
                         return true
                     }
                 }).then(() => {
-                        console.log(e)
-                        e.data.dish_key_id.material_item = []
-                        const rowNode = e.api.getRowNode(e.data.id)
-                        rowNode.setDataValue('whole', "")
-                        rowNode.setDataValue('costPrice', 0)
-                        resetPurchaseData.Change(gridOptions, e)
-                    })
+                    console.log(e)
+                    e.data.dish_key_id.material_item = []
+                    const rowNode = e.api.getRowNode(e.data.id)
+                    rowNode.setDataValue('whole', "")
+                    rowNode.setDataValue('costPrice', 0)
+                    resetPurchaseData.Change(gridOptions, e)
+                })
             })
             return
         }
@@ -910,10 +951,8 @@ const onCellValueChanged = async (e, gridOptions) => {
                 if (isExistMaterial) {
                     // 添加数据
                     const material_itemIndex = e.data.dish_key_id.material_item.findIndex(v => v.id == materialObj['material_item'].id)
-
                     // console.log(material_itemIndex)
                     let num = d[2].match(/(\+|-)?\d+(\.?\d*)?/)[0]
-
                     // console.log(num)
 
                     // -1为找不到当前数据则新增

@@ -137,7 +137,7 @@ class customCells {
                     })
                 }
             })
-            // console.log(rs)
+            console.log(rs)
             return rs
 
         }
@@ -353,8 +353,8 @@ class customCells {
 
         if (currentData == undefined || currentData == null || currentData.trim() == "") return true
         for (const e of this.dish_data) {
-            console.log(e,this.params)
-            
+            console.log(e, this.params)
+
             if (e.name + "_" + this.params.data.type == currentData && e.dish_top_category_id == this.params.data.dish_key_id.dish_top_category_id) {
                 // console.log(e, this.params)
                 if (e.name == this.params.data.dish) {
@@ -369,6 +369,7 @@ class customCells {
                 // const judeg = preserved_dishes.some(v => v.dish_key_name == currentData)
 
                 let dish_detailedValue = dish_detailed(e, this.params.data.Copies)
+                console.log(dish_detailedValue)
                 // console.log(this.params.data)
                 // 需要斤数
                 if (preserved_dishes.has(e.id)) {
@@ -383,6 +384,7 @@ class customCells {
                         obj['material_item'] = dish_detailedValue[1]
                     }
                 } else {
+
                     this.params.data.whole = dish_detailedValue[0]
                     obj['material_item'] = dish_detailedValue[1]
                 }

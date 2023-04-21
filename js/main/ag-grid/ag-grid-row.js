@@ -432,6 +432,8 @@ const init_dish_detailed = (manual_material_qty, count) => {
 // 获取菜品详细信息
 const dish_detailed = (dish_key, count) => {
 
+    console.log(dish_key)
+
     // 获取当前菜品详细配料
     let str = ""
     let arr = []
