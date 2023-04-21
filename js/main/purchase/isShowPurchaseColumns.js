@@ -2,7 +2,7 @@
 import index from './../../../data/index.js'
 const isShowPurchaseColumns = (gridOptions) => {
     // 显示和隐藏
-
+    console.log('1')
     if (gridOptions.api) {
 
         let cols = gridOptions.columnApi.getColumnState()
@@ -52,7 +52,7 @@ const isShowPurchaseColumns = (gridOptions) => {
             if (!noNowProcurement.checked) {
                 // 从显示的数据中找 gridOptions.api.forEachNode
                 gridOptions.api.forEachNode(v => {
-                    if (v.key == null && nowDate != v.data.orderDate) {
+                    if (v.key == null && nowDate != v.data.orderDate && v.data.purchase_freq == 'day') {
                         gridOptions.api.applyTransaction({ remove: [v.data] });
                     }
                 })
@@ -61,7 +61,7 @@ const isShowPurchaseColumns = (gridOptions) => {
                 // 从所有数据中找 gridOptions。rowData
                 gridOptions.rowData.forEach((v) => {
                     if (gridOptions.api.getRowNode(v.id) == undefined) {
-                        if (v.key == null && (nowDate != v.orderDate)) {
+                        if (v.key == null && (nowDate != v.orderDate) && v.purchase_freq == 'day') {
                             gridOptions.api.applyTransaction({ add: [v] });
                         }
                     }

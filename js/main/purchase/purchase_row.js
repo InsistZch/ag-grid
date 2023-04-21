@@ -350,6 +350,7 @@ const row = (agOption, e) => {
     })
 
     purchaseData.data = rowData
+    console.log(rowData)
     return rowData
 }
 

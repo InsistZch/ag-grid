@@ -118,7 +118,7 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                             }
                             const unitData = JSON.parse(add_meal_unit.querySelector(`option[value="${add_meal_unit.value}"]`).getAttribute('data'))
 
-                            const orderDate = moment(new Date(planDate.getFullYear(), planDate.getMonth(), planDate.getDate() + Number(v.plan_day_purchase_ahead_days))).format('YYYY-MM-DD')
+                            const orderDate = moment(new Date(planDate.getFullYear(), planDate.getMonth(), planDate.getDate() + Number(unitData.plan_day_purchase_ahead_days))).format('YYYY-MM-DD')
                             console.log(orderDate)
 
                             if (material.value.trim() == "" || addMaterialObj == {}) return true
@@ -160,9 +160,7 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
 
                             const noDailyProcurement = document.querySelector('#noDailyProcurement')
 
-                            if (noDailyProcurement.checked == true && noNowProcurement.checked == true) {
-                                showData = purchaseOption.rowData
-                            } else if (noDailyProcurement.checked == true && noNowProcurement.checked == false) {
+                            if (noDailyProcurement.checked == true && noNowProcurement.checked == false) {
                                 purchaseOption.rowData.forEach((v) => {
                                     if (v.creationDate == v.orderDate) {
                                         showData.push(v)
@@ -174,11 +172,19 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                                         showData.push(v)
                                     }
                                 })
+                            } else if (noDailyProcurement.checked == false && noNowProcurement.checked == false) {
+                                purchaseOption.rowData.forEach((v) => {
+                                    if (v.purchase_freq == 'day' && v.creationDate == v.orderDate) {
+                                        showData.push(v)
+                                    }
+                                })
                             }
-
+                            else {
+                                showData = purchaseOption.rowData
+                            }
+                            console.log(showData)
                             purchaseOption.api.setRowData(showData)
                             isShowPurchaseColumns(purchaseOption)
-                            // console.log(purchaseOption)
                             return true
                         }
                     })
