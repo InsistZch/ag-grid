@@ -545,12 +545,14 @@ const onCellValueChanged = async (e, gridOptions) => {
                             let customCompany = document.querySelector('#customCompany')
                             index.material_purchase_unit_category.forEach((e, i) => addData(e, i, customCompany))
 
+
                             const dateSpan = document.querySelector('.date') // 日计划
                             const planDateHtml = dateSpan.innerHTML.split(" ")[0].split('-')
                             const planDate = new Date(planDateHtml)
-                            const date = new Date()
-                            const demandDate = `${date.getFullYear()}-${planDate.getMonth() + 1 < 10 ? `0${planDate.getMonth() + 1}` : planDate.getMonth() + 1}-${planDate.getDate() < 10 ? `0${planDate.getDate()}` : planDate.getDate()}`
-                            const nowDate = `${date.getFullYear()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
+                            const demandDate = moment(planDate).format("YYYY-MM-DD")
+
+                            const nowDate = moment().format("YYYY-MM-DD")
+
                             customName.value = d[1]
                             customFromDom({
                                 parent: "#material_modal",

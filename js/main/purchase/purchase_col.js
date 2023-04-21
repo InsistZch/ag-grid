@@ -1,10 +1,10 @@
 /** @odoo-module **/
 import customCells from "./purchase_customCells.js"
-
+import index from '../../../data/index.js'
 const date = new Date()
-const nowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
-const tomorrowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 1 < 10 ? `0${date.getDate() + 1}` : date.getDate() + 1}`
-const thirdDayDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 2 < 10 ? `0${date.getDate() + 2}` : date.getDate() + 2}`
+const nowDate = moment().format("YYYY-MM-DD")
+const tomorrowDate = moment(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)).format("YYYY-MM-DD")
+const thirdDayDate = moment(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 2)).format("YYYY-MM-DD")
 
 export default [
     {
@@ -18,12 +18,12 @@ export default [
         field: "material",
         cellRenderer: (params) => {
             if (params.data.purchase_freq != 'day') {
-                return `<div style='color:#cacaca;'>${params.value}</div>`
+                return `<div style='color:#8d8c8c;'>${params.value}</div>`
             } else if (params.data.orderDate != nowDate && params.data.purchase_freq != 'day') {
-                return `<div style='color:#cacaca;'><i>${params.value}</i></div>`
-            }else if (params.data.orderDate != nowDate) {
+                return `<div style='color:#8d8c8c;'><i>${params.value}</i></div>`
+            } else if (params.data.orderDate != nowDate) {
                 return `<i>${params.value}</i>`
-            }else {
+            } else {
                 return params.value
             }
         }
@@ -31,30 +31,40 @@ export default [
     {
         headerName: "生成日期",
         field: "creationDate",
-        hide: true
+        hide: true,
+        cellRenderer: (params) => {
+            return moment(new Date(params.value)).format('MM-DD')
+        }
     },
     {
         headerName: "下单日期",
         field: "orderDate",
         editable: true,
-        hide: true,
-        cellEditor: customCells
+        hide: !index.user_settings.is_default_show_place_date,
+        cellEditor: customCells,
+        cellRenderer: (params) => {
+            return moment(new Date(params.value)).format('MM-DD')
+        }
     },
     {
         headerName: "需求日期",
         field: "demandDate",
-        hide: true
+        hide: !index.user_settings.is_default_show_need_date,
+        cellRenderer: (params) => {
+            return moment(new Date(params.value)).format('MM-DD')
+        }
     },
     {
         headerName: "需量",
         field: "quantity",
         // editable: true,
-        hide: true
+        hide: !index.user_settings.is_plan_day_purchase_show_cal_qty,
     },
     {
         headerName: "库存",
         field: "stock",
-        hide: true,
+        hide: !index.user_settings.is_plan_day_purchase_show_stock,
+
     },
     {
         headerName: "单价",
@@ -84,11 +94,14 @@ export default [
     {
         headerName: "送货日期",
         field: "deliveryDate",
-        hide: true
+        hide: true,
+        cellRenderer: (params) => {
+            return moment(new Date(params.value)).format('MM-DD')
+        }
     }, {
         headerName: "明天",
         field: "tomorrow",
-        hide: true,
+        hide: !index.user_settings.is_default_show_day_1_place_qty,
         editable: (e) => {
             if (e.data.orderDate == tomorrowDate) {
                 return true
@@ -98,7 +111,7 @@ export default [
     {
         headerName: "后天",
         field: "thirdDay",
-        hide: true,
+        hide: !index.user_settings.is_default_show_day_2_place_qty,
         editable: (e) => {
             if (e.data.orderDate == thirdDayDate) {
                 return true

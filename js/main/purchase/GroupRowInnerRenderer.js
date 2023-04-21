@@ -16,8 +16,8 @@ class GroupRowInnerRenderer {
         btnOrder.style.cssText = `margin-left: 5rem;`
 
         const orderConsole = async (arr) => {
+            // 不需要时分秒
             let nowD = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
-
             let ans_arr = get_purchase_row_data_list(nowD, arr)
             console.log(ans_arr)
             if (params.context && params.context.owl_widget.DownloadPurchaseOrderInCategory) {

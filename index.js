@@ -7,7 +7,7 @@ import purchase_table from './js/main/purchase/purchase_table.js'
 import { resetPurchaseData } from './js/main/otherApi/index.js'
 import refreshWholeCol from './js/main/otherApi/refreshWholeCol.js'
 import isShowPurchaseColumns from './js/main/purchase/isShowPurchaseColumns.js'
-import purchase_date from './js/main/purchase/purchase_data.js'
+import purchase_data from './js/main/purchase/purchase_data.js'
 import {get_purchase_row_data_list} from "./js/main/tool.js";
 console.log(data_index)
 
@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     main_index.otherApi.purchasePrice('#purchase_price_btn', () => getMaterial(agOption))
 
-    let purchase_rowdate = purchase_date
+    let purchase_rowdata = purchase_data
 
 
     main_index.otherApi.purchase(["#purchase", "#purchase_ruturn"], async () => {
@@ -165,10 +165,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     agButton.style.display = 'none'
                 })
 
-                purchase_rowdate.data = purchaseOption.rowData
+                purchase_rowdata.data = purchaseOption.rowData
 
                 // 打印数据
-                // let ans_arr = get_purchase_row_data_list(d, purchase_rowdate.data)
+                // let ans_arr = get_purchase_row_data_list(d, purchase_rowdata.data)
 
 
                 if (purchaseOption.context != undefined && purchaseOption.context.owl_widget.PurChaseOrderSave) {

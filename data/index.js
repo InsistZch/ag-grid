@@ -21,7 +21,8 @@ import dish_family from './dish_family.json' assert { type: 'json' };
 import purchase_category from './purchase_category.json' assert { type: 'json' };
 import user_settings from './user_settings.json' assert { type: 'json' };
 import purchase_summary_data from './purchase_summary_data.json' assert {type: 'json'}
-
+import material_purchase_category from './material_purchase_category.json' assert {type: 'json'}
+import setting from './settings.json' assert {type: 'json'}
 
 export default {
     cus_loc,
@@ -45,5 +46,8 @@ export default {
     dish_family,
     purchase_category,
     user_settings,
-    purchase_summary_data
+    purchase_summary_data,
+    material_purchase_category,
+    setting
+
 }

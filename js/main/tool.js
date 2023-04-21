@@ -50,12 +50,20 @@ export function get_purchase_row_data_list(date, arr) {
             demandDate: `${r.demandDate}`,
         }
 
-        if (obj.creationDate.split('-').length == 2) {
+        // if (obj.creationDate.split('-').length == 2) {
+        //     Object.assign(obj, {
+        //         creationDate: `${date.getFullYear()}-${r.creationDate}`,
+        //         orderDate: `${date.getFullYear()}-${r.orderDate}`,
+        //         demandDate: `${date.getFullYear()}-${r.demandDate}`,
+        //     })
+        // }
+        if (obj.creationDate.split('-').length == 3) {
             Object.assign(obj, {
-                creationDate: `${date.getFullYear()}-${r.creationDate}`,
-                orderDate: `${date.getFullYear()}-${r.orderDate}`,
-                demandDate: `${date.getFullYear()}-${r.demandDate}`,
+                creationDate: r.creationDate,
+                orderDate: r.orderDate,
+                demandDate: r.demandDate,
             })
+            
         }
 
 

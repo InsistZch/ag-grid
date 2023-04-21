@@ -82,16 +82,15 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                             }
                         },
                         sureFun(_parent) {
-
                             const dateSpan = document.querySelector('.date') // 日计划
                             const planDateHtml = dateSpan.innerHTML.split(" ")[0].split('-')
                             const planDate = new Date(planDateHtml)
-                            const demandDate = `${planDate.getMonth() + 1 < 10 ? `0${planDate.getMonth() + 1}` : planDate.getMonth() + 1}-${planDate.getDate() < 10 ? `0${planDate.getDate()}` : planDate.getDate()}`
+                            const demandDate = moment(planDate).format("YYYY-MM-DD")
 
                             const date = new Date()
-                            const nowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
-                            const tomorrowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 1 < 10 ? `0${date.getDate() + 1}` : date.getDate() + 1}`
-                            const thirdDayDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 2 < 10 ? `0${date.getDate() + 2}` : date.getDate() + 2}`
+                            const nowDate = moment().format("YYYY-MM-DD")
+                            const tomorrowDate = moment(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)).format("YYYY-MM-DD")
+                            const thirdDayDate = moment(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 2)).format("YYYY-MM-DD")
 
                             const material = _parent.querySelector('#material')
                             const add_meal_order = _parent.querySelector('#add_meal_order')
@@ -119,8 +118,8 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                             }
                             const unitData = JSON.parse(add_meal_unit.querySelector(`option[value="${add_meal_unit.value}"]`).getAttribute('data'))
 
-                            const orderDate = new Date(planDate.getFullYear(), planDate.getMonth() + 1, planDate.getDate() + Number(unitData.plan_day_purchase_ahead_days))
-                            const theOrderDate = `${orderDate.getMonth() < 10 ? `0${orderDate.getMonth()}` : orderDate.getMonth()}-${orderDate.getDate() < 10 ? `0${orderDate.getDate()}` : orderDate.getDate()}`
+                            const orderDate = moment(new Date(planDate.getFullYear(), planDate.getMonth(), planDate.getDate() + Number(v.plan_day_purchase_ahead_days))).format('YYYY-MM-DD')
+                            console.log(orderDate)
 
                             if (material.value.trim() == "" || addMaterialObj == {}) return true
 
@@ -129,7 +128,7 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                             const obj = {
                                 material: addMaterialObj.name.split('-')[0],
                                 creationDate: nowDate,
-                                orderDate: theOrderDate,
+                                orderDate: orderDate,
                                 demandDate: demandDate,
                                 quantity: addMaterialObj.purchase_freq == "day" ? (Number(add_meal_order.value) >= 10 ? Math.ceil(Number(add_meal_order.value)) : +Number(add_meal_order.value).toFixed(1)) : 0,
                                 stock: 1000,
@@ -139,10 +138,10 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                                 marketPrice: Number(addMaterialObj.material_price_alert).toFixed(1),
                                 shouldOrder: Number(add_meal_order.value) >= 10 ? Math.ceil(Number(add_meal_order.value)) : +Number(add_meal_order.value).toFixed(1),
                                 today: "",
-                                Order: nowDate == theOrderDate ? (Number(add_meal_order.value) >= 10 ? Math.ceil(Number(add_meal_order.value)) : +Number(add_meal_order.value).toFixed(1)) : 0,
+                                Order: nowDate == orderDate ? (Number(add_meal_order.value) >= 10 ? Math.ceil(Number(add_meal_order.value)) : +Number(add_meal_order.value).toFixed(1)) : 0,
                                 deliveryDate: "3-25",
-                                tomorrow: tomorrowDate == theOrderDate ? Number(add_meal_order.value) >= 10 ? Math.ceil(Number(add_meal_order.value)) : +Number(add_meal_order.value).toFixed(1) : 0,
-                                thirdDay: thirdDayDate == theOrderDate ? Number(add_meal_order.value) >= 10 ? Math.ceil(Number(add_meal_order.value)) : +Number(add_meal_order.value).toFixed(1) : 0,
+                                tomorrow: tomorrowDate == orderDate ? Number(add_meal_order.value) >= 10 ? Math.ceil(Number(add_meal_order.value)) : +Number(add_meal_order.value).toFixed(1) : 0,
+                                thirdDay: thirdDayDate == orderDate ? Number(add_meal_order.value) >= 10 ? Math.ceil(Number(add_meal_order.value)) : +Number(add_meal_order.value).toFixed(1) : 0,
                                 unit: add_meal_unit.value,
                                 purchase_unit_id: index.material_purchase_unit_category.find(v => v.name == add_meal_unit.value).id,
                                 main_unit_id: index.material_item.find(v => v.name = addMaterialObj.name.split('-')[0]).main_unit_id,
@@ -220,26 +219,33 @@ const onCellValueChanged = (e, purchaseOption) => {
             e.data.shouldOrder = newValue
         }
     } else if (e.colDef.headerName == '下单日期') {
-        const d = new Date()
-        const minD = new Date(`${d.getFullYear()}-${e.data.creationDate}`)
-        const maxD = new Date(`${d.getFullYear()}-${e.data.demandDate}`)
-        const newD = new Date(`${d.getFullYear()}-${e.newValue}`)
+        const nowDate = moment().format("YYYY-MM-DD")
+        const date = new Date()
+        const minD = new Date(nowDate)
+        const maxD = new Date(e.data.demandDate)
+        const newD = new Date(e.newValue)
         console.log(e, minD, maxD, newD)
 
-        const timeText = /^(\d{2})-(\d{2})$/
+        // 可以输入 01-01 也可1000-01-01
+        const timeTextTow = /^(\d{2})-(\d{2})$/
+        if (timeTextTow.test(e.newValue)) {
+            e.newValue = moment(new Date(date.getFullYear() - e.newValue)).format().format("YYYY-MM-DD")
+        }
+
+        const timeTextThrid = /^(\d{4})-(\d{2})-(\d{2})$/
+
         const rowNode = e.api.getRowNode(e.data.id)
-        if (e.newValue == '' || newD < minD || newD > maxD || !timeText.test(e.newValue)) {
+        if (e.newValue == '' || newD < minD || newD > maxD || !timeTextThrid.test(e.newValue)) {
+            console.log(e.newValue)
             rowNode.setDataValue(e.colDef.field, e.oldValue)
         } else {
-            const nowDate = `${d.getMonth() + 1 < 10 ? `0${d.getMonth() + 1}` : d.getMonth() + 1}-${d.getDate() < 10 ? `0${d.getDate()}` : d.getDate()}`
-            const tomorrowDate = `${d.getMonth() + 1 < 10 ? `0${d.getMonth() + 1}` : d.getMonth() + 1}-${d.getDate() + 1 < 10 ? `0${d.getDate() + 1}` : d.getDate() + 1}`
-            const thirdDayDate = `${d.getMonth() + 1 < 10 ? `0${d.getMonth() + 1}` : d.getMonth() + 1}-${d.getDate() + 2 < 10 ? `0${d.getDate() + 2}` : d.getDate() + 2}`
-
+            console.log(e.newValue)
+            const nowDate = moment().format("YYYY-MM-DD")
+            const tomorrowDate = moment(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)).format("YYYY-MM-DD")
+            const thirdDayDate = moment(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 2)).format("YYYY-MM-DD")
             rowNode.setDataValue('Order', e.newValue == nowDate ? rowNode.data.shouldOrder : 0)
             rowNode.setDataValue('tomorrow', e.newValue == tomorrowDate ? rowNode.data.shouldOrder : 0)
             rowNode.setDataValue('thirdDay', e.newValue == thirdDayDate ? rowNode.data.shouldOrder : 0)
-            // console.log(this.params.api.getColumnDefs())
-            // this.params.api.setColumnDefs(this.params.api.getColumnDefs())
 
         }
         e.api.refreshCells({ force: true })
@@ -247,14 +253,21 @@ const onCellValueChanged = (e, purchaseOption) => {
 }
 
 const onCellClicked = (e, purchaseOption, agOption) => {
+    let isNeedMaterial = false
     agOption.rowData.forEach(row => {
         row.dish_key_id.material_item.forEach(item => {
             if (item.name.split("-")[0] == (e.data.material)) {
+                isNeedMaterial = true
                 agOption.api.setColumnDefs(refreshWholeCol.refreshWhole(e.data.material, agOption))
                 agOption.api.clearRangeSelection()
             }
         });
     });
+    console.log(isNeedMaterial)
+    if (isNeedMaterial == false) {
+        agOption.api.setColumnDefs(refreshWholeCol.refreshWhole('', agOption))
+    }
+
 }
 
 // 获取食材转化比信息

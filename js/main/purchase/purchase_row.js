@@ -4,12 +4,9 @@ import index from './../../../data/index.js'
 import purchase_data from './purchase_data.js'
 
 export function reset_purchase_rowdata() {
-
     purchase_data.isOneData = false
     purchase_data.data = []
-
 }
-
 const row = (agOption, e) => {
     const purchaseData = purchase_data
 
@@ -18,12 +15,13 @@ const row = (agOption, e) => {
     const dateSpan = document.querySelector('.date') // 日计划
     const planDateHtml = dateSpan.innerHTML.split(" ")[0].split('-')
     const planDate = new Date(planDateHtml)
-    const demandDate = `${planDate.getMonth() + 1 < 10 ? `0${planDate.getMonth() + 1}` : planDate.getMonth() + 1}-${planDate.getDate() < 10 ? `0${planDate.getDate()}` : planDate.getDate()}`
+    const demandDate = moment(planDate).format("YYYY-MM-DD")
 
     const date = new Date()
-    const nowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
-    const tomorrowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 1 < 10 ? `0${date.getDate() + 1}` : date.getDate() + 1}`
-    const thirdDayDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() + 2 < 10 ? `0${date.getDate() + 2}` : date.getDate() + 2}`
+    const nowDate = moment().format("YYYY-MM-DD")
+    const tomorrowDate = moment(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)).format("YYYY-MM-DD")
+    const thirdDayDate = moment(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 2)).format("YYYY-MM-DD")
+    // console.log(nowDate, tomorrowDate, thirdDayDate)
 
     const numFormat = (num) => {
         return Number(Number(num) >= 10 ? Math.ceil(num) : Number(num).toFixed(2))
@@ -54,7 +52,7 @@ const row = (agOption, e) => {
                     purItem.push(item)
                 }
             })
-            if (demandDate == `${purData.demandDate.split('-')[1]}-${purData.demandDate.split('-')[2]}`) {
+            if (demandDate == purData.demandDate) {
                 needWhole = false // 数据中有plan 就不从配量汇总获取
             }
         });
@@ -255,11 +253,10 @@ const row = (agOption, e) => {
 
             }
 
+            // 添加
             const materialItemD = getCountMaterial(agOption, purAddItem)
             d = materialItemD
-
-            //     // 修改
-
+            // 修改
             purUpDataItem.forEach(({ puriId, num }) => {
                 rowData.forEach(v => {
                     if (puriId == v.id) {
@@ -280,7 +277,6 @@ const row = (agOption, e) => {
             })
 
             // console.log(deldata)
-
             deldata.forEach(({ num, oldindex, needDel }) => {
                 rowData.forEach((v, i) => {
                     if (e.data.wholeId[oldindex] == v.id) {
@@ -323,31 +319,30 @@ const row = (agOption, e) => {
         const { name } = (index.material_top_category.find(e => e.id == v.top_category_id))
         const unitName = index.material_purchase_unit_category.find(e => e.id == v.main_unit_id)
 
-        const orderDate = new Date(planDate.getFullYear(), planDate.getMonth() + 1, planDate.getDate() + Number(v.plan_day_purchase_ahead_days))
-        const theOrderDate = `${orderDate.getMonth() < 10 ? `0${orderDate.getMonth()}` : orderDate.getMonth()}-${orderDate.getDate() < 10 ? `0${orderDate.getDate()}` : orderDate.getDate()}`
+        const orderDate = moment(new Date(planDate.getFullYear(), planDate.getMonth(), planDate.getDate() + Number(v.plan_day_purchase_ahead_days))).format('YYYY-MM-DD')
 
         const id = (i + "").split('summary_data')[0]
         let obj = {
             material: v.name.split('-')[0],
-            creationDate: v.creationDate ? `${v.creationDate.split('-')[1]}-${v.creationDate.split('-')[2]}` : nowDate,
-            orderDate: v.orderDate ? `${v.orderDate.split('-')[1]}-${v.orderDate.split('-')[2]}` : theOrderDate,
-            demandDate: v.demandDate ? `${v.demandDate.split('-')[1]}-${v.demandDate.split('-')[2]}` : demandDate,
+            creationDate: v.creationDate ? v.creationDate : nowDate,
+            orderDate: v.orderDate ? v.orderDate : orderDate,
+            demandDate: v.demandDate ? v.demandDate : demandDate,
             quantity: numFormat(v.dish_qty),
             shouldOrder: v.purchase_freq == "day" ? numFormat(v.dish_qty) : 0,
             stock: 1000,
             standardPrice: v.main_price,
             marketPrice: v.material_price_alert,
             today: "",
-            Order: v.purchase_freq == "day" ? ((v.orderDate ? `${v.orderDate.split('-')[1]}-${v.orderDate.split('-')[2]}` : theOrderDate) == nowDate ? numFormat(v.dish_qty) : 0) : 0,
-            deliveryDate: moment().format("MM-DD"),
-            tomorrow: v.purchase_freq == "day" ? ((v.orderDate ? `${v.orderDate.split('-')[1]}-${v.orderDate.split('-')[2]}` : theOrderDate) == tomorrowDate ? numFormat(v.dish_qty) : 0) : 0,
-            thirdDay: v.purchase_freq == "day" ? ((v.orderDate ? `${v.orderDate.split('-')[1]}-${v.orderDate.split('-')[2]}` : theOrderDate) == thirdDayDate ? numFormat(v.dish_qty) : 0) : 0,
+            Order: v.purchase_freq == "day" ? ((v.orderDate ? v.orderDate : orderDate) == nowDate ? numFormat(v.dish_qty) : 0) : 0,
+            deliveryDate: moment().format("YYYY-MM-DD"),
+            tomorrow: v.purchase_freq == "day" ? ((v.orderDate ? v.orderDate : orderDate) == tomorrowDate ? numFormat(v.dish_qty) : 0) : 0,
+            thirdDay: v.purchase_freq == "day" ? ((v.orderDate ? v.orderDate : orderDate) == thirdDayDate ? numFormat(v.dish_qty) : 0) : 0,
             unit: unitName.name,
             main_unit_id: v.main_unit_id,
             purchase_unit_id: v.purchase_unit_id,
             supplier: "",
             remarks: "",
-            id: !v.demandDate || `${v.demandDate.split('-')[1]}-${v.demandDate.split('-')[2]}` == demandDate ? (id) : `noDaliy${id}`,
+            id: (!v.demandDate || v.demandDate == demandDate) ? (id) : `noDaliy${id}`,// !v.demandDate 是从配量汇总生成 v.demandDate == demandDate 需求日期是计划日期
             category_name: name,
             purchase_freq: v.purchase_freq
         }

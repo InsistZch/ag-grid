@@ -40,7 +40,7 @@ export default {
                     params.data.dish_key_id.material_item = arr
 
                     const date = new Date()
-                    const nowDate = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
+                    const nowDate = moment().format("YYYY-MM-DD")
 
                     const dateSpan = document.querySelector('.date') // 日计划
                     const planDateHtml = dateSpan.innerHTML.split(" ")[0].split('-')
@@ -65,13 +65,11 @@ export default {
                                 unit = ''
                             }
                             params.data.dish_key_id.material_item.forEach((v) => {
-                                const orderDate = new Date(planDate.getFullYear(), planDate.getMonth() + 1, planDate.getDate() + Number(v.plan_day_purchase_ahead_days))
-                                const theOrderDate = `${orderDate.getMonth() < 10 ? `0${orderDate.getMonth()}` : orderDate.getMonth()}-${orderDate.getDate() < 10 ? `0${orderDate.getDate()}` : orderDate.getDate()}`
-
+                                const orderDate = moment(new Date(planDate.getFullYear(), planDate.getMonth(), planDate.getDate() + Number(v.plan_day_purchase_ahead_days))).format('YYYY-MM-DD')
                                 if (name == `${v.name.split('-')[0]}${v.dish_process_category_name}` && v.purchase_freq != 'day') {
                                     name = `<span class='span_name'>${name}</span>`
                                 }
-                                if ((name.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0] || name) == `${v.name.split('-')[0]}${v.dish_process_category_name}` && theOrderDate != nowDate) {
+                                if ((name.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0] || name) == `${v.name.split('-')[0]}${v.dish_process_category_name}` && orderDate != nowDate) {
                                     name = `<i>${name}</i>`
                                 }
                             })
