@@ -229,20 +229,21 @@ const onCellValueChanged = (e, purchaseOption) => {
         const date = new Date()
         const minD = new Date(nowDate)
         const maxD = new Date(e.data.demandDate)
-        const newD = new Date(e.newValue)
-        console.log(e, minD, maxD, newD)
+        let newD = new Date(e.newValue)
+        console.log(newD, maxD, minD)
 
         // 可以输入 01-01 也可1000-01-01
         const timeTextTow = /^(\d{2})-(\d{2})$/
         if (timeTextTow.test(e.newValue)) {
-            e.newValue = moment(new Date(`${date.getFullYear()}-${e.newValue}`)).format().format("YYYY-MM-DD")
+            e.newValue = moment(new Date(`${date.getFullYear()}-${e.newValue}`)).format("YYYY-MM-DD")
+            newD = new Date(e.newValue)
         }
 
         const timeTextThrid = /^(\d{4})-(\d{2})-(\d{2})$/
 
         const rowNode = e.api.getRowNode(e.data.id)
         if (e.newValue == '' || newD < minD || newD > maxD || !timeTextThrid.test(e.newValue)) {
-            console.log(e.newValue)
+            console.log(newD < minD, newD > maxD, timeTextThrid.test(e.newValue))
             rowNode.setDataValue(e.colDef.field, e.oldValue)
         } else {
             console.log(e.newValue)
