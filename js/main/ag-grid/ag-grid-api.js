@@ -750,7 +750,7 @@ const onCellValueChanged = async (e, gridOptions) => {
                             const m = index.material_item.filter(v => v.name.split('-')[0] == materialObj.material_item.name)
                             //写入自定义dom操作 配菜
 
-                            console.log(e)
+                            // console.log(e)
                             customFromDom({
                                 parent: "#write_Side_dishes",
                                 cancel: ["#write_Side_dishes_cancel1", "#write_Side_dishes_cancel2"],
@@ -937,7 +937,7 @@ const onCellValueChanged = async (e, gridOptions) => {
                                 }
                                 const unit_category = index.material_purchase_unit_category.find(v => v.name == d[3])
                                 unitName.onkeyup = (e) => {
-                                    console.log(e)
+                                    // console.log(e)
                                 }
                                 unitName.value = unit_category.name
                                 unitName.setAttribute('unitID', unit_category.id)
@@ -1089,7 +1089,7 @@ const getContextMenuItems = (params, gridOptions) => {
                         data[0]['type'] = value
                         data[0]['sales_type'] = sales_type(value)
                         data[0]['teseMatchRowId'] = -1
-                        console.log(MealCategory)
+                        // console.log(MealCategory)
                         if (specialMeal.Catering[params.node.data.dinner_type] <= specialMeal.colors.length && value == "特色") {
                             data[0]['specialMealID'] = specialMeal.Catering[params.node.data.dinner_type]
                             data[0]['specialMealColor'] = specialMeal.colors[specialMeal.Catering[params.node.data.dinner_type] - 1]
@@ -1213,7 +1213,7 @@ const getContextMenuItems = (params, gridOptions) => {
         {
             name: '删除本行',
             action: () => {
-                console.log(params)
+                // console.log(params)
                 customFromDom({
                     parent: '#isDeleteRow',
                     cancel: ['#isDeleteRow_cancel1', '#isDeleteRow_cancel2'],
@@ -1222,7 +1222,7 @@ const getContextMenuItems = (params, gridOptions) => {
                     sureFun: () => {
                         const selRows = gridOptions.api.getRowNode(params.node.id)
                         gridOptions.api.applyTransaction({ remove: [selRows] });
-                        console.log(params)
+                        // console.log(params)
                         // 重新计算成本比例
                         anew_top_cost(params)
                         const arr = []

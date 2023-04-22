@@ -55,7 +55,7 @@ const isShowPurchaseColumns = (gridOptions) => {
                 // 从显示的数据中找 gridOptions.api.forEachNode
                 gridOptions.api.forEachNode(v => {
                     if (v.key == null && !(nowDate == v.data.orderDate) && v.data.purchase_freq == 'day') {
-                        console.log(v)
+                        // console.log(v)
                         gridOptions.api.applyTransaction({ remove: [v.data] });
                     }
                 })

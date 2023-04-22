@@ -198,7 +198,7 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                             else {
                                 showData = purchaseOption.rowData
                             }
-                            console.log(showData,obj)
+                            // console.log(showData,obj)
                             purchaseOption.api.setRowData(showData)
                             isShowPurchaseColumns(purchaseOption)
                             return true
@@ -245,7 +245,7 @@ const onCellValueChanged = (e, purchaseOption) => {
         const minD = new Date(nowDate)
         const maxD = new Date(e.data.demandDate)
         let newD = new Date(e.newValue)
-        console.log(newD, maxD, minD)
+        // console.log(newD, maxD, minD)
 
         // 可以输入 01-01 也可1000-01-01
         const timeTextTow = /^(\d{2})-(\d{2})$/
@@ -258,10 +258,10 @@ const onCellValueChanged = (e, purchaseOption) => {
 
         const rowNode = e.api.getRowNode(e.data.id)
         if (e.newValue == '' || newD < minD || newD > maxD || !timeTextThrid.test(e.newValue)) {
-            console.log(newD < minD, newD > maxD, timeTextThrid.test(e.newValue))
+            // console.log(newD < minD, newD > maxD, timeTextThrid.test(e.newValue))
             rowNode.setDataValue(e.colDef.field, e.oldValue)
         } else {
-            console.log(e.newValue)
+            // console.log(e.newValue)
             const nowDate = moment().format("YYYY-MM-DD")
             const tomorrowDate = moment(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)).format("YYYY-MM-DD")
             const thirdDayDate = moment(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 2)).format("YYYY-MM-DD")
@@ -285,7 +285,7 @@ const onCellClicked = (e, purchaseOption, agOption) => {
             }
         });
     });
-    console.log(isNeedMaterial)
+    // console.log(isNeedMaterial)
     if (isNeedMaterial == false) {
         agOption.api.setColumnDefs(refreshWholeCol.refreshWhole('', agOption))
     }
