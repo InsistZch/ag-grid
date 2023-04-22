@@ -52,6 +52,11 @@ const row = (agOption, e) => {
                     item.purchase_unit_id = purData.purchase_unit_id
                     purItem.push(item)
                 }
+                // if (item.is_auto_in_plan_day_material == true) {
+                //     item.orderDate = nowDate
+                //     item.dish_qty = 0
+                //     purItem.push(item)
+                // }
             })
             if (demandDate == purData.demandDate) {
                 needWhole = false // 数据中有需求日期是当前计划日期 就不从配量汇总获取
