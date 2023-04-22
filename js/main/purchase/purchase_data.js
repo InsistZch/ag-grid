@@ -3,6 +3,7 @@ class purchase_data{
     constructor(data){
         this.data = data
         this.isOneData = false
+        this.isOnecheck = false
     }
 }
 
