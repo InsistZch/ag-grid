@@ -36,14 +36,9 @@ const row = (agOption, e) => {
 
         let purItem = []
         let needWhole = true
-        purchase_summary_data.forEach(purData => {
-            index.material_item.forEach(item => {
+        index.material_item.forEach(item => {
+            purchase_summary_data.forEach(purData => {
                 if (purData.material_id == item.id) {
-                    index.material_item_bom_unit_ratio.forEach((unit) => {
-                        if (purData.material_id == unit.material_id && purData.main_unit_id == unit.purchase_unit_id) {
-                            item.main_unit_bom_unit_ratio = unit.main_unit_bom_unit_ratio
-                        }
-                    })
                     item.dish_qty = purData.purchase_qty
                     // 使用数据中的日期 不使用自动生成的日期
                     item.creationDate = purData.creationDate
@@ -52,16 +47,23 @@ const row = (agOption, e) => {
                     item.purchase_unit_id = purData.purchase_unit_id
                     purItem.push(item)
                 }
-                // if (item.is_auto_in_plan_day_material == true) {
-                //     item.orderDate = nowDate
-                //     item.dish_qty = 0
-                //     purItem.push(item)
-                // }
+                if (demandDate == purData.demandDate) {
+                    needWhole = false // 数据中有需求日期是当前计划日期 就不从配量汇总获取
+                }
             })
-            if (demandDate == purData.demandDate) {
-                needWhole = false // 数据中有需求日期是当前计划日期 就不从配量汇总获取
+            if (item.is_auto_in_plan_day_material == true) {
+                item.orderDate = nowDate
+                item.dish_qty = 0
+                purItem.push(item)
             }
         });
+        index.material_item_bom_unit_ratio.forEach((unit) => {
+            purItem.forEach(item => {
+                if (item.id == unit.material_id && item.main_unit_id == unit.purchase_unit_id) {
+                    item.main_unit_bom_unit_ratio = unit.main_unit_bom_unit_ratio
+                }
+            })
+        })
 
         purD = getCountMaterial(agOption, purItem) // 从数据中生成
         if (needWhole == true) {
