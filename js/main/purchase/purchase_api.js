@@ -235,7 +235,7 @@ const onCellValueChanged = (e, purchaseOption) => {
         // 可以输入 01-01 也可1000-01-01
         const timeTextTow = /^(\d{2})-(\d{2})$/
         if (timeTextTow.test(e.newValue)) {
-            e.newValue = moment(new Date(date.getFullYear() - e.newValue)).format().format("YYYY-MM-DD")
+            e.newValue = moment(new Date(`${date.getFullYear()}-${e.newValue}`)).format().format("YYYY-MM-DD")
         }
 
         const timeTextThrid = /^(\d{4})-(\d{2})-(\d{2})$/

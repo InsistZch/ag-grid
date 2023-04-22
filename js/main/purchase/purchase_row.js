@@ -7,6 +7,7 @@ export function reset_purchase_rowdata() {
     purchase_data.isOneData = false
     purchase_data.data = []
 }
+
 const row = (agOption, e) => {
     const purchaseData = purchase_data
 
@@ -53,25 +54,22 @@ const row = (agOption, e) => {
                 }
             })
             if (demandDate == purData.demandDate) {
-                needWhole = false // 数据中有plan 就不从配量汇总获取
+                needWhole = false // 数据中有需求日期是当前计划日期 就不从配量汇总获取
             }
         });
 
-        purD = getCountMaterial(agOption, purItem)
+        purD = getCountMaterial(agOption, purItem) // 从数据中生成
         if (needWhole == true) {
-            wholeD = getCountMaterial(agOption)
+            wholeD = getCountMaterial(agOption) // 从配量汇总中生成
         }
         d = new Map([...purD, ...wholeD])
     } else {
         rowData = purchaseData.data
-        // console.log(rowData)
         if (e) {
             const allOldwholeId = []
-            const newwholeRI = [] // 新的配量汇总的main_unit_bom_unit_ratio 和 id
-            // console.log(e.data.wholeId)
+            const newwholeRI = [] // 新的配生成量汇总的 main_unit_bom_unit_ratio 和 id
             const oldwholeId = e.data.wholeId || []
 
-            // 是不是改变快餐和特色
             // console.log(e)
             if (e.data.dish_key_id) {
                 e.data.dish_key_id.material_item.forEach((mitem) => {
@@ -99,7 +97,7 @@ const row = (agOption, e) => {
                 }
             })
 
-            // // 新的配量汇总的id
+            // // 新生成的配量汇总的id
             const newwholeId = []
             newwholeRI.forEach((nwId) => {
                 newwholeId.push(nwId.id)
@@ -114,14 +112,15 @@ const row = (agOption, e) => {
                 const oldValue = e.oldValue.split(" ")
                 let add = []
                 const updata = []
-                let allwhole = ''
 
+                let allwhole = ''
                 agOption.api.forEachNode((row) => {
                     if (row.key == null && e.rowIndex != row.rowIndex) {
                         allwhole += `${row.data.whole} `
                     }
                 })
-                const allOldValue = allwhole.split(" ")
+                const allOldValue = allwhole.split(" ") // 拿到所有的配量汇总
+
                 newValue.forEach((newv, i) => {
                     const newvName = (newv != '' && newv.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0])
                     // newvName != false 新值为空不进行判断
@@ -138,10 +137,10 @@ const row = (agOption, e) => {
                 });
 
                 const isadd = []
-                // 加入的食材是增加进入采购单还是修改采购单
+                // 配量汇总加入的食材是增加进入采购单还是修改采购单食材数量
                 add.forEach((a) => {
                     if ((allOldValue.map(o => o != '' && o.match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[0])).indexOf(a.newvName) >= 0) {
-                        updata.push(a)
+                        updata.push(a) // 如果是修改数量
                     } else {
                         isadd.push(a)
                     }
@@ -166,9 +165,8 @@ const row = (agOption, e) => {
                 })
 
                 // console.log(newwholeId, oldwholeId)
-
                 oldwholeId.forEach((oldI, i) => {
-                    if (newwholeId.includes(oldI) == false) {
+                    if (!newwholeId.includes(oldI)) { // 新配量汇总id中没有没有旧配量汇总id
                         const unit_id = index.material_purchase_unit_category.find(v => v.name == oldValue[i].match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[1]).id
                         const unit = index.material_item_bom_unit_ratio.find(v => v.purchase_unit_id == unit_id && v.material_id == oldI)
                         const unitMR = unit.main_unit_bom_unit_ratio
@@ -176,15 +174,14 @@ const row = (agOption, e) => {
                         deldata.push({ oldI, num: (+num) / unitMR, oldindex: i, needDel: true })
                     }
                 })
-                // 删除食材采购单食材食材还是减少数量
-                allOldwholeId.forEach(aAldI => {
+                // 删除食材采购单食材食材还是减少采购单食材食材数量
+                allOldwholeId.forEach(aAldI => { // 如果能找到采购单食材在其它配量汇总中存在
                     deldata.forEach((del) => {
                         if (del.oldI == aAldI) {
                             del.needDel = false
                         }
                     })
                 });
-
                 // console.log(deldata)
             }
             if (e.colDef.headerName == '菜品') {
@@ -202,8 +199,6 @@ const row = (agOption, e) => {
                 // console.log(oldwholeId)
                 oldwholeId.forEach((oldI, i) => {
                     const oldValue = e.data.isMountWhole.split(" ")
-                    // deldata.push({ oldI, num: (+num) / unitMR, oldindex: i, needDel: true })
-                    // oldValue.forEach((oldv, i) => {\
                     const unit_id = index.material_purchase_unit_category.find(v => v.name == oldValue[i].match(/([\u4e00-\u9fa5a-zA-Z]+)/g)[1]).id
                     const unit = index.material_item_bom_unit_ratio.find(v => v.purchase_unit_id == unit_id && v.material_id == oldI)
                     const unitMR = unit != undefined ? unit.main_unit_bom_unit_ratio : 0
@@ -277,6 +272,7 @@ const row = (agOption, e) => {
             })
 
             // console.log(deldata)
+            // 删除
             deldata.forEach(({ num, oldindex, needDel }) => {
                 rowData.forEach((v, i) => {
                     if (e.data.wholeId[oldindex] == v.id) {
@@ -299,16 +295,6 @@ const row = (agOption, e) => {
                 })
             })
 
-            // console.log(purAddItem, purUpDataItem, deldata, rowData)
-
-            // cdeldata.forEach((c) => {
-            //     rowData.forEach((v, i) => {
-            //         if (c == v.id) {
-            //             rowData.splice(i, 1)
-            //         }
-            //     })
-            // })
-
             e.data.wholeId = newwholeId
             e.data.isMountWhole = e.data.whole
 
@@ -322,6 +308,7 @@ const row = (agOption, e) => {
         const orderDate = moment(new Date(planDate.getFullYear(), planDate.getMonth(), planDate.getDate() + Number(v.plan_day_purchase_ahead_days))).format('YYYY-MM-DD')
 
         const id = (i + "").split('summary_data')[0]
+        console.log(id)
         let obj = {
             material: v.name.split('-')[0],
             creationDate: v.creationDate ? v.creationDate : nowDate,

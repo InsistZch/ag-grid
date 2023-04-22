@@ -5,7 +5,7 @@ const date = new Date()
 const nowDate = moment().format("YYYY-MM-DD")
 const tomorrowDate = moment(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)).format("YYYY-MM-DD")
 const thirdDayDate = moment(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 2)).format("YYYY-MM-DD")
-
+// console.log(index.user_settings[0][0])
 export default [
     {
         headerName: "",
@@ -40,7 +40,7 @@ export default [
         headerName: "下单日期",
         field: "orderDate",
         editable: true,
-        hide: !index.user_settings.is_default_show_place_date,
+        hide: !index.user_settings[0].is_default_show_place_date,
         cellEditor: customCells,
         cellRenderer: (params) => {
             return moment(new Date(params.value)).format('MM-DD')
@@ -49,7 +49,7 @@ export default [
     {
         headerName: "需求日期",
         field: "demandDate",
-        hide: !index.user_settings.is_default_show_need_date,
+        hide: !index.user_settings[0].is_default_show_need_date,
         cellRenderer: (params) => {
             return moment(new Date(params.value)).format('MM-DD')
         }
@@ -58,12 +58,12 @@ export default [
         headerName: "需量",
         field: "quantity",
         // editable: true,
-        hide: !index.user_settings.is_plan_day_purchase_show_cal_qty,
+        hide: !index.user_settings[0].is_plan_day_purchase_show_cal_qty,
     },
     {
         headerName: "库存",
         field: "stock",
-        hide: !index.user_settings.is_plan_day_purchase_show_stock,
+        hide: !index.user_settings[0].is_plan_day_purchase_show_stock,
 
     },
     {
@@ -101,7 +101,7 @@ export default [
     }, {
         headerName: "明天",
         field: "tomorrow",
-        hide: !index.user_settings.is_default_show_day_1_place_qty,
+        hide: !index.user_settings[0].is_default_show_day_1_place_qty,
         editable: (e) => {
             if (e.data.orderDate == tomorrowDate) {
                 return true
@@ -111,7 +111,7 @@ export default [
     {
         headerName: "后天",
         field: "thirdDay",
-        hide: !index.user_settings.is_default_show_day_2_place_qty,
+        hide: !index.user_settings[0].is_default_show_day_2_place_qty,
         editable: (e) => {
             if (e.data.orderDate == thirdDayDate) {
                 return true
