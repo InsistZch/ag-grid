@@ -297,7 +297,7 @@ const onCellValueChanged = async (e, gridOptions) => {
         }
         for (const data of spRowdata) {
             if (data.dname === e.newValue + '_' + e.data.type) {
-                console.log('红枣银耳汤')
+                // console.log('红枣银耳汤')
                 rowNode.setDataValue(e.colDef.field, e.oldValue)
                 return
             }
@@ -318,7 +318,7 @@ const onCellValueChanged = async (e, gridOptions) => {
         // 生成material_item
         for (const dish_key of index.dish_key) {
             if (e.value == dish_key.name) {
-                console.log(dish_key)
+                // console.log(dish_key)
                 if (dish_key.name + "_" + e.data.type == e.value + "_" + e.data.type && dish_key.dish_top_category_id == e.data.dish_key_id.dish_top_category_id) {
                     let obj = {
                         dish_top_category_id: dish_key.dish_top_category_id,
@@ -342,10 +342,10 @@ const onCellValueChanged = async (e, gridOptions) => {
                         obj['material_item'] = dish_detailedValue[1]
                     }
                     for (const item of obj['material_item']) {
-                        console.log(item)
+                        // console.log(item)
                     }
                     e.data.dish_key_id = { ...obj }
-                    console.log({ ...obj })
+                    // console.log({ ...obj })
                 }
             }
         }
@@ -375,7 +375,7 @@ const onCellValueChanged = async (e, gridOptions) => {
         // 全部删除 
         if (e.newValue == null || e.newValue == '') {
             await new Promise((resolve, reject) => {
-                console.log(e)
+                // console.log(e)
                 customFromDom({
                     parent: '#isDeleteRow',
                     cancel: ['#isDeleteRow_cancel1', '#isDeleteRow_cancel2'],
@@ -392,7 +392,7 @@ const onCellValueChanged = async (e, gridOptions) => {
                         return true
                     }
                 }).then(() => {
-                    console.log(e)
+                    // console.log(e)
                     e.data.dish_key_id.material_item = []
                     const rowNode = e.api.getRowNode(e.data.id)
                     rowNode.setDataValue('whole', "")
