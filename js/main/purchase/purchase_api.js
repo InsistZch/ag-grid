@@ -1,7 +1,6 @@
 /** @odoo-module **/
 
 import refreshWholeCol from "../otherApi/refreshWholeCol.js";
-import resetPurchaseData from '../otherApi/resetPurchaseData.js'
 import isShowPurchaseColumns from "./isShowPurchaseColumns.js";
 import { customFrom as customFromDom, isShowColumns as newisShowColumns } from './../otherApi/index.js'
 import index from '../../../data/index.js'
@@ -17,6 +16,18 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
             action: () => {
                 if (e.node !== null && e.column !== null && e.value !== null) {
                     let addMaterialObj = {}
+
+                    const dateSpan = document.querySelector('.date') // 日计划
+                    const planDateHtml = dateSpan.innerHTML.split(" ")[0].split('-')
+                    const planDate = new Date(planDateHtml)
+                    const demandDate = moment(planDate).format("YYYY-MM-DD")
+
+                    const date = new Date()
+                    const nowDate = moment().format("YYYY-MM-DD")
+                    const tomorrowDate = moment(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)).format("YYYY-MM-DD")
+                    const thirdDayDate = moment(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 2)).format("YYYY-MM-DD")
+
+                    let orderDate = nowDate
                     customFromDom({
                         parent: "#add_meal",
                         deleteData: [],
@@ -27,11 +38,15 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                             const materialDishFood = _parent.querySelector('#materialDishFood')
                             const add_meal_order = _parent.querySelector('#add_meal_order')
                             const add_meal_unit = _parent.querySelector('#add_meal_unit')
+                            const add_meal_orderDate = _parent.querySelector('#add_meal_orderDate')
+                            add_meal_orderDate.value = nowDate
+
                             material.value = ""
                             materialDishFood.innerHTML = ""
                             add_meal_unit.innerHTML = ""
                             add_meal_order.value = 0
                             material.onkeyup = () => {
+                                add_meal_orderDate.value = nowDate
                                 if (material.value.trim() == "") {
                                     materialDishFood.innerHTML = ""
                                     return
@@ -46,7 +61,6 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                                 add_meal_unit.innerHTML = ""
                                 materialDishFood.innerHTML = ""
                                 addMaterialObj = {}
-
                                 for (const item of arr) {
                                     const { name } = index.material_purchase_unit_category.find(v => v.id == item.main_unit_id)
                                     const createDiv = document.createElement('div')
@@ -60,6 +74,9 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                                         for (const get_item of getUnitObj(item)) {
                                             const { name } = index.material_purchase_unit_category.find(v => v.id == get_item.purchase_unit_id)
                                             add_meal_unit.innerHTML += `<option value="${name}" data=${JSON.stringify(get_item)}>${name}</option>`
+                                            orderDate = moment(new Date(planDate.getFullYear(), planDate.getMonth(), planDate.getDate() + Number(item.plan_day_purchase_ahead_days))).format('YYYY-MM-DD')
+                                            add_meal_orderDate.value = orderDate
+                                            console.log(item, orderDate)
                                         }
                                         materialDishFood.innerHTML = ""
                                     }
@@ -72,26 +89,26 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                                         add_meal_unit.innerHTML += `<option value="${name}" data=${JSON.stringify(item)}>${name}</option>`
                                         for (const get_item of getUnitObj(item)) {
                                             const { name } = index.material_purchase_unit_category.find(v => v.id == get_item.purchase_unit_id)
-
                                             add_meal_unit.innerHTML += `<option value="${name}" data=${JSON.stringify(item)}>${name}</option>`
-                                            // console.log(item, get_item)
+
+                                            orderDate = moment(new Date(planDate.getFullYear(), planDate.getMonth(), planDate.getDate() + Number(item.plan_day_purchase_ahead_days))).format('YYYY-MM-DD')
+                                            add_meal_orderDate.value = orderDate
+                                            console.log(item, orderDate)
                                         }
                                         break
                                     }
                                 }
                             }
+                            add_meal_orderDate.min = nowDate
+                            add_meal_orderDate.max = demandDate
+                            add_meal_orderDate.onkeyup = () => {
+                                if (add_meal_orderDate.value == '' || (add_meal_orderDate.value < add_meal_orderDate.min && add_meal_orderDate.value < add_meal_orderDate.max)) {
+                                    add_meal_orderDate.value = orderDate
+                                }
+                                orderDate = add_meal_orderDate.value
+                            }
                         },
                         sureFun(_parent) {
-                            const dateSpan = document.querySelector('.date') // 日计划
-                            const planDateHtml = dateSpan.innerHTML.split(" ")[0].split('-')
-                            const planDate = new Date(planDateHtml)
-                            const demandDate = moment(planDate).format("YYYY-MM-DD")
-
-                            const date = new Date()
-                            const nowDate = moment().format("YYYY-MM-DD")
-                            const tomorrowDate = moment(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)).format("YYYY-MM-DD")
-                            const thirdDayDate = moment(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 2)).format("YYYY-MM-DD")
-
                             const material = _parent.querySelector('#material')
                             const add_meal_order = _parent.querySelector('#add_meal_order')
                             const add_meal_unit = _parent.querySelector('#add_meal_unit')
@@ -116,10 +133,9 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
 
                                 return
                             }
-                            const unitData = JSON.parse(add_meal_unit.querySelector(`option[value="${add_meal_unit.value}"]`).getAttribute('data'))
-
-                            const orderDate = moment(new Date(planDate.getFullYear(), planDate.getMonth(), planDate.getDate() + Number(unitData.plan_day_purchase_ahead_days))).format('YYYY-MM-DD')
-                            console.log(orderDate)
+                            // const unitData = JSON.parse(add_meal_unit.querySelector(`option[value="${add_meal_unit.value}"]`).getAttribute('data'))
+                            // const orderDate = moment(new Date(planDate.getFullYear(), planDate.getMonth(), planDate.getDate() + Number(unitData.plan_day_purchase_ahead_days))).format('YYYY-MM-DD')
+                            // console.log(orderDate)
 
                             if (material.value.trim() == "" || addMaterialObj == {}) return true
 
@@ -182,7 +198,7 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
                             else {
                                 showData = purchaseOption.rowData
                             }
-                            console.log(showData)
+                            console.log(showData,obj)
                             purchaseOption.api.setRowData(showData)
                             isShowPurchaseColumns(purchaseOption)
                             return true
@@ -209,7 +225,6 @@ const getContextMenuItems = (e, purchaseOption, agOption) => {
 }
 
 const onCellValueChanged = (e, purchaseOption) => {
-
 
     if (e.colDef.headerName == '下单' || e.colDef.headerName == '明天' || e.colDef.headerName == '后天') {
         let newValue = 0;
@@ -292,8 +307,6 @@ const getUnitObj = (material) => {
     // console.log(arr)
     return arr
 }
-
-
 
 export {
     getRowId, getContextMenuItems, onCellValueChanged, onCellClicked

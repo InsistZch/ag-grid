@@ -308,7 +308,7 @@ const row = (agOption, e) => {
         const orderDate = moment(new Date(planDate.getFullYear(), planDate.getMonth(), planDate.getDate() + Number(v.plan_day_purchase_ahead_days))).format('YYYY-MM-DD')
 
         const id = (i + "").split('summary_data')[0]
-        console.log(id)
+        // console.log(id)
         let obj = {
             material: v.name.split('-')[0],
             creationDate: v.creationDate ? v.creationDate : nowDate,
@@ -337,7 +337,7 @@ const row = (agOption, e) => {
     })
 
     purchaseData.data = rowData
-    console.log(rowData)
+    // console.log(rowData)
     return rowData
 }
 

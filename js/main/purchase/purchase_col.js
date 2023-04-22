@@ -17,10 +17,10 @@ export default [
         headerName: "食材",
         field: "material",
         cellRenderer: (params) => {
-            if (params.data.purchase_freq != 'day') {
-                return `<div style='color:#8d8c8c;'>${params.value}</div>`
-            } else if (params.data.orderDate != nowDate && params.data.purchase_freq != 'day') {
+            if (params.data.orderDate != nowDate && params.data.purchase_freq != 'day') {
                 return `<div style='color:#8d8c8c;'><i>${params.value}</i></div>`
+            }else if (params.data.purchase_freq != 'day') {
+                return `<div style='color:#8d8c8c;'>${params.value}</div>`
             } else if (params.data.orderDate != nowDate) {
                 return `<i>${params.value}</i>`
             } else {
