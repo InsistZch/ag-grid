@@ -109,18 +109,18 @@ document.addEventListener("DOMContentLoaded", function () {
             let agGridLeft = document.querySelector('.agGridLeft')
             const agGridCenter = document.querySelector('.agGridCenter')
 
-            const col_cus = agOption.columnDefs.reduce((pre, v) => {
-                if (!isNaN(v.field)) {
-                    pre.push({
-                        colId: v.field,
-                        hide: isShow,
-                    })
-                }
-                return pre
-            }, [])
-            agOption.columnApi.applyColumnState({
-                state: [...col_cus]
-            })
+            // const col_cus = agOption.columnDefs.reduce((pre, v) => {
+            //     if (!isNaN(v.field)) {
+            //         pre.push({
+            //             colId: v.field,
+            //             hide: isShow,
+            //         })
+            //     }
+            //     return pre
+            // }, [])
+            // agOption.columnApi.applyColumnState({
+            //     state: [...col_cus]
+            // })
             agOption.api.sizeColumnsToFit();
 
             // 显示采购单
@@ -178,12 +178,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (agGridCenter != null) {
                     agGridLeft.style.width = '50%'
                     agGridsummaryTotal.style.width = '50%'
+                    agOption.api.sizeColumnsToFit();
                 } else {
                     document.querySelector('#myGrid').style.width = '100%'
                     document.querySelector('#myGrid').classList.toggle("agGridLeft")
+                    refreshWholeCol.original(isShowColumns, agOption)
+                    agOption.api.sizeColumnsToFit();
                 }
-
-                refreshWholeCol.original(isShowColumns, agOption)
                 agButton.style.display = 'flex'
                 initFunction.style.display = 'flex'
                 date.id = ''
@@ -203,15 +204,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     })
 
-    main_index.otherApi.summaryTotal(["#summaryTotal","#summaryTotal_return"], async () => {
+    main_index.otherApi.summaryTotal(["#summaryTotal", "#summaryTotal_return"], async () => {
         const eDiv = document.querySelector('#myGrid3');
         let isShow = eDiv.classList.toggle("agGridCenter")
         // 食材总汇布局
         const agGridsummaryTotal = document.querySelector('.summaryTotalGrid');
-        const agGridPurchase = document.querySelector('.agGridPurchase');
+        const agGridPurchase = document.querySelector('.purchaseGrid');
         let agGridLeft = document.querySelector('.agGridLeft')
         const agGridRight = document.querySelector('.agGridRight')
-
         // 显示食材汇总单
         if (isShow) {
             // 布局显示
@@ -232,18 +232,20 @@ document.addEventListener("DOMContentLoaded", function () {
             resetsummaryTotalData.Change(agOption)
             // 设置主表单的列显示
             agOption.api.setColumnDefs(refreshWholeCol.refreshWhole('', agOption));
-
             agOption.api.sizeColumnsToFit()
 
         } else {
             agGridsummaryTotal.style.display = 'none'
             if (agGridRight != null) {
                 agGridLeft.style.width = '50%'
+                agGridPurchase.style.width = '50%'
+                agOption.api.sizeColumnsToFit();
             } else {
                 document.querySelector('#myGrid').style.width = '100%'
                 document.querySelector('#myGrid').classList.toggle("agGridLeft")
+                refreshWholeCol.original(isShowColumns, agOption)
+                agOption.api.sizeColumnsToFit();
             }
-            refreshWholeCol.original(isShowColumns, agOption)
         }
     })
 
