@@ -8,7 +8,7 @@ import init_mc from './special_fast_data.js';
 import dish_tooltipField from './dish_tooltipField.js'
 // 定义列
 const col = () => {
-    const user_setting = index.user_settings[0]
+    const user_setting = index.user_settings
 
     const col = [
         // {

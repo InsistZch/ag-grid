@@ -136,13 +136,17 @@ div.function .btn-group button:not([saveData]):hover {
     width: 0%;
 }
 
-.agGridLeft {
+/* .agGridLeft {
     width: 50%;
 }
 
 .agGridRight {
     width: 50%;
 }
+
+.agGridCenter {
+    width: 50%;
+} */
 
 .createDish {
     position: absolute;
@@ -209,9 +213,15 @@ div.function .btn-group button:not([saveData]):hover {
     padding: 2px !important;
 }
 
-#purchase_ruturn , #purchase_order_all{
+#purchase_ruturn,
+#purchase_order_all {
     height: 26px !important;
     font-size: 12px;
+}
+
+#summaryTotal_return {
+    position: absolute;
+    right: 15px;
 }
 
 .el_orderDate {
@@ -250,4 +260,9 @@ div.function .btn-group button:not([saveData]):hover {
 .ag_purchase_button .dropdown-menu .el_columns_item {
     display: block;
     margin-left: 1rem;
+}
+
+.purchaseGrid,
+.summaryTotalGrid {
+    display: none;
 }

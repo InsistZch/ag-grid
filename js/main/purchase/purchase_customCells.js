@@ -1,37 +1,40 @@
 /** @odoo-module **/
-
 class customCells {
 
     init(params) {
-        this.params = params
-        this.dish_data = []
-        // 创建元素
-        const div = document.createElement('div')
+        
+        this.params = params || []
+        if (this.params != '') {
+            this.dish_data = []
+            // 创建元素
+            const div = document.createElement('div')
 
-        div.classList.add('el_orderDate')
+            div.classList.add('el_orderDate')
 
-        const input = document.createElement('input')
+            const input = document.createElement('input')
 
-        input.type = 'date'
-        input.classList.add('el_orderDate_search')
+            input.type = 'date'
+            input.classList.add('el_orderDate_search')
 
-        const nowDate = moment().format("YYYY-MM-DD")
+            const nowDate = moment().format("YYYY-MM-DD")
 
-        input.min = nowDate
-        input.max = params.data.demandDate
+            input.min = nowDate
+            input.max = params.data.demandDate
+            input.value = params.data.orderDate
 
-        input.value = params.data.orderDate
+            div.appendChild(input)
 
-        div.appendChild(input)
-
-        this.ele = div
+            this.ele = div
+        }
 
     }
 
     getGui() {
-        let e = this.ele.querySelector('input')
-        e.focus()
-        return this.ele
+        if (this.params != '') {
+            let e = this.ele.querySelector('input')
+            e.focus()
+            return this.ele
+        }
     }
 
     getValue() {
@@ -45,12 +48,10 @@ class customCells {
     isCancelAfterEnd() {
         const oldValue = this.params.value
         const value = this.ele.querySelector('input').value
-        // console.log(this.ele.querySelector('input').max, value, this.ele.querySelector('input').min)
         if (value == '' || value < this.ele.querySelector('input').min || value > this.ele.querySelector('input').max) {
             this.currentData = oldValue
         } else {
             this.currentData = value
-            console.log(this.currentData)
 
             const date = new Date()
             const nowDate = moment().format("YYYY-MM-DD")

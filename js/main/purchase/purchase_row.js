@@ -37,6 +37,9 @@ const row = (agOption, e) => {
         let purItem = []
         let needWhole = true
         index.material_item.forEach(item => {
+            // if(item.name.split('-')[0] == '中鸡腿'){
+            //     console.log(item)
+            // }
             purchase_summary_data.forEach(purData => {
                 if (purData.material_id == item.id) {
                     item.dish_qty = purData.purchase_qty

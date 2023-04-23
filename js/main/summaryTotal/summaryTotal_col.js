@@ -1,12 +1,10 @@
 /** @odoo-module **/
-import customCells from "./purchase_customCells.js"
 import index from '../../../data/index.js'
 
 const date = new Date()
 const nowDate = moment().format("YYYY-MM-DD")
 const tomorrowDate = moment(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)).format("YYYY-MM-DD")
 const thirdDayDate = moment(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 2)).format("YYYY-MM-DD")
-// console.log(index.user_settings)
 export default [
     {
         headerName: "",
@@ -20,7 +18,7 @@ export default [
         cellRenderer: (params) => {
             if (params.data.orderDate != nowDate && params.data.purchase_freq != 'day') {
                 return `<div style='color:#8d8c8c;'><i>${params.value}</i></div>`
-            }else if (params.data.purchase_freq != 'day') {
+            } else if (params.data.purchase_freq != 'day') {
                 return `<div style='color:#8d8c8c;'>${params.value}</div>`
             } else if (params.data.orderDate != nowDate) {
                 return `<i>${params.value}</i>`
@@ -42,7 +40,6 @@ export default [
         field: "orderDate",
         editable: true,
         hide: !index.user_settings.is_default_show_place_date,
-        cellEditor: customCells,
         cellRenderer: (params) => {
             return moment(new Date(params.value)).format('MM-DD')
         }

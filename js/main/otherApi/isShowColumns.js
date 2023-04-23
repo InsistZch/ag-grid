@@ -22,7 +22,7 @@ class isShowColumns {
             this.Nomenu = document.querySelector('#ag-button-Nomenu')
 
 
-            const user_setting = index.user_settings[0]
+            const user_setting = index.user_settings
             this.cost.checked = user_setting.is_plan_day_show_dish_cost
             this.note.checked = user_setting.is_plan_day_show_note
             this.save.checked = user_setting.is_plan_day_show_save_bom_btn

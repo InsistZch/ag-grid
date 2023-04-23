@@ -23,8 +23,8 @@ const isShowPurchaseColumns = (gridOptions) => {
         // 非日采购 和 非今日采购
         if (!purchase_data.isOnecheck) {
             purchase_data.isOnecheck = true
-            noDailyProcurement.checked = index.user_settings[0].is_plan_day_purchase_default_not_show_plan_week
-            noNowProcurement.checked = index.user_settings[0].is_plan_day_later_than_today_ready_PO_show
+            noDailyProcurement.checked = index.user_settings.is_plan_day_purchase_default_not_show_plan_week
+            noNowProcurement.checked = index.user_settings.is_plan_day_later_than_today_ready_PO_show
         }
         const nowDate = moment().format("YYYY-MM-DD")
         const dateSpan = document.querySelector('.date') // 日计划

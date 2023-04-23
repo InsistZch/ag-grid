@@ -2,7 +2,8 @@
 
 import refreshWholeCol from "../otherApi/refreshWholeCol.js";
 import isShowPurchaseColumns from "./isShowPurchaseColumns.js";
-import { customFrom as customFromDom, isShowColumns as newisShowColumns } from './../otherApi/index.js'
+import customCells from './purchase_customCells.js'
+import { customFrom as customFromDom } from './../otherApi/index.js'
 import index from '../../../data/index.js'
 
 /** @odoo-module **/

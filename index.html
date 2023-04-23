@@ -140,7 +140,7 @@
                             <label class="form-check-label" for="ag-button-whole">配量汇总</label>
                         </div>
                     </div>
-                    <span class="date">2023-4-24 日计划</span>
+                    <span class="date">2023-4-25 日计划</span>
                     <div class="function">
                         <div class="btn-group" role="group">
                             <button type="button" class="btn btn-outline-primary">菜品榜</button>
@@ -156,6 +156,7 @@
                         <div class="btn-group" role="group">
                             <button type="button" class="btn btn-outline-primary">计划单</button>
                             <button type="button" class="btn btn-outline-primary purchase" id="purchase">采购</button>
+                            <button type="button" class="btn btn-outline-primary" id="summaryTotal">食材汇总</button>
                             <button type="button" class="btn btn-outline-primary">领料</button>
                         </div>
                     </div>
@@ -236,7 +237,18 @@
             <div style="display: flex; height: 100%; width: 100%;">
                 <div class="ag-theme-balham myGrid" id="myGrid" style="height: 700px;">
                 </div>
-                <div class="ag-theme-balham myGrid2" id="myGrid2" style="height: 700px;">
+                <div class="summaryTotalGrid">
+                    <div style="display: flex; position: relative;">
+                        <div>食材汇总</div>
+                        <button type="button" class="btn-close" aria-label="Close" id="summaryTotal_return"></button>
+                    </div>
+                    <div class="ag-theme-balham myGrid3" id="myGrid3" style="width: 100%; height: 680px;">
+                    </div>
+                </div>
+                <div class="purchaseGrid">
+                    <div>采购单</div>
+                    <div class="ag-theme-balham myGrid2" id="myGrid2" style="width: 100%; height: 680px;">
+                    </div>
                 </div>
             </div>
 
@@ -400,7 +412,7 @@
                     <form class="row g-3">
                         <div class="col-4 px-2 pb-3">
                             <span class="col-form-label me-2" id="modal-bodycustom-addon4444">下单日期</span>
-                            <input type="date" class="form-control" id="customOrder"/>
+                            <input type="date" class="form-control" id="customOrder" />
                         </div>
                         <div class="col-8 px-2 pb-3" id="customPurchaseCategory">
 
@@ -633,7 +645,7 @@
                         <form class="row g-3">
                             <div class="col-5 px-2 pb-3">
                                 <span class="col-form-label me-2" id="orderDateSpan">下单日期</span>
-                                <input type="date" class="form-control" id="add_meal_orderDate"/>
+                                <input type="date" class="form-control" id="add_meal_orderDate" />
                             </div>
                         </form>
                     </div>

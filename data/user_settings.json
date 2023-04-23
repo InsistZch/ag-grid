@@ -1,20 +1,17 @@
-[
-    {
-        "id": 2395,
-        "is_plan_day_show_dish_cost": false,
-        "is_plan_day_show_dish_color": true,
-        "is_plan_day_show_note": false,
-        "is_plan_day_show_save_bom_btn": false,
-        "is_plan_day_show_cus_with_menu": true,
-        "is_plan_day_show_cus_no_menu": true,
-        "is_plan_day_show_dish_bom_str": true,
-        "is_plan_day_purchase_default_not_show_plan_week": false,
-        "is_plan_day_later_than_today_ready_PO_show": false,
-        "is_plan_day_purchase_show_cal_qty": false,
-        "is_plan_day_purchase_show_stock": false,
-        "is_default_show_need_date": false,
-        "is_default_show_day_1_place_qty": false,
-        "is_default_show_day_2_place_qty": false,
-        "is_default_show_place_date": true
-    }
-]
+{
+    "id": 2395,
+    "is_plan_day_show_dish_cost": false,
+    "is_plan_day_show_dish_color": true,
+    "is_plan_day_show_note": false,
+    "is_plan_day_show_save_bom_btn": false,
+    "is_plan_day_show_cus_with_menu": true,
+    "is_plan_day_show_cus_no_menu": true,
+    "is_plan_day_show_dish_bom_str": true,
+    "is_plan_day_purchase_default_not_show_plan_week": false,
+    "is_plan_day_later_than_today_ready_PO_show": false,
+    "is_plan_day_purchase_show_cal_qty": false,
+    "is_plan_day_purchase_show_stock": false,
+    "is_default_show_need_date": false,
+    "is_default_show_day_1_place_qty": false,
+    "is_default_show_day_2_place_qty": false
+}
